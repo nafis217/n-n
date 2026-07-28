@@ -1,0 +1,430 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>BUNON | Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#410001",
+                    "secondary": "#605e58",
+                    "primary-container": "#1c1b1b",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#1b1c1c",
+                    "secondary-fixed-dim": "#c9c6bf",
+                    "on-tertiary-fixed-variant": "#930005",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed": "#1c1c17",
+                    "surface-container": "#efeded",
+                    "secondary-fixed": "#e6e2da",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#c8c6c5",
+                    "on-secondary-container": "#66645e",
+                    "inverse-primary": "#c8c6c5",
+                    "primary": "#000000",
+                    "tertiary-fixed": "#ffdad5",
+                    "on-tertiary-container": "#f9362c",
+                    "on-primary-fixed-variant": "#474646",
+                    "outline": "#747878",
+                    "on-tertiary-fixed": "#410001",
+                    "surface-container-highest": "#e3e2e2",
+                    "tertiary-fixed-dim": "#ffb4aa",
+                    "on-surface-variant": "#444748",
+                    "surface-container-high": "#e9e8e7",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#5f5e5e",
+                    "background": "#fbf9f9",
+                    "secondary-container": "#e6e2da",
+                    "surface-dim": "#dbdad9",
+                    "surface-variant": "#e3e2e2",
+                    "tertiary": "#000000",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-fixed-variant": "#484741",
+                    "on-background": "#1b1c1c",
+                    "on-error-container": "#93000a",
+                    "surface-container-low": "#f5f3f3",
+                    "on-primary-fixed": "#1c1b1b",
+                    "inverse-surface": "#303031",
+                    "inverse-on-surface": "#f2f0f0",
+                    "surface": "#fbf9f9",
+                    "surface-bright": "#fbf9f9",
+                    "on-primary": "#ffffff",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#858383",
+                    "outline-variant": "#c4c7c7",
+                    "primary-fixed": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0px",
+                    "lg": "0px",
+                    "xl": "0px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "gutter": "16px",
+                    "section-gap": "120px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "64px"
+            },
+            "fontFamily": {
+                    "label-caps": ["Geist"],
+                    "display-lg": ["Geist"],
+                    "nav-item": ["Geist"],
+                    "headline-lg": ["Geist"],
+                    "body-md": ["Geist"],
+                    "price": ["Geist"],
+                    "headline-lg-mobile": ["Geist"]
+            },
+            "fontSize": {
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                    "nav-item": ["13px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "price": ["15px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-bottom-color: #111111 !important;
+        }
+        .step-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .step-inactive {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fbf9f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #000;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-x-hidden">
+<!-- Header (Based on Shared TopNavBar instructions) -->
+<header class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop z-50 bg-background border-b border-outline-variant h-[64px] sticky top-0">
+<div class="font-display-lg text-headline-lg-mobile md:text-display-lg tracking-tighter text-primary">N &amp; N</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined cursor-pointer hover:opacity-70">shopping_bag</span>
+<span class="material-symbols-outlined cursor-pointer md:hidden">menu</span>
+</div>
+</header>
+<main class="min-h-screen max-w-[1440px] mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Left Side: Checkout Steps -->
+<div class="lg:col-span-7 flex flex-col gap-12">
+<!-- Progress Indicator -->
+<div class="flex gap-4 items-center">
+<div class="flex items-center gap-2">
+<span class="font-label-caps text-label-caps bg-primary text-on-primary w-6 h-6 flex items-center justify-center">1</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Shipping</span>
+</div>
+<div class="h-[1px] w-8 bg-outline-variant"></div>
+<div class="flex items-center gap-2 opacity-40">
+<span class="font-label-caps text-label-caps border border-primary w-6 h-6 flex items-center justify-center">2</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Delivery</span>
+</div>
+<div class="h-[1px] w-8 bg-outline-variant"></div>
+<div class="flex items-center gap-2 opacity-40">
+<span class="font-label-caps text-label-caps border border-primary w-6 h-6 flex items-center justify-center">3</span>
+<span class="font-label-caps text-label-caps uppercase tracking-widest">Payment</span>
+</div>
+</div>
+<!-- Step 1: Shipping Address -->
+<section class="step-active transition-all duration-500" id="step-1">
+<h2 class="font-headline-lg text-headline-lg mb-8">Shipping Address</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-secondary uppercase">Full Name</label>
+<input class="bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-2 px-0 font-body-md" placeholder="Enter your name" type="text">
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-secondary uppercase">Phone Number</label>
+<div class="flex items-center border-b border-outline-variant">
+<span class="text-secondary mr-2">+880</span>
+<input class="bg-transparent border-none py-2 px-0 font-body-md w-full" placeholder="1XXXXXXXXX" type="tel">
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-secondary uppercase">District</label>
+<select class="bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-2 px-0 font-body-md appearance-none">
+<option>Dhaka</option>
+<option>Chattogram</option>
+<option>Sylhet</option>
+<option>Rajshahi</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-secondary uppercase">Area / Thana</label>
+<select class="bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-2 px-0 font-body-md appearance-none">
+<option>Gulshan</option>
+<option>Banani</option>
+<option>Dhanmondi</option>
+<option>Uttara</option>
+</select>
+</div>
+<div class="md:col-span-2 flex flex-col gap-2">
+<label class="font-label-caps text-label-caps text-secondary uppercase">Complete Address</label>
+<input class="bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-2 px-0 font-body-md" placeholder="House no, Road name, Landmark" type="text">
+</div>
+</div>
+<button class="mt-12 w-full md:w-max bg-primary text-on-primary px-12 py-4 font-label-caps text-label-caps uppercase tracking-widest hover:bg-on-primary-container transition-all" onclick="nextStep(2)">
+                        Continue to Delivery
+                    </button>
+</section>
+<!-- Step 2: Delivery Method (Initially Hidden) -->
+<section class="step-inactive hidden transition-all duration-500" id="step-2">
+<h2 class="font-headline-lg text-headline-lg mb-8">Delivery Method</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<label class="cursor-pointer group">
+<input checked="" class="hidden peer" name="delivery" type="radio">
+<div class="border border-outline-variant p-6 peer-checked:border-primary peer-checked:bg-surface-container-low transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined">local_shipping</span>
+<span class="font-price text-price">BDT 80</span>
+</div>
+<h3 class="font-label-caps text-label-caps uppercase mb-2">Home Delivery</h3>
+<p class="text-secondary text-sm">Delivery within 2-3 business days across Bangladesh.</p>
+</div>
+</label>
+<label class="cursor-pointer group">
+<input class="hidden peer" name="delivery" type="radio">
+<div class="border border-outline-variant p-6 peer-checked:border-primary peer-checked:bg-surface-container-low transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined">store</span>
+<span class="font-price text-price">FREE</span>
+</div>
+<h3 class="font-label-caps text-label-caps uppercase mb-2">Store Pickup</h3>
+<p class="text-secondary text-sm">Available at Gulshan Flagship store in 24 hours.</p>
+</div>
+</label>
+</div>
+<div class="flex gap-4 mt-12">
+<button class="w-full md:w-max border border-primary px-12 py-4 font-label-caps text-label-caps uppercase tracking-widest hover:bg-surface-container transition-all" onclick="nextStep(1)">
+                            Back
+                        </button>
+<button class="w-full md:w-max bg-primary text-on-primary px-12 py-4 font-label-caps text-label-caps uppercase tracking-widest hover:bg-on-primary-container transition-all" onclick="nextStep(3)">
+                            Continue to Payment
+                        </button>
+</div>
+</section>
+<!-- Step 3: Payment (Initially Hidden) -->
+<section class="step-inactive hidden transition-all duration-500" id="step-3">
+<h2 class="font-headline-lg text-headline-lg mb-8">Payment Method</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+<label class="cursor-pointer">
+<input checked="" class="hidden peer" name="payment" type="radio">
+<div class="border border-outline-variant h-24 flex items-center justify-center peer-checked:border-primary peer-checked:bg-surface-container-low grayscale peer-checked:grayscale-0 transition-all">
+<div class="text-center">
+<div class="font-label-caps text-label-caps uppercase">bKash</div>
+</div>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="payment" type="radio">
+<div class="border border-outline-variant h-24 flex items-center justify-center peer-checked:border-primary peer-checked:bg-surface-container-low grayscale peer-checked:grayscale-0 transition-all">
+<div class="text-center">
+<div class="font-label-caps text-label-caps uppercase">Nagad</div>
+</div>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="payment" type="radio">
+<div class="border border-outline-variant h-24 flex items-center justify-center peer-checked:border-primary peer-checked:bg-surface-container-low grayscale peer-checked:grayscale-0 transition-all">
+<div class="text-center">
+<div class="font-label-caps text-label-caps uppercase">Card</div>
+</div>
+</div>
+</label>
+<label class="cursor-pointer">
+<input class="hidden peer" name="payment" type="radio">
+<div class="border border-outline-variant h-24 flex items-center justify-center peer-checked:border-primary peer-checked:bg-surface-container-low grayscale peer-checked:grayscale-0 transition-all">
+<div class="text-center">
+<div class="font-label-caps text-label-caps uppercase">COD</div>
+</div>
+</div>
+</label>
+</div>
+<!-- Payment Details (Conditional context) -->
+<div class="p-8 bg-surface-container-low border border-outline-variant">
+<p class="font-body-md text-secondary">You will be redirected to bKash secure payment gateway to complete your transaction safely.</p>
+</div>
+<div class="flex gap-4 mt-12">
+<button class="w-full md:w-max border border-primary px-12 py-4 font-label-caps text-label-caps uppercase tracking-widest hover:bg-surface-container transition-all" onclick="nextStep(2)">
+                            Back
+                        </button>
+<button class="w-full md:w-max bg-primary text-on-primary px-12 py-4 font-label-caps text-label-caps uppercase tracking-widest hover:bg-on-primary-container transition-all">
+                            Place Order
+                        </button>
+</div>
+</section>
+</div>
+<!-- Right Side: Sticky Order Summary -->
+<div class="lg:col-span-5">
+<aside class="lg:sticky lg:top-32 bg-surface-container-lowest p-8 border border-outline-variant">
+<h3 class="font-headline-lg text-[24px] mb-8">Order Summary</h3>
+<!-- Product List -->
+<div class="flex flex-col gap-6 mb-8 max-h-[400px] overflow-y-auto pr-4">
+<div class="flex gap-4">
+<div class="w-20 h-24 bg-surface-container flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A close-up studio photograph of a premium handcrafted cotton tunic with intricate ethnic contemporary embroidery. The lighting is soft and industrial, casting gentle shadows that highlight the textile texture. The color palette is monochromatic charcoal and bone white, reflecting a high-fashion minimalist aesthetic typical of an editorial lookbook." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1bdCNzJpjknvaO-_HJeW6XLiO-v1WfLiYZvLVhnJnzXtK1uhxNImL96RxMr0ILdwse6TkvYRYwpVZpmZ78JAUyIjd4QcWJKwEuzbBkU8NILHuyE-4EmY3Z-p9S-zdxaIsNtqorCPJBAR0d-hXbImZ5Yoq3uzMLKUDo6vCbC-ECTUiWmq5QacBFtF3wHW80QNKjPSB4Q2XVm5tEwTsL8yvkpcx45aIJw0A33iptNn5fdxNGVjc1t8G">
+</div>
+<div class="flex flex-col justify-between py-1">
+<div>
+<h4 class="font-nav-item text-nav-item uppercase">Contemporary Ethnic Tunic</h4>
+<p class="text-sm text-secondary">Size: M | Color: Charcoal</p>
+</div>
+<div class="font-price text-price">BDT 4,500</div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="w-20 h-24 bg-surface-container flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="Detail shot of a minimalist unisex linen trouser in warm bone white. The fabric shows a subtle natural weave. The garment is presented against a clean white background with sharp, modern lines. The lighting is bright and architectural, emphasizing the garment's structural integrity and clean silhouette for a future-forward fashion brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6p3-4B42u6BBu08vvIxs2XPQDJv66MNslXYUjP3s_dTFgQ69I2_qPUHBG2gEfA_-RgKjaxCt8a6yO4cJRWcZP-hS5z4JFamFw53aPC7mjz7sL3kSgYxM1Ig_zTwcPvytIz4aY9S0R_nSbRyx0RVzUpd3sotM2vkz2OFkNqkw2n--4DccFcdepS5p3rO5ptEgTCyzDzwAO4KiaTPqf9MVtRsFWgrVCJYmXZmNQ9pZIgBTaGNJXBlbi">
+</div>
+<div class="flex flex-col justify-between py-1">
+<div>
+<h4 class="font-nav-item text-nav-item uppercase">Linen Wide-Leg Trouser</h4>
+<p class="text-sm text-secondary">Size: 32 | Color: Bone</p>
+</div>
+<div class="font-price text-price">BDT 3,200</div>
+</div>
+</div>
+</div>
+<!-- Promo Code -->
+<div class="flex border-b border-outline-variant mb-8">
+<input class="bg-transparent border-none py-2 px-0 font-body-md w-full focus:ring-0" placeholder="Promo Code" type="text">
+<button class="font-label-caps text-label-caps uppercase tracking-widest text-primary px-4 py-2 hover:opacity-70 transition-all">Apply</button>
+</div>
+<!-- Calculations -->
+<div class="flex flex-col gap-3 mb-8 border-b border-outline-variant pb-8">
+<div class="flex justify-between font-body-md">
+<span class="text-secondary">Subtotal</span>
+<span class="font-price">BDT 7,700</span>
+</div>
+<div class="flex justify-between font-body-md">
+<span class="text-secondary">Shipping</span>
+<span class="font-price">BDT 80</span>
+</div>
+<div class="flex justify-between font-body-md">
+<span class="text-secondary">VAT (5%)</span>
+<span class="font-price">BDT 385</span>
+</div>
+</div>
+<div class="flex justify-between items-end">
+<span class="font-label-caps text-label-caps uppercase tracking-tighter">Total Payable</span>
+<span class="font-headline-lg text-[28px]">BDT 8,165</span>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Footer (Based on Shared Footer instructions) -->
+<footer class="flex flex-col gap-10 px-margin-mobile md:px-margin-desktop py-12 w-full bg-surface-container border-t border-outline-variant mt-24">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="md:col-span-1">
+<div class="font-display-lg text-headline-lg text-primary mb-4">N &amp; N</div>
+<p class="text-secondary font-body-md max-w-xs">Elevating contemporary textiles through industrial precision and minimal design.</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 md:col-span-3 gap-8">
+<div class="flex flex-col gap-4">
+<h5 class="font-label-caps text-label-caps uppercase">Shop</h5>
+<ul class="flex flex-col gap-2 font-body-md text-secondary">
+<li class="hover:underline underline-offset-4 cursor-pointer">Women</li>
+<li class="hover:underline underline-offset-4 cursor-pointer">Men</li>
+<li class="hover:underline underline-offset-4 cursor-pointer">Collections</li>
+</ul>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="font-label-caps text-label-caps uppercase">Support</h5>
+<ul class="flex flex-col gap-2 font-body-md text-secondary">
+<li class="hover:underline underline-offset-4 cursor-pointer">Shipping &amp; Returns</li>
+<li class="hover:underline underline-offset-4 cursor-pointer">Contact Us</li>
+<li class="hover:underline underline-offset-4 cursor-pointer">Store Locator</li>
+</ul>
+</div>
+<div class="flex flex-col gap-4">
+<h5 class="font-label-caps text-label-caps uppercase">Legal</h5>
+<ul class="flex flex-col gap-2 font-body-md text-secondary">
+<li class="hover:underline underline-offset-4 cursor-pointer">Privacy Policy</li>
+<li class="hover:underline underline-offset-4 cursor-pointer">Terms of Service</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="pt-10 border-t border-outline-variant flex justify-between items-center flex-wrap gap-4">
+<p class="font-label-caps text-label-caps text-secondary">© 2024 N &amp; N. ALL RIGHTS RESERVED.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-secondary hover:text-primary cursor-pointer">qr_code_2</span>
+<span class="material-symbols-outlined text-secondary hover:text-primary cursor-pointer">photo_camera</span>
+</div>
+</div>
+</footer>
+<script>
+        function nextStep(stepNumber) {
+            // Hide all sections
+            document.querySelectorAll('section[id^="step-"]').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('step-active');
+                section.classList.add('step-inactive');
+            });
+
+            // Show current section
+            const currentSection = document.getElementById(`step-${stepNumber}`);
+            currentSection.classList.remove('hidden');
+            setTimeout(() => {
+                currentSection.classList.add('step-active');
+                currentSection.classList.remove('step-inactive');
+            }, 50);
+
+            // Update Progress bar opacity logic
+            const progressSteps = document.querySelectorAll('.flex.items-center.gap-2');
+            progressSteps.forEach((step, index) => {
+                if (index < stepNumber) {
+                    step.classList.remove('opacity-40');
+                    const badge = step.querySelector('span:first-child');
+                    if (index === stepNumber - 1) {
+                         badge.classList.add('bg-primary', 'text-on-primary');
+                         badge.classList.remove('border', 'border-primary');
+                    } else {
+                         badge.classList.remove('bg-primary', 'text-on-primary');
+                         badge.classList.add('border', 'border-primary');
+                    }
+                } else {
+                    step.classList.add('opacity-40');
+                    const badge = step.querySelector('span:first-child');
+                    badge.classList.remove('bg-primary', 'text-on-primary');
+                    badge.classList.add('border', 'border-primary');
+                }
+            });
+
+            // Smooth scroll to top of section
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+
+</body></html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>N &amp; N | Checkout</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .hide-step {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .active-step {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        input:focus {
+            outline: none !important;
+            border-bottom-color: #000000 !important;
+        }
+        /* Custom scrollbar for minimalist look */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #fbf9f9; }
+        ::-webkit-scrollbar-thumb { background: #000000; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#410001",
+                        "secondary": "#605e58",
+                        "primary-container": "#1c1b1b",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#1b1c1c",
+                        "secondary-fixed-dim": "#c9c6bf",
+                        "on-tertiary-fixed-variant": "#930005",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#1c1c17",
+                        "surface-container": "#efeded",
+                        "secondary-fixed": "#e6e2da",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-secondary-container": "#66645e",
+                        "inverse-primary": "#c8c6c5",
+                        "primary": "#000000",
+                        "tertiary-fixed": "#ffdad5",
+                        "on-tertiary-container": "#f9362c",
+                        "on-primary-fixed-variant": "#474646",
+                        "outline": "#747878",
+                        "on-tertiary-fixed": "#410001",
+                        "surface-container-highest": "#e3e2e2",
+                        "tertiary-fixed-dim": "#ffb4aa",
+                        "on-surface-variant": "#444748",
+                        "surface-container-high": "#e9e8e7",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#5f5e5e",
+                        "background": "#fbf9f9",
+                        "secondary-container": "#e6e2da",
+                        "surface-dim": "#dbdad9",
+                        "surface-variant": "#e3e2e2",
+                        "tertiary": "#000000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#484741",
+                        "on-background": "#1b1c1c",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f5f3f3",
+                        "on-primary-fixed": "#1c1b1b",
+                        "inverse-surface": "#303031",
+                        "inverse-on-surface": "#f2f0f0",
+                        "surface": "#fbf9f9",
+                        "surface-bright": "#fbf9f9",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#858383",
+                        "outline-variant": "#c4c7c7",
+                        "primary-fixed": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "section-gap": "120px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "nav-item": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "price": ["Geist"],
+                        "headline-lg-mobile": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                        "nav-item": ["13px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "price": ["15px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-4 z-50 bg-background h-[64px] border-b border-outline-variant fixed top-0 left-0">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary" onclick="window.history.back()">arrow_back</button>
+<span class="font-display-lg text-[20px] tracking-tighter text-primary">N &amp; N</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary">shopping_bag</span>
+</div>
+</header>
+<main class="pt-[64px] pb-[100px] min-h-screen px-4">
+<!-- Progress Indicator -->
+<div class="flex gap-2 py-6">
+<div class="h-1 flex-1 bg-primary" id="dot-1"></div>
+<div class="h-1 flex-1 bg-surface-container-highest" id="dot-2"></div>
+<div class="h-1 flex-1 bg-surface-container-highest" id="dot-3"></div>
+</div>
+<div class="max-w-md mx-auto">
+<!-- Step 1: Shipping -->
+<section class="step-transition active-step" id="step-1">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile mb-2">Shipping Information</h1>
+<p class="text-secondary font-body-md mb-8">Where should we send your order?</p>
+<div class="space-y-8">
+<div class="relative">
+<label class="font-label-caps text-label-caps text-secondary block mb-2">FULL NAME</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-3 px-0 font-body-md focus:ring-0 transition-all" placeholder="Abrar Ahmed" type="text">
+</div>
+<div class="relative">
+<label class="font-label-caps text-label-caps text-secondary block mb-2">PHONE NUMBER</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-3 px-0 font-body-md focus:ring-0 transition-all" placeholder="+880 1XXX XXXXXX" type="tel">
+</div>
+<div class="relative">
+<label class="font-label-caps text-label-caps text-secondary block mb-2">CITY</label>
+<select class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-3 px-0 font-body-md focus:ring-0 appearance-none">
+<option>Dhaka</option>
+<option>Chattogram</option>
+<option>Sylhet</option>
+<option>Rajshahi</option>
+</select>
+</div>
+<div class="relative">
+<label class="font-label-caps text-label-caps text-secondary block mb-2">STREET ADDRESS</label>
+<input class="w-full bg-transparent border-t-0 border-x-0 border-b border-outline-variant py-3 px-0 font-body-md focus:ring-0 transition-all" placeholder="House 12, Road 5, Banani" type="text">
+</div>
+</div>
+</section>
+<!-- Step 2: Delivery -->
+<section class="step-transition hide-step" id="step-2">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile mb-2">Delivery Method</h1>
+<p class="text-secondary font-body-md mb-8">Choose your preferred pace.</p>
+<div class="space-y-4">
+<label class="block p-5 border border-primary bg-surface-container-lowest cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-primary">STANDARD DELIVERY</span>
+<span class="font-price text-price">BDT 80</span>
+</div>
+<p class="text-secondary text-[14px]">3-5 business days. Reliable and steady.</p>
+<input checked="" class="hidden" name="delivery" type="radio">
+</label>
+<label class="block p-5 border border-outline-variant bg-transparent cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-secondary">EXPRESS SHIPPING</span>
+<span class="font-price text-price">BDT 150</span>
+</div>
+<p class="text-secondary text-[14px]">Next day delivery for Dhaka city. Priority handling.</p>
+<input class="hidden" name="delivery" type="radio">
+</label>
+</div>
+<div class="mt-12 p-6 bg-surface-container">
+<h3 class="font-label-caps text-label-caps mb-4">ORDER SUMMARY</h3>
+<div class="flex justify-between mb-2">
+<span class="text-secondary">Subtotal</span>
+<span class="font-price">BDT 12,400</span>
+</div>
+<div class="flex justify-between mb-4 border-b border-outline-variant pb-4">
+<span class="text-secondary">Shipping</span>
+<span class="font-price">BDT 80</span>
+</div>
+<div class="flex justify-between pt-2">
+<span class="font-bold">Total</span>
+<span class="font-headline-lg-mobile text-[18px]">BDT 12,480</span>
+</div>
+</div>
+</section>
+<!-- Step 3: Payment -->
+<section class="step-transition hide-step" id="step-3">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile mb-2">Payment Details</h1>
+<p class="text-secondary font-body-md mb-8">Secure transaction via SSLCommerz.</p>
+<div class="grid grid-cols-2 gap-4 mb-8">
+<button class="flex flex-col items-center justify-center p-4 border border-primary bg-surface-container-lowest gap-2">
+<span class="material-symbols-outlined text-[32px]">payments</span>
+<span class="font-label-caps text-[10px]">CASH ON DELIVERY</span>
+</button>
+<button class="flex flex-col items-center justify-center p-4 border border-outline-variant gap-2 opacity-60">
+<span class="material-symbols-outlined text-[32px]">credit_card</span>
+<span class="font-label-caps text-[10px]">DIGITAL PAYMENT</span>
+</button>
+</div>
+<div class="bg-surface-container-low p-5 space-y-4">
+<p class="text-[13px] text-secondary">
+<span class="material-symbols-outlined text-[16px] align-middle mr-1">info</span>
+                        For COD orders, please ensure someone is available to receive the package and provide exact change.
+                    </p>
+</div>
+<div class="mt-8">
+<img class="w-full h-48 object-cover mb-4" data-alt="A highly professional and clean top-down photograph of a minimalist fashion workspace. A black fabric swatch, a silver measuring tape, and a sleek charcoal business card are arranged geometrically on a white marble surface. The lighting is bright and industrial, reflecting a modern light-mode fashion aesthetic with deep black shadows and pristine white highlights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2OkjzxINmnjTiw1wJ_cN3Z8DN3So703VeXED7dpyiZo_98hdy3jXn23M7Ksd40AYSjAGaU9Y_-mMrg3_wz_vnbL9v807NWjG5UjCux8-hWHyCCxOjENmhHiYHJESl2gjiFJfXq3UPs999Z_WDkvJuGZRn-yU1oExybLmg6YAi5x0gjQA2sqK31DuM3M3fsnrQj2aCmM1BbiwVF0vEpJDmEh25HO5SeH52A8Tg2f9BKwwXZES_hQJn">
+<p class="text-[12px] text-center text-secondary uppercase tracking-widest italic">Crafted with precision. Delivered with care.</p>
+</div>
+</section>
+</div>
+</main>
+<!-- Sticky Bottom Actions -->
+<footer class="fixed bottom-0 left-0 w-full bg-background p-4 border-t border-outline-variant z-50">
+<div class="flex gap-3 max-w-md mx-auto">
+<button class="hidden flex-1 border border-primary bg-background text-primary py-4 font-label-caps text-label-caps transition-all active:scale-[0.98]" id="prev-btn">
+                BACK
+            </button>
+<button class="flex-[2] bg-primary text-on-primary py-4 font-label-caps text-label-caps transition-all active:scale-[0.98]" id="next-btn">
+                CONTINUE
+            </button>
+<button class="hidden flex-[2] bg-primary text-on-primary py-4 font-label-caps text-label-caps transition-all active:scale-[0.98]" id="place-order-btn">
+                PLACE ORDER
+            </button>
+</div>
+</footer>
+<script>
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const placeOrderBtn = document.getElementById('place-order-btn');
+
+        function updateUI() {
+            // Update steps visibility
+            for (let i = 1; i <= totalSteps; i++) {
+                const stepEl = document.getElementById(`step-${i}`);
+                const dotEl = document.getElementById(`dot-${i}`);
+                
+                if (i === currentStep) {
+                    stepEl.classList.remove('hide-step');
+                    stepEl.classList.add('active-step');
+                    dotEl.classList.replace('bg-surface-container-highest', 'bg-primary');
+                } else {
+                    stepEl.classList.add('hide-step');
+                    stepEl.classList.remove('active-step');
+                    if (i > currentStep) {
+                        dotEl.classList.replace('bg-primary', 'bg-surface-container-highest');
+                    }
+                }
+            }
+
+            // Update buttons
+            if (currentStep === 1) {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.remove('hidden');
+                placeOrderBtn.classList.add('hidden');
+            } else if (currentStep === totalSteps) {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+                placeOrderBtn.classList.remove('hidden');
+            } else {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                placeOrderBtn.classList.add('hidden');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        placeOrderBtn.addEventListener('click', () => {
+            placeOrderBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+            setTimeout(() => {
+                alert('Order Placed Successfully. Transaction ID: BN-99210');
+                location.reload();
+            }, 1500);
+        });
+
+        // Toggle radio visual states
+        document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+            radio.parentElement.addEventListener('click', () => {
+                document.querySelectorAll('input[name="delivery"]').forEach(r => {
+                    r.parentElement.classList.replace('border-primary', 'border-outline-variant');
+                    r.parentElement.classList.replace('bg-surface-container-lowest', 'bg-transparent');
+                    r.parentElement.querySelector('.font-label-caps').classList.replace('text-primary', 'text-secondary');
+                });
+                radio.checked = true;
+                radio.parentElement.classList.replace('border-outline-variant', 'border-primary');
+                radio.parentElement.classList.replace('bg-transparent', 'bg-surface-container-lowest');
+                radio.parentElement.querySelector('.font-label-caps').classList.replace('text-secondary', 'text-primary');
+            });
+        });
+    </script>
+
+
+</body></html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Shopping Bag | BUNON</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        /* Custom scrollbar for minimalist look */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #fbf9f9; }
+        ::-webkit-scrollbar-thumb { background: #000000; }
+        
+        .product-image-container:hover img {
+            transform: scale(1.02);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#410001",
+                        "secondary": "#605e58",
+                        "primary-container": "#1c1b1b",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#1b1c1c",
+                        "secondary-fixed-dim": "#c9c6bf",
+                        "on-tertiary-fixed-variant": "#930005",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#1c1c17",
+                        "surface-container": "#efeded",
+                        "secondary-fixed": "#e6e2da",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-secondary-container": "#66645e",
+                        "inverse-primary": "#c8c6c5",
+                        "primary": "#000000",
+                        "tertiary-fixed": "#ffdad5",
+                        "on-tertiary-container": "#f9362c",
+                        "on-primary-fixed-variant": "#474646",
+                        "outline": "#747878",
+                        "on-tertiary-fixed": "#410001",
+                        "surface-container-highest": "#e3e2e2",
+                        "tertiary-fixed-dim": "#ffb4aa",
+                        "on-surface-variant": "#444748",
+                        "surface-container-high": "#e9e8e7",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#5f5e5e",
+                        "background": "#fbf9f9",
+                        "secondary-container": "#e6e2da",
+                        "surface-dim": "#dbdad9",
+                        "surface-variant": "#e3e2e2",
+                        "tertiary": "#000000",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed-variant": "#484741",
+                        "on-background": "#1b1c1c",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f5f3f3",
+                        "on-primary-fixed": "#1c1b1b",
+                        "inverse-surface": "#303031",
+                        "inverse-on-surface": "#f2f0f0",
+                        "surface": "#fbf9f9",
+                        "surface-bright": "#fbf9f9",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-container": "#858383",
+                        "outline-variant": "#c4c7c7",
+                        "primary-fixed": "#e5e2e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "section-gap": "120px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "nav-item": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "price": ["Geist"],
+                        "headline-lg-mobile": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                        "nav-item": ["13px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "price": ["15px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-primary font-body-md selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-desktop z-50 bg-background border-b border-outline-variant dark:border-outline sticky top-0 h-[64px]" style="opacity: 1; transform: translateY(0px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+<div class="flex items-center gap-12">
+<a class="font-display-lg text-display-lg tracking-tighter text-primary dark:text-on-background" href="#">N &amp; N</a>
+<nav class="hidden md:flex gap-8">
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200" href="#">Women</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200" href="#">Men</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200" href="#">Unisex</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200" href="#">New Drop</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200" href="#">Ethnic Contemporary</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200" href="#">Collections</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-primary cursor-pointer active:opacity-70" data-icon="search">search</button>
+<button class="material-symbols-outlined text-primary cursor-pointer active:opacity-70" data-icon="person">person</button>
+<button class="material-symbols-outlined text-primary cursor-pointer active:opacity-70" data-icon="favorite">favorite</button>
+<button class="material-symbols-outlined text-primary cursor-pointer active:opacity-70 relative" data-icon="shopping_bag">
+                shopping_bag
+                <span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] w-4 h-4 flex items-center justify-center rounded-full">2</span>
+</button>
+</div>
+</header>
+<main class="min-h-screen px-margin-mobile md:px-margin-desktop py-12">
+<div class="max-w-[1440px] mx-auto">
+<h1 class="font-headline-lg text-headline-lg mb-12">Shopping Bag</h1>
+<div class="flex flex-col lg:flex-row gap-16 items-start">
+<!-- Product List Section -->
+<section class="flex-grow w-full lg:w-2/3">
+<div class="flex flex-col">
+<!-- Product Item 1 -->
+<div class="group flex gap-6 md:gap-10 py-10 border-b border-outline-variant" style="opacity: 1; transform: translateY(0px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+<div class="w-32 h-40 md:w-48 md:h-64 bg-surface-container-low overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="High-fashion studio photography of a handcrafted Kanthastitch Linen Saree in ivory white. The fabric shows detailed traditional hand-embroidery patterns in black silk thread. Soft directional lighting highlights the rich textile texture against a minimalist neutral background. Future Bengal aesthetic, premium editorial style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZuMz7wKLraPMplKodhq1BJtACBNBMFd_wLGyZ7Xonkq__vrWAOFEbeXKSI9CRElk6p2U1KHAPbVdI1k7nnPqs-LZx8SO5al4YWaQJaeTfHLWtWpNf0JOghQjQfi04jW2pBdTww_5FtaXdJV28rg8WMInIkQF7zNY4gtOFB47ktODyToxos06wgQuyhNzCV6MpcNCCI7mcYOSDYHTxWqHSNLRoOjKoRdG5na5DYA9YGNKxlzpRCdin">
+</div>
+<div class="flex flex-col flex-grow justify-between py-2">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-lg text-[20px] uppercase tracking-wide">Kanthastitch Linen Saree</h3>
+<p class="text-secondary mt-2 font-label-caps">Color: Bone White</p>
+<p class="text-secondary font-label-caps">Size: OS</p>
+</div>
+<p class="font-price text-price">BDT 24,500</p>
+</div>
+<div class="flex justify-between items-end mt-8">
+<div class="flex items-center border border-primary h-10">
+<button class="px-4 h-full hover:bg-surface-container transition-colors" onclick="decrement(this)">-</button>
+<span class="px-4 font-price">1</span>
+<button class="px-4 h-full hover:bg-surface-container transition-colors" onclick="increment(this)">+</button>
+</div>
+<button class="text-secondary hover:text-primary font-label-caps underline underline-offset-4 decoration-1 transition-all">Remove</button>
+</div>
+</div>
+</div>
+<!-- Product Item 2 -->
+<div class="group flex gap-6 md:gap-10 py-10 border-b border-outline-variant" style="opacity: 1; transform: translateY(0px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);">
+<div class="w-32 h-40 md:w-48 md:h-64 bg-surface-container-low overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A minimalist architectural studio shot of an Indigo Silk Boxy Shirt. Deep natural indigo dye on premium mulberry silk, featuring sharp industrial tailoring and clean square lines. The lighting is crisp and cool, emphasizing the garment's structural integrity and the subtle sheen of the silk. Future Bengal fashion photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg9ounQp01eNonb1HzgRizXlWvg_5oa5CKtMqdsg4oaDPs-E0N7TCOGl8yJwp_s59TdR1IT9T57Mf_Zx1ExhrfQ5yYQyw6puIW7QoXrn3BeCxRWN-u6F5S0pb0MmxkqRg854cr6iIKGTzF3BFYF22v4wrWiASyirruxmSmf64isiz9Hxh8qd5s14t4VuCgyQ9Qtb53UEHGahYFqUVcPpmQ73cqjd58eBS0TKiqzCH9wGDExjDpAXCz">
+</div>
+<div class="flex flex-col flex-grow justify-between py-2">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-lg text-[20px] uppercase tracking-wide">Indigo Silk Boxy Shirt</h3>
+<p class="text-secondary mt-2 font-label-caps">Color: Deep Indigo</p>
+<p class="text-secondary font-label-caps">Size: Medium</p>
+</div>
+<p class="font-price text-price">BDT 12,800</p>
+</div>
+<div class="flex justify-between items-end mt-8">
+<div class="flex items-center border border-primary h-10">
+<button class="px-4 h-full hover:bg-surface-container transition-colors" onclick="decrement(this)">-</button>
+<span class="px-4 font-price">1</span>
+<button class="px-4 h-full hover:bg-surface-container transition-colors" onclick="increment(this)">+</button>
+</div>
+<button class="text-secondary hover:text-primary font-label-caps underline underline-offset-4 decoration-1 transition-all">Remove</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12">
+<details class="group cursor-pointer">
+<summary class="list-none flex items-center gap-2 font-label-caps text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined transition-transform group-open:rotate-90">chevron_right</span>
+                                Add a note to your order
+                            </summary>
+<textarea class="mt-4 w-full bg-transparent border-b border-outline-variant focus:border-primary outline-none py-4 font-body-md resize-none h-24 placeholder:text-outline" placeholder="Enter your instructions..." style="opacity: 1; transform: translateY(0px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);"></textarea>
+</details>
+</div>
+</section>
+<!-- Order Summary Sidebar -->
+<aside class="w-full lg:w-[400px] lg:sticky lg:top-[120px] bg-surface-container-low p-8 flex flex-col gap-8">
+<h2 class="font-headline-lg text-[24px] tracking-tight">Order Summary</h2>
+<div class="flex flex-col gap-4">
+<div class="flex justify-between font-body-md">
+<span class="text-secondary">Subtotal</span>
+<span class="font-price">BDT 37,300</span>
+</div>
+<div class="flex justify-between font-body-md">
+<span class="text-secondary">Shipping</span>
+<span class="font-price">Calculated at checkout</span>
+</div>
+<div class="flex justify-between font-body-md">
+<span class="text-secondary">VAT (Included)</span>
+<span class="font-price">BDT 1,865</span>
+</div>
+</div>
+<div class="h-[1px] bg-outline-variant w-full"></div>
+<div class="flex justify-between items-center">
+<span class="font-label-caps text-[14px]">Total</span>
+<span class="font-headline-lg text-[28px]">BDT 37,300</span>
+</div>
+<button class="w-full bg-primary text-on-primary py-5 font-label-caps text-[14px] hover:opacity-90 active:scale-[0.98] transition-all">
+                        PROCEED TO CHECKOUT
+                    </button>
+<div class="flex flex-col gap-4 mt-4">
+<p class="text-[12px] text-secondary leading-relaxed">
+                            Shipping and taxes calculated at next step. Free shipping on orders over BDT 50,000.
+                        </p>
+<div class="flex gap-4 items-center">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="text-[11px] font-label-caps text-secondary">Secure Checkout Guaranteed</span>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="flex flex-col gap-10 px-margin-desktop py-section-gap w-full border-t border-outline-variant dark:border-outline bg-surface-container dark:bg-surface-container-highest">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="flex flex-col gap-6">
+<span class="font-display-lg text-display-lg text-primary tracking-tighter">N &amp; N</span>
+<p class="font-body-md text-secondary">Future Bengal: Crafting the next generation of textile heritage through industrial precision and artisanal mastery.</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-caps text-primary">Shop</h4>
+<a class="text-secondary-container hover:underline underline-offset-4 font-body-md transition-all" href="#">New Arrivals</a>
+<a class="text-secondary-container hover:underline underline-offset-4 font-body-md transition-all" href="#">Essential Silks</a>
+<a class="text-secondary-container hover:underline underline-offset-4 font-body-md transition-all" href="#">Accessories</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-caps text-primary">Service</h4>
+<a class="text-secondary-container hover:underline underline-offset-4 font-body-md transition-all" href="#">Shipping &amp; Returns</a>
+<a class="text-secondary-container hover:underline underline-offset-4 font-body-md transition-all" href="#">Terms of Service</a>
+<a class="text-secondary-container hover:underline underline-offset-4 font-body-md transition-all" href="#">Store Locator</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-caps text-primary">Contact</h4>
+<a class="text-secondary-container hover:underline underline-offset-4 font-body-md transition-all" href="#">info@bunon.co</a>
+<div class="flex gap-4 mt-2">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">public</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">camera</span>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center border-t border-outline-variant pt-8">
+<p class="font-body-md text-secondary-container">© 2024 N &amp; N. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="text-label-caps text-secondary-container hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-label-caps text-secondary-container hover:text-primary" href="#">Cookies</a>
+</div>
+</div>
+</footer>
+<script>
+        function increment(btn) {
+            const span = btn.previousElementSibling;
+            let val = parseInt(span.textContent);
+            span.textContent = val + 1;
+        }
+
+        function decrement(btn) {
+            const span = btn.nextElementSibling;
+            let val = parseInt(span.textContent);
+            if (val > 1) {
+                span.textContent = val - 1;
+            }
+        }
+
+        // Simple enter animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const items = document.querySelectorAll('.border-b');
+            items.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+
+
+</body></html>

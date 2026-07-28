@@ -1,0 +1,333 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>BUNON | Modern Bengal Fashion</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+        
+        body {
+            font-family: 'Geist', sans-serif;
+            background-color: #fbf9f9;
+            color: #1b1c1c;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Hard-edge minimalism transition */
+        .hover-lift {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hover-lift:hover {
+            transform: scale(1.01);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#fbf9f9",
+                        "secondary-fixed-dim": "#c9c6bf",
+                        "on-secondary-fixed-variant": "#484741",
+                        "surface-container-low": "#f5f3f3",
+                        "error": "#ba1a1a",
+                        "outline": "#747878",
+                        "surface-bright": "#fbf9f9",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-tint": "#5f5e5e",
+                        "on-secondary-fixed": "#1c1c17",
+                        "on-primary-container": "#858383",
+                        "on-background": "#1b1c1c",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#930005",
+                        "on-surface-variant": "#444748",
+                        "on-error": "#ffffff",
+                        "surface": "#fbf9f9",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#ffdad5",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c4c7c7",
+                        "surface-container": "#efeded",
+                        "surface-variant": "#e3e2e2",
+                        "secondary": "#605e58",
+                        "on-primary-fixed-variant": "#474646",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e3e2e2",
+                        "on-tertiary-container": "#f9362c",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-tertiary-fixed": "#410001",
+                        "inverse-surface": "#303031",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c8c6c5",
+                        "primary-fixed": "#e5e2e1",
+                        "on-surface": "#1b1c1c",
+                        "tertiary": "#000000",
+                        "secondary-container": "#e6e2da",
+                        "tertiary-fixed-dim": "#ffb4aa",
+                        "on-secondary-container": "#66645e",
+                        "primary": "#000000",
+                        "secondary-fixed": "#e6e2da",
+                        "inverse-on-surface": "#f2f0f0",
+                        "surface-dim": "#dbdad9",
+                        "tertiary-container": "#410001",
+                        "surface-container-high": "#e9e8e7",
+                        "primary-container": "#1c1b1b"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "section-gap": "120px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Geist"],
+                        "nav-item": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-caps": ["Geist"],
+                        "price": ["Geist"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 w-full z-[100] h-[64px] bg-background border-b border-outline-variant flex justify-between items-center px-margin-desktop">
+<div class="flex items-center gap-10">
+<a class="font-display-lg text-display-lg tracking-tighter text-primary uppercase" href="#">N &amp; N</a>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors" href="#">Women</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors" href="#">Men</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors" href="#">Unisex</a>
+<a class="font-nav-item text-nav-item text-primary font-bold border-b border-primary pb-1" href="#">New Drop</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors" href="#">Ethnic Contemporary</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors" href="#">Collections</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-primary cursor-pointer active:opacity-70" data-icon="search">search</button>
+<button class="material-symbols-outlined text-primary cursor-pointer active:opacity-70" data-icon="person">person</button>
+<button class="material-symbols-outlined text-primary cursor-pointer active:opacity-70" data-icon="favorite">favorite</button>
+<button class="material-symbols-outlined text-primary cursor-pointer active:opacity-70" data-icon="shopping_bag">shopping_bag</button>
+</div>
+</nav>
+<main class="pt-[64px]">
+<!-- Module 1: New Drop Hero -->
+<section class="w-full">
+<div class="w-full aspect-[21/9] relative overflow-hidden bg-surface-container">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A cinematic, high-fashion campaign photograph featuring a model in a structured, avant-garde white textile ensemble against a brutalist architectural backdrop. The lighting is harsh and dramatic, creating sharp shadows that emphasize the texture of the fabric. The aesthetic is ultra-minimalist and editorial, focusing on geometric forms and high-contrast black and white tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBhN9KXDhW5X0_uSX8proRPzhXUzAdbN5F1LT221FDpVHz1Eh2NqiWwwJvZyO1-OD7cvm8pln68IcbESiyRUr-3P3AGMVzpSMCldYMl1spVvnQRFVPyQEXWn5BMELL-TXHMMHQpj-HUoEmy0aNpsUX74PZzxMbcj1ey0VmQAWOFn7mqk2JaZfdPhT9AWz0ciKtLuNKXdOh4FVWCrxU4JxbucGMACl2m4RPF3RGb_3xb5ieA69jK3VrD')"></div>
+</div>
+<div class="w-full py-6 px-margin-desktop bg-white flex justify-between items-center">
+<h2 class="font-headline-lg text-headline-lg uppercase tracking-tight">New Drop</h2>
+<button class="flex items-center gap-2 group cursor-pointer">
+<span class="font-label-caps text-label-caps uppercase underline-offset-4 group-hover:underline">Explore Collection</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Module 2: Dhaka After Dark -->
+<section class="w-full mt-2">
+<div class="w-full h-[80vh] relative flex items-end">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A moody, high-end editorial fashion shot taken in a dimly lit, historic street of Old Dhaka at night. A model wears a contemporary, dark-toned silk wrap with subtle industrial detailing. The scene is illuminated by single-point warm street lighting, creating a rich atmosphere of mystery and modern heritage. The color palette consists of deep charcols, warm ambers, and stark whites." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDLaRVJUicBp_Pwm0AC1oCfYw6SaEoBcCISzSLJc-Vi-JBoED8gBcfQWBCapOG3M_8I3D6EKnd59PuGfenBidubJ-JDkmmoURnkQpisAiw6SQrKUSyn3mNfAeE9I6sZc3G0BVp4UdV36G5aPGgEBgiQaDUXqTbg9KAyF-n4mkLlNXLDi0-22szka_u03AmVlVtH3ScmQJcNfQBUa6G00d0n7fltmjMB_sE96MJP1iIMvw0T6ebVtf32')"></div>
+<div class="relative z-10 p-margin-desktop text-white">
+<p class="font-label-caps text-label-caps uppercase tracking-[0.2em] mb-2">Editorial Series</p>
+<h2 class="font-display-lg text-display-lg uppercase italic mb-6">Dhaka After Dark</h2>
+<button class="px-8 py-3 bg-white text-primary font-label-caps text-label-caps uppercase hover:bg-opacity-90 transition-all">Shop the Look</button>
+</div>
+</div>
+</section>
+<!-- Product Carousel: New In -->
+<section class="py-section-gap px-margin-desktop overflow-hidden">
+<div class="flex justify-between items-end mb-12">
+<div>
+<span class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase block mb-2">The Latest Arrivals</span>
+<h3 class="font-headline-lg text-headline-lg uppercase">New In</h3>
+</div>
+<div class="flex gap-4">
+<button class="w-10 h-10 border border-outline-variant flex items-center justify-center hover:border-primary transition-colors material-symbols-outlined" data-icon="chevron_left">chevron_left</button>
+<button class="w-10 h-10 border border-outline-variant flex items-center justify-center hover:border-primary transition-colors material-symbols-outlined" data-icon="chevron_right">chevron_right</button>
+</div>
+</div>
+<div class="flex gap-gutter overflow-x-auto hide-scrollbar snap-x">
+<!-- Product Card 1 -->
+<div class="min-w-[280px] md:min-w-[320px] snap-start group cursor-pointer">
+<div class="aspect-[2/3] relative overflow-hidden bg-surface-container-low mb-4">
+<div class="absolute top-0 left-0 bg-error text-white font-label-caps text-[10px] px-2 py-1 z-10">NEW</div>
+<div class="w-full h-full bg-cover bg-center hover:scale-105 transition-transform duration-700" data-alt="A high-resolution product shot of a minimalist unisex tunic made from hand-loomed white cotton. The fabric texture is visible, showing a subtle waffle-weave pattern. The garment is presented in a clean, high-key studio setting with neutral grey shadows. The aesthetic is industrial and precise." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBoRvW40oC1LW81kpFRBpyqcf0twdC_jNYfOQli4oBqOBNoXpc8Ow-hujvYeeZhW5vEdZgJoYLURVeHi4AHoS_AjJZAWuAi6RRgzLf31fEvrdaAvCmLXZeZ3IQincQEmKh6xTZfNT1HkJHcsY25NJYr-AAJ-SgoHc9-l3279vruPel4yQLkSZg4uOHL_SgSrz10GNM56-6R1fI5zBQJm7PaKyPU5K-NVK60DmvxpUsNUZ4B2I-YhzJ-')"></div>
+</div>
+<p class="font-body-md text-body-md uppercase text-primary mb-1">Linear Tunic 01</p>
+<p class="font-price text-price text-secondary">৳ 8,500</p>
+</div>
+<!-- Product Card 2 -->
+<div class="min-w-[280px] md:min-w-[320px] snap-start group cursor-pointer">
+<div class="aspect-[2/3] relative overflow-hidden bg-surface-container-low mb-4">
+<div class="w-full h-full bg-cover bg-center hover:scale-105 transition-transform duration-700" data-alt="A professional studio fashion photo showing a structured black linen jacket with clean architectural lines. The lighting is soft and directional, highlighting the crisp edges of the collar and the natural texture of the black linen. Minimalist styling against a warm bone white background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDMqt4KKCItm-xiciwtHrbkRs4FVSAF0RNsuwLPwLU0TXfz0uDpxVB0qcyhXZIpE5A97_SJ5UoYOfBPjMETXGi9WgCly6WHw-YbyGGrN1oh9sIh91RnZIxmqlXXRvvhPkELnheS2xQlJIPR1o0WepDu824EL3RCTknI_B7NqmZPzAJF7Ep19QveDItifj6nWnQ1-sH8ifT7p9iHkUClzxdNMvejI8G4nUp92N9XwcdoEpiA6QDKT2_P')"></div>
+</div>
+<p class="font-body-md text-body-md uppercase text-primary mb-1">Architectural Blazer</p>
+<p class="font-price text-price text-secondary">৳ 14,200</p>
+</div>
+<!-- Product Card 3 -->
+<div class="min-w-[280px] md:min-w-[320px] snap-start group cursor-pointer">
+<div class="aspect-[2/3] relative overflow-hidden bg-surface-container-low mb-4">
+<div class="w-full h-full bg-cover bg-center hover:scale-105 transition-transform duration-700" data-alt="A detailed shot of a contemporary grey scarf featuring traditional Bengali jamdani weaving techniques but with modern geometric motifs. The photograph captures the intricate translucent quality of the fine cotton against a bright, minimalist backdrop." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDf6et4kXFCy4K5PgMgL4j5tIiqAZ-cIL8-njfdaTCP2-d3jnSVF_-fYiAVwqqjBcG7vsvuY9HkT3j-SbAQ0nPGZt6nBEEpiwE0Qn29Y_JYlbG8y1tq4LpZMsqlAhQJay_WMMLBDFkvphz6pgHRDOwbQ6nHi3SAjgdAoiIR0pN6RTJ1IxYH0sKad4_iF_pZq-YCkvG1z7UYWG1BNufUYq1O8AMHb8r-3D-hRafn2bXsPSXz8W3pgl3X')"></div>
+</div>
+<p class="font-body-md text-body-md uppercase text-primary mb-1">Geo-Jamdani Stole</p>
+<p class="font-price text-price text-secondary">৳ 4,800</p>
+</div>
+<!-- Product Card 4 -->
+<div class="min-w-[280px] md:min-w-[320px] snap-start group cursor-pointer">
+<div class="aspect-[2/3] relative overflow-hidden bg-surface-container-low mb-4">
+<div class="w-full h-full bg-cover bg-center hover:scale-105 transition-transform duration-700" data-alt="Studio fashion photography of high-waisted charcoal trousers with a wide-leg silhouette. The model is posed mid-stride to show the fluid drape of the high-quality industrial wool blend fabric. The lighting is bright and even, reinforcing a premium fashion aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCzOgWf0_ARMLDOYhfMtUIcDbm1RSlMzOkXxfGUA1LYppFUO9DFVmez1Vzwwtdx4LslXJMHuJdn9PMCF2WRUHkbRAaQnF2bOWRsgBdIvdOKE8DZ4r9Elsg0iRiYulerrvhgUuZR5hMuQZOwGaWg2rd3BiXZFsrUF35VlnQeHTA5AUnfgUnCr2UxfxgPN-8P_ZipyLnpof9Mh3jAjspGlSYYh-zeNO4WFvjOdPBYd_7gsjlDc9wMVKyx')"></div>
+</div>
+<p class="font-body-md text-body-md uppercase text-primary mb-1">Wide-Leg Trouser</p>
+<p class="font-price text-price text-secondary">৳ 9,200</p>
+</div>
+<!-- Product Card 5 -->
+<div class="min-w-[280px] md:min-w-[320px] snap-start group cursor-pointer">
+<div class="aspect-[2/3] relative overflow-hidden bg-surface-container-low mb-4">
+<div class="w-full h-full bg-cover bg-center hover:scale-105 transition-transform duration-700" data-alt="Close-up fashion photography of a minimalist silver pendant with industrial design elements. The jewelry is presented on a textured dark granite surface with sharp high-fashion lighting that creates brilliant reflections and deep shadows." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4yS7d5tFbjweaUri9NgGQYasTuTa52J3seXmrujK1oVeSuB04hgk5yw-C9uXYRusvkDKQ24NJF2akizT3kFbYGhQMmnIHxySWmcIBMkGd2_uVhc_djb7CHu5-d-AeYWHKYjZ0AYe-xOyqFAzmNBWXqVR-qY8JOT6CWOCkOq0tMeueeHNS8TbuZw76I4ql_lAH3O4G0Z4T_6gSt7aDs46PE6AhtwlLI17ejyioVuKmwGCyMTrBPI4j')"></div>
+</div>
+<p class="font-body-md text-body-md uppercase text-primary mb-1">Component Pendant</p>
+<p class="font-price text-price text-secondary">৳ 3,500</p>
+</div>
+</div>
+</section>
+<!-- Campaign Modules: Modern Panjabi & Jamdani -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-white">
+<div class="relative aspect-square flex items-center justify-center group overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center hover:scale-105 transition-transform duration-[1.5s]" data-alt="An editorial shot of a male model wearing a modern, charcoal grey panjabi with a minimalist high collar and concealed placket. The setting is a clean, white-walled gallery with minimal shadows. The image captures a blend of heritage and future-facing fashion design." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBkZzdNEoqzXp6VHwwmHKm93W8yH61nRWeujHjzC4L1RK0cF0A7bgCzJLoCh3FSswIld6Zs7f-Zr1tvvTCjbNOiNkVUt7aXkCFtf9lgWxThh_fY5QmAJzOpV0YaRDRNQ90ACDhSafvkg-fk4F5_CY1YfxOKGpij3ytGK9XXLa4wvWlycSerFpuGXLhLHBPji0VIpr2ESO3bL_7oBn2V5JgsRZlrMM2xNyVkSC2npWZLJbbkoidfTHDN')"></div>
+<div class="relative z-10 text-center text-white">
+<h4 class="font-headline-lg text-headline-lg uppercase mb-4">Modern Panjabi</h4>
+<button class="font-label-caps text-label-caps uppercase border-b border-white pb-1">Shop Now</button>
+</div>
+</div>
+<div class="relative aspect-square flex items-center justify-center group overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center hover:scale-105 transition-transform duration-[1.5s]" data-alt="A fashion-forward campaign image of a traditional Jamdani saree reimagined as a modern draped piece. The fabric is jet black with subtle, iridescent silver thread work in geometric patterns. The model is standing in a brightly lit, high-fashion industrial studio space." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1MSkj6MdzxRABHuA_I8NhFgWW5X1WR47sfF_bmMruPZuchPKRmRZR-JLSO9v4xZjNi2XLEgTKFBfhFMsYFn-8XYkeIzxgK3oEReBRvMGVFYEqOC-1f68bywOmbvDex5nOqRF8bEiN8lrSW6ZOmGR4HyCuyRXA8ja_DjF7mwMK0_A_lut41RyPgeWpP4Rf1Kc7WAKJoQVlL-dKC3kngYXp7p5Vh8HLZndUAKXkgam2sPqJQDVOm6R2')"></div>
+<div class="relative z-10 text-center text-white">
+<h4 class="font-headline-lg text-headline-lg uppercase mb-4">Jamdani Reframed</h4>
+<button class="font-label-caps text-label-caps uppercase border-b border-white pb-1">Shop Now</button>
+</div>
+</div>
+</section>
+<!-- Category Tiles -->
+<section class="py-section-gap px-margin-desktop">
+<h3 class="font-headline-lg text-headline-lg uppercase text-center mb-16">Shop by Category</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<a class="group" href="#">
+<div class="aspect-square bg-surface-container-low mb-4 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" data-alt="A minimalist fashion photography focused on Women's silhouettes. A model wears a long, draped white dress against a neutral grey wall. The lighting is diffused and soft, highlighting the sculptural form of the garment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCTq8bjKlgDgYycpbAywRojpKyM2SN7TvQUSc1FcBHpuag7ZUaAjgVRUSY9fnoe6t-TMdNU6RQUUI9JCmcluGmN153IOhlIMRQ68vxmOiYxOb-cDJXRmnWIruAztVpOu-nh-rOF7y2lkMs9SQ4giORGEUxAQ9Vt6q4oRYuYz_N9DQwE0EWI23FTAy9I2NuFsXjQPIEjIIaR5S5LJbDUfoJDOzijUbOYwrqHqXarxcp85N_DLkeq4ygj')"></div>
+</div>
+<span class="font-label-caps text-label-caps uppercase text-primary">Women</span>
+</a>
+<a class="group" href="#">
+<div class="aspect-square bg-surface-container-low mb-4 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" data-alt="High-fashion menswear photography. A model in a dark, structured blazer and trousers posed in a minimalist industrial setting. Clean lines and sharp contrast define the image." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC514JDjWBRimuFViIIhmGxK17DddSKzJAMhElQIAeH01RQE5E5LtCJm7wKj_px582vtfZ48aCmdHQhqL65I2xhiKRxLcY38pzhva-cpSBjNDn034SEttQs7Lv2hG6NGJIwcCtEpVkW71mrCcCUK5AuMhDuIr0FcP54ZK3ehtLEMyGs-hOIF2A9ShkyynFflJiF1lowV1D3uPoQ02NtrbFx_2x7LZwo07qXuyRCwtVjTu90RTpbXMOG')"></div>
+</div>
+<span class="font-label-caps text-label-caps uppercase text-primary">Men</span>
+</a>
+<a class="group" href="#">
+<div class="aspect-square bg-surface-container-low mb-4 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" data-alt="Two models standing side-by-side wearing identical oversized grey sweatshirts and trousers, representing a unisex fashion line. Minimalist, high-key studio lighting on a white background." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDcvNslJmQp9mkYkDgG6-eaeEO0S55BpbSx5dNpBzL8l8_C4ulT-CdQZttRdYmJUs4FwUFHrVmi_Sv19Aoz9TtmclqcrVPpJjl9xo62dKfDe16cgo9PodRRHFJtfqh4VyV6gjF83j51S_flvOwI1t06nyoMdjngUPAZTf2F9FtzKXLmWZvkOIJvYFt8-OwjzLI1V_b4UbxQDV3IqDPQuBDEAUpco5OOSAKyJnbjXzeJszjHCcuNeCvV')"></div>
+</div>
+<span class="font-label-caps text-label-caps uppercase text-primary">Unisex</span>
+</a>
+<a class="group" href="#">
+<div class="aspect-square bg-surface-container-low mb-4 overflow-hidden">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-700" data-alt="Artistic close-up of high-fashion accessories including a leather belt with an industrial buckle and a minimalist silver ring. Sharp focus on textures and metallic finishes. Dark charcoal and warm wood tones." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCCc8zWfUVss6O3fDdLEPwUS4X-_r5oSY8onqZseOWCoHDyQsnxwxhMbVt_a69WMEWWNmpWYhkKBW6wL04Euf0qrsMkAhS5FSIE4QYaVGSJx00Qt85-v07wzN-PGPC-BDR95QJUeOTsHnCR6v7kxau6WWDKgZBcxHwRFeDNDoiv_S8ovaqRDFfmtRFgt9TLkn9tQHPfzEDhxDbn3f1dYezoc7v1EgoFegfHq_IuyF2-PtgjIXyjY77y')"></div>
+</div>
+<span class="font-label-caps text-label-caps uppercase text-primary">Accessories</span>
+</a>
+</div>
+</section>
+<!-- Newsletter / Community -->
+<section class="py-section-gap bg-surface-container-low border-t border-outline-variant flex flex-col items-center text-center">
+<h4 class="font-headline-lg text-headline-lg uppercase mb-4">Join the Collective</h4>
+<p class="font-body-md text-body-md text-secondary max-w-lg mb-10 px-6">Subscribe to receive early access to new drops, editorial content, and invitations to our exclusive events in Dhaka and beyond.</p>
+<div class="w-full max-w-md px-6 flex flex-col md:flex-row gap-4">
+<input class="flex-1 bg-transparent border-0 border-b border-primary py-2 px-0 focus:ring-0 placeholder:text-secondary-fixed-dim uppercase font-label-caps text-label-caps" placeholder="Email Address" type="email">
+<button class="bg-primary text-white font-label-caps text-label-caps px-10 py-3 uppercase hover:opacity-90 transition-opacity">Sign Up</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-background border-t border-outline-variant px-margin-desktop py-20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+<div class="md:col-span-1">
+<h2 class="font-display-lg text-display-lg tracking-tighter text-primary uppercase mb-6">N &amp; N</h2>
+<p class="font-body-md text-body-md text-secondary">Redefining Bengali heritage through the lens of modern industrial minimalism. Crafted for the future.</p>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps uppercase text-primary mb-6">Explore</h5>
+<ul class="flex flex-col gap-3">
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">New Drop</a></li>
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Editorial</a></li>
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Collections</a></li>
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Store Locator</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps uppercase text-primary mb-6">Information</h5>
+<ul class="flex flex-col gap-3">
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Shipping &amp; Returns</a></li>
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Privacy Policy</a></li>
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Terms of Service</a></li>
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Contact Us</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-label-caps text-label-caps uppercase text-primary mb-6">Social</h5>
+<ul class="flex flex-col gap-3">
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Instagram</a></li>
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Facebook</a></li>
+<li class=""><a class="font-body-md text-body-md text-secondary hover:text-primary transition-all underline-offset-4 hover:underline" href="#">Vimeo</a></li>
+</ul>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-outline-variant">
+<span class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase">© 2024 N &amp; N. All rights reserved.</span>
+<div class="flex gap-6 mt-4 md:mt-0">
+<span class="material-symbols-outlined text-secondary hover:text-primary cursor-pointer" data-icon="credit_card">credit_card</span>
+<span class="material-symbols-outlined text-secondary hover:text-primary cursor-pointer" data-icon="account_balance">account_balance</span>
+</div>
+</div>
+</footer>
+<script>
+        // Simple Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-opacity-95', 'backdrop-blur-sm');
+            } else {
+                nav.classList.remove('bg-opacity-95', 'backdrop-blur-sm');
+            }
+        });
+
+        // Horizontal Scroll Buttons Logic (Mock)
+        document.querySelectorAll('[data-icon^="chevron"]').forEach(button => {
+            button.addEventListener('click', () => {
+                const carousel = button.closest('section').querySelector('.overflow-x-auto');
+                const direction = button.getAttribute('data-icon') === 'chevron_right' ? 1 : -1;
+                carousel.scrollBy({ left: 300 * direction, behavior: 'smooth' });
+            });
+        });
+    </script>
+
+
+</body></html>

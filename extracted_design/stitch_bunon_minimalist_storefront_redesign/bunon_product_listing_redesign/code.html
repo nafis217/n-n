@@ -1,0 +1,412 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        .wishlist-icon {
+            font-variation-settings: 'FILL' 0, 'wght' 300;
+            transition: all 0.2s ease;
+        }
+        .wishlist-icon:hover {
+            font-variation-settings: 'FILL' 1, 'wght' 300;
+        }
+        .product-image-container {
+            overflow: hidden;
+            aspect-ratio: 2/3;
+        }
+        .product-image {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .product-card:hover .product-image {
+            transform: scale(1.04);
+        }
+        /* Custom scrollbar for clean editorial look */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #fbf9f9; }
+        ::-webkit-scrollbar-thumb { background: #d8d8d8; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#fbf9f9",
+                        "secondary-fixed-dim": "#c9c6bf",
+                        "on-secondary-fixed-variant": "#484741",
+                        "surface-container-low": "#f5f3f3",
+                        "error": "#ba1a1a",
+                        "outline": "#747878",
+                        "surface-bright": "#fbf9f9",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-tint": "#5f5e5e",
+                        "on-secondary-fixed": "#1c1c17",
+                        "on-primary-container": "#858383",
+                        "on-background": "#1b1c1c",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#930005",
+                        "on-surface-variant": "#444748",
+                        "on-error": "#ffffff",
+                        "surface": "#fbf9f9",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#ffdad5",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c4c7c7",
+                        "surface-container": "#efeded",
+                        "surface-variant": "#e3e2e2",
+                        "secondary": "#605e58",
+                        "on-primary-fixed-variant": "#474646",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e3e2e2",
+                        "on-tertiary-container": "#f9362c",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-tertiary-fixed": "#410001",
+                        "inverse-surface": "#303031",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c8c6c5",
+                        "primary-fixed": "#e5e2e1",
+                        "on-surface": "#1b1c1c",
+                        "tertiary": "#000000",
+                        "secondary-container": "#e6e2da",
+                        "tertiary-fixed-dim": "#ffb4aa",
+                        "on-secondary-container": "#66645e",
+                        "primary": "#000000",
+                        "secondary-fixed": "#e6e2da",
+                        "inverse-on-surface": "#f2f0f0",
+                        "surface-dim": "#dbdad9",
+                        "tertiary-container": "#410001",
+                        "surface-container-high": "#e9e8e7",
+                        "primary-container": "#1c1b1b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "unit": "4px",
+                        "margin-mobile": "16px",
+                        "gutter": "16px",
+                        "section-gap": "120px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Geist"],
+                        "nav-item": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "label-caps": ["Geist"],
+                        "price": ["Geist"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "600"}],
+                        "nav-item": ["13px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "price": ["15px", {"lineHeight": "1", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary selection:text-white overflow-x-hidden">
+<!-- TopNavBar Component -->
+<nav class="flex justify-between items-center w-full px-margin-desktop z-50 bg-background docked full-width top-0 sticky h-[64px] border-b border-outline-variant">
+<div class="flex items-center gap-8 h-full">
+<span class="font-display-lg text-display-lg tracking-tighter text-primary">N &amp; N</span>
+<div class="hidden md:flex items-center gap-6 h-full">
+<a class="font-nav-item text-nav-item text-primary font-bold border-b border-primary h-full flex items-center" href="#">Women</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200 h-full flex items-center" href="#">Men</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200 h-full flex items-center" href="#">Unisex</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200 h-full flex items-center" href="#">New Drop</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200 h-full flex items-center" href="#">Ethnic Contemporary</a>
+<a class="font-nav-item text-nav-item text-secondary hover:text-primary transition-colors duration-200 h-full flex items-center" href="#">Collections</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="cursor-pointer active:opacity-70"><span class="material-symbols-outlined" data-icon="search">search</span></button>
+<button class="cursor-pointer active:opacity-70"><span class="material-symbols-outlined" data-icon="person">person</span></button>
+<button class="cursor-pointer active:opacity-70"><span class="material-symbols-outlined" data-icon="favorite">favorite</span></button>
+<button class="cursor-pointer active:opacity-70 relative">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute -top-1 -right-1 bg-primary text-[9px] text-white w-4 h-4 rounded-full flex items-center justify-center">2</span>
+</button>
+</div>
+</nav>
+<!-- Page Header & Title Area -->
+<header class="pt-24 pb-12 px-margin-desktop bg-background">
+<h1 class="font-display-lg text-[64px] font-extralight tracking-widest uppercase text-primary mb-12">Women's Collection</h1>
+<!-- Subcategory Navigation -->
+<div class="flex items-center justify-between border-b border-[#D8D8D8] pb-4">
+<div class="flex gap-10">
+<a class="font-label-caps text-label-caps text-primary border-b border-primary pb-4 -mb-[17px] tracking-[0.2em] uppercase" href="#">All</a>
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors tracking-[0.2em] uppercase" href="#">Dresses</a>
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors tracking-[0.2em] uppercase" href="#">Tops</a>
+<a class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors tracking-[0.2em] uppercase" href="#">Bottoms</a>
+</div>
+<div class="flex items-center gap-12">
+<span class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase">24 Products</span>
+<button class="flex items-center gap-2 font-label-caps text-label-caps text-primary uppercase group" onclick="toggleSidebar()">
+                    Filters
+                    <span class="material-symbols-outlined text-[18px]" data-icon="tune">tune</span>
+</button>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Filter Drawer) -->
+<aside class="fixed right-0 top-0 h-full w-[400px] z-[100] bg-surface-container-lowest border-l border-outline-variant translate-x-full transition-transform duration-300 ease-in-out" id="filter-sidebar">
+<div class="flex flex-col h-full p-10">
+<div class="flex justify-between items-start mb-12">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary uppercase tracking-tight">Filters</h2>
+<p class="font-body-md text-body-md text-secondary">Refine your selection</p>
+</div>
+<button class="text-primary hover:rotate-90 transition-transform duration-300" onclick="toggleSidebar()">
+<span class="material-symbols-outlined text-3xl" data-icon="close">close</span>
+</button>
+</div>
+<div class="space-y-8 flex-grow">
+<div class="border-b border-outline-variant pb-6">
+<div class="flex items-center justify-between mb-4 cursor-pointer">
+<span class="font-label-caps text-label-caps uppercase text-primary">Category</span>
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</div>
+</div>
+<div class="border-b border-outline-variant pb-6">
+<div class="flex items-center justify-between mb-4 cursor-pointer">
+<span class="font-label-caps text-label-caps uppercase text-primary">Size</span>
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</div>
+</div>
+<div class="border-b border-outline-variant pb-6">
+<div class="flex items-center justify-between mb-4 cursor-pointer">
+<span class="font-label-caps text-label-caps uppercase text-primary">Color</span>
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</div>
+</div>
+<div class="border-b border-outline-variant pb-6">
+<div class="flex items-center justify-between mb-4 cursor-pointer">
+<span class="font-label-caps text-label-caps uppercase text-primary">Price</span>
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary text-white py-5 font-label-caps text-label-caps uppercase tracking-widest hover:bg-opacity-90 transition-all">
+                Apply Filters
+            </button>
+</div>
+</aside>
+<!-- Product Grid -->
+<main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 w-full">
+<!-- Product 1 -->
+<div class="product-card group cursor-pointer border-r border-b border-[#D8D8D8]">
+<div class="product-image-container relative">
+<img class="product-image w-full h-full object-cover" data-alt="A fashion-forward model wearing a minimalist structured white handloom dress against a stark industrial concrete background. High-key natural lighting highlights the intricate weave of the fabric. The aesthetic is editorial and high-fashion, emphasizing clean lines and architectural silhouettes with a modern Bengal influence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy2zCfrs_QlMFEGLa2LOYdmamMu5xxvh1lAmSXev-snoA96hFQEn5elr4si6H7oI7493ga5zvTHFzmfXtMWEyy5iyD9zeKUb_AVCId2KFbywyJR8klr64DxsZjp92VPBVxp4-ewhJ0-bSLqLtjlqCS_ZSBf_-yD2zmrE-c3sAnNaSbjFPMpBFAOM7bXtoxSXKMoLmMdV7TPlPc25vfGI3jxOPm5TyKtNyWjyHbl2DksxGphyUvbnL2">
+<div class="absolute top-4 left-4 bg-[#BA1A1A] text-white px-3 py-1 font-label-caps text-[10px] tracking-wider">SALE</div>
+<button class="absolute bottom-6 right-6 text-white drop-shadow-md">
+<span class="material-symbols-outlined wishlist-icon" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-label-caps text-[13px] tracking-wider text-primary uppercase mb-1">Architectural Handloom Midi</h3>
+<p class="font-price text-price text-primary mb-4">BDT 12,500</p>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-white border border-[#D8D8D8]" title="Pristine White"></div>
+<div class="w-3 h-3 bg-[#111111]" title="Carbon Black"></div>
+<div class="w-3 h-3 bg-[#F3EFE7]" title="Warm Bone"></div>
+</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="product-card group cursor-pointer border-r border-b border-[#D8D8D8]">
+<div class="product-image-container relative">
+<img class="product-image w-full h-full object-cover" data-alt="Close-up of a model wearing a deep indigo blue oversized silk shirt with structural pleats. The lighting is dramatic and moody, casting sharp shadows that define the garment's hard-edge minimalism. The background is a flat, neutral grey tone, maintaining a focus on textile quality and industrial precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCkE4WCchsx2ukaO4CaE-fqZZkRQBfxlvYZuWjo03p3tPg0ilvlwewh2OWh5UtloNT8Wyl7YEeIFhdVueArplagMaJNh_kQ2zqj0mF175XTChBpKBUjyu9sCUl8-TNxH74MXp8wWyBT3NtBphBBqltnTSqmrtesw2__xHZ4YT4Xm-K8q8Y39CTze4CZa28WPcFsGXGcC4bN1CFDFoPBZSbXrk0-KP9O3aslKoEHIv9LnhTEiIdSccB">
+<button class="absolute bottom-6 right-6 text-white drop-shadow-md">
+<span class="material-symbols-outlined wishlist-icon" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-label-caps text-[13px] tracking-wider text-primary uppercase mb-1">Indigo Silk Boxy Shirt</h3>
+<p class="font-price text-price text-primary mb-4">BDT 8,900</p>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-[#1A237E]" title="Indigo"></div>
+<div class="w-3 h-3 bg-[#111111]" title="Carbon Black"></div>
+</div>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="product-card group cursor-pointer border-r border-b border-[#D8D8D8]">
+<div class="product-image-container relative">
+<img class="product-image w-full h-full object-cover" data-alt="A model standing in profile wearing wide-leg charcoal wool trousers and a cropped black top. The scene is shot in a minimalist gallery with stark white walls and a polished concrete floor. The lighting is clean and direct, emphasizing the garment's rigid, grid-based aesthetic and industrial Bengal style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGEpSPf3nwUiDvHzu0fkj-ZnsptJ69BNb5izQLZXxxI-Ro7LZ5NuD4gz1qigJtbbKEMa3k_D1qIxncb2q9UfNiag0EzSR4mjXXBkgkydTIjsK4Ms-YCGa_8iFQfbimGb17WuLcr5ZVZ89088kv8baOY14T5TGYcxsSFA1Jp-q6AUe4y0xCK86nnyXANAUaFAfR20oPU9M4-pXYjvmuCmeLr3IGrRPJuI0A2uQpZG0aToclC2S47qcv">
+<button class="absolute bottom-6 right-6 text-white drop-shadow-md">
+<span class="material-symbols-outlined wishlist-icon" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-label-caps text-[13px] tracking-wider text-primary uppercase mb-1">Grid Wool Trousers</h3>
+<p class="font-price text-price text-primary mb-4">BDT 15,000</p>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-[#444748]" title="Charcoal"></div>
+<div class="w-3 h-3 bg-[#111111]" title="Carbon Black"></div>
+</div>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="product-card group cursor-pointer border-b border-[#D8D8D8]">
+<div class="product-image-container relative">
+<img class="product-image w-full h-full object-cover" data-alt="Studio photography of a model in a terracotta-colored contemporary ethnic wrap top. The composition uses a flat architecture with no shadows, focusing on the overlap between the fabric's rich texture and the minimal background. The color palette is earthy yet vibrant, reflecting high-fashion minimalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIUCnFqP4ZYwoCQwNqJFwm_bKaNvnJsbWR_83aYGnjyXi2BFW0HSPaxB43-SO5U2mAMemwiNN7Vk7dgTFqpFQ38WmYZEL1HoD9S8eiJ3WEmsjWcH8PWI8CvSJeq1ZZytXebtpF-IPbFl5RfR8LbvXTWU7BMFgizqWUQ1XvdGoes_TQ6ytoxYH60vCoQA8cGDQlwTI-l6ki6yA0d-6qKH-npI7H0o33m0E6TkZuKCPvPCgvCPuQiA5l">
+<button class="absolute bottom-6 right-6 text-white drop-shadow-md">
+<span class="material-symbols-outlined wishlist-icon" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-label-caps text-[13px] tracking-wider text-primary uppercase mb-1">Contemporary Wrap Blouse</h3>
+<p class="font-price text-price text-primary mb-4">BDT 7,200</p>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-[#A0522D]" title="Terracotta"></div>
+<div class="w-3 h-3 bg-[#F3EFE7]" title="Warm Bone"></div>
+</div>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="product-card group cursor-pointer border-r border-b border-[#D8D8D8]">
+<div class="product-image-container relative">
+<img class="product-image w-full h-full object-cover" data-alt="Minimalist fashion portrait of a model wearing a heavy-weight raw cotton jacket with metallic industrial fastenings. The lighting is high-contrast, black and white editorial style. The scene feels authoritative and contemporary, emphasizing the 'Future Bengal' synthesis of tradition and precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYkvXjkJyydzPOuh5gQRUQdJxNwFytQqz50ylweMCWnUhQCa6xOn0kLtK9F1Wx9Y5eFFYMLV273E9dc7AZ6aCHzc1VHPwgtWT0kLYbwsr1iMsKN5xwNUSIwIfLBFASowcWJVika2v8YrQtAb6h3ZOBEVRprqSChcXD663hkpg5dPh4SeT8fg9cbzAaSweiWMlfqvDXwidHoMaQkcnpqSgTVr1MiJqt7LGl184ngA8BqMdTIl9Pn4bT">
+<button class="absolute bottom-6 right-6 text-white drop-shadow-md">
+<span class="material-symbols-outlined wishlist-icon" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-label-caps text-[13px] tracking-wider text-primary uppercase mb-1">Raw Cotton Utility Jacket</h3>
+<p class="font-price text-price text-primary mb-4">BDT 18,500</p>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-[#D8D8D8]" title="Grey"></div>
+<div class="w-3 h-3 bg-[#111111]" title="Carbon Black"></div>
+</div>
+</div>
+</div>
+<div class="product-card group cursor-pointer border-r border-b border-[#D8D8D8]">
+<div class="product-image-container relative">
+<img class="product-image w-full h-full object-cover" data-alt="A model wearing a floor-length sheer black organza overlay over a minimal slip dress. Shot against a white backdrop with hard-edge lighting that creates sharp silhouettes. The mood is sophisticated and avant-garde, blending textile craftsmanship with a silent, editorial frame." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZgGR_0rbKx8-cFowAZJTxuDB3mU8587v9XJQuQAb8YQJWLLkWJhtlkhVjZj_O6UyZCqwctCKSqOqxSecBhxjhloxcDeGVRaNH6ZnQNNgzbU99nC0HBsMRLTI79dfYa533igNgKDdf6bdfZakop8bRdEndLK7xHMj_vLERTshNzxwtczN0PESPvreX51PlVHpMgrqr2tQuiZf6FYIaMQnY-v0-IV3vZhhfXwPAt-2NJQbOjn0uEP4L">
+<button class="absolute bottom-6 right-6 text-white drop-shadow-md">
+<span class="material-symbols-outlined wishlist-icon" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-label-caps text-[13px] tracking-wider text-primary uppercase mb-1">Organza Layering Gown</h3>
+<p class="font-price text-price text-primary mb-4">BDT 22,000</p>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-[#111111]" title="Carbon Black"></div>
+</div>
+</div>
+</div>
+<div class="product-card group cursor-pointer border-r border-b border-[#D8D8D8]">
+<div class="product-image-container relative">
+<img class="product-image w-full h-full object-cover" data-alt="Studio shot of a model wearing asymmetrical pleated trousers in a deep olive green. The lighting is soft but precise, highlighting the structural integrity of the pleats. The aesthetic is hard-edge minimalism, with a focus on geometric shapes and textile depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN1ABlpcJSKO6EKEcXu1vdaRghkHD36fN-wz9Qh1wnAhPrGNiV9Sexm4ckgrRzly4CcuSi885L7RHwf0CEIFirSq9PydgK40cguPd2k3atC8pNf_ETzKP2X2pnUo5_hCIEkpftV3cB0KlCXpemvnaUmATXfDWi5zESEUsk1M2U1bqpDGZaMYqtv8EQ2TMZIXUV3slikJU57r1V8TnNG1dJ0RUANcRStSY4hFFnvlFzLc0VBKUp8DTp">
+<button class="absolute bottom-6 right-6 text-white drop-shadow-md">
+<span class="material-symbols-outlined wishlist-icon" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-label-caps text-[13px] tracking-wider text-primary uppercase mb-1">Asymmetric Pleated Pants</h3>
+<p class="font-price text-price text-primary mb-4">BDT 11,000</p>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-[#556B2F]" title="Olive"></div>
+<div class="w-3 h-3 bg-[#111111]" title="Carbon Black"></div>
+</div>
+</div>
+</div>
+<div class="product-card group cursor-pointer border-b border-[#D8D8D8]">
+<div class="product-image-container relative">
+<img class="product-image w-full h-full object-cover" data-alt="Model wearing a minimalist hand-spun cotton tunic with subtle geometric embroidery on the collar. The lighting is bright and airy, representing a high-key light-mode aesthetic. The composition is clean and centered, focusing on the raw beauty of the textile and precise detailing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAG7QTfSdcI9nl4LGULBqMPhhYCrgW_K9UnOrtT979CMPLft5GdABqj3_5qWgp_H0jT0RyRNc4lIt5eaSGYB1tRy5B4Mnmo7SbYH0hdIB7tNCRV3C6qY6gAaqo2p-ElpghKHVpOxxSMq2tWPPpuYQ-G2ptr9E1cKp05mDJ256GPRh0RJMsXyyCPy9AwyWZKIpsXS9l97rP6XZF9MIKxUbut2PB93egZh-p-KwPBenDkWUYlxkcjfaxz">
+<button class="absolute bottom-6 right-6 text-white drop-shadow-md">
+<span class="material-symbols-outlined wishlist-icon" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-6">
+<h3 class="font-label-caps text-[13px] tracking-wider text-primary uppercase mb-1">Embroidered Tunic Dress</h3>
+<p class="font-price text-price text-primary mb-4">BDT 9,500</p>
+<div class="flex gap-2">
+<div class="w-3 h-3 bg-white border border-[#D8D8D8]" title="White"></div>
+<div class="w-3 h-3 bg-[#F3EFE7]" title="Warm Bone"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Component -->
+<footer class="flex flex-col gap-10 px-margin-desktop py-section-gap w-full bg-surface-container border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-1">
+<span class="font-display-lg text-display-lg text-primary tracking-tighter">N &amp; N</span>
+<p class="mt-6 font-body-md text-secondary max-w-xs">
+                    Future Bengal aesthetic: a synthesis of high-fashion minimalism and industrial precision.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Customer Care</h4>
+<a class="font-body-md text-secondary-container hover:underline underline-offset-4 transition-all duration-200" href="#">Shipping &amp; Returns</a>
+<a class="font-body-md text-secondary-container hover:underline underline-offset-4 transition-all duration-200" href="#">Contact Us</a>
+<a class="font-body-md text-secondary-container hover:underline underline-offset-4 transition-all duration-200" href="#">Store Locator</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Information</h4>
+<a class="font-body-md text-secondary-container hover:underline underline-offset-4 transition-all duration-200" href="#">Privacy Policy</a>
+<a class="font-body-md text-secondary-container hover:underline underline-offset-4 transition-all duration-200" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Newsletter</h4>
+<p class="font-body-md text-secondary">Join our universe for updates on new drops.</p>
+<div class="mt-2 flex">
+<input class="bg-transparent border-b border-primary py-2 w-full font-label-caps text-[11px] focus:outline-none placeholder:text-secondary-fixed-dim" placeholder="EMAIL ADDRESS" type="email">
+<button class="border-b border-primary px-4 hover:bg-primary hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-8 flex justify-between items-center">
+<p class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase">© 2024 N &amp; N. All rights reserved.</p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-secondary cursor-pointer hover:text-primary transition-colors" data-icon="public">public</span>
+<span class="material-symbols-outlined text-secondary cursor-pointer hover:text-primary transition-colors" data-icon="share">share</span>
+</div>
+</div>
+</footer>
+<script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('filter-sidebar');
+            sidebar.classList.toggle('translate-x-full');
+            if (!sidebar.classList.contains('translate-x-full')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Handle wishlist toggle interaction
+        document.querySelectorAll('.wishlist-icon').forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isFilled = icon.style.fontVariationSettings.includes("'FILL' 1");
+                icon.style.fontVariationSettings = isFilled ? "'FILL' 0, 'wght' 300" : "'FILL' 1, 'wght' 300";
+                icon.classList.toggle('text-error', !isFilled);
+            });
+        });
+    </script>
+
+
+</body></html>

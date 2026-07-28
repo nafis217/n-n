@@ -1,0 +1,863 @@
+// BUNON Platform Complete Database Schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------------------------------
+// 1. RBAC & AUDIT
+// ----------------------------------------------------
+
+model User {
+  id               String            @id @default(uuid())
+  email            String?           @unique
+  mobile           String            @unique
+  name             String
+  passwordHash     String?
+  avatarUrl        String?
+  isActive         Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  
+  roles            UserRole[]
+  auditLogs        AuditLog[]        @relation("UserAuditLogs")
+  approvalsCreated Approval[]        @relation("ApprovalCreator")
+  approvalsHandled Approval[]        @relation("ApprovalReviewer")
+  posShifts        POSShift[]
+  posSales         POSSale[]
+  stockMovements   InventoryMovement[]
+}
+
+model Role {
+  id          String           @id @default(uuid())
+  name        String           @unique // e.g., SUPER_ADMIN, MANAGEMENT, WAREHOUSE_MANAGER, CASHIER
+  description String?
+  isSystem    Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  users       UserRole[]
+  permissions RolePermission[]
+}
+
+model Permission {
+  id          String           @id @default(uuid())
+  action      String           // e.g., READ, WRITE, APPROVE, DELETE
+  resource    String           // e.g., PRODUCTS, INVENTORY, ORDERS, REPORTS, POS
+  description String?
+  
+  roles       RolePermission[]
+
+  @@unique([action, resource])
+}
+
+model UserRole {
+  userId    String
+  roleId    String
+  assignedAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+}
+
+model AuditLog {
+  id             String   @id @default(uuid())
+  userId         String?
+  action         String   // e.g. STOCK_ADJUSTMENT, REFUND_APPROVED, PRICE_CHANGE
+  entityName     String   // e.g. ProductVariant, InventoryBalance, Order
+  entityId       String
+  previousValue  String?  // JSON string
+  newValue       String?  // JSON string
+  reason         String?
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime @default(now())
+
+  user           User?    @relation("UserAuditLogs", fields: [userId], references: [id])
+}
+
+// ----------------------------------------------------
+// 2. CUSTOMER & CRM
+// ----------------------------------------------------
+
+model Customer {
+  id                   String            @id @default(uuid())
+  mobile               String            @unique
+  email                String?           @unique
+  name                 String
+  preferredLanguage    String            @default("en") // "en" | "bn"
+  loyaltyPoints        Int               @default(0)
+  communicationConsent Boolean           @default(false)
+  segment              String            @default("NEW") // NEW, REPEAT, VIP, INACTIVE
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  addresses            CustomerAddress[]
+  orders               Order[]
+  wishlists            Wishlist[]
+  returns              Return[]
+  posSales             POSSale[]
+}
+
+model CustomerAddress {
+  id           String   @id @default(uuid())
+  customerId   String
+  label        String   @default("Home") // Home, Work
+  recipient    String
+  phone        String
+  street       String
+  city         String
+  thana        String?
+  district     String   @default("Dhaka")
+  postalCode   String?
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  customer     Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  orders       Order[]
+}
+
+// ----------------------------------------------------
+// 3. PRODUCT & CATALOG MANAGEMENT
+// ----------------------------------------------------
+
+model Category {
+  id          String     @id @default(uuid())
+  slug        String     @unique
+  nameEn      String
+  nameBn      String
+  description String?
+  imageUrl    String?
+  gender      String     @default("UNISEX") // WOMEN, MEN, UNISEX
+  parentId    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+  products    Product[]
+}
+
+model Collection {
+  id          String    @id @default(uuid())
+  slug        String    @unique
+  titleEn     String
+  titleBn     String
+  subtitle    String?
+  heroImage   String?
+  isFeatured  Boolean   @default(false)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+
+  products    Product[]
+}
+
+model Size {
+  id       String           @id @default(uuid())
+  name     String           @unique // e.g., XS, S, M, L, XL, XXL, 38, 40, 42
+  sortOrder Int             @default(0)
+
+  variants ProductVariant[]
+}
+
+model Color {
+  id       String           @id @default(uuid())
+  nameEn   String           @unique // e.g., Charcoal, Bone White, Jet Black, Vermilion
+  nameBn   String?
+  hexCode  String           // e.g., #1B1C1C, #F3EFE7
+
+  variants ProductVariant[]
+}
+
+model Product {
+  id               String           @id @default(uuid())
+  slug             String           @unique
+  titleEn          String
+  titleBn          String
+  descriptionEn    String
+  descriptionBn    String
+  categoryId       String
+  collectionId     String?
+  gender           String           @default("UNISEX") // WOMEN, MEN, UNISEX
+  material         String?          // Cotton, Silk, Linen, Wool blend
+  fit              String?          // Relaxed, Architectural, Slim, Oversized
+  careInstructions String?
+  isPublished      Boolean          @default(true)
+  isArchived       Boolean          @default(false)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  category         Category         @relation(fields: [categoryId], references: [id])
+  collection       Collection?      @relation(fields: [collectionId], references: [id])
+  variants         ProductVariant[]
+  images           ProductImage[]
+  wishlists        Wishlist[]
+  boms             BillOfMaterials[]
+}
+
+model ProductVariant {
+  id             String   @id @default(uuid())
+  productId      String
+  sku            String   @unique
+  barcode        String   @unique
+  colorId        String
+  sizeId         String
+  priceBDT       Int      // Stored in BDT integer (minor unit)
+  costBDT        Int      // Weighted average cost in BDT
+  weightGrams    Int      @default(300)
+  isAvailable    Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  product        Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color          Color    @relation(fields: [colorId], references: [id])
+  size           Size     @relation(fields: [sizeId], references: [id])
+  
+  images         ProductImage[]
+  inventory      InventoryBalance[]
+  movements      InventoryMovement[]
+  orderItems     OrderItem[]
+  cartItems      CartItem[]
+  returnItems    ReturnItem[]
+  posItems       POSSaleItem[]
+  purchaseItems  PurchaseOrderItem[]
+  receiptItems   GoodsReceiptItem[]
+  transferItems  StockTransferItem[]
+  countItems     StockCountItem[]
+  reservations   StockReservation[]
+}
+
+model ProductImage {
+  id         String          @id @default(uuid())
+  productId  String
+  variantId  String?
+  url        String
+  altText    String?
+  sortOrder  Int             @default(0)
+
+  product    Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  variant    ProductVariant? @relation(fields: [variantId], references: [id])
+}
+
+// ----------------------------------------------------
+// 4. INVENTORY MANAGEMENT (IMMUTABLE LEDGER)
+// ----------------------------------------------------
+
+model InventoryLocation {
+  id          String   @id @default(uuid())
+  code        String   @unique // e.g. MAIN_WH, STORE_DHAKA_01, RETURN_QC, DAMAGED
+  name        String
+  type        String   // WAREHOUSE, RETAIL_STORE, PRODUCTION, QC, DAMAGED
+  address     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  balances    InventoryBalance[]
+  movementsFrom InventoryMovement[] @relation("FromLocation")
+  movementsTo   InventoryMovement[] @relation("ToLocation")
+  transfersFrom StockTransfer[]     @relation("TransferSource")
+  transfersTo   StockTransfer[]     @relation("TransferDestination")
+  posShifts   POSShift[]
+  orders      Order[]
+}
+
+model InventoryBalance {
+  id          String            @id @default(uuid())
+  variantId   String
+  locationId  String
+  physical    Int               @default(0)
+  reserved    Int               @default(0)
+  damaged     Int               @default(0)
+
+  variant     ProductVariant    @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  location    InventoryLocation @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@unique([variantId, locationId])
+}
+
+model InventoryMovement {
+  id             String            @id @default(uuid())
+  movementType   String            // RECEIVING, RESERVATION, DISPATCH, TRANSFER, RETURN_RESTORE, ADJUSTMENT, PRODUCTION_USE, DAMAGE
+  variantId      String
+  quantity       Int
+  fromLocationId String?
+  toLocationId   String?
+  referenceType  String?           // ORDER, PURCHASE_ORDER, TRANSFER_ORDER, STOCK_COUNT, ADJUSTMENT
+  referenceId    String?
+  notes          String?
+  userId         String?
+  createdAt      DateTime          @default(now())
+
+  variant        ProductVariant    @relation(fields: [variantId], references: [id])
+  fromLocation   InventoryLocation? @relation("FromLocation", fields: [fromLocationId], references: [id])
+  toLocation     InventoryLocation?   @relation("ToLocation", fields: [toLocationId], references: [id])
+  user           User?             @relation(fields: [userId], references: [id])
+}
+
+model StockReservation {
+  id          String         @id @default(uuid())
+  orderId     String
+  variantId   String
+  quantity    Int
+  expiresAt   DateTime
+  isReleased  Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+
+  variant     ProductVariant @relation(fields: [variantId], references: [id])
+  order       Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+// ----------------------------------------------------
+// 5. ORDERS, CART & CHECKOUT
+// ----------------------------------------------------
+
+model Wishlist {
+  id         String   @id @default(uuid())
+  customerId String
+  productId  String
+  createdAt  DateTime @default(now())
+
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([customerId, productId])
+}
+
+model Cart {
+  id         String     @id @default(uuid())
+  sessionId  String     @unique
+  customerId String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  items      CartItem[]
+}
+
+model CartItem {
+  id        String         @id @default(uuid())
+  cartId    String
+  variantId String
+  quantity  Int            @default(1)
+
+  cart      Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
+
+  @@unique([cartId, variantId])
+}
+
+model Order {
+  id               String               @id @default(uuid())
+  orderNumber      String               @unique // e.g., BUN-20260728-8472
+  customerId       String?
+  addressId        String?
+  fulfillmentLocationId String?
+  subtotalBDT      Int
+  shippingBDT      Int                  @default(0)
+  discountBDT      Int                  @default(0)
+  totalBDT         Int
+  paymentMethod    String               // COD, BKASH, NAGAD, CARD
+  paymentStatus    String               @default("PENDING") // PENDING, PAID, FAILED, REFUNDED
+  orderStatus      String               @default("PLACED")  // PLACED, CONFIRMED, PROCESSING, PACKED, DISPATCHED, DELIVERED, CANCELLED
+  trackingNumber   String?
+  courierName      String?
+  notes            String?
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+
+  customer         Customer?            @relation(fields: [customerId], references: [id])
+  address          CustomerAddress?     @relation(fields: [addressId], references: [id])
+  location         InventoryLocation?   @relation(fields: [fulfillmentLocationId], references: [id])
+  items            OrderItem[]
+  statusHistory    OrderStatusHistory[]
+  payments         Payment[]
+  refunds          Refund[]
+  shipments        Shipment[]
+  returns          Return[]
+  reservations     StockReservation[]
+}
+
+model OrderItem {
+  id          String         @id @default(uuid())
+  orderId     String
+  variantId   String
+  productName String
+  variantSku  String
+  colorName   String
+  sizeName    String
+  unitPrice   Int
+  quantity    Int
+  totalPrice  Int
+
+  order       Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variant     ProductVariant @relation(fields: [variantId], references: [id])
+}
+
+model OrderStatusHistory {
+  id        String   @id @default(uuid())
+  orderId   String
+  status    String
+  notes     String?
+  createdAt DateTime @default(now())
+
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id             String         @id @default(uuid())
+  orderId        String
+  method         String         // COD, BKASH, NAGAD, CARD, SSLCOMMERZ
+  amountBDT      Int            // Integer minor BDT units
+  status         String         // PENDING, PAID, FAILED, CANCELLED, REFUNDED
+  currency       String         @default("BDT")
+  transactionId  String?
+  gatewayTranId  String?
+  idempotencyKey String?        @unique
+  rawPayload     String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @default(now()) @updatedAt
+
+  order          Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  events         PaymentEvent[]
+}
+
+model PaymentEvent {
+  id           String   @id @default(uuid())
+  paymentId    String
+  eventType    String   // INIT, SUCCESS_IPN, FAIL_IPN, CANCEL_IPN, VALIDATION_PASS, VALIDATION_FAIL, FORGERY_ATTEMPT
+  gatewayName  String   // SSLCOMMERZ, COD, BKASH
+  payload      String   // Sanitized JSON string of payload
+  ipAddress    String?
+  createdAt    DateTime @default(now())
+
+  payment      Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+}
+
+
+model Refund {
+  id            String   @id @default(uuid())
+  orderId       String
+  amountBDT     Int
+  reason        String
+  status        String   @default("APPROVED") // PENDING, APPROVED, REJECTED
+  transactionId String?
+  createdAt     DateTime @default(now())
+
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Shipment {
+  id             String    @id @default(uuid())
+  orderId        String
+  courierName    String    // Pathao, RedX, Steadfast, InHouse
+  trackingCode   String    @unique
+  dispatchedAt   DateTime?
+  deliveredAt    DateTime?
+  status         String    @default("BOOKED") // BOOKED, IN_TRANSIT, DELIVERED, RETURNED
+
+  order          Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Return {
+  id            String       @id @default(uuid())
+  returnNumber  String       @unique
+  orderId       String
+  customerId    String
+  reason        String
+  status        String       @default("REQUESTED") // REQUESTED, APPROVED, RECEIVED, INSPECTED, COMPLETED, REJECTED
+  condition     String?      // SELLABLE, DAMAGED
+  refundBDT     Int          @default(0)
+  createdAt     DateTime     @default(now())
+
+  order         Order        @relation(fields: [orderId], references: [id])
+  customer      Customer     @relation(fields: [customerId], references: [id])
+  items         ReturnItem[]
+}
+
+model ReturnItem {
+  id          String         @id @default(uuid())
+  returnId    String
+  variantId   String
+  quantity    Int
+  condition   String         @default("SELLABLE")
+
+  return      Return         @relation(fields: [returnId], references: [id], onDelete: Cascade)
+  variant     ProductVariant @relation(fields: [variantId], references: [id])
+}
+
+// ----------------------------------------------------
+// 6. PURCHASING & SUPPLIER MANAGEMENT
+// ----------------------------------------------------
+
+model Supplier {
+  id           String          @id @default(uuid())
+  code         String          @unique
+  name         String
+  contactName  String?
+  email        String?
+  phone        String
+  address      String?
+  leadTimeDays Int             @default(7)
+  rating       Float           @default(5.0)
+  createdAt    DateTime        @default(now())
+
+  purchaseOrders PurchaseOrder[]
+  rawMaterials   RawMaterial[]
+}
+
+model PurchaseRequisition {
+  id          String   @id @default(uuid())
+  reqNumber   String   @unique
+  requestedBy String
+  department  String
+  status      String   @default("SUBMITTED") // SUBMITTED, APPROVED, REJECTED
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  purchaseOrders PurchaseOrder[]
+}
+
+model PurchaseOrder {
+  id            String              @id @default(uuid())
+  poNumber      String              @unique
+  requisitionId String?
+  supplierId    String
+  status        String              @default("DRAFT") // DRAFT, ISSUED, PARTIAL_RECEIVED, COMPLETED, CANCELLED
+  totalBDT      Int                 @default(0)
+  expectedDate  DateTime?
+  createdAt     DateTime            @default(now())
+
+  supplier      Supplier            @relation(fields: [supplierId], references: [id])
+  requisition   PurchaseRequisition? @relation(fields: [requisitionId], references: [id])
+  items         PurchaseOrderItem[]
+  receipts      GoodsReceipt[]
+}
+
+model PurchaseOrderItem {
+  id            String         @id @default(uuid())
+  poId          String
+  variantId     String
+  orderedQty    Int
+  unitCostBDT   Int
+
+  po            PurchaseOrder  @relation(fields: [poId], references: [id], onDelete: Cascade)
+  variant       ProductVariant @relation(fields: [variantId], references: [id])
+}
+
+model GoodsReceipt {
+  id          String             @id @default(uuid())
+  grnNumber   String             @unique
+  poId        String
+  receivedAt  DateTime           @default(now())
+  receivedBy  String
+  notes       String?
+
+  po          PurchaseOrder      @relation(fields: [poId], references: [id])
+  items       GoodsReceiptItem[]
+}
+
+model GoodsReceiptItem {
+  id           String         @id @default(uuid())
+  grnId        String
+  variantId    String
+  receivedQty  Int
+  acceptedQty  Int
+  rejectedQty  Int            @default(0)
+  defectReason String?
+
+  grn          GoodsReceipt   @relation(fields: [grnId], references: [id], onDelete: Cascade)
+  variant      ProductVariant @relation(fields: [variantId], references: [id])
+}
+
+// ----------------------------------------------------
+// 7. STOCK TRANSFERS, ADJUSTMENTS & COUNTS
+// ----------------------------------------------------
+
+model StockTransfer {
+  id               String              @id @default(uuid())
+  transferNumber   String              @unique
+  sourceLocationId String
+  destLocationId   String
+  status           String              @default("REQUESTED") // REQUESTED, DISPATCHED, RECEIVED, CANCELLED
+  dispatchedAt     DateTime?
+  receivedAt       DateTime?
+  notes            String?
+  createdAt        DateTime            @default(now())
+
+  sourceLocation   InventoryLocation   @relation("TransferSource", fields: [sourceLocationId], references: [id])
+  destLocation     InventoryLocation   @relation("TransferDestination", fields: [destLocationId], references: [id])
+  items            StockTransferItem[]
+}
+
+model StockTransferItem {
+  id         String        @id @default(uuid())
+  transferId String
+  variantId  String
+  quantity   Int
+
+  transfer   StockTransfer @relation(fields: [transferId], references: [id], onDelete: Cascade)
+  variant    ProductVariant @relation(fields: [variantId], references: [id])
+}
+
+model StockAdjustment {
+  id            String   @id @default(uuid())
+  adjNumber     String   @unique
+  locationId    String
+  reason        String   // CYCLE_COUNT, DAMAGE, SHRINKAGE, PROMOTION
+  authorizedBy  String
+  createdAt     DateTime @default(now())
+}
+
+model StockCount {
+  id          String           @id @default(uuid())
+  countNumber String           @unique
+  locationId  String
+  status      String           @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED, RECONCILED
+  startedAt   DateTime         @default(now())
+  completedAt DateTime?
+
+  items       StockCountItem[]
+}
+
+model StockCountItem {
+  id          String         @id @default(uuid())
+  countId     String
+  variantId   String
+  systemQty   Int
+  countedQty  Int
+  varianceQty Int
+
+  count       StockCount     @relation(fields: [countId], references: [id], onDelete: Cascade)
+  variant     ProductVariant @relation(fields: [variantId], references: [id])
+}
+
+// ----------------------------------------------------
+// 8. APPAREL PRODUCTION & BOM MANAGEMENT
+// ----------------------------------------------------
+
+model RawMaterial {
+  id          String                  @id @default(uuid())
+  code        String                  @unique // e.g., FAB-COTTON-001
+  name        String                  // e.g., 100% Organic Waffle Cotton
+  supplierId  String?
+  unitOfMeasure String               // Meter, Roll, Kg, Meter, Pieces
+  unitCostBDT Int
+  stockQty    Float                   @default(0.0)
+
+  supplier    Supplier?               @relation(fields: [supplierId], references: [id])
+  lots        MaterialLot[]
+  bomItems    BillOfMaterialsItem[]
+  consumptions MaterialConsumption[]
+}
+
+model MaterialLot {
+  id             String      @id @default(uuid())
+  rawMaterialId  String
+  lotNumber      String      @unique
+  fabricColor    String?
+  quantity       Float
+  receivedDate   DateTime    @default(now())
+
+  rawMaterial    RawMaterial @relation(fields: [rawMaterialId], references: [id], onDelete: Cascade)
+}
+
+model BillOfMaterials {
+  id           String                @id @default(uuid())
+  productId    String
+  name         String                // Standard BOM v1
+  createdAt    DateTime              @default(now())
+
+  product      Product               @relation(fields: [productId], references: [id])
+  items        BillOfMaterialsItem[]
+  productionOrders ProductionOrder[]
+}
+
+model BillOfMaterialsItem {
+  id            String          @id @default(uuid())
+  bomId         String
+  rawMaterialId String
+  qtyRequired   Float           // Quantity per unit garment
+
+  bom           BillOfMaterials @relation(fields: [bomId], references: [id], onDelete: Cascade)
+  rawMaterial   RawMaterial     @relation(fields: [rawMaterialId], references: [id])
+}
+
+model ProductionOrder {
+  id           String                @id @default(uuid())
+  orderNumber  String                @unique
+  bomId        String
+  targetQty    Int
+  completedQty Int                   @default(0)
+  status       String                @default("PLANNED") // PLANNED, CUTTING, STITCHING, QC, COMPLETED
+  startDate    DateTime?
+  endDate      DateTime?
+  createdAt    DateTime              @default(now())
+
+  bom          BillOfMaterials       @relation(fields: [bomId], references: [id])
+  consumptions MaterialConsumption[]
+  inspections  QualityInspection[]
+}
+
+model MaterialConsumption {
+  id                String          @id @default(uuid())
+  productionOrderId String
+  rawMaterialId     String
+  plannedQty        Float
+  issuedQty         Float
+  actualQty         Float
+  wastageQty        Float           @default(0.0)
+
+  productionOrder   ProductionOrder @relation(fields: [productionOrderId], references: [id], onDelete: Cascade)
+  rawMaterial       RawMaterial     @relation(fields: [rawMaterialId], references: [id])
+}
+
+model QualityInspection {
+  id                String          @id @default(uuid())
+  productionOrderId String
+  inspectedQty      Int
+  passedQty         Int
+  rejectedQty       Int
+  defectType        String?
+  inspectorName     String
+  inspectedAt       DateTime        @default(now())
+
+  productionOrder   ProductionOrder @relation(fields: [productionOrderId], references: [id], onDelete: Cascade)
+}
+
+model DamageRecord {
+  id         String   @id @default(uuid())
+  sku        String
+  quantity   Int
+  locationId String
+  reason     String
+  recordedBy String
+  createdAt  DateTime @default(now())
+}
+
+// ----------------------------------------------------
+// 9. RETAIL POS
+// ----------------------------------------------------
+
+model POSShift {
+  id             String    @id @default(uuid())
+  userId         String
+  locationId     String
+  openingBalance Int
+  closingBalance Int?
+  cashVariance   Int?
+  startedAt      DateTime  @default(now())
+  endedAt        DateTime?
+
+  user           User              @relation(fields: [userId], references: [id])
+  location       InventoryLocation @relation(fields: [locationId], references: [id])
+  sales          POSSale[]
+}
+
+model POSSale {
+  id            String        @id @default(uuid())
+  receiptNumber String        @unique // e.g., POS-DH-8492
+  shiftId       String
+  userId        String
+  customerId    String?
+  totalBDT      Int
+  discountBDT   Int           @default(0)
+  createdAt     DateTime      @default(now())
+
+  shift         POSShift      @relation(fields: [shiftId], references: [id])
+  cashier       User          @relation(fields: [userId], references: [id])
+  customer      Customer?     @relation(fields: [customerId], references: [id])
+  items         POSSaleItem[]
+  payments      POSPayment[]
+}
+
+model POSSaleItem {
+  id         String         @id @default(uuid())
+  saleId     String
+  variantId  String
+  quantity   Int
+  unitPrice  Int
+  totalPrice Int
+
+  sale       POSSale        @relation(fields: [saleId], references: [id], onDelete: Cascade)
+  variant    ProductVariant @relation(fields: [variantId], references: [id])
+}
+
+model POSPayment {
+  id        String   @id @default(uuid())
+  saleId    String
+  method    String   // CASH, CARD, BKASH, NAGAD
+  amount    Int
+
+  sale      POSSale  @relation(fields: [saleId], references: [id], onDelete: Cascade)
+}
+
+// ----------------------------------------------------
+// 10. CMS, APPROVALS, NOTIFICATIONS & SETTINGS
+// ----------------------------------------------------
+
+model CMSPage {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  titleEn   String
+  titleBn   String
+  contentEn String
+  contentBn String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Campaign {
+  id        String    @id @default(uuid())
+  title     String
+  bannerUrl String
+  linkUrl   String?
+  startDate DateTime?
+  endDate   DateTime?
+  isActive  Boolean   @default(true)
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  message   String
+  type      String   // LOW_STOCK, ORDER_ALERT, APPROVAL_REQ
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Approval {
+  id           String    @id @default(uuid())
+  docType      String    // PURCHASE_ORDER, STOCK_ADJUSTMENT, REFUND
+  docId        String
+  creatorId    String
+  reviewerId   String?
+  status       String    @default("PENDING") // PENDING, APPROVED, REJECTED
+  comments     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  creator      User      @relation("ApprovalCreator", fields: [creatorId], references: [id])
+  reviewer     User?     @relation("ApprovalReviewer", fields: [reviewerId], references: [id])
+}
+
+model SystemSetting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
