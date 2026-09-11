@@ -8,7 +8,7 @@ export default function NewDropPage() {
   );
 
   return (
-    <div className="w-full px-margin-mobile md:px-margin-desktop py-10">
+    <div className="w-full px-margin-mobile md:px-margin-desktop pt-24 md:pt-28 pb-16">
       <div className="w-full aspect-[21/9] bg-surface-container mb-8 overflow-hidden">
         <img
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhN9KXDhW5X0_uSX8proRPzhXUzAdbN5F1LT221FDpVHz1Eh2NqiWwwJvZyO1-OD7cvm8pln68IcbESiyRUr-3P3AGMVzpSMCldYMl1spVvnQRFVPyQEXWn5BMELL-TXHMMHQpj-HUoEmy0aNpsUX74PZzxMbcj1ey0VmQAWOFn7mqk2JaZfdPhT9AWz0ciKtLuNKXdOh4FVWCrxU4JxbucGMACl2m4RPF3RGb_3xb5ieA69jK3VrD"

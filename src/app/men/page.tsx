@@ -8,7 +8,7 @@ export default function MenCategoryPage() {
   );
 
   return (
-    <div className="w-full px-margin-mobile md:px-margin-desktop py-10">
+    <div className="w-full px-margin-mobile md:px-margin-desktop pt-24 md:pt-28 pb-16">
       <div className="border-b border-outline-variant pb-8 mb-10">
         <span className="font-label-caps text-label-caps text-outline uppercase block mb-2 font-semibold">
           Category
