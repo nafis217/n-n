@@ -60,26 +60,26 @@ export default function CustomerLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0E0F10] text-[#F3EFE7] py-16 px-4 sm:px-8 flex items-center justify-center">
+    <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 py-16 px-4 sm:px-8 flex items-center justify-center">
       <div className="w-full max-w-md space-y-8">
         {/* Header */}
         <div className="text-center space-y-2">
           <Link
             href="/"
-            className="font-display text-3xl font-black uppercase tracking-tighter text-white inline-block mb-2"
+            className="font-display text-3xl font-black uppercase tracking-tighter text-black inline-block mb-2"
           >
             fuku
           </Link>
-          <h1 className="font-display text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
+          <h1 className="font-display text-xl sm:text-2xl font-bold uppercase tracking-tight text-black">
             Client Archive Authentication
           </h1>
-          <p className="text-xs font-mono text-[#8C9094]">
+          <p className="text-xs font-mono text-neutral-600">
             Sign in to track live consignments and unlock VIP atelier access.
           </p>
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex border-b border-[#242628] text-xs font-mono">
+        <div className="flex border-b border-neutral-200 text-xs font-mono">
           <button
             onClick={() => {
               setLoginMethod('email');
@@ -87,8 +87,8 @@ export default function CustomerLoginPage() {
             }}
             className={`flex-1 py-3 text-center uppercase tracking-wider font-bold border-b-2 transition-colors ${
               loginMethod === 'email'
-                ? 'border-white text-white'
-                : 'border-transparent text-[#6C7074] hover:text-[#9A9EA2]'
+                ? 'border-black text-black'
+                : 'border-transparent text-neutral-400 hover:text-neutral-700'
             }`}
           >
             Email &amp; Password
@@ -97,8 +97,8 @@ export default function CustomerLoginPage() {
             onClick={() => setLoginMethod('mobile')}
             className={`flex-1 py-3 text-center uppercase tracking-wider font-bold border-b-2 transition-colors ${
               loginMethod === 'mobile'
-                ? 'border-white text-white'
-                : 'border-transparent text-[#6C7074] hover:text-[#9A9EA2]'
+                ? 'border-black text-black'
+                : 'border-transparent text-neutral-400 hover:text-neutral-700'
             }`}
           >
             Mobile OTP Login
@@ -106,11 +106,11 @@ export default function CustomerLoginPage() {
         </div>
 
         {/* Form Container */}
-        <div className="p-6 sm:p-8 bg-[#121315] border border-[#242628] shadow-2xl">
+        <div className="p-6 sm:p-8 bg-white border border-neutral-200 shadow-lg">
           {loginMethod === 'email' ? (
             <form onSubmit={handleEmailLogin} className="space-y-4">
               <div>
-                <label className="block text-[11px] font-mono uppercase tracking-wider text-[#8C9094] mb-1.5">
+                <label className="block text-[11px] font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
                   Email Address
                 </label>
                 <input
@@ -119,18 +119,18 @@ export default function CustomerLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="client@fukustudio.com"
-                  className="w-full bg-[#18191B] border border-[#2D3033] px-3.5 py-2.5 text-xs text-white placeholder-[#686D71] focus:outline-none focus:border-white transition-colors"
+                  className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
                 />
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-1.5">
-                  <label className="text-[11px] font-mono uppercase tracking-wider text-[#8C9094]">
+                  <label className="text-[11px] font-mono uppercase tracking-wider text-neutral-700">
                     Password
                   </label>
                   <Link
                     href="/forgot-password"
-                    className="text-[10px] font-mono text-[#FF3B30] hover:underline uppercase"
+                    className="text-[10px] font-mono text-black font-bold hover:underline uppercase"
                   >
                     Forgot Password?
                   </Link>
@@ -142,12 +142,12 @@ export default function CustomerLoginPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full bg-[#18191B] border border-[#2D3033] px-3.5 py-2.5 text-xs text-white placeholder-[#686D71] focus:outline-none focus:border-white transition-colors pr-10"
+                    className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7D8185] hover:text-white"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-black"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -157,7 +157,7 @@ export default function CustomerLoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 bg-white text-black hover:bg-[#E5E0D8] disabled:opacity-50 font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-xl pt-3"
+                className="w-full py-3.5 bg-black text-white hover:bg-neutral-800 disabled:opacity-50 font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-sm pt-3"
               >
                 <span>{loading ? 'Authenticating...' : 'Sign In to Account'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -166,7 +166,7 @@ export default function CustomerLoginPage() {
           ) : !otpSent ? (
             <form onSubmit={handleSendOTP} className="space-y-4">
               <div>
-                <label className="block text-[11px] font-mono uppercase tracking-wider text-[#8C9094] mb-1.5">
+                <label className="block text-[11px] font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
                   Bangladeshi Mobile Phone
                 </label>
                 <input
@@ -175,13 +175,13 @@ export default function CustomerLoginPage() {
                   value={mobile}
                   onChange={(e) => setMobile(e.target.value)}
                   placeholder="+880 1712-345678"
-                  className="w-full bg-[#18191B] border border-[#2D3033] px-3.5 py-2.5 text-xs text-white placeholder-[#686D71] focus:outline-none focus:border-white font-mono"
+                  className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white font-mono"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-white text-black hover:bg-[#E5E0D8] font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-xl"
+                className="w-full py-3.5 bg-black text-white hover:bg-neutral-800 font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-sm"
               >
                 <span>Send 6-Digit OTP Code</span>
                 <ArrowRight className="w-4 h-4" />
@@ -189,11 +189,11 @@ export default function CustomerLoginPage() {
             </form>
           ) : (
             <form onSubmit={handleVerifyOTP} className="space-y-4">
-              <div className="text-xs font-mono text-[#8C9094] pb-2">
-                Verification code sent to <strong className="text-white">{mobile}</strong>
+              <div className="text-xs font-mono text-neutral-600 pb-2">
+                Verification code sent to <strong className="text-black">{mobile}</strong>
               </div>
               <div>
-                <label className="block text-[11px] font-mono uppercase tracking-wider text-[#8C9094] mb-1.5">
+                <label className="block text-[11px] font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
                   Enter 6-Digit Code (Demo: 8829)
                 </label>
                 <input
@@ -203,14 +203,14 @@ export default function CustomerLoginPage() {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
                   placeholder="8829"
-                  className="w-full bg-[#18191B] border border-[#2D3033] px-3.5 py-2.5 text-xs text-white font-mono text-center tracking-widest text-base focus:outline-none focus:border-white"
+                  className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black font-mono text-center tracking-widest text-base focus:outline-none focus:border-black focus:bg-white"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 bg-white text-black hover:bg-[#E5E0D8] font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-xl"
+                className="w-full py-3.5 bg-black text-white hover:bg-neutral-800 font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-sm"
               >
                 <span>{loading ? 'Verifying...' : 'Verify & Access Profile'}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -219,31 +219,31 @@ export default function CustomerLoginPage() {
           )}
 
           {/* Quick Demo Credentials Autofill */}
-          <div className="mt-6 pt-4 border-t border-[#202224] text-center">
+          <div className="mt-6 pt-4 border-t border-neutral-200 text-center">
             <button
               onClick={() => {
                 setEmail('nafis@fukustudio.com');
                 setPassword('atelier2026');
                 setLoginMethod('email');
               }}
-              className="text-[11px] font-mono text-[#8C9094] hover:text-white flex items-center justify-center gap-1 mx-auto"
+              className="text-[11px] font-mono text-neutral-600 hover:text-black flex items-center justify-center gap-1 mx-auto font-medium"
             >
-              <Sparkles className="w-3 h-3 text-[#FF3B30]" />
+              <Sparkles className="w-3 h-3 text-black" />
               <span>Autofill Demo VIP Credentials</span>
             </button>
           </div>
         </div>
 
         {/* Footer links */}
-        <div className="text-center text-xs font-mono text-[#8C9094] space-y-2">
+        <div className="text-center text-xs font-mono text-neutral-600 space-y-2">
           <div>
             Don&apos;t have an archive account?{' '}
-            <Link href="/register" className="text-white font-bold hover:underline">
+            <Link href="/register" className="text-black font-bold hover:underline">
               Create Client Profile
             </Link>
           </div>
           <div>
-            <Link href="/" className="text-[#64686C] hover:text-[#A0A4A8]">
+            <Link href="/" className="text-neutral-400 hover:text-black">
               Return to Homepage
             </Link>
           </div>

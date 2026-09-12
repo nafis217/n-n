@@ -101,18 +101,8 @@ export default function CheckoutPage() {
     }
 
     setSubmitting(true);
-
     try {
-      const orderId = createOrder({
-        customer: {
-          name,
-          phone,
-          email: email || undefined,
-          address,
-          city,
-          area,
-          postalCode,
-        },
+      const newOrder = createOrder({
         items: items.map((i) => ({
           id: i.id,
           title: i.title,
@@ -122,23 +112,34 @@ export default function CheckoutPage() {
           selectedColor: i.selectedColor,
           image: i.image,
         })),
+        shippingAddress: {
+          name,
+          phone,
+          email: email || '',
+          address,
+          city,
+          area,
+          postalCode,
+          notes: notes || undefined,
+        },
         paymentMethod,
-        paymentStatus: paymentMethod === 'COD' ? 'PENDING' : 'PAID',
-        deliveryMethod,
-        deliveryZone,
-        shippingFee: calculatedShipping,
+        paymentStatus: paymentMethod === 'COD' ? 'UNPAID' : 'PAID',
+        deliveryMethod: deliveryMethod === 'EXPRESS' ? 'EXPRESS' : 'STANDARD',
+        status: 'PENDING',
+        currency: 'BDT',
         subtotal,
         discount,
+        shipping: calculatedShipping,
         total: grandTotal,
-        notes: notes || undefined,
+        estimatedDelivery: deliveryMethod === 'EXPRESS' ? 'Same-Day Evening' : '24–48 Hours',
       });
 
       // Clear shopping bag
       clearCart();
-      toast.success('Order Confirmed', `Order #${orderId} has been successfully logged.`);
+      toast.success('Order Confirmed', `Order #${newOrder.orderNumber} has been successfully logged.`);
 
       // Navigate to order confirmation
-      router.push(`/order-confirmation/${orderId}`);
+      router.push(`/order-confirmation/${newOrder.id}`);
     } catch (err) {
       toast.error('Order Processing Error', 'An unexpected error occurred while reserving garments.');
     } finally {

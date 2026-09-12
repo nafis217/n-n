@@ -10,7 +10,7 @@ export default function ProductsCataloguePage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#0E0F10] flex items-center justify-center text-xs font-mono uppercase tracking-widest text-[#8C9094]">
+        <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center text-xs font-mono uppercase tracking-widest text-neutral-500">
           Loading Catalogue...
         </div>
       }

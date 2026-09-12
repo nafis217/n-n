@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -13,20 +13,43 @@ import { ProductCard } from '@/components/product/ProductCard';
 import { QuickViewModal } from '@/components/product/QuickViewModal';
 import { SizeGuideModal } from '@/components/product/SizeGuideModal';
 import { toast } from '@/lib/store/toast';
-import {
-  ArrowRight,
-  Sparkles,
-  ShoppingBag,
-  ShieldCheck,
-  Truck,
-  RefreshCw,
-  Star,
-  Send,
-  Compass,
-  Instagram,
-  Heart,
-  ChevronRight,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+
+// Scroll reveal hook
+function useScrollReveal() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, visible };
+}
+
+function RevealSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const { ref, visible } = useScrollReveal();
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(20px)',
+        transition: `opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default function HomePage() {
   const [quickViewProduct, setQuickViewProduct] = useState<ProductItem | null>(null);
@@ -34,523 +57,335 @@ export default function HomePage() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const featured = getFeaturedProducts().slice(0, 4);
-  const newArrivals = getNewArrivals().slice(0, 6);
+  const newArrivals = getNewArrivals().slice(0, 4);
   const bestSellers = getBestSellers().slice(0, 4);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsletterEmail.trim()) {
-      toast.warning('Email Required', 'Please provide a valid email address.');
+      toast.warning('Email required', 'Please enter your email address.');
       return;
     }
     setSubscribed(true);
-    toast.success('VIP Invitation Dispatched', 'Welcome to the FUKU Archive private collector list.');
+    toast.success('Subscribed', 'Welcome. You\'ll receive early access to new drops.');
   };
 
-  const CATEGORIES = [
-    {
-      title: 'Women Archive',
-      subtitle: 'Draped Jamdani, Pleated Dresses & Trousers',
-      image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1200',
-      href: '/women',
-    },
-    {
-      title: 'Men Sartorial',
-      subtitle: 'Raw Linen Blazers, Pleats & Selvedge Denim',
-      image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=1200',
-      href: '/men',
-    },
-    {
-      title: 'Panjabi Reinvention',
-      subtitle: 'Handspun Khadi Silk & Modernist Collars',
-      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=1200',
-      href: '/panjabi',
-    },
-    {
-      title: 'Genderless Utility',
-      subtitle: 'Tactical Kimonos & 280 GSM Heavy Knits',
-      image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1200',
-      href: '/unisex',
-    },
-  ];
-
-  const TESTIMONIALS = [
-    {
-      quote:
-        'The Tactical Kimono drape is unparalleled. The Japanese twill fabric holds its shape like architectural tailoring. FUKU is redefining Bangladeshi fashion globally.',
-      author: 'Abrar Z.',
-      role: 'Creative Director, Dhaka',
-      rating: 5,
-    },
-    {
-      quote:
-        'Finally a brand that respects Jamdani heritage while bringing it into the 21st century. The monochrome geometry is pure sartorial poetry.',
-      author: 'Nadia Chowdhury',
-      role: 'Textile Collector',
-      rating: 5,
-    },
-    {
-      quote:
-        'The 280 GSM heavyweight tee collar stays rigid even after dozens of washes. Essential daily luxury with zero compromises.',
-      author: 'Sadman S.',
-      role: 'Architect & Collector',
-      rating: 5,
-    },
-  ];
-
-  const INSTAGRAM_POSTS = [
-    'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&q=80&w=800',
-  ];
-
   return (
-    <div className="min-h-screen bg-[#0D0E10] text-[#F3EFE7]">
-      {/* 
-        1. CINEMATIC HERO SECTION
-      */}
-      <section className="relative h-screen min-h-[640px] max-h-[1080px] w-full flex items-center justify-center overflow-hidden">
-        {/* Background Video / Visual Image Layer */}
-        <div className="absolute inset-0 z-0">
+    <div className="min-h-screen bg-[#FAFAF8] text-[#111111]">
+
+      {/* ═══════════════════════════════════════════
+          SECTION 01 — FULL-SCREEN CAMPAIGN HERO
+      ══════════════════════════════════════════ */}
+      <section className="relative w-full h-screen min-h-[640px] overflow-hidden">
+        {/* Campaign image */}
+        <Image
+          src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=90&w=2400"
+          alt="FUKU Autumn / Winter 2026 Campaign"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        {/* Minimal dark overlay — bottom only so top of image stays clean */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+
+        {/* Hero copy — bottom-left, editorial */}
+        <div className="absolute bottom-16 left-0 right-0 px-6 md:px-12 max-w-7xl mx-auto">
+          <div className="max-w-xl">
+            <p className="text-label uppercase tracking-[0.2em] text-white/70 mb-4">
+              Autumn / Winter 2026
+            </p>
+            <h1
+              className="text-white font-display font-light leading-[0.95] mb-6"
+              style={{ fontSize: 'clamp(48px, 7vw, 88px)', letterSpacing: '-0.03em' }}
+            >
+              THE NEW<br />FORM.
+            </h1>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/women"
+                className="text-label uppercase tracking-[0.12em] text-white border-b border-white/50 hover:border-white transition-colors duration-200 pb-0.5"
+              >
+                Shop Women
+              </Link>
+              <span className="text-white/30 text-xs">—</span>
+              <Link
+                href="/men"
+                className="text-label uppercase tracking-[0.12em] text-white border-b border-white/50 hover:border-white transition-colors duration-200 pb-0.5"
+              >
+                Shop Men
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 right-10 hidden md:flex flex-col items-center gap-2 text-white/50">
+          <span className="text-label uppercase tracking-[0.15em]" style={{ writingMode: 'vertical-rl', fontSize: '9px' }}>Scroll</span>
+          <div className="w-px h-10 bg-white/30 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-white/60 animate-[reveal-up_1.8s_ease_infinite]" />
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          SECTION 02 — EDITORIAL SPLIT
+      ══════════════════════════════════════════ */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[80vh]">
+        {/* Image */}
+        <div className="relative min-h-[400px] lg:min-h-0 bg-[#F3F3F1]">
           <Image
-            src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=85&w=2000"
-            alt="FUKU 2026 Archive Hero"
+            src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1200"
+            alt="FUKU — Form / Function"
             fill
-            priority
-            className="object-cover object-center grayscale contrast-125 opacity-70"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0D0E10] via-[#0D0E10]/40 to-[#0D0E10]/80" />
         </div>
 
-        {/* Hero Copy & Action Bar */}
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-8 text-center space-y-6 pt-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-black/60 backdrop-blur-md border border-[#3A3D40] text-xs font-mono font-bold tracking-[0.2em] uppercase text-white">
-            <Sparkles className="w-3.5 h-3.5 text-[#FF3B30]" />
-            <span>Drop 01: Spring / Summer 2026 Runway Series</span>
-          </div>
-
-          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-[-0.04em] text-white leading-tight">
-            Future Bengal <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#F3EFE7] to-[#A0A4A8]">
-              Industrial
-            </span>
-          </h1>
-
-          <p className="text-xs sm:text-sm md:text-base text-[#C0C4C8] max-w-xl mx-auto font-sans leading-relaxed">
-            Architectural silhouettes engineered in Dhaka. Handspun Jamdani muslin, Japanese heavy technical knits, and deconstructed tailoring.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link
-              href="/shop"
-              className="w-full sm:w-auto px-8 py-4 bg-white text-black hover:bg-[#E5E0D8] font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-2xl group"
+        {/* Editorial text */}
+        <div className="flex flex-col justify-center px-8 md:px-16 py-20 bg-[#FAFAF8]">
+          <RevealSection>
+            <p className="text-editorial-label mb-6">The Edit</p>
+            <h2
+              className="font-display font-light text-[#111111] leading-[1.0] mb-6"
+              style={{ fontSize: 'clamp(36px, 4vw, 56px)', letterSpacing: '-0.03em' }}
             >
-              <ShoppingBag className="w-4 h-4" />
-              <span>Shop All Garments</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-
+              FORM /<br />FUNCTION.
+            </h2>
+            <p className="text-body text-[#6B6B6B] max-w-sm mb-8 leading-relaxed">
+              Garments engineered from handspun Jamdani muslin and Japanese technical knits. Designed for everyday movement, refined for every occasion.
+            </p>
             <Link
-              href="/new-drop"
-              className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white/40 hover:border-white hover:bg-white/10 text-white font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all backdrop-blur-sm"
+              href="/collections"
+              className="inline-flex items-center gap-2 text-label uppercase tracking-[0.12em] text-[#111111] border-b border-[#111111] pb-0.5 hover:text-[#6B6B6B] hover:border-[#6B6B6B] transition-colors duration-150 self-start"
             >
-              <span>Explore New Drop</span>
+              Explore Collections
+              <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
             </Link>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/60 font-mono text-[10px] uppercase tracking-widest animate-bounce">
-          <span>Scroll to Explore</span>
-          <div className="w-4 h-7 border border-white/40 rounded-full flex items-start justify-center p-1">
-            <div className="w-1 h-2 bg-white rounded-full" />
-          </div>
+          </RevealSection>
         </div>
       </section>
 
-      {/* 
-        2. VALUE PROPOSITION BAR
-      */}
-      <section className="border-t border-b border-[#202224] bg-[#111214] py-6 px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center md:text-left">
-          <div className="flex flex-col md:flex-row items-center gap-3">
-            <Truck className="w-6 h-6 text-[#FF3B30] shrink-0" />
-            <div>
-              <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white">
-                24-48h Dhaka Dispatch
-              </h4>
-              <p className="text-[11px] text-[#8C9094] font-mono">Nationwide courier delivery</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row items-center gap-3">
-            <ShieldCheck className="w-6 h-6 text-emerald-400 shrink-0" />
-            <div>
-              <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white">
-                Master Artisan Weaves
-              </h4>
-              <p className="text-[11px] text-[#8C9094] font-mono">Authentic Jamdani &amp; Khadi</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row items-center gap-3">
-            <RefreshCw className="w-6 h-6 text-[#FF3B30] shrink-0" />
-            <div>
-              <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white">
-                7-Day Free Exchange
-              </h4>
-              <p className="text-[11px] text-[#8C9094] font-mono">Flagship or doorstep pickup</p>
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row items-center gap-3">
-            <Sparkles className="w-6 h-6 text-amber-400 shrink-0" />
-            <div>
-              <h4 className="font-display text-xs font-bold uppercase tracking-wider text-white">
-                Cash on Delivery
-              </h4>
-              <p className="text-[11px] text-[#8C9094] font-mono">bKash, Nagad &amp; Card</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 
-        3. FEATURED CATEGORIES SHOWCASE
-      */}
-      <section className="py-16 md:py-24 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto space-y-12">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#202224]">
+      {/* ═══════════════════════════════════════════
+          SECTION 03 — NEW ARRIVALS
+      ══════════════════════════════════════════ */}
+      <section className="py-20 md:py-28 px-6 md:px-12 max-w-[1440px] mx-auto">
+        <RevealSection className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FF3B30] font-bold block mb-1">
-              Curated Silhouettes
-            </span>
-            <h2 className="font-display text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-white">
-              Featured Categories
+            <p className="text-editorial-label mb-2">Seasonal Release</p>
+            <h2
+              className="font-display font-light text-[#111111]"
+              style={{ fontSize: 'clamp(28px, 3vw, 40px)', letterSpacing: '-0.025em' }}
+            >
+              New In
             </h2>
           </div>
           <Link
-            href="/shop"
-            className="text-xs font-mono uppercase tracking-wider text-[#A0A4A8] hover:text-white flex items-center gap-1.5 hover:underline"
+            href="/new-drop"
+            className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 flex items-center gap-1.5"
           >
-            <span>View All Categories</span>
-            <ChevronRight className="w-4 h-4" />
+            View All
+            <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
           </Link>
-        </div>
+        </RevealSection>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {CATEGORIES.map((cat, idx) => (
-            <Link
-              key={idx}
-              href={cat.href}
-              className="group relative aspect-[3/4] bg-[#141517] border border-[#242628] overflow-hidden flex flex-col justify-end p-6"
-            >
-              <Image
-                src={cat.image}
-                alt={cat.title}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {newArrivals.map((product, i) => (
+            <RevealSection key={product.id} delay={i * 0.07}>
+              <ProductCard
+                product={product}
+                onQuickView={(p) => setQuickViewProduct(p)}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent transition-opacity duration-300 group-hover:opacity-95" />
-
-              <div className="relative z-10 space-y-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#FF3B30] font-bold block">
-                  Category 0{idx + 1}
-                </span>
-                <h3 className="font-display text-lg font-bold uppercase tracking-wider text-white group-hover:text-white transition-colors">
-                  {cat.title}
-                </h3>
-                <p className="text-[11px] text-[#A0A4A8] font-sans line-clamp-1">
-                  {cat.subtitle}
-                </p>
-                <div className="pt-2 text-[11px] font-mono uppercase tracking-widest text-white flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <span>Explore Line</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            </Link>
+            </RevealSection>
           ))}
         </div>
       </section>
 
-      {/* 
-        4. NEW ARRIVALS & SPRING 2026 RUNWAY
-      */}
-      <section className="py-16 md:py-24 px-4 sm:px-8 md:px-12 bg-[#101113] border-t border-b border-[#202224]">
-        <div className="max-w-7xl mx-auto space-y-12">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#202224]">
-            <div>
-              <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FF3B30] font-bold block mb-1">
-                Seasonal Release
-              </span>
-              <h2 className="font-display text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-white">
-                New Arrivals
-              </h2>
-            </div>
-            <Link
-              href="/new-drop"
-              className="text-xs font-mono uppercase tracking-wider text-[#A0A4A8] hover:text-white flex items-center gap-1.5 hover:underline"
+      {/* ═══════════════════════════════════════════
+          SECTION 04 — FULL-BLEED COLLECTION BANNER
+      ══════════════════════════════════════════ */}
+      <section className="relative w-full min-h-[60vh] md:min-h-[70vh] overflow-hidden bg-[#111111]">
+        <Image
+          src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=2000"
+          alt="FUKU Men's Collection"
+          fill
+          className="object-cover object-top opacity-60"
+        />
+        <div className="relative z-10 h-full min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end px-6 md:px-12 pb-16 max-w-7xl mx-auto">
+          <RevealSection>
+            <p className="text-editorial-label text-white/60 mb-3">Men's Collection</p>
+            <h2
+              className="font-display font-light text-white mb-6"
+              style={{ fontSize: 'clamp(36px, 5vw, 64px)', letterSpacing: '-0.03em', lineHeight: '1.0' }}
             >
-              <span>View Full Drop ({newArrivals.length} pieces)</span>
-              <ChevronRight className="w-4 h-4" />
+              ESSENTIALS,<br />REFINED.
+            </h2>
+            <Link
+              href="/men"
+              className="inline-flex items-center gap-2 text-label uppercase tracking-[0.12em] text-white border-b border-white/50 hover:border-white transition-colors duration-150 pb-0.5"
+            >
+              Shop Men
+              <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
             </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
-            {newArrivals.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onQuickView={(p) => setQuickViewProduct(p)}
-              />
-            ))}
-          </div>
+          </RevealSection>
         </div>
       </section>
 
-      {/* 
-        5. PROMOTIONAL HERO BANNER ("Elevate Your Everyday")
-      */}
-      <section className="relative py-24 md:py-32 px-4 sm:px-8 md:px-12 overflow-hidden border-b border-[#202224]">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1800"
-            alt="Promotional Banner"
-            fill
-            className="object-cover object-center grayscale contrast-125"
-          />
-          <div className="absolute inset-0 bg-black/75 backdrop-blur-xs" />
-        </div>
-
-        <div className="relative z-10 max-w-4xl mx-auto text-center space-y-6">
-          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FF3B30] font-bold block">
-            The Atelier Standard
-          </span>
-          <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white leading-tight">
-            Elevate Your Everyday
-          </h2>
-          <p className="text-xs sm:text-sm text-[#C0C4C8] max-w-lg mx-auto font-sans leading-relaxed">
-            High-density 280 GSM long-staple cotton, French terry loopback, and Japanese Cordura outerwear designed for unrelenting daily wear in tropical and urban climates.
-          </p>
-          <div className="pt-2">
-            <Link
-              href="/unisex"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-display font-bold text-xs uppercase tracking-widest hover:bg-[#E5E0D8] transition-colors shadow-2xl"
-            >
-              <span>Explore Everyday Essentials</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 
-        6. BEST SELLERS SECTION
-      */}
-      <section className="py-16 md:py-24 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto space-y-12">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#202224]">
+      {/* ═══════════════════════════════════════════
+          SECTION 05 — BEST SELLERS
+      ══════════════════════════════════════════ */}
+      <section className="py-20 md:py-28 px-6 md:px-12 max-w-[1440px] mx-auto">
+        <RevealSection className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FF3B30] font-bold block mb-1">
-              Collector Favorites
-            </span>
-            <h2 className="font-display text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-white">
-              The FUKU Icons
+            <p className="text-editorial-label mb-2">Always in demand</p>
+            <h2
+              className="font-display font-light text-[#111111]"
+              style={{ fontSize: 'clamp(28px, 3vw, 40px)', letterSpacing: '-0.025em' }}
+            >
+              Best Sellers
             </h2>
           </div>
           <Link
             href="/best-sellers"
-            className="text-xs font-mono uppercase tracking-wider text-[#A0A4A8] hover:text-white flex items-center gap-1.5 hover:underline"
+            className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 flex items-center gap-1.5"
           >
-            <span>View All Best Sellers</span>
-            <ChevronRight className="w-4 h-4" />
+            View All
+            <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
           </Link>
-        </div>
+        </RevealSection>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {bestSellers.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onQuickView={(p) => setQuickViewProduct(p)}
-            />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          {bestSellers.map((product, i) => (
+            <RevealSection key={product.id} delay={i * 0.07}>
+              <ProductCard
+                product={product}
+                onQuickView={(p) => setQuickViewProduct(p)}
+              />
+            </RevealSection>
           ))}
         </div>
       </section>
 
-      {/* 
-        7. EDITORIAL ATELIER STORY & HERITAGE
-      */}
-      <section className="py-16 md:py-24 px-4 sm:px-8 md:px-12 bg-[#111214] border-t border-b border-[#202224]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-6 space-y-6">
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FF3B30] font-bold block">
-              The Narrative
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white leading-tight">
-              Bridging 400 Years of Handloom with Dystopian Techwear
-            </h2>
-            <p className="text-xs sm:text-sm text-[#9CA0A4] leading-relaxed font-sans">
-              Founded in Dhaka, FUKU operates as a modern sartorial atelier. We reject the generic cookie-cutter aesthetics of fast fashion. Each garment is crafted from authentic handwoven Narayanganj Jamdani, Comilla Khadi silk, or rigid Japanese twill with custom matte hardware.
-            </p>
-            <div className="pt-2">
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 font-display text-xs uppercase tracking-widest font-bold text-white hover:text-[#FF3B30] transition-colors"
-              >
-                <span>Read Full Atelier Manifesto</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+      {/* ═══════════════════════════════════════════
+          SECTION 06 — EDITORIAL LOOKBOOK GRID
+      ══════════════════════════════════════════ */}
+      <section className="py-20 px-6 md:px-12 bg-[#F3F3F1]">
+        <RevealSection className="max-w-[1440px] mx-auto">
+          <p className="text-editorial-label mb-8">Lookbook — AW 2026</p>
+          <div className="grid grid-cols-12 gap-3 md:gap-4">
+            {/* Large left image */}
+            <div className="col-span-12 md:col-span-7 relative aspect-[4/5] md:aspect-auto md:row-span-2 bg-[#E8E8E5] overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1200"
+                alt="Lookbook 01"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute bottom-4 left-5">
+                <p className="text-label text-white/80 uppercase tracking-[0.15em]">Look 01</p>
+              </div>
+            </div>
+
+            {/* Top right */}
+            <div className="col-span-6 md:col-span-5 relative aspect-square bg-[#E8E8E5] overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800"
+                alt="Lookbook 02"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute bottom-3 left-4">
+                <p className="text-label text-white/80 uppercase tracking-[0.15em]">Look 02</p>
+              </div>
+            </div>
+
+            {/* Bottom right */}
+            <div className="col-span-6 md:col-span-5 relative aspect-square bg-[#E8E8E5] overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=800"
+                alt="Lookbook 03"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute bottom-3 left-4">
+                <p className="text-label text-white/80 uppercase tracking-[0.15em]">Look 03</p>
+              </div>
             </div>
           </div>
 
-          <div className="lg:col-span-6 grid grid-cols-2 gap-4">
-            <div className="relative aspect-[3/4] bg-[#161719] border border-[#26282B] overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&q=80&w=800"
-                alt="Jamdani handloom weaving"
-                fill
-                className="object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
-              />
-            </div>
-            <div className="relative aspect-[3/4] bg-[#161719] border border-[#26282B] overflow-hidden mt-8">
-              <Image
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=800"
-                alt="Runway look"
-                fill
-                className="object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 
-        8. COLLECTOR CHRONICLES & TESTIMONIALS
-      */}
-      <section className="py-16 md:py-24 px-4 sm:px-8 md:px-12 max-w-7xl mx-auto space-y-12">
-        <div className="text-center space-y-2 max-w-xl mx-auto">
-          <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FF3B30] font-bold block">
-            Collector Chronicles
-          </span>
-          <h2 className="font-display text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-white">
-            Client Testimonials
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {TESTIMONIALS.map((t, idx) => (
-            <div
-              key={idx}
-              className="p-8 bg-[#121315] border border-[#242628] flex flex-col justify-between space-y-6 shadow-xl"
+          <div className="mt-6 flex justify-end">
+            <Link
+              href="/collections"
+              className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 flex items-center gap-1.5"
             >
-              <div className="space-y-4">
-                <div className="flex gap-1 text-amber-400">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current" />
-                  ))}
-                </div>
-                <p className="text-xs sm:text-sm text-[#C0C4C8] font-sans leading-relaxed italic">
-                  &quot;{t.quote}&quot;
-                </p>
-              </div>
-
-              <div className="pt-4 border-t border-[#202224] text-xs font-mono">
-                <div className="font-bold text-white uppercase">{t.author}</div>
-                <div className="text-[11px] text-[#8C9094]">{t.role}</div>
-              </div>
-            </div>
-          ))}
-        </div>
+              View Lookbook
+              <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
+            </Link>
+          </div>
+        </RevealSection>
       </section>
 
-      {/* 
-        9. SOCIAL / INSTAGRAM GALLERY
-      */}
-      <section className="py-12 border-t border-[#202224] bg-[#0E0F10]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8 mb-6 flex justify-between items-end">
-          <div>
-            <span className="text-[11px] font-mono uppercase tracking-widest text-[#FF3B30] font-bold block">
-              @FUKU.ARCHIVE
-            </span>
-            <h3 className="font-display text-xl uppercase font-bold text-white">
-              Visual Lookbook Feed
-            </h3>
-          </div>
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-mono uppercase tracking-wider text-[#A0A4A8] hover:text-white flex items-center gap-1.5"
+      {/* ═══════════════════════════════════════════
+          SECTION 07 — BRAND STATEMENT
+      ══════════════════════════════════════════ */}
+      <section className="py-24 md:py-36 px-6 md:px-12 bg-[#FAFAF8]">
+        <RevealSection className="max-w-5xl mx-auto text-center">
+          <p className="text-editorial-label text-[#9B9B9B] mb-8">FUKU — Dhaka, Bangladesh</p>
+          <blockquote
+            className="font-display font-light text-[#111111]"
+            style={{ fontSize: 'clamp(32px, 5vw, 72px)', letterSpacing: '-0.04em', lineHeight: '1.0' }}
           >
-            <Instagram className="w-4 h-4" />
-            <span>Follow on Instagram</span>
-          </a>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 px-2 sm:px-4">
-          {INSTAGRAM_POSTS.map((img, idx) => (
-            <div
-              key={idx}
-              className="group relative aspect-square bg-[#141517] overflow-hidden border border-[#242628]"
+            &ldquo;BUILT FOR THE<br />EVERYDAY.&rdquo;
+          </blockquote>
+          <div className="mt-10 w-12 h-px bg-[#D9D9D6] mx-auto" />
+          <p className="text-body text-[#6B6B6B] mt-8 max-w-md mx-auto leading-relaxed">
+            Founded in Dhaka. Crafted from authentic Jamdani handloom and Japanese technical fabrics. Every garment, a considered object.
+          </p>
+          <div className="mt-8">
+            <Link
+              href="/about"
+              className="text-label uppercase tracking-[0.12em] text-[#111111] border-b border-[#111111] pb-0.5 hover:text-[#6B6B6B] hover:border-[#6B6B6B] transition-colors duration-150"
             >
-              <Image
-                src={img}
-                alt={`Instagram look ${idx + 1}`}
-                fill
-                sizes="(max-width: 640px) 50vw, 16vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
-                <Instagram className="w-6 h-6" />
-              </div>
-            </div>
-          ))}
-        </div>
+              Our Story
+            </Link>
+          </div>
+        </RevealSection>
       </section>
 
-      {/* 
-        10. VIP NEWSLETTER SUBSCRIPTION
-      */}
-      <section className="py-16 md:py-24 px-4 sm:px-8 md:px-12 bg-[#121315] border-t border-[#202224] text-center">
-        <div className="max-w-2xl mx-auto space-y-6">
-          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FF3B30] font-bold block">
-            Private Access
-          </span>
-          <h2 className="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white">
-            Join the VIP Collector Registry
+      {/* ═══════════════════════════════════════════
+          SECTION 08 — NEWSLETTER (Minimal)
+      ══════════════════════════════════════════ */}
+      <section className="py-20 md:py-28 px-6 md:px-12 border-t border-[#E8E8E5] bg-white">
+        <RevealSection className="max-w-xl mx-auto text-center">
+          <p className="text-editorial-label text-[#9B9B9B] mb-5">Early Access</p>
+          <h2
+            className="font-display font-light text-[#111111] mb-8"
+            style={{ fontSize: 'clamp(28px, 3vw, 40px)', letterSpacing: '-0.025em' }}
+          >
+            Join the Edit
           </h2>
-          <p className="text-xs sm:text-sm text-[#9CA0A4] font-sans leading-relaxed">
-            Subscribers receive 48-hour advance allocation notice for limited Jamdani editions, private salon invitations in Gulshan, and seasonal archive vouchers.
-          </p>
 
           {subscribed ? (
-            <div className="p-4 bg-emerald-950/40 border border-emerald-800/40 text-emerald-300 font-mono text-xs uppercase tracking-wider">
-              Thank you for subscribing. Your private access code has been dispatched.
-            </div>
+            <p className="text-body text-[#6B6B6B]">Thank you. We&apos;ll be in touch.</p>
           ) : (
-            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto pt-2">
+            <form onSubmit={handleNewsletterSubmit} className="flex gap-0 max-w-sm mx-auto">
               <input
                 type="email"
                 required
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
-                placeholder="Enter your email address"
-                className="flex-1 bg-[#18191B] border border-[#2D3033] px-4 py-3.5 text-xs text-white placeholder-[#686D71] focus:outline-none focus:border-white transition-colors uppercase tracking-wider"
+                placeholder="Your email address"
+                className="flex-1 border border-[#D9D9D6] border-r-0 px-4 py-3 text-label text-[#111111] placeholder-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors bg-transparent"
               />
               <button
                 type="submit"
-                className="px-8 py-3.5 bg-white text-black hover:bg-[#E5E0D8] font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-xl"
+                className="px-6 py-3 bg-[#111111] text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 cursor-pointer whitespace-nowrap"
               >
-                <span>Subscribe</span>
-                <Send className="w-3.5 h-3.5" />
+                Subscribe
               </button>
             </form>
           )}
-        </div>
+          <p className="text-label text-[#9B9B9B] mt-4">No spam. Unsubscribe anytime.</p>
+        </RevealSection>
       </section>
 
       {/* Modals */}
@@ -558,12 +393,8 @@ export default function HomePage() {
         product={quickViewProduct}
         isOpen={!!quickViewProduct}
         onClose={() => setQuickViewProduct(null)}
-        onOpenSizeGuide={() => {
-          setQuickViewProduct(null);
-          setIsSizeGuideOpen(true);
-        }}
+        onOpenSizeGuide={() => { setQuickViewProduct(null); setIsSizeGuideOpen(true); }}
       />
-
       <SizeGuideModal
         isOpen={isSizeGuideOpen}
         onClose={() => setIsSizeGuideOpen(false)}

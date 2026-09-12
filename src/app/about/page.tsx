@@ -10,23 +10,23 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#0E0F10] text-[#F3EFE7] py-12 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="min-h-screen bg-[#FAFAFA] text-black py-12 md:py-20 px-4 sm:px-8 md:px-12">
       <div className="max-w-5xl mx-auto space-y-16 md:space-y-24">
         {/* Hero Manifesto */}
         <section className="space-y-6 text-center max-w-3xl mx-auto">
-          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FF3B30] font-bold block">
+          <span className="text-xs font-mono uppercase tracking-[0.25em] text-neutral-500 font-bold block">
             Atelier Manifesto
           </span>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase tracking-tight text-white leading-tight">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase tracking-tight text-black leading-tight">
             Future Bengal Industrial
           </h1>
-          <p className="text-sm sm:text-base text-[#9CA0A4] leading-relaxed font-sans">
+          <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-sans">
             FUKU is an independent fashion house and textile laboratory founded in Dhaka. We operate at the intersection of 400-year heritage handlooms, heavy Japanese technical knits, and deconstructed architectural tailoring.
           </p>
         </section>
 
         {/* Large Visual Frame */}
-        <div className="relative aspect-[16/9] w-full bg-[#141517] border border-[#242628] overflow-hidden">
+        <div className="relative aspect-[16/9] w-full bg-neutral-100 border border-neutral-200 overflow-hidden shadow-sm">
           <Image
             src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1600"
             alt="FUKU Atelier Runway and Workshop"
@@ -34,7 +34,7 @@ export default function AboutPage() {
             className="object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-1000"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6 sm:p-10">
-            <p className="font-mono text-xs uppercase tracking-widest text-[#C0C4C8]">
+            <p className="font-mono text-xs uppercase tracking-widest text-neutral-200">
               Photographed at FUKU Tejgaon Industrial Atelier • Dhaka 2026
             </p>
           </div>
@@ -43,41 +43,41 @@ export default function AboutPage() {
         {/* Pillars of Design */}
         <section className="space-y-10">
           <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#FF3B30] font-bold">
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-bold">
               Core Principles
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase tracking-tight text-white">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase tracking-tight text-black">
               The Three Tenets of FUKU
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 bg-[#121315] border border-[#242628] space-y-4">
-              <Compass className="w-8 h-8 text-white stroke-[1.2]" />
-              <h3 className="font-display text-base font-bold uppercase tracking-wider text-white">
+            <div className="p-8 bg-white border border-neutral-200 shadow-sm space-y-4">
+              <Compass className="w-8 h-8 text-black stroke-[1.2]" />
+              <h3 className="font-display text-base font-bold uppercase tracking-wider text-black">
                 Architectural Form
               </h3>
-              <p className="text-xs text-[#8C9094] leading-relaxed font-sans">
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 We eliminate decorative noise in favor of hard-edge geometric draping, dropped shoulders, and rigid high-GSM double-layered collars that frame the wearer with intentional presence.
               </p>
             </div>
 
-            <div className="p-8 bg-[#121315] border border-[#242628] space-y-4">
-              <Sparkles className="w-8 h-8 text-[#FF3B30] stroke-[1.2]" />
-              <h3 className="font-display text-base font-bold uppercase tracking-wider text-white">
+            <div className="p-8 bg-white border border-neutral-200 shadow-sm space-y-4">
+              <Sparkles className="w-8 h-8 text-black stroke-[1.2]" />
+              <h3 className="font-display text-base font-bold uppercase tracking-wider text-black">
                 Heritage Re-framed
               </h3>
-              <p className="text-xs text-[#8C9094] leading-relaxed font-sans">
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 Jamdani and Khadi are not relics of antiquity. We collaborate with master artisans in Narayanganj and Comilla to weave modernist monochrome geometry into ultra-fine 200-count muslin.
               </p>
             </div>
 
-            <div className="p-8 bg-[#121315] border border-[#242628] space-y-4">
-              <ShieldCheck className="w-8 h-8 text-emerald-400 stroke-[1.2]" />
-              <h3 className="font-display text-base font-bold uppercase tracking-wider text-white">
+            <div className="p-8 bg-white border border-neutral-200 shadow-sm space-y-4">
+              <ShieldCheck className="w-8 h-8 text-black stroke-[1.2]" />
+              <h3 className="font-display text-base font-bold uppercase tracking-wider text-black">
                 Ethical Permanence
               </h3>
-              <p className="text-xs text-[#8C9094] leading-relaxed font-sans">
+              <p className="text-xs text-neutral-600 leading-relaxed font-sans">
                 Every piece is constructed to outlive fast-fashion obsolescence. We use vegetable-tanned full-grain leather, forged 925 sterling silver hardware, and Japanese Kurabo selvedge denim.
               </p>
             </div>
@@ -85,9 +85,9 @@ export default function AboutPage() {
         </section>
 
         {/* Story Paragraphs */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pt-8 border-t border-[#202224]">
-          <div className="space-y-6 text-xs sm:text-sm text-[#9CA0A4] leading-relaxed font-sans">
-            <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase tracking-tight text-white">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pt-8 border-t border-neutral-200">
+          <div className="space-y-6 text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase tracking-tight text-black">
               Born in Dhaka. Worn Worldwide.
             </h2>
             <p>
@@ -98,7 +98,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="relative aspect-[4/3] bg-[#161719] border border-[#242628] overflow-hidden">
+          <div className="relative aspect-[4/3] bg-neutral-100 border border-neutral-200 overflow-hidden shadow-sm">
             <Image
               src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1200"
               alt="Artisan pattern tailoring"
@@ -109,16 +109,16 @@ export default function AboutPage() {
         </section>
 
         {/* CTA Footer Section */}
-        <div className="p-10 md:p-16 bg-[#121315] border border-[#242628] text-center space-y-6">
-          <h3 className="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
+        <div className="p-10 md:p-16 bg-white border border-neutral-200 shadow-sm text-center space-y-6">
+          <h3 className="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-black">
             Experience the 2026 Archive
           </h3>
-          <p className="text-xs sm:text-sm text-[#8C9094] max-w-md mx-auto">
+          <p className="text-xs sm:text-sm text-neutral-600 max-w-md mx-auto">
             Discover our limited drops, tactical kimonos, and handwoven Jamdani editions.
           </p>
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-display font-bold text-xs uppercase tracking-widest hover:bg-[#E5E0D8] transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-black text-white font-display font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors shadow-sm"
           >
             <span>Explore Collection</span>
             <ArrowRight className="w-4 h-4" />

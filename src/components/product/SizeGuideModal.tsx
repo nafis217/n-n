@@ -92,21 +92,21 @@ export function SizeGuideModal({ isOpen, onClose, category = 'unisex' }: SizeGui
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-2xl bg-[#121314] border border-[#2B2D30] text-white p-6 sm:p-8 shadow-2xl z-10 animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-2xl bg-white border border-neutral-300 text-neutral-900 p-6 sm:p-8 shadow-2xl z-10 animate-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-[#242628] pb-4 mb-6">
+        <div className="flex items-start justify-between border-b border-neutral-200 pb-4 mb-6">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-[#A0A3A6] uppercase tracking-widest mb-1">
-              <Ruler className="w-4 h-4 text-[#FF3B30]" />
+            <div className="flex items-center gap-2 text-xs font-mono text-neutral-500 uppercase tracking-widest mb-1">
+              <Ruler className="w-4 h-4 text-black" />
               <span>Sartorial Spec Sheet</span>
             </div>
-            <h2 className="font-display text-lg tracking-wider uppercase font-bold text-white">
+            <h2 className="font-display text-lg tracking-wider uppercase font-bold text-black">
               Garment Size & Dimension Guide
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-[#8C9094] hover:text-white transition-colors"
+            className="p-1.5 text-neutral-500 hover:text-black transition-colors"
             aria-label="Close size guide"
           >
             <X className="w-5 h-5" />
@@ -115,14 +115,14 @@ export function SizeGuideModal({ isOpen, onClose, category = 'unisex' }: SizeGui
 
         {/* Unit Toggle */}
         <div className="flex items-center justify-between mb-4">
-          <div className="text-xs text-[#8C9094] font-mono">
-            Category: <strong className="text-white uppercase">{category}</strong>
+          <div className="text-xs text-neutral-600 font-mono">
+            Category: <strong className="text-black uppercase">{category}</strong>
           </div>
-          <div className="flex items-center bg-[#1C1E20] border border-[#2F3235] p-0.5">
+          <div className="flex items-center bg-neutral-100 border border-neutral-300 p-0.5 shadow-xs">
             <button
               onClick={() => setUnit('in')}
               className={`px-3 py-1 text-xs font-mono uppercase tracking-wider transition-colors ${
-                unit === 'in' ? 'bg-white text-black font-bold' : 'text-[#8C9094] hover:text-white'
+                unit === 'in' ? 'bg-black text-white font-bold' : 'text-neutral-600 hover:text-black'
               }`}
             >
               Inches
@@ -130,7 +130,7 @@ export function SizeGuideModal({ isOpen, onClose, category = 'unisex' }: SizeGui
             <button
               onClick={() => setUnit('cm')}
               className={`px-3 py-1 text-xs font-mono uppercase tracking-wider transition-colors ${
-                unit === 'cm' ? 'bg-white text-black font-bold' : 'text-[#8C9094] hover:text-white'
+                unit === 'cm' ? 'bg-black text-white font-bold' : 'text-neutral-600 hover:text-black'
               }`}
             >
               Centimeters
@@ -139,35 +139,33 @@ export function SizeGuideModal({ isOpen, onClose, category = 'unisex' }: SizeGui
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto border border-[#25282A] mb-6">
+        <div className="overflow-x-auto border border-neutral-200 mb-6 bg-white shadow-xs">
           <table className="w-full text-left border-collapse text-xs font-mono">
             <thead>
-              <tr className="bg-[#191B1D] text-[#A0A3A6] uppercase tracking-widest border-b border-[#25282A]">
-                <th className="p-3 border-r border-[#25282A]">Size</th>
-                <th className="p-3 border-r border-[#25282A]">Chest ({unit})</th>
-                <th className="p-3 border-r border-[#25282A]">Length ({unit})</th>
-                <th className="p-3 border-r border-[#25282A]">Shoulder ({unit})</th>
+              <tr className="bg-neutral-50 text-neutral-600 uppercase tracking-widest border-b border-neutral-200">
+                <th className="p-3 border-r border-neutral-200 font-bold text-black">Size</th>
+                <th className="p-3 border-r border-neutral-200">Chest ({unit})</th>
+                <th className="p-3 border-r border-neutral-200">Length ({unit})</th>
+                <th className="p-3 border-r border-neutral-200">Shoulder ({unit})</th>
                 <th className="p-3">Sleeve ({unit})</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#202224] text-white/90">
+            <tbody className="divide-y divide-neutral-200 text-neutral-800">
               {sizeChartData.map((row) => (
-                <tr key={row.size} className="hover:bg-white/[0.02] transition-colors">
-                  <td className="p-3 font-bold border-r border-[#25282A] bg-[#141517] text-white">
+                <tr key={row.size} className="hover:bg-neutral-50 transition-colors">
+                  <td className="p-3 border-r border-neutral-200 font-bold text-black bg-neutral-50/50">
                     {row.size}
                   </td>
-                  <td className="p-3 border-r border-[#25282A]">
+                  <td className="p-3 border-r border-neutral-200">
                     {unit === 'in' ? row.chestIn : row.chestCm}
                   </td>
-                  <td className="p-3 border-r border-[#25282A]">
+                  <td className="p-3 border-r border-neutral-200">
                     {unit === 'in' ? row.lengthIn : row.lengthCm}
                   </td>
-                  <td className="p-3 border-r border-[#25282A]">
+                  <td className="p-3 border-r border-neutral-200">
                     {unit === 'in' ? row.shoulderIn : row.shoulderCm}
                   </td>
-                  <td className="p-3">
-                    {unit === 'in' ? row.sleeveIn : row.sleeveCm}
-                  </td>
+                  <td className="p-3">{unit === 'in' ? row.sleeveIn : row.sleeveCm}</td>
                 </tr>
               ))}
             </tbody>
@@ -175,13 +173,14 @@ export function SizeGuideModal({ isOpen, onClose, category = 'unisex' }: SizeGui
         </div>
 
         {/* Measuring Tip */}
-        <div className="bg-[#17181A] border border-[#282A2D] p-4 text-xs font-sans text-[#9A9EA2] leading-relaxed flex items-start gap-3">
-          <HelpCircle className="w-4 h-4 text-[#FF3B30] shrink-0 mt-0.5" />
-          <div>
-            <strong className="text-white block font-display text-xs tracking-wider uppercase mb-0.5">
-              How to Measure For FUKU Cuts:
+        <div className="p-4 bg-neutral-50 border border-neutral-200 flex gap-3 items-start">
+          <HelpCircle className="w-4 h-4 text-black shrink-0 mt-0.5" />
+          <div className="text-xs text-neutral-600 font-sans leading-relaxed">
+            <strong className="text-black block mb-0.5 font-display uppercase tracking-wider">
+              Measurement Advice
             </strong>
-            Take measurements over flat clothing. For our architectural and oversized fits, we recommend taking your true standard size for an intentional runway drape, or one size down for a slimmer tailored silhouette.
+            For architectural boxy silhouettes, pick your true measurement. For oversized street
+            draping, size up one grade. Questions? WhatsApp our Dhaka tailoring desk.
           </div>
         </div>
       </div>

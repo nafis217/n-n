@@ -16,32 +16,32 @@ export function ToastContainer() {
     >
       {toasts.map((toast: ToastMessage) => {
         const icons = {
-          success: <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />,
-          error: <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />,
-          warning: <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />,
-          info: <Info className="w-5 h-5 text-blue-400 shrink-0" />,
+          success: <CheckCircle2 className="w-5 h-5 text-black shrink-0" />,
+          error: <AlertCircle className="w-5 h-5 text-black shrink-0" />,
+          warning: <AlertTriangle className="w-5 h-5 text-black shrink-0" />,
+          info: <Info className="w-5 h-5 text-black shrink-0" />,
         };
 
         return (
           <div
             key={toast.id}
             role="status"
-            className="pointer-events-auto bg-[#141515]/95 backdrop-blur-md border border-[#2D3032] text-white p-4 rounded-none shadow-2xl flex items-start gap-3.5 animate-in fade-in slide-in-from-bottom-5 duration-200 transition-all group"
+            className="pointer-events-auto bg-white/95 backdrop-blur-md border border-neutral-300 text-neutral-900 p-4 rounded-none shadow-2xl flex items-start gap-3.5 animate-in fade-in slide-in-from-bottom-5 duration-200 transition-all group"
           >
             <div className="mt-0.5">{icons[toast.type]}</div>
             <div className="flex-1 min-w-0 pr-2">
-              <div className="font-display font-medium text-xs tracking-wider uppercase text-white/95">
+              <div className="font-display font-bold text-xs tracking-wider uppercase text-black">
                 {toast.title}
               </div>
               {toast.message && (
-                <div className="text-[11px] text-[#A0A3A6] mt-0.5 leading-relaxed font-sans">
+                <div className="text-[11px] text-neutral-600 mt-0.5 leading-relaxed font-sans">
                   {toast.message}
                 </div>
               )}
             </div>
             <button
               onClick={() => removeToast(toast.id)}
-              className="text-[#6D7175] hover:text-white transition-colors p-1 -mr-1"
+              className="text-neutral-400 hover:text-black transition-colors p-1 -mr-1"
               aria-label="Dismiss notification"
             >
               <X className="w-4 h-4" />

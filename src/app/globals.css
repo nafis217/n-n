@@ -1,57 +1,191 @@
 @import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Noto+Sans+Bengali:wght@100..900&family=Inter+Tight:ital,wght@0,300..900;1,300..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─────────────────────────────────────────────
+   FONT UTILITIES
+───────────────────────────────────────────── */
 .font-inter-tight {
   font-family: 'Inter Tight', sans-serif;
 }
 
-.bp-card {
-  will-change: transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bp-card {
-    will-change: auto;
-  }
-}
-
+/* ─────────────────────────────────────────────
+   GLOBAL BASE
+───────────────────────────────────────────── */
 @layer base {
+  :root {
+    --header-h: 64px;
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-expo:  cubic-bezier(0.7, 0, 0.84, 0);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    background-color: #fbf9f9;
-    color: #1b1c1c;
+    background-color: #FAFAF8;
+    color: #111111;
     font-family: 'Geist', 'Noto Sans Bengali', sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     margin: 0;
     padding: 0;
   }
 
+  /* Hard-edge minimalism — no rounded corners globally */
   * {
     border-radius: 0px !important;
   }
+
+  /* Focus visible for accessibility */
+  :focus-visible {
+    outline: 1.5px solid #111111;
+    outline-offset: 2px;
+  }
+
+  /* Remove default button/input styles for editorial purity */
+  button, input, textarea, select {
+    font-family: inherit;
+  }
+
+  /* Thin selection color */
+  ::selection {
+    background-color: #111111;
+    color: #FFFFFF;
+  }
 }
 
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
-  font-size: 20px;
+/* ─────────────────────────────────────────────
+   EDITORIAL SCROLL REVEALS
+   Use class="f-reveal" on elements to animate in
+   when they enter the viewport (JS required)
+───────────────────────────────────────────── */
+.f-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.55s var(--ease-out-expo),
+    transform 0.55s var(--ease-out-expo);
 }
 
-/* Hide scrollbars for clean editorial carousel */
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
+.f-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
+
+/* Stagger delays for grid reveals */
+.f-reveal-delay-1 { transition-delay: 0.08s; }
+.f-reveal-delay-2 { transition-delay: 0.16s; }
+.f-reveal-delay-3 { transition-delay: 0.24s; }
+.f-reveal-delay-4 { transition-delay: 0.32s; }
+
+/* ─────────────────────────────────────────────
+   SKELETON LOADING STATES
+───────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #F3F3F1 25%,
+    #E8E8E5 50%,
+    #F3F3F1 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ─────────────────────────────────────────────
+   SCROLLBAR SUPPRESSION (editorial clean)
+───────────────────────────────────────────── */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-/* Hard-edge minimalism transitions */
-.hover-lift {
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+/* Thin scrollbar for non-hidden cases */
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D9D9D6; }
+::-webkit-scrollbar-thumb:hover { background: #9B9B9B; }
+
+/* ─────────────────────────────────────────────
+   PRODUCT IMAGE BLUR-LOAD
+───────────────────────────────────────────── */
+.img-blur-load {
+  filter: blur(8px);
+  transition: filter 0.4s ease;
 }
-.hover-lift:hover {
-  transform: scale(1.01);
+.img-blur-load.loaded {
+  filter: blur(0);
+}
+
+/* ─────────────────────────────────────────────
+   FOOTER VIDEO CONTROLLER (existing, kept)
+───────────────────────────────────────────── */
+.bp-card {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bp-card { will-change: auto; }
+  .f-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   PRODUCT GALLERY LIGHTBOX HELPERS
+───────────────────────────────────────────── */
+.lightbox-open {
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────
+   EDITORIAL TYPOGRAPHY UTILITIES
+───────────────────────────────────────────── */
+.text-editorial-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #6B6B6B;
+}
+
+.text-editorial-section {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────────
+   ACCORDION CHEVRON ANIMATION
+───────────────────────────────────────────── */
+.accordion-chevron {
+  transition: transform 0.2s ease;
+}
+.accordion-chevron.open {
+  transform: rotate(180deg);
+}
+
+/* ─────────────────────────────────────────────
+   PRICE STRIKETHROUGH (sale)
+───────────────────────────────────────────── */
+.price-original {
+  text-decoration: line-through;
+  color: #9B9B9B;
+}
+.price-sale {
+  color: #B42318;
 }

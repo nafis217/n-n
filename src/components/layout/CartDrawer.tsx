@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCartStore } from '@/lib/store/cart';
-import { X, Plus, Minus, Trash2, ArrowRight, ShoppingBag, Tag, Sparkles } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ArrowRight, ShoppingBag } from 'lucide-react';
 
 export function CartDrawer() {
   const {
@@ -25,16 +25,13 @@ export function CartDrawer() {
   const [couponError, setCouponError] = useState('');
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
   if (!mounted) return null;
 
   const subtotal = getSubtotal();
   const total = getTotal();
   const freeShippingThreshold = 10000;
-  const progressToFreeShipping = Math.min(100, Math.round((subtotal / freeShippingThreshold) * 100));
   const amountToFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
 
   const handleApplyCoupon = (e: React.FormEvent) => {
@@ -43,7 +40,7 @@ export function CartDrawer() {
     if (!couponInput.trim()) return;
     const success = applyCoupon(couponInput);
     if (!success) {
-      setCouponError('Invalid voucher code. Try "FUKU10" or "BENGAL20"');
+      setCouponError('Invalid code. Try "FUKU10" or "BENGAL20"');
     } else {
       setCouponInput('');
     }
@@ -56,222 +53,209 @@ export function CartDrawer() {
       {/* Backdrop */}
       <div
         onClick={closeDrawer}
-        className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity animate-in fade-in duration-300"
+        className="absolute inset-0 bg-black/40 transition-opacity animate-reveal-in"
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-white border-l border-neutral-200 text-black flex flex-col shadow-2xl animate-in slide-in-from-right duration-300">
-          {/* Header */}
-          <div className="p-6 border-b border-neutral-200 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <ShoppingBag className="w-5 h-5 text-black" />
-              <h2 className="font-display text-sm tracking-[0.2em] uppercase font-bold text-black">
-                Bag Archive ({items.reduce((sum, item) => sum + item.quantity, 0)})
-              </h2>
-            </div>
-            <button
-              onClick={closeDrawer}
-              className="p-1 text-neutral-500 hover:text-black transition-colors cursor-pointer"
-              aria-label="Close cart drawer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+      {/* Drawer Panel */}
+      <div className="absolute inset-y-0 right-0 w-full max-w-[400px] bg-white flex flex-col animate-slide-in-right border-l border-[#E8E8E5]">
 
-          {/* Free Shipping Progress */}
-          <div className="px-6 py-3 bg-neutral-50 border-b border-neutral-200">
-            <div className="flex items-center justify-between text-[11px] uppercase tracking-wider mb-1.5 font-mono text-neutral-600">
-              {amountToFreeShipping === 0 ? (
-                <span className="text-black font-bold flex items-center gap-1">
-                  <Sparkles className="w-3 h-3" /> Complimentary Delivery Unlocked
-                </span>
-              ) : (
-                <span>Add ৳{amountToFreeShipping.toLocaleString()} for Free Delivery</span>
-              )}
-              <span className="text-black font-bold">{progressToFreeShipping}%</span>
-            </div>
-            <div className="w-full h-1 bg-neutral-200 rounded-none overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8E8E5]">
+          <div>
+            <h2 className="text-label uppercase tracking-[0.12em] text-[#111111]">Your Bag</h2>
+            {items.length > 0 && (
+              <p className="text-label text-[#9B9B9B] mt-0.5">
+                {items.reduce((s, i) => s + i.quantity, 0)} item{items.reduce((s, i) => s + i.quantity, 0) !== 1 ? 's' : ''}
+              </p>
+            )}
+          </div>
+          <button
+            onClick={closeDrawer}
+            className="p-2 text-[#9B9B9B] hover:text-[#111111] transition-colors duration-150 cursor-pointer -mr-2"
+            aria-label="Close"
+          >
+            <X className="w-[18px] h-[18px] stroke-[1.25]" />
+          </button>
+        </div>
+
+        {/* Free shipping indicator */}
+        {items.length > 0 && amountToFreeShipping > 0 && (
+          <div className="px-6 py-3 bg-[#F3F3F1] border-b border-[#E8E8E5]">
+            <p className="text-label text-[#6B6B6B]">
+              Add ৳{amountToFreeShipping.toLocaleString()} for free delivery
+            </p>
+            <div className="mt-2 h-px bg-[#D9D9D6] relative">
               <div
-                className="h-full bg-black transition-all duration-500 ease-out"
-                style={{ width: `${progressToFreeShipping}%` }}
+                className="absolute left-0 top-0 h-px bg-[#111111] transition-all duration-500"
+                style={{ width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%` }}
               />
             </div>
           </div>
+        )}
+        {items.length > 0 && amountToFreeShipping === 0 && (
+          <div className="px-6 py-3 bg-[#F3F3F1] border-b border-[#E8E8E5]">
+            <p className="text-label text-[#286749]">Free delivery unlocked</p>
+          </div>
+        )}
 
-          {/* Cart Items List */}
-          <div className="flex-1 overflow-y-auto p-6 divide-y divide-neutral-200 space-y-4">
-            {items.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center py-12">
-                <div className="w-16 h-16 border border-neutral-300 flex items-center justify-center mb-4 text-neutral-400">
-                  <ShoppingBag className="w-8 h-8 stroke-[1.2]" />
-                </div>
-                <h3 className="font-display uppercase tracking-widest text-xs font-bold text-black mb-1">
-                  Your Bag is Empty
-                </h3>
-                <p className="text-xs text-neutral-500 max-w-[220px] mb-6">
-                  Explore our modern garments and limited drops to curate your collection.
-                </p>
-                <Link
-                  href="/shop"
-                  onClick={closeDrawer}
-                  className="px-6 py-3 bg-black text-white font-display font-bold uppercase tracking-widest text-[11px] hover:bg-neutral-800 transition-colors"
+        {/* Items list */}
+        <div className="flex-1 overflow-y-auto">
+          {items.length === 0 ? (
+            <div className="h-full flex flex-col items-center justify-center text-center px-8 py-16">
+              <ShoppingBag className="w-8 h-8 text-[#D9D9D6] stroke-[1] mb-5" />
+              <p className="text-body text-[#111111] mb-1 uppercase tracking-wider">Your bag is empty</p>
+              <p className="text-body-sm text-[#9B9B9B] mb-8">Add garments to your bag to continue</p>
+              <button
+                onClick={closeDrawer}
+                className="px-6 py-3 bg-[#111111] text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 cursor-pointer"
+              >
+                Continue Shopping
+              </button>
+            </div>
+          ) : (
+            <div className="divide-y divide-[#E8E8E5]">
+              {items.map((item) => (
+                <div
+                  key={`${item.id}-${item.selectedSize}-${item.selectedColor}`}
+                  className="flex gap-4 px-6 py-5"
                 >
-                  Explore Collection
-                </Link>
-              </div>
-            ) : (
-              items.map((item) => (
-                <div key={`${item.id}-${item.selectedSize}-${item.selectedColor}`} className="pt-4 first:pt-0 flex gap-4 group">
-                  {/* Thumbnail */}
-                  <div className="w-20 h-24 bg-neutral-100 relative overflow-hidden shrink-0 border border-neutral-200">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
+                  {/* Product image */}
+                  <Link href={`/product/${item.id}`} onClick={closeDrawer} className="shrink-0">
+                    <div className="w-[64px] h-[80px] bg-[#F3F3F1] relative overflow-hidden">
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </Link>
 
                   {/* Details */}
                   <div className="flex-1 min-w-0 flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
                         <Link
                           href={`/product/${item.id}`}
                           onClick={closeDrawer}
-                          className="font-display text-xs tracking-wider uppercase font-semibold text-black hover:underline transition-colors line-clamp-1"
+                          className="text-label uppercase tracking-[0.08em] text-[#111111] hover:opacity-60 transition-opacity line-clamp-1 block"
                         >
                           {item.title}
                         </Link>
-                        <button
-                          onClick={() => removeItem(item.id, item.selectedSize, item.selectedColor)}
-                          className="text-neutral-400 hover:text-black transition-colors p-0.5 cursor-pointer"
-                          title="Remove item"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
+                        <div className="text-label text-[#9B9B9B] mt-1 space-x-2">
+                          {item.selectedColor && <span>{item.selectedColor}</span>}
+                          {item.selectedSize && <span>· {item.selectedSize}</span>}
+                        </div>
                       </div>
-
-                      <div className="flex items-center gap-2 mt-1 text-[10px] uppercase font-mono text-neutral-500">
-                        {item.selectedSize && <span>Size: <strong className="text-black">{item.selectedSize}</strong></span>}
-                        {item.selectedColor && (
-                          <>
-                            <span>•</span>
-                            <span>{item.selectedColor}</span>
-                          </>
-                        )}
-                      </div>
+                      <button
+                        onClick={() => removeItem(item.id, item.selectedSize, item.selectedColor)}
+                        className="text-[#D9D9D6] hover:text-[#111111] transition-colors duration-150 cursor-pointer shrink-0 pt-0.5"
+                        aria-label="Remove"
+                      >
+                        <X className="w-3.5 h-3.5 stroke-[1.25]" />
+                      </button>
                     </div>
 
                     <div className="flex items-center justify-between mt-3">
-                      {/* Quantity Controller */}
-                      <div className="flex items-center border border-neutral-300 bg-white">
+                      {/* Qty */}
+                      <div className="flex items-center border border-[#D9D9D6]">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1, item.selectedSize, item.selectedColor)}
-                          className="w-6 h-6 flex items-center justify-center text-neutral-600 hover:text-black transition-colors cursor-pointer"
-                          aria-label="Decrease quantity"
+                          className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 cursor-pointer"
                         >
-                          <Minus className="w-3 h-3" />
+                          <Minus className="w-3 h-3 stroke-[1.25]" />
                         </button>
-                        <span className="w-7 text-center font-mono text-xs text-black font-bold">
-                          {item.quantity}
-                        </span>
+                        <span className="w-7 text-center text-label text-[#111111]">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1, item.selectedSize, item.selectedColor)}
-                          className="w-6 h-6 flex items-center justify-center text-neutral-600 hover:text-black transition-colors cursor-pointer"
-                          aria-label="Increase quantity"
+                          className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 cursor-pointer"
                         >
-                          <Plus className="w-3 h-3" />
+                          <Plus className="w-3 h-3 stroke-[1.25]" />
                         </button>
                       </div>
-
-                      {/* Item Total */}
-                      <div className="text-xs font-mono font-bold text-black tracking-wider">
-                        ৳{(item.price * item.quantity).toLocaleString()}
-                      </div>
+                      <span className="text-label text-[#111111]">৳{(item.price * item.quantity).toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
-
-          {/* Footer & Actions */}
-          {items.length > 0 && (
-            <div className="p-6 border-t border-neutral-200 bg-neutral-50 space-y-4">
-              {/* Coupon Code Section */}
-              {couponCode ? (
-                <div className="flex items-center justify-between bg-neutral-100 px-3 py-2 border border-neutral-300 text-xs font-mono">
-                  <span className="text-black font-bold flex items-center gap-1.5">
-                    <Tag className="w-3.5 h-3.5" /> Voucher {couponCode} (-৳{discount.toLocaleString()})
-                  </span>
-                  <button
-                    onClick={removeCoupon}
-                    className="text-neutral-500 hover:text-black text-[11px] underline cursor-pointer"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleApplyCoupon} className="flex gap-2">
-                  <div className="relative flex-1">
-                    <input
-                      type="text"
-                      placeholder="Promo Code (e.g. FUKU10)"
-                      value={couponInput}
-                      onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                      className="w-full bg-white border border-neutral-300 px-3 py-2 text-xs text-black placeholder-neutral-400 uppercase tracking-wider focus:outline-none focus:border-black transition-colors"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-black text-white hover:bg-neutral-800 font-display text-[11px] uppercase tracking-widest font-semibold transition-colors cursor-pointer"
-                  >
-                    Apply
-                  </button>
-                </form>
-              )}
-              {couponError && <p className="text-[10px] text-red-600">{couponError}</p>}
-
-              {/* Subtotal & Breakdown */}
-              <div className="space-y-1.5 text-xs font-mono pt-1">
-                <div className="flex justify-between text-neutral-600">
-                  <span>Subtotal</span>
-                  <span className="text-black font-semibold">৳{subtotal.toLocaleString()}</span>
-                </div>
-                {discount > 0 && (
-                  <div className="flex justify-between text-black font-bold">
-                    <span>Discount</span>
-                    <span>-৳{discount.toLocaleString()}</span>
-                  </div>
-                )}
-                <div className="flex justify-between text-black font-bold pt-2 border-t border-neutral-200 text-sm">
-                  <span className="font-display tracking-wider uppercase">Estimated Total</span>
-                  <span>৳{total.toLocaleString()}</span>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                <Link
-                  href="/bag"
-                  onClick={closeDrawer}
-                  className="w-full py-3.5 text-center border border-black text-black hover:bg-black hover:text-white font-display text-xs font-bold uppercase tracking-widest transition-all"
-                >
-                  View Bag
-                </Link>
-                <Link
-                  href="/checkout"
-                  onClick={closeDrawer}
-                  className="w-full py-3.5 text-center bg-black text-white hover:bg-neutral-800 font-display text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all group"
-                >
-                  <span>Checkout</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
+              ))}
             </div>
           )}
         </div>
+
+        {/* Footer */}
+        {items.length > 0 && (
+          <div className="border-t border-[#E8E8E5] bg-white px-6 py-5 space-y-4">
+            {/* Promo code */}
+            {couponCode ? (
+              <div className="flex items-center justify-between text-label">
+                <span className="text-[#286749] uppercase tracking-[0.08em]">
+                  {couponCode} applied (−৳{discount.toLocaleString()})
+                </span>
+                <button
+                  onClick={removeCoupon}
+                  className="text-[#9B9B9B] hover:text-[#111111] transition-colors cursor-pointer underline"
+                >
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleApplyCoupon} className="flex items-stretch gap-2">
+                <input
+                  type="text"
+                  placeholder="Promo code"
+                  value={couponInput}
+                  onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                  className="flex-1 border border-[#D9D9D6] px-3 py-2 text-label text-[#111111] placeholder-[#9B9B9B] uppercase tracking-[0.08em] focus:outline-none focus:border-[#111111] transition-colors bg-transparent"
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2 border border-[#111111] text-label uppercase tracking-[0.08em] text-[#111111] hover:bg-[#111111] hover:text-white transition-all duration-150 cursor-pointer"
+                >
+                  Apply
+                </button>
+              </form>
+            )}
+            {couponError && <p className="text-label text-[#B42318]">{couponError}</p>}
+
+            {/* Order summary */}
+            <div className="space-y-1.5 text-label">
+              <div className="flex justify-between">
+                <span className="text-[#6B6B6B] uppercase tracking-[0.08em]">Subtotal</span>
+                <span className="text-[#111111]">৳{subtotal.toLocaleString()}</span>
+              </div>
+              {discount > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-[#286749] uppercase tracking-[0.08em]">Discount</span>
+                  <span className="text-[#286749]">−৳{discount.toLocaleString()}</span>
+                </div>
+              )}
+              <div className="flex justify-between pt-2 border-t border-[#E8E8E5] mt-2">
+                <span className="text-[#111111] uppercase tracking-[0.08em]">Total</span>
+                <span className="text-[#111111] font-medium">৳{total.toLocaleString()}</span>
+              </div>
+              <p className="text-label text-[#9B9B9B]">Shipping calculated at checkout</p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-col gap-2.5 pt-1">
+              <Link
+                href="/checkout"
+                onClick={closeDrawer}
+                className="w-full py-3.5 bg-[#111111] text-white text-label uppercase tracking-[0.12em] flex items-center justify-center gap-2 hover:bg-[#333] transition-colors duration-150 group"
+              >
+                <span>Checkout</span>
+                <ArrowRight className="w-3.5 h-3.5 stroke-[1.25] group-hover:translate-x-0.5 transition-transform duration-150" />
+              </Link>
+              <Link
+                href="/bag"
+                onClick={closeDrawer}
+                className="w-full py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.12em] text-[#111111] flex items-center justify-center hover:border-[#111111] transition-colors duration-150"
+              >
+                View Bag
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

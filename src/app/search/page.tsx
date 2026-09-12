@@ -44,25 +44,25 @@ function SearchPageContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0E0F10] text-[#F3EFE7] py-10 md:py-16 px-4 sm:px-8 md:px-12">
+    <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 py-10 md:py-16 px-4 sm:px-8 md:px-12">
       <div className="max-w-7xl mx-auto space-y-10">
         {/* Search Bar Header */}
         <div className="max-w-3xl mx-auto text-center space-y-6">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#FF3B30] font-bold block">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-500 font-bold block">
             Archive Discovery
           </span>
-          <h1 className="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white">
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-black">
             Search Garments &amp; Collections
           </h1>
 
-          <form onSubmit={handleSearchSubmit} className="relative border-b-2 border-white pb-3 flex items-center gap-4">
-            <Search className="w-6 h-6 text-white/80 shrink-0" />
+          <form onSubmit={handleSearchSubmit} className="relative border-b-2 border-black pb-3 flex items-center gap-4 bg-transparent">
+            <Search className="w-6 h-6 text-black shrink-0" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search kimonos, tees, jamdani, trousers, accessories..."
-              className="w-full font-display text-lg sm:text-2xl text-white placeholder-[#686D71] bg-transparent border-none focus:outline-none uppercase font-bold tracking-wider"
+              className="w-full font-display text-lg sm:text-2xl text-black placeholder-neutral-400 bg-transparent border-none focus:outline-none uppercase font-bold tracking-wider"
               autoFocus
             />
             {query && (
@@ -72,7 +72,7 @@ function SearchPageContent() {
                   setQuery('');
                   router.push('/search');
                 }}
-                className="text-[#8C9094] hover:text-white p-1"
+                className="text-neutral-400 hover:text-black p-1"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -81,7 +81,7 @@ function SearchPageContent() {
 
           {/* Popular Search Suggestions */}
           <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-            <span className="font-mono text-xs text-[#8C9094] uppercase tracking-wider mr-2">
+            <span className="font-mono text-xs text-neutral-500 uppercase tracking-wider mr-2">
               Popular Inquiries:
             </span>
             {POPULAR_SEARCHES.map((term) => (
@@ -91,7 +91,7 @@ function SearchPageContent() {
                   setQuery(term);
                   router.push(`/search?q=${encodeURIComponent(term)}`);
                 }}
-                className="px-3 py-1 bg-[#18191B] border border-[#2B2E31] text-xs font-mono text-[#A0A4A8] hover:text-white hover:border-white uppercase transition-colors"
+                className="px-3 py-1 bg-white border border-neutral-300 text-xs font-mono text-neutral-700 hover:text-black hover:border-black uppercase transition-colors shadow-xs"
               >
                 {term}
               </button>
@@ -101,26 +101,26 @@ function SearchPageContent() {
 
         {/* Results Area */}
         {query.trim() !== '' && (
-          <div className="space-y-6 pt-6 border-t border-[#202224]">
-            <div className="flex justify-between items-center text-xs font-mono uppercase tracking-wider text-[#8C9094]">
+          <div className="space-y-6 pt-6 border-t border-neutral-200">
+            <div className="flex justify-between items-center text-xs font-mono uppercase tracking-wider text-neutral-600">
               <span>
-                Found <strong className="text-white">{searchResults.length}</strong> Archive Garments for &quot;{query}&quot;
+                Found <strong className="text-black">{searchResults.length}</strong> Archive Garments for &quot;{query}&quot;
               </span>
             </div>
 
             {searchResults.length === 0 ? (
               /* No results state */
-              <div className="py-20 text-center border border-[#242628] bg-[#121315] p-8 max-w-xl mx-auto">
-                <ShoppingBag className="w-12 h-12 text-[#6A6E72] mx-auto mb-4 stroke-[1.2]" />
-                <h3 className="font-display text-base font-bold uppercase tracking-widest text-white mb-2">
+              <div className="py-20 text-center border border-neutral-200 bg-white p-8 max-w-xl mx-auto shadow-sm">
+                <ShoppingBag className="w-12 h-12 text-neutral-400 mx-auto mb-4 stroke-[1.2]" />
+                <h3 className="font-display text-base font-bold uppercase tracking-widest text-black mb-2">
                   No Matching Garments Found
                 </h3>
-                <p className="text-xs text-[#8C9094] max-w-sm mx-auto mb-6 font-sans">
+                <p className="text-xs text-neutral-600 max-w-sm mx-auto mb-6 font-sans">
                   We could not locate any pieces matching &quot;{query}&quot;. Try broader terms like &quot;tee&quot;, &quot;kimono&quot;, &quot;panjabi&quot;, or &quot;trouser&quot;.
                 </p>
                 <Link
                   href="/shop"
-                  className="inline-block px-8 py-3.5 bg-white text-black font-display font-bold text-xs uppercase tracking-widest hover:bg-[#E5E0D8]"
+                  className="inline-block px-8 py-3.5 bg-black text-white font-display font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors shadow-sm"
                 >
                   Browse Full Shop
                 </Link>
@@ -153,7 +153,7 @@ export default function SearchPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#0E0F10] flex items-center justify-center text-xs font-mono uppercase tracking-widest text-[#8C9094]">
+        <div className="min-h-screen bg-white flex items-center justify-center text-xs font-mono uppercase tracking-widest text-neutral-500">
           Searching Archive Database...
         </div>
       }

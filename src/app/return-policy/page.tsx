@@ -9,24 +9,24 @@ export const metadata = {
 
 export default function ReturnPolicyPage() {
   return (
-    <div className="min-h-screen bg-[#0E0F10] text-[#F3EFE7] py-12 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="min-h-screen bg-[#FAFAFA] text-black py-12 md:py-20 px-4 sm:px-8 md:px-12">
       <div className="max-w-4xl mx-auto space-y-12">
-        <div className="text-center space-y-3 pb-8 border-b border-[#222426]">
-          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FF3B30] font-bold block">
+        <div className="text-center space-y-3 pb-8 border-b border-neutral-200">
+          <span className="text-xs font-mono uppercase tracking-[0.25em] text-neutral-500 font-bold block">
             Client Guarantees
           </span>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-black">
             Return &amp; 7-Day Exchange Policy
           </h1>
-          <p className="text-xs sm:text-sm text-[#8C9094] font-sans max-w-xl mx-auto">
+          <p className="text-xs sm:text-sm text-neutral-600 font-sans max-w-xl mx-auto">
             Ensuring every silhouette matches your exact sartorial expectations.
           </p>
         </div>
 
-        <div className="space-y-8 text-xs sm:text-sm text-[#9CA0A4] leading-relaxed font-sans">
-          <div className="p-8 bg-[#121315] border border-[#242628] space-y-4">
-            <h2 className="font-display text-lg uppercase font-bold text-white flex items-center gap-2">
-              <RefreshCw className="w-5 h-5 text-[#FF3B30]" />
+        <div className="space-y-8 text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
+          <div className="p-8 bg-white border border-neutral-200 shadow-sm space-y-4">
+            <h2 className="font-display text-lg uppercase font-bold text-black flex items-center gap-2">
+              <RefreshCw className="w-5 h-5 text-black" />
               <span>1. 7-Day Complimentary Exchange Window</span>
             </h2>
             <p>
@@ -34,9 +34,9 @@ export default function ReturnPolicyPage() {
             </p>
           </div>
 
-          <div className="p-8 bg-[#121315] border border-[#242628] space-y-4">
-            <h2 className="font-display text-lg uppercase font-bold text-white flex items-center gap-2">
-              <ShieldCheck className="w-5 h-5 text-emerald-400" />
+          <div className="p-8 bg-white border border-neutral-200 shadow-sm space-y-4">
+            <h2 className="font-display text-lg uppercase font-bold text-black flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5 text-black" />
               <span>2. Flagship Walk-In or Courier Pickup</span>
             </h2>
             <p>
@@ -44,8 +44,8 @@ export default function ReturnPolicyPage() {
             </p>
           </div>
 
-          <div className="p-8 bg-[#121315] border border-[#242628] space-y-4">
-            <h2 className="font-display text-lg uppercase font-bold text-white">
+          <div className="p-8 bg-white border border-neutral-200 shadow-sm space-y-4">
+            <h2 className="font-display text-lg uppercase font-bold text-black">
               3. Refund &amp; Store Credit Procedures
             </h2>
             <p>
@@ -54,17 +54,17 @@ export default function ReturnPolicyPage() {
           </div>
         </div>
 
-        <div className="p-8 bg-[#121315] border border-[#242628] text-center space-y-4">
-          <h3 className="font-display text-base uppercase font-bold text-white">
+        <div className="p-8 bg-white border border-neutral-200 shadow-sm text-center space-y-4">
+          <h3 className="font-display text-base uppercase font-bold text-black">
             Need to Initiate an Exchange?
           </h3>
-          <p className="text-xs text-[#8C9094]">
+          <p className="text-xs text-neutral-600">
             Access your order history to initiate a one-click return or contact our atelier desk.
           </p>
           <div className="flex justify-center gap-4">
             <Link
               href="/account/orders"
-              className="px-6 py-3 bg-white text-black font-display font-bold text-xs uppercase tracking-widest hover:bg-[#E5E0D8]"
+              className="px-6 py-3 bg-black text-white font-display font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors shadow-sm"
             >
               View My Orders
             </Link>

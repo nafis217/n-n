@@ -465,75 +465,105 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Main Storefront Footer Links */}
-      <div className="max-w-7xl mx-auto pt-16 pb-12 px-margin-mobile md:px-margin-desktop">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div>
-            <h3 className="font-display-lg text-2xl uppercase tracking-wider mb-4 text-white font-black">
+      {/* Editorial Footer Links */}
+      <div className="max-w-7xl mx-auto pt-16 pb-10 px-6 md:px-12">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-14">
+          {/* Brand column */}
+          <div className="col-span-2 md:col-span-1">
+            <Link href="/" className="font-display text-lg tracking-[0.12em] uppercase text-white hover:opacity-70 transition-opacity inline-block mb-5">
               FUKU
-            </h3>
-            <p className="font-body-md text-sm text-neutral-400 mb-6 leading-relaxed">
-              Future Bengal Industrial — A synthesis of high-fashion minimalism, neural world models, and Bangladeshi textile precision.
+            </Link>
+            <p className="text-[12px] text-neutral-500 leading-relaxed mb-5 max-w-[200px]">
+              Contemporary fashion from Dhaka. Handspun heritage, modern form.
             </p>
-            <div className="flex gap-4 items-center">
-              <span className="font-label-caps text-[11px] text-neutral-500">CURRENCY:</span>
-              <span className="font-label-caps text-[11px] text-white font-bold">BDT (৳)</span>
-            </div>
+            <p className="text-[11px] text-neutral-600 uppercase tracking-wider">BDT (৳)</p>
           </div>
 
+          {/* Shop */}
           <div>
-            <h4 className="font-label-caps text-xs uppercase tracking-widest text-neutral-300 mb-4 font-bold border-b border-neutral-800 pb-2">
-              Storefront
-            </h4>
-            <ul className="flex flex-col gap-2.5 font-nav-item text-xs text-neutral-400">
-              <li><Link href="/women" className="hover:text-white transition-colors">Women</Link></li>
-              <li><Link href="/men" className="hover:text-white transition-colors">Men</Link></li>
-              <li><Link href="/unisex" className="hover:text-white transition-colors">Unisex</Link></li>
-              <li><Link href="/panjabi" className="hover:text-white transition-colors">Ethnic Contemporary Panjabi</Link></li>
-              <li><Link href="/collections" className="hover:text-white transition-colors">Jamdani Reframed</Link></li>
+            <h4 className="text-[10px] uppercase tracking-[0.15em] text-neutral-500 mb-4 pb-2 border-b border-neutral-800">Shop</h4>
+            <ul className="flex flex-col gap-2.5">
+              {[
+                { label: 'Women', href: '/women' },
+                { label: 'Men', href: '/men' },
+                { label: 'Panjabi', href: '/panjabi' },
+                { label: 'New Arrivals', href: '/new-drop' },
+                { label: 'Sale', href: '/sale' },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-[12px] text-neutral-400 hover:text-white transition-colors duration-150">{l.label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* Help */}
           <div>
-            <h4 className="font-label-caps text-xs uppercase tracking-widest text-neutral-300 mb-4 font-bold border-b border-neutral-800 pb-2">
-              Client Services &amp; Internal
-            </h4>
-            <ul className="flex flex-col gap-2.5 font-nav-item text-xs text-neutral-400">
-              <li><Link href="/track-order" className="hover:text-white transition-colors">Track Order</Link></li>
-              <li><Link href="/returns" className="hover:text-white transition-colors">Returns &amp; Exchanges</Link></li>
-              <li><Link href="/delivery-info" className="hover:text-white transition-colors">Delivery Information</Link></li>
-              <li><Link href="/store-locator" className="hover:text-white transition-colors">Store Locator (Gulshan &amp; Dhanmondi)</Link></li>
-              <li><Link href="/admin" className="hover:text-vermilion font-bold transition-colors">Staff Admin Dashboard</Link></li>
-              <li><Link href="/pos" className="hover:text-white font-bold transition-colors">Retail POS Terminal</Link></li>
+            <h4 className="text-[10px] uppercase tracking-[0.15em] text-neutral-500 mb-4 pb-2 border-b border-neutral-800">Help</h4>
+            <ul className="flex flex-col gap-2.5">
+              {[
+                { label: 'Contact', href: '/contact' },
+                { label: 'Delivery', href: '/delivery-info' },
+                { label: 'Returns', href: '/returns' },
+                { label: 'Size Guide', href: '/faq' },
+                { label: 'Track Order', href: '/track-order' },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-[12px] text-neutral-400 hover:text-white transition-colors duration-150">{l.label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* About */}
           <div>
-            <h4 className="font-label-caps text-xs uppercase tracking-widest text-neutral-300 mb-4 font-bold border-b border-neutral-800 pb-2">
-              Join the Circle
-            </h4>
-            <p className="font-body-md text-xs text-neutral-400 mb-4">
-              Receive exclusive notifications for private drops and editorial releases.
+            <h4 className="text-[10px] uppercase tracking-[0.15em] text-neutral-500 mb-4 pb-2 border-b border-neutral-800">About</h4>
+            <ul className="flex flex-col gap-2.5">
+              {[
+                { label: 'Our Story', href: '/about' },
+                { label: 'Collections', href: '/collections' },
+                { label: 'Stores', href: '/store-locator' },
+                { label: 'FAQ', href: '/faq' },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-[12px] text-neutral-400 hover:text-white transition-colors duration-150">{l.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Newsletter */}
+          <div>
+            <h4 className="text-[10px] uppercase tracking-[0.15em] text-neutral-500 mb-4 pb-2 border-b border-neutral-800">Newsletter</h4>
+            <p className="text-[12px] text-neutral-500 mb-4 leading-relaxed">
+              Early access to drops and editorial releases.
             </p>
-            <div className="flex border-b border-neutral-600 pb-1">
+            <div className="flex items-stretch border-b border-neutral-600 pb-1">
               <input
                 type="email"
-                placeholder="ENTER YOUR EMAIL"
-                className="w-full bg-transparent font-label-caps text-xs text-white placeholder:text-neutral-500 focus:outline-none uppercase"
+                placeholder="Your email"
+                className="flex-1 bg-transparent text-[11px] text-white placeholder:text-neutral-600 focus:outline-none uppercase tracking-wider"
               />
-              <button className="font-label-caps text-xs text-white uppercase font-bold hover:text-vermilion transition-colors">
-                JOIN
+              <button className="text-[11px] text-white uppercase tracking-wider font-medium hover:text-neutral-400 transition-colors duration-150 cursor-pointer pl-3">
+                Join
               </button>
             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4 font-label-caps text-[11px] text-neutral-500 uppercase">
-          <p>© 2026 FUKU PLATFORM. ALL RIGHTS RESERVED.</p>
-          <div className="flex gap-6">
-            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms &amp; Conditions</Link>
-            <Link href="/return-policy" className="hover:text-white transition-colors">Return Policy</Link>
+        {/* Bottom bar */}
+        <div className="pt-6 border-t border-neutral-900 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-[10px] text-neutral-600 uppercase tracking-wider">© 2026 FUKU. All rights reserved.</p>
+          <div className="flex gap-5">
+            {[
+              { label: 'Privacy', href: '/privacy-policy' },
+              { label: 'Terms', href: '/terms' },
+              { label: 'Returns', href: '/return-policy' },
+            ].map((l) => (
+              <Link key={l.href} href={l.href} className="text-[10px] text-neutral-600 uppercase tracking-wider hover:text-white transition-colors duration-150">
+                {l.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

@@ -80,16 +80,16 @@ export default function FAQPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0E0F10] text-[#F3EFE7] py-12 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="min-h-screen bg-[#FAFAFA] text-black py-12 md:py-20 px-4 sm:px-8 md:px-12">
       <div className="max-w-4xl mx-auto space-y-12">
-        <div className="text-center space-y-3 pb-8 border-b border-[#222426]">
-          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FF3B30] font-bold block">
+        <div className="text-center space-y-3 pb-8 border-b border-neutral-200">
+          <span className="text-xs font-mono uppercase tracking-[0.25em] text-neutral-500 font-bold block">
             Client Knowledge Base
           </span>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-black">
             Frequently Asked Questions
           </h1>
-          <p className="text-xs sm:text-sm text-[#8C9094] font-sans max-w-xl mx-auto">
+          <p className="text-xs sm:text-sm text-neutral-600 font-sans max-w-xl mx-auto">
             Everything you need to know about our architectural cuts, artisanal Jamdani textiles, payment methods, and delivery logistics.
           </p>
         </div>
@@ -97,30 +97,30 @@ export default function FAQPage() {
         {/* Accordions */}
         <div className="space-y-10">
           {FAQ_DATA.map((cat, catIdx) => (
-            <div key={cat.title} className="p-6 sm:p-8 bg-[#121315] border border-[#242628] space-y-4">
-              <h2 className="font-display text-sm uppercase tracking-widest font-bold text-[#FF3B30] pb-3 border-b border-[#202224]">
+            <div key={cat.title} className="p-6 sm:p-8 bg-white border border-neutral-200 shadow-sm space-y-4">
+              <h2 className="font-display text-sm uppercase tracking-widest font-bold text-black pb-3 border-b border-neutral-200">
                 {cat.title}
               </h2>
 
-              <div className="divide-y divide-[#202224]">
+              <div className="divide-y divide-neutral-200">
                 {cat.items.map((item, itemIdx) => {
                   const isOpen = !!openItems[`${catIdx}-${itemIdx}`];
                   return (
                     <div key={item.q} className="py-4 first:pt-2 last:pb-0">
                       <button
                         onClick={() => toggleItem(catIdx, itemIdx)}
-                        className="w-full flex justify-between items-center text-left font-display text-xs sm:text-sm uppercase tracking-wider font-bold text-white hover:text-[#FF3B30] transition-colors"
+                        className="w-full flex justify-between items-center text-left font-display text-xs sm:text-sm uppercase tracking-wider font-bold text-black hover:underline transition-colors"
                       >
                         <span className="pr-4">{item.q}</span>
                         {isOpen ? (
-                          <ChevronUp className="w-4 h-4 shrink-0 text-[#FF3B30]" />
+                          <ChevronUp className="w-4 h-4 shrink-0 text-black" />
                         ) : (
-                          <ChevronDown className="w-4 h-4 shrink-0 text-[#7D8185]" />
+                          <ChevronDown className="w-4 h-4 shrink-0 text-neutral-400" />
                         )}
                       </button>
 
                       {isOpen && (
-                        <p className="mt-3 text-xs text-[#9CA0A4] font-sans leading-relaxed animate-in fade-in duration-200">
+                        <p className="mt-3 text-xs text-neutral-600 font-sans leading-relaxed animate-in fade-in duration-200">
                           {item.a}
                         </p>
                       )}
@@ -133,16 +133,16 @@ export default function FAQPage() {
         </div>
 
         {/* Contact CTA */}
-        <div className="p-8 bg-[#121315] border border-[#242628] text-center space-y-4">
-          <h3 className="font-display text-lg uppercase font-bold text-white">
+        <div className="p-8 bg-white border border-neutral-200 shadow-sm text-center space-y-4">
+          <h3 className="font-display text-base uppercase font-bold text-black">
             Have a Bespoke Sizing Question?
           </h3>
-          <p className="text-xs text-[#8C9094]">
+          <p className="text-xs text-neutral-600">
             Our client care directors in Dhaka are available 7 days a week.
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black font-display font-bold text-xs uppercase tracking-widest hover:bg-[#E5E0D8] transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white font-display font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors shadow-sm"
           >
             <span>Contact Atelier Concierge</span>
             <ArrowRight className="w-4 h-4" />

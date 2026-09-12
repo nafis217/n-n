@@ -29,7 +29,7 @@ export default function ProfileSettingsPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-[#0E0F10] flex items-center justify-center text-xs font-mono text-[#8C9094] uppercase tracking-widest">
+      <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
         Loading Profile Settings...
       </div>
     );
@@ -52,29 +52,29 @@ export default function ProfileSettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0E0F10] text-[#F3EFE7] py-10 md:py-16 px-4 sm:px-8 md:px-12">
+    <div className="min-h-screen bg-[#FAFAFA] text-black py-10 md:py-16 px-4 sm:px-8 md:px-12">
       <div className="max-w-3xl mx-auto space-y-8">
         <Link
           href="/account"
-          className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-[#8C9094] hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-neutral-500 hover:text-black transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Dashboard</span>
         </Link>
 
-        <div className="p-6 sm:p-10 bg-[#121315] border border-[#242628] shadow-2xl space-y-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-[#202224]">
+        <div className="p-6 sm:p-10 bg-white border border-neutral-200 shadow-sm space-y-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-neutral-200">
             <div>
-              <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#FF3B30] font-bold block mb-1">
+              <span className="text-xs font-mono uppercase tracking-[0.2em] text-neutral-500 font-bold block mb-1">
                 Client Profile
               </span>
-              <h1 className="font-display text-2xl font-extrabold uppercase tracking-tight text-white">
+              <h1 className="font-display text-2xl font-extrabold uppercase tracking-tight text-black">
                 Personal Identity &amp; Contact
               </h1>
             </div>
 
             {user && (
-              <span className="px-3 py-1 bg-amber-950/60 border border-amber-700/50 text-xs font-mono font-bold text-amber-300 uppercase">
+              <span className="px-3 py-1 bg-neutral-100 border border-neutral-300 text-xs font-mono font-bold text-black uppercase">
                 {user.memberTier}
               </span>
             )}
@@ -83,7 +83,7 @@ export default function ProfileSettingsPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[#8C9094] mb-1.5">
+                <label className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-1.5">
                   Full Name
                 </label>
                 <input
@@ -91,12 +91,12 @@ export default function ProfileSettingsPage() {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-[#18191B] border border-[#2D3033] px-3.5 py-2.5 text-xs text-white placeholder-[#686D71] focus:outline-none focus:border-white transition-colors"
+                  className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[#8C9094] mb-1.5">
+                <label className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-1.5">
                   Mobile Number (SMS Updates)
                 </label>
                 <input
@@ -104,14 +104,14 @@ export default function ProfileSettingsPage() {
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#18191B] border border-[#2D3033] px-3.5 py-2.5 text-xs text-white placeholder-[#686D71] focus:outline-none focus:border-white transition-colors font-mono"
+                  className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors font-mono"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[#8C9094] mb-1.5">
+                <label className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-1.5">
                   Primary Email
                 </label>
                 <input
@@ -119,25 +119,25 @@ export default function ProfileSettingsPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#18191B] border border-[#2D3033] px-3.5 py-2.5 text-xs text-white placeholder-[#686D71] focus:outline-none focus:border-white transition-colors"
+                  className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-[#8C9094] mb-1.5">
+                <label className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-1.5">
                   Birthday (VIP Annual Gift)
                 </label>
                 <input
                   type="date"
                   value={birthday}
                   onChange={(e) => setBirthday(e.target.value)}
-                  className="w-full bg-[#18191B] border border-[#2D3033] px-3.5 py-2.5 text-xs text-white uppercase focus:outline-none focus:border-white transition-colors font-mono"
+                  className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black uppercase focus:outline-none focus:border-black focus:bg-white transition-colors font-mono"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-[#8C9094] mb-2">
+              <label className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-2">
                 Sartorial Fit Profile
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -153,8 +153,8 @@ export default function ProfileSettingsPage() {
                     onClick={() => setGender(g.id as any)}
                     className={`py-2 text-xs font-mono uppercase tracking-wider border transition-colors ${
                       gender === g.id
-                        ? 'border-white bg-[#1C1E20] text-white font-bold'
-                        : 'border-[#2D3033] bg-[#161719] text-[#8C9094]'
+                        ? 'border-black bg-black text-white font-bold'
+                        : 'border-neutral-300 bg-white text-neutral-600 hover:text-black hover:border-black'
                     }`}
                   >
                     {g.label}
@@ -163,10 +163,10 @@ export default function ProfileSettingsPage() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-[#202224] flex justify-end">
+            <div className="pt-4 border-t border-neutral-200 flex justify-end">
               <button
                 type="submit"
-                className="px-8 py-3.5 bg-white text-black hover:bg-[#E5E0D8] font-display font-bold uppercase tracking-widest text-xs flex items-center gap-2 transition-colors shadow-xl"
+                className="px-8 py-3.5 bg-black text-white hover:bg-neutral-800 font-display font-bold uppercase tracking-widest text-xs flex items-center gap-2 transition-colors shadow-sm"
               >
                 <Save className="w-4 h-4" />
                 <span>Save Profile Changes</span>

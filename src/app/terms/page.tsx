@@ -8,23 +8,23 @@ export const metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-[#0E0F10] text-[#F3EFE7] py-12 md:py-20 px-4 sm:px-8 md:px-12">
+    <div className="min-h-screen bg-[#FAFAFA] text-black py-12 md:py-20 px-4 sm:px-8 md:px-12">
       <div className="max-w-4xl mx-auto space-y-10">
-        <div className="text-center space-y-3 pb-8 border-b border-[#222426]">
-          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FF3B30] font-bold block">
+        <div className="text-center space-y-3 pb-8 border-b border-neutral-200">
+          <span className="text-xs font-mono uppercase tracking-[0.25em] text-neutral-500 font-bold block">
             Legal Protocol
           </span>
-          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-black">
             Terms &amp; Conditions of Sale
           </h1>
-          <p className="text-xs font-mono text-[#8C9094]">
+          <p className="text-xs font-mono text-neutral-500">
             Effective Date: January 1, 2026 • FUKU Atelier Dhaka
           </p>
         </div>
 
-        <div className="p-8 sm:p-10 bg-[#121315] border border-[#242628] space-y-8 text-xs sm:text-sm text-[#9CA0A4] leading-relaxed font-sans">
+        <div className="p-8 sm:p-10 bg-white border border-neutral-200 shadow-sm space-y-8 text-xs sm:text-sm text-neutral-600 leading-relaxed font-sans">
           <section className="space-y-2">
-            <h2 className="font-display text-base uppercase font-bold text-white">
+            <h2 className="font-display text-base uppercase font-bold text-black">
               1. Commercial Agreement
             </h2>
             <p>
@@ -33,7 +33,7 @@ export default function TermsPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-display text-base uppercase font-bold text-white">
+            <h2 className="font-display text-base uppercase font-bold text-black">
               2. Limited Editions &amp; Fabric Variation
             </h2>
             <p>
@@ -42,7 +42,7 @@ export default function TermsPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-display text-base uppercase font-bold text-white">
+            <h2 className="font-display text-base uppercase font-bold text-black">
               3. Intellectual Property Rights
             </h2>
             <p>
@@ -51,7 +51,7 @@ export default function TermsPage() {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-display text-base uppercase font-bold text-white">
+            <h2 className="font-display text-base uppercase font-bold text-black">
               4. Payment &amp; Gateway Security
             </h2>
             <p>
