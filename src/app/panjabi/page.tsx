@@ -1,29 +1,25 @@
-import React from 'react';
-import { ProductCard } from '@/components/product/ProductCard';
-import { CATALOG_PRODUCTS } from '@/lib/queries/products';
+import { Suspense } from 'react';
+import { ShopContent } from '@/components/product/ShopContent';
+
+export const metadata = {
+  title: 'The Panjabi Reinvention | FUKU Archive',
+  description: 'Handspun Khadi silk, blind plackets, and minimalist mandarin collars. Modern heritage Panjabis for the discerning gentleman.',
+};
 
 export default function PanjabiCategoryPage() {
-  const panjabiProducts = CATALOG_PRODUCTS.filter((p) => p.category === 'panjabi');
-
   return (
-    <div className="w-full px-margin-mobile md:px-margin-desktop pt-24 md:pt-28 pb-16">
-      <div className="border-b border-outline-variant pb-8 mb-10">
-        <span className="font-label-caps text-label-caps text-outline uppercase block mb-2 font-semibold">
-          Category
-        </span>
-        <h1 className="font-headline-lg text-4xl uppercase font-semibold text-primary">
-          Ethnic Contemporary Panjabi
-        </h1>
-        <p className="font-body-md text-sm text-secondary mt-2 max-w-2xl">
-          Clean-cut collarless and minimal seam panjabis crafted from heritage Bangladeshi silk and raw cotton.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {panjabiProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-    </div>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0E0F10] flex items-center justify-center text-xs font-mono uppercase tracking-widest text-[#8C9094]">
+          Loading Panjabi Collection...
+        </div>
+      }
+    >
+      <ShopContent
+        initialCategory="panjabi"
+        pageTitle="The Panjabi Reinvention"
+        pageSubtitle="Eliminating excessive ornamentation in favor of superior handspun Khadi silk texture, clean architectural collar geometry, and concealed horn buttons."
+      />
+    </Suspense>
   );
 }

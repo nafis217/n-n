@@ -1,31 +1,25 @@
-import React from 'react';
-import { ProductCard } from '@/components/product/ProductCard';
-import { CATALOG_PRODUCTS } from '@/lib/queries/products';
+import { Suspense } from 'react';
+import { ShopContent } from '@/components/product/ShopContent';
+
+export const metadata = {
+  title: 'Women Collection | FUKU Archive',
+  description: 'Sculptural dresses, draped Jamdani sarees, fluid trousers, and modern tunics for women.',
+};
 
 export default function WomenCategoryPage() {
-  const womenProducts = CATALOG_PRODUCTS.filter(
-    (p) => p.category === 'women' || p.gender === 'WOMEN' || p.gender === 'UNISEX'
-  );
-
   return (
-    <div className="w-full px-margin-mobile md:px-margin-desktop pt-24 md:pt-28 pb-16">
-      <div className="border-b border-outline-variant pb-8 mb-10">
-        <span className="font-label-caps text-label-caps text-outline uppercase block mb-2 font-semibold">
-          Category
-        </span>
-        <h1 className="font-headline-lg text-4xl uppercase font-semibold text-primary">
-          Women's Collection
-        </h1>
-        <p className="font-body-md text-sm text-secondary mt-2 max-w-2xl">
-          Architectural silhouettes, minimalist draping, and reimagined Bengali Jamdani textiles.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {womenProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-    </div>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0E0F10] flex items-center justify-center text-xs font-mono uppercase tracking-widest text-[#8C9094]">
+          Loading Women Collection...
+        </div>
+      }
+    >
+      <ShopContent
+        initialCategory="women"
+        pageTitle="Women Architectural Series"
+        pageSubtitle="Draped handwoven muslin, high-twist crepe wide-leg trousers, and contemporary deconstructed silhouettes."
+      />
+    </Suspense>
   );
 }

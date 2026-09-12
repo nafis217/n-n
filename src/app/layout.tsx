@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
+import { AppLayoutClient } from '@/components/layout/AppLayoutClient';
 
 export const metadata: Metadata = {
-  title: 'BUNON | Modern Bengal Fashion Commerce',
+  title: 'FUKU | Modern Clothing Archive 2026',
   description:
-    'Future Bengal Industrial — A synthesis of high-fashion minimalism and Bangladeshi textile precision.',
+    'Luxury clothing archive & e-commerce for FUKU — Architectural silhouettes and modern Bengali textiles.',
 };
 
 export default function RootLayout({
@@ -16,10 +15,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="bg-background text-on-background min-h-screen flex flex-col justify-between">
-        <Header />
-        <main className="pt-[64px] flex-grow">{children}</main>
-        <Footer />
+      <body className="bg-white text-[#111111] min-h-screen flex flex-col justify-between overflow-x-hidden antialiased selection:bg-black selection:text-white">
+        <AppLayoutClient>{children}</AppLayoutClient>
       </body>
     </html>
   );

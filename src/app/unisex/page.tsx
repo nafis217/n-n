@@ -1,29 +1,25 @@
-import React from 'react';
-import { ProductCard } from '@/components/product/ProductCard';
-import { CATALOG_PRODUCTS } from '@/lib/queries/products';
+import { Suspense } from 'react';
+import { ShopContent } from '@/components/product/ShopContent';
+
+export const metadata = {
+  title: 'Unisex Archive | FUKU Archive',
+  description: 'Tactical kimonos, 280 GSM heavyweight tees, 450 GSM French terry hoodies, and utility vests.',
+};
 
 export default function UnisexCategoryPage() {
-  const unisexProducts = CATALOG_PRODUCTS.filter((p) => p.gender === 'UNISEX');
-
   return (
-    <div className="w-full px-margin-mobile md:px-margin-desktop py-10">
-      <div className="border-b border-outline-variant pb-8 mb-10">
-        <span className="font-label-caps text-label-caps text-outline uppercase block mb-2 font-semibold">
-          Category
-        </span>
-        <h1 className="font-headline-lg text-4xl uppercase font-semibold text-primary">
-          Unisex Collection
-        </h1>
-        <p className="font-body-md text-sm text-secondary mt-2 max-w-2xl">
-          Gender-neutral high-fashion garments designed with geometric precision and hand-loomed textures.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {unisexProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-    </div>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0E0F10] flex items-center justify-center text-xs font-mono uppercase tracking-widest text-[#8C9094]">
+          Loading Unisex Archive...
+        </div>
+      }
+    >
+      <ShopContent
+        initialCategory="unisex"
+        pageTitle="Genderless Utility Archive"
+        pageSubtitle="Designed without gender constraints. Voluminous silhouettes, heavy GSM knits, and magnetic modular hardware."
+      />
+    </Suspense>
   );
 }

@@ -46,6 +46,7 @@ const config: Config = {
         sans: ['Geist', 'Noto Sans Bengali', 'sans-serif'],
         display: ['Geist', 'sans-serif'],
         bengali: ['Noto Sans Bengali', 'sans-serif'],
+        interTight: ["'Inter Tight'", 'sans-serif'],
       },
       fontSize: {
         'display-lg': ['48px', { lineHeight: '1.1', letterSpacing: '-0.04em', fontWeight: '600' }],

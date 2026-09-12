@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>LTX — The world model</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --retake-ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --retake-slow-ease: cubic-bezier(0.65, 0, 0.35, 1);
+      --glass-x: 24%;
+      --glass-y: 8%;
+      --cap-left: -5px;
+      --cap-width: calc(20% + 5px);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Manrope', system-ui, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+    }
+
+    ::selection {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    :focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .stage {
+      position: relative;
+      isolation: isolate;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* Video Media Layers */
+    .media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .media.active {
+      visibility: visible;
+    }
+
+    /* Hero Copy */
+    .hero {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      position: absolute;
+      top: 35.9%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(901px, calc(100vw - 48px));
+      font-size: clamp(62px, 6.8vw, 100px);
+      font-weight: 500;
+      line-height: 0.8;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.14);
+      text-align: center;
+    }
+
+    .hero h1 span {
+      display: inline-block;
+      transition: opacity 900ms var(--retake-ease),
+                  filter 900ms var(--retake-ease),
+                  transform 900ms var(--retake-ease);
+    }
+
+    .hero h1 span:nth-child(1) { transition-delay: 0ms; }
+    .hero h1 span:nth-child(2) { transition-delay: 90ms; }
+    .hero h1 span:nth-child(3) { transition-delay: 180ms; }
+
+    .stage.title-hidden .hero h1 span {
+      opacity: 0;
+      filter: blur(12px);
+      transform: translateY(-10px);
+    }
+
+    .hero p {
+      position: absolute;
+      top: calc(46.78% + 94px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(734px, calc(100vw - 48px));
+      font-size: clamp(14px, 1.25vw, 18px);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+      text-align: center;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.16);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Header */
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 30;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      padding: calc(58px + env(safe-area-inset-top)) 40px 40px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-left a {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .header-left svg {
+      height: 24px;
+      width: auto;
+    }
+
+    .meta {
+      display: flex;
+      margin-left: clamp(48px, 5vw, 70px);
+      gap: clamp(28px, 3vw, 44px);
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+      font-weight: 400;
+    }
+
+    .btn-try {
+      width: 152px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      background: transparent;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: color 300ms var(--retake-ease),
+                  background 300ms var(--retake-ease),
+                  border-color 300ms var(--retake-ease);
+    }
+
+    .btn-try:hover, .btn-try:focus-visible {
+      background: #fff;
+      color: #0b1a26;
+      border-color: #fff;
+    }
+
+    /* Controller */
+    .controller {
+      position: absolute;
+      top: 46.78%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(880px, calc(100vw - 48px));
+      height: 72px;
+      z-index: 20;
+    }
+
+    /* Glass Effect Utilities */
+    .glass {
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background:
+        radial-gradient(120% 150% at var(--glass-x, 24%) var(--glass-y, 8%),
+                        rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0) 53%),
+        linear-gradient(115deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 42%);
+      pointer-events: none;
+    }
+
+    .glass::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: conic-gradient(from 225deg, #7fe3ff, rgba(255, 255, 255, 0.35), #ffffff,
+                                 #ffd7e6, rgba(255, 255, 255, 0.35), #7fe3ff);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+              mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* Rear Track */
+    .track {
+      top: 4px;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      background: rgba(24, 55, 82, 0.31);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(9px) saturate(126%) contrast(108%) brightness(103%);
+      -webkit-backdrop-filter: blur(9px) saturate(126%) contrast(108%) brightness(103%);
+      box-shadow:
+        0 14px 38px rgba(4, 24, 43, 0.16),
+        0 2px 7px rgba(4, 24, 43, 0.1),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.48),
+        inset -1px -1px 0 rgba(21, 49, 73, 0.14),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.16);
+      transition: left 980ms var(--retake-slow-ease),
+                  width 980ms var(--retake-slow-ease),
+                  opacity 400ms linear 0ms;
+    }
+
+    .track::after {
+      opacity: 0.27;
+    }
+
+    /* Foreground Capsule */
+    .capsule {
+      top: -1px;
+      left: var(--cap-left, -5px);
+      width: var(--cap-width, calc(20% + 5px));
+      height: 72px;
+      background: rgba(246, 251, 255, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(13px) saturate(128%) contrast(107%) brightness(105%);
+      -webkit-backdrop-filter: blur(13px) saturate(128%) contrast(107%) brightness(105%);
+      box-shadow:
+        0 11px 28px rgba(4, 24, 43, 0.17),
+        0 2px 6px rgba(4, 24, 43, 0.1),
+        inset 1px 1px 0 rgba(255, 255, 255, 0.62),
+        inset -1px -1px 0 rgba(20, 49, 73, 0.18),
+        inset 0 0 12px rgba(255, 255, 255, 0.055);
+      transition: left 620ms var(--retake-ease),
+                  width 620ms var(--retake-ease),
+                  background 980ms var(--retake-slow-ease);
+    }
+
+    .capsule::after {
+      opacity: 0.30;
+    }
+
+    /* Collapsed & Selected States */
+    .controller.collapsed .capsule {
+      left: calc(50% - 100px);
+      width: 200px;
+      background: rgba(246, 251, 255, 0.14);
+      transition: left 980ms var(--retake-slow-ease),
+                  width 980ms var(--retake-slow-ease),
+                  background 980ms var(--retake-slow-ease);
+    }
+
+    .controller.collapsed .track {
+      left: calc(50% - 96px);
+      width: 192px;
+    }
+
+    .controller.track-faded .track {
+      opacity: 0;
+      transition: opacity 400ms linear 650ms,
+                  left 980ms var(--retake-slow-ease),
+                  width 980ms var(--retake-slow-ease);
+    }
+
+    /* Grid Cells & Buttons */
+    .cells {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: center;
+      z-index: 2;
+    }
+
+    .cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0 14px;
+      font-size: 23px;
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+      white-space: nowrap;
+      color: #fff;
+      background: transparent;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 420ms var(--retake-ease),
+                  filter 420ms var(--retake-ease),
+                  transform 980ms var(--retake-slow-ease);
+    }
+
+    .cell.label-prompt {
+      cursor: default;
+      transition: opacity 300ms var(--retake-ease);
+    }
+
+    .controller.has-hover .cell.label-prompt {
+      opacity: 0.5;
+    }
+
+    .controller.collapsed .cell:not(.chosen) {
+      opacity: 0;
+      filter: blur(10px);
+      transform: scale(0.94);
+      pointer-events: none;
+    }
+
+    .cell.reset-label {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+      animation: revealReset 520ms var(--retake-ease) forwards;
+    }
+
+    @keyframes revealReset {
+      from {
+        opacity: 0;
+        filter: blur(10px);
+      }
+      to {
+        opacity: 1;
+        filter: blur(0);
+      }
+    }
+
+    /* Live Region Notice */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      header {
+        padding: calc(24px + env(safe-area-inset-top)) 24px 24px;
+      }
+      .meta {
+        font-size: 14px;
+        gap: 22px;
+        margin-left: 34px;
+      }
+      .btn-try {
+        width: 116px;
+        height: 36px;
+        font-size: 14px;
+      }
+      .cell {
+        font-size: clamp(17px, 2.5vw, 24px);
+      }
+    }
+
+    @media (max-width: 700px) {
+      header {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+      .header-left svg {
+        height: 21px;
+      }
+      .meta {
+        font-size: 12px;
+      }
+      .meta .tagline {
+        display: none;
+      }
+      .btn-try {
+        width: 92px;
+        height: 34px;
+        font-size: 13px;
+        position: relative;
+      }
+      .btn-try::after {
+        content: '';
+        position: absolute;
+        inset: -6px -10px;
+      }
+
+      .hero h1 {
+        top: 34%;
+        width: calc(100vw - 40px);
+        font-size: clamp(48px, 14vw, 64px);
+        line-height: 0.88;
+        white-space: normal;
+      }
+
+      .hero p {
+        top: 77%;
+        width: calc(100vw - 44px);
+        font-size: 14px;
+      }
+
+      .controller {
+        top: 53%;
+        width: calc(100vw - 40px);
+        height: 156px;
+      }
+
+      .track {
+        top: 0;
+        height: 156px;
+        border-radius: 28px;
+      }
+
+      .cells {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 48px 54px 54px;
+      }
+
+      .cell.label-prompt {
+        grid-column: 1 / -1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .cell {
+        font-size: 17px;
+      }
+
+      .cell:nth-child(2), .cell:nth-child(4) {
+        border-right: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .cell:nth-child(2), .cell:nth-child(3) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
+
+      .capsule {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .controller.collapsed .capsule {
+        opacity: 1;
+        left: 50%;
+        top: 4dvh;
+        transform: translate(-50%, -50%);
+        width: 196px;
+        height: 64px;
+        border-radius: 999px;
+        background: rgba(246, 251, 255, 0.18);
+      }
+    }
+
+    @media (max-width: 700px) and (max-height: 700px) {
+      .controller {
+        top: 50%;
+      }
+      .hero p {
+        top: calc(50% + 168px);
+        width: calc(100vw - 32px);
+        font-size: 13px;
+      }
+    }
+
+    @media (max-height: 520px) and (orientation: landscape) {
+      .hero h1 {
+        top: 20%;
+        font-size: clamp(34px, 8vh, 56px);
+      }
+      .controller {
+        top: 50%;
+      }
+      .hero p {
+        top: auto;
+        bottom: 8px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 700px) and (max-height: 520px) and (orientation: landscape) {
+      .hero h1 {
+        top: 12%;
+        font-size: clamp(28px, 7vh, 44px);
+      }
+      .controller {
+        top: 46%;
+        height: 118px;
+      }
+      .track {
+        height: 118px;
+      }
+      .cells {
+        grid-template-rows: 36px 41px 41px;
+      }
+      .cell {
+        font-size: 15px;
+      }
+      .hero p {
+        bottom: 6px;
+        font-size: 12px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 1ms !important;
+        transition-delay: 0ms !important;
+      }
+      .stage.title-hidden .hero h1 span,
+      .controller.collapsed .cell:not(.chosen) {
+        filter: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <!-- 8 Persistent Video Elements -->
+    <video id="vid-clothing-fwd" class="media active" muted playsinline preload="auto" aria-hidden="true" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-1.mp4"></video>
+    <video id="vid-clothing-rev" class="media" muted playsinline preload="auto" aria-hidden="true" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-1-reverse.mp4"></video>
+
+    <video id="vid-scene-fwd" class="media" muted playsinline preload="auto" aria-hidden="true" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-2.mp4"></video>
+    <video id="vid-scene-rev" class="media" muted playsinline preload="auto" aria-hidden="true" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-2-reverse.mp4"></video>
+
+    <video id="vid-lighting-fwd" class="media" muted playsinline preload="auto" aria-hidden="true" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-3.mp4"></video>
+    <video id="vid-lighting-rev" class="media" muted playsinline preload="auto" aria-hidden="true" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-3-reverse.mp4"></video>
+
+    <video id="vid-cast-fwd" class="media" muted playsinline preload="auto" aria-hidden="true" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-4.mp4"></video>
+    <video id="vid-cast-rev" class="media" muted playsinline preload="auto" aria-hidden="true" src="https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/designs/video-4-reverse.mp4"></video>
+
+    <!-- Hero Copy -->
+    <div class="hero">
+      <h1>
+        <span>The</span> <span>world</span> <span>model</span>
+      </h1>
+      <p>
+        LTX builds open world models that give you full control, from production-grade video to systems that understand and operate in the physical world.
+      </p>
+    </div>
+
+    <!-- Controller Bar -->
+    <div class="controller" id="controller" role="group" aria-label="Scene state controller">
+      <div class="glass track" id="track"></div>
+      <div class="glass capsule" id="capsule"></div>
+
+      <div class="cells" id="cells">
+        <div class="cell label-prompt" id="cell-label">Select state &rarr;</div>
+        <button type="button" class="cell" id="btn-scene" data-key="scene" data-index="1">Scene</button>
+        <button type="button" class="cell" id="btn-lighting" data-key="lighting" data-index="2">Lighting</button>
+        <button type="button" class="cell" id="btn-clothing" data-key="clothing" data-index="3">Clothing</button>
+        <button type="button" class="cell" id="btn-cast" data-key="cast" data-index="4">Cast</button>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+      <div class="header-left">
+        <a href="https://ltx.io/" aria-label="LTX home">
+          <svg viewBox="0 0 75 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0H8.5V23.5H24V32H0V0Z" fill="#FFFFFF"/>
+            <path d="M25.5 0H49.5V8.5H41.8V32H33.3V8.5H25.5V0Z" fill="#FFFFFF"/>
+            <path d="M51 0H59.8L66.7 12.8L73.5 0H82.5L72.2 16.5L83 32H73.8L66.7 19.8L59.5 32H50.5L61.2 16.5L51 0Z" fill="#FFFFFF"/>
+          </svg>
+        </a>
+        <div class="meta">
+          <span>LTX-2.5 is here</span>
+          <span class="tagline">Smarter. Faster</span>
+        </div>
+      </div>
+      <a href="https://app.ltx.io/" target="_blank" rel="noopener noreferrer" class="btn-try">Try now</a>
+    </header>
+
+    <!-- Accessible Status Live Region -->
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // Elements
+      var stage = document.getElementById('stage');
+      var controller = document.getElementById('controller');
+      var track = document.getElementById('track');
+      var capsule = document.getElementById('capsule');
+      var cellLabel = document.getElementById('cell-label');
+      var liveRegion = document.getElementById('live-region');
+
+      var buttons = {
+        scene: document.getElementById('btn-scene'),
+        lighting: document.getElementById('btn-lighting'),
+        clothing: document.getElementById('btn-clothing'),
+        cast: document.getElementById('btn-cast')
+      };
+
+      var videos = {
+        clothing: {
+          fwd: document.getElementById('vid-clothing-fwd'),
+          rev: document.getElementById('vid-clothing-rev'),
+          fwdDur: 2.08,
+          revDur: 2.08,
+          fwdHold: 0.08,
+          revHold: 0.08
+        },
+        scene: {
+          fwd: document.getElementById('vid-scene-fwd'),
+          rev: document.getElementById('vid-scene-rev'),
+          fwdDur: 2.08,
+          revDur: 2.08,
+          fwdHold: 0.08,
+          revHold: 0.18
+        },
+        lighting: {
+          fwd: document.getElementById('vid-lighting-fwd'),
+          rev: document.getElementById('vid-lighting-rev'),
+          fwdDur: 2.08,
+          revDur: 2.04,
+          fwdHold: 0.08,
+          revHold: 0.08
+        },
+        cast: {
+          fwd: document.getElementById('vid-cast-fwd'),
+          rev: document.getElementById('vid-cast-rev'),
+          fwdDur: 3.00,
+          revDur: 2.48,
+          fwdHold: 0.08,
+          revHold: 0.08
+        }
+      };
+
+      // State
+      var currentState = 'base'; // 'base' | 'scene' | 'lighting' | 'clothing' | 'cast'
+      var isLocked = false;
+      var transitionToken = 0;
+      var activeVideo = videos.clothing.fwd;
+
+      // Announce message
+      function announce(msg) {
+        if (liveRegion) liveRegion.textContent = msg;
+      }
+
+      // Capsule Positions
+      var POSITIONS = [
+        { left: '-5px', width: 'calc(20% + 5px)' },
+        { left: '20%', width: '20%' },
+        { left: '40%', width: '20%' },
+        { left: '60%', width: '20%' },
+        { left: '80%', width: 'calc(20% + 5px)' }
+      ];
+
+      function setCapsulePosition(index) {
+        if (controller.classList.contains('collapsed')) return;
+        var p = POSITIONS[index] || POSITIONS[0];
+        controller.style.setProperty('--cap-left', p.left);
+        controller.style.setProperty('--cap-width', p.width);
+      }
+
+      // Pointer glow movement
+      controller.addEventListener('pointermove', function (e) {
+        var rect = controller.getBoundingClientRect();
+        var x = ((e.clientX - rect.left) / rect.width) * 100;
+        var y = ((e.clientY - rect.top) / rect.height) * 100;
+        controller.style.setProperty('--glass-x', x.toFixed(2) + '%');
+        controller.style.setProperty('--glass-y', y.toFixed(2) + '%');
+      });
+
+      // Hover / Focus handlers
+      Object.keys(buttons).forEach(function (key) {
+        var btn = buttons[key];
+        var idx = parseInt(btn.getAttribute('data-index'), 10);
+
+        btn.addEventListener('pointerenter', function () {
+          if (!isLocked && currentState === 'base') {
+            controller.classList.add('has-hover');
+            setCapsulePosition(idx);
+          }
+        });
+
+        btn.addEventListener('focus', function () {
+          if (!isLocked && currentState === 'base') {
+            controller.classList.add('has-hover');
+            setCapsulePosition(idx);
+          }
+        });
+      });
+
+      controller.addEventListener('pointerleave', function () {
+        if (!isLocked && currentState === 'base') {
+          var activeEl = document.activeElement;
+          var hasFocus = false;
+          Object.keys(buttons).forEach(function (k) {
+            if (buttons[k] === activeEl) hasFocus = true;
+          });
+          if (!hasFocus) {
+            controller.classList.remove('has-hover');
+            setCapsulePosition(0);
+          }
+        }
+      });
+
+      // Seam-Safe First Frame Revealer
+      function awaitFirstDecodedFrame(targetVideo) {
+        return new Promise(function (resolve, reject) {
+          var resolved = false;
+
+          function finish() {
+            if (!resolved) {
+              resolved = true;
+              resolve();
+            }
+          }
+
+          if ('requestVideoFrameCallback' in targetVideo) {
+            var handle = function (now, meta) {
+              if (meta.mediaTime <= 0.5 && targetVideo.readyState >= 2) {
+                finish();
+              } else {
+                targetVideo.requestVideoFrameCallback(handle);
+              }
+            };
+            targetVideo.requestVideoFrameCallback(handle);
+          } else {
+            // Fallback double rAF + playing
+            var check = function () {
+              if (targetVideo.readyState >= 2 && !targetVideo.paused) {
+                requestAnimationFrame(function () {
+                  requestAnimationFrame(finish);
+                });
+              } else {
+                requestAnimationFrame(check);
+              }
+            };
+            check();
+          }
+
+          var playPromise = targetVideo.play();
+          if (playPromise && playPromise.catch) {
+            playPromise.catch(function (err) {
+              if (!resolved) {
+                resolved = true;
+                reject(err);
+              }
+            });
+          }
+        });
+      }
+
+      // Playback hold monitor
+      function monitorHold(video, holdOffset, onHeld) {
+        var duration = video.duration || 2.08;
+        var holdTime = Math.max(0, duration - holdOffset);
+        var done = false;
+
+        function check() {
+          if (done) return;
+          if (video.currentTime >= holdTime || video.ended) {
+            done = true;
+            video.pause();
+            video.currentTime = holdTime;
+            onHeld();
+          } else {
+            requestAnimationFrame(check);
+          }
+        }
+
+        requestAnimationFrame(check);
+        video.addEventListener('ended', function onEnded() {
+          video.removeEventListener('ended', onEnded);
+          if (!done) {
+            done = true;
+            video.pause();
+            onHeld();
+          }
+        }, { once: true });
+      }
+
+      // Forward Transition
+      function runForwardTransition(key) {
+        if (isLocked || currentState !== 'base') return;
+        isLocked = true;
+        var token = ++transitionToken;
+
+        var chosenBtn = buttons[key];
+        var hadFocus = document.activeElement === chosenBtn;
+
+        // Synchronously disable buttons
+        Object.keys(buttons).forEach(function (k) {
+          buttons[k].disabled = true;
+        });
+
+        var pair = videos[key];
+        var targetVideo = pair.fwd;
+
+        // 1. Collapse Animation
+        controller.classList.add('collapsed');
+        controller.classList.add('track-faded');
+        chosenBtn.classList.add('chosen');
+
+        // Measure travel offset to capsule center
+        var cRect = controller.getBoundingClientRect();
+        var bRect = chosenBtn.getBoundingClientRect();
+        var cCenterX = cRect.left + cRect.width / 2;
+        var bCenterX = bRect.left + bRect.width / 2;
+        var dx = cCenterX - bCenterX;
+        chosenBtn.style.transform = 'translate(' + dx + 'px, 0px)';
+
+        // Title Hide at ~12% progress
+        var titleHideDelay = Math.min(pair.fwdDur * 0.12, 0.9) * 1000;
+        setTimeout(function () {
+          if (token === transitionToken) {
+            stage.classList.add('title-hidden');
+          }
+        }, titleHideDelay);
+
+        // 2. Play Video Seamlessly
+        targetVideo.currentTime = 0;
+        targetVideo.muted = true;
+
+        awaitFirstDecodedFrame(targetVideo).then(function () {
+          if (token !== transitionToken) return;
+
+          // Atomic visibility switch
+          if (activeVideo && activeVideo !== targetVideo) {
+            activeVideo.classList.remove('active');
+            activeVideo.pause();
+          }
+          targetVideo.classList.add('active');
+          activeVideo = targetVideo;
+
+          // Monitor hold
+          monitorHold(targetVideo, pair.fwdHold, function () {
+            if (token !== transitionToken) return;
+
+            // Commit Selected State
+            currentState = key;
+            chosenBtn.textContent = 'Reset';
+            chosenBtn.classList.add('reset-label');
+            chosenBtn.disabled = false;
+            chosenBtn.setAttribute('aria-label', 'Reset to base scene');
+
+            // Hide other buttons from tab order
+            Object.keys(buttons).forEach(function (k) {
+              if (buttons[k] !== chosenBtn) {
+                buttons[k].setAttribute('aria-hidden', 'true');
+                buttons[k].setAttribute('tabindex', '-1');
+              }
+            });
+
+            if (hadFocus) {
+              chosenBtn.focus({ preventScroll: true });
+            }
+
+            isLocked = false;
+            announce('State changed to ' + key + '. Press Reset to return.');
+          });
+        }).catch(function (err) {
+          console.error('Video transition error:', err);
+          isLocked = false;
+          controller.classList.remove('collapsed');
+          controller.classList.remove('track-faded');
+          chosenBtn.classList.remove('chosen');
+          chosenBtn.style.transform = '';
+          Object.keys(buttons).forEach(function (k) {
+            buttons[k].disabled = false;
+          });
+          announce('Playback failed. Please retry.');
+        });
+      }
+
+      // Reverse Transition
+      function runReverseTransition(key) {
+        if (isLocked || currentState !== key) return;
+        isLocked = true;
+        var token = ++transitionToken;
+
+        var chosenBtn = buttons[key];
+        var hadFocus = document.activeElement === chosenBtn;
+        chosenBtn.disabled = true;
+
+        var pair = videos[key];
+        var revVideo = pair.rev;
+
+        // Reset Button UI & Open Controller in parallel
+        chosenBtn.classList.remove('reset-label');
+        chosenBtn.style.transform = '';
+        chosenBtn.textContent = key.charAt(0).toUpperCase() + key.slice(1);
+
+        controller.classList.remove('collapsed');
+        controller.classList.remove('track-faded');
+        chosenBtn.classList.remove('chosen');
+        setCapsulePosition(0);
+
+        revVideo.currentTime = 0;
+        revVideo.muted = true;
+
+        awaitFirstDecodedFrame(revVideo).then(function () {
+          if (token !== transitionToken) return;
+
+          if (activeVideo && activeVideo !== revVideo) {
+            activeVideo.classList.remove('active');
+            activeVideo.pause();
+          }
+          revVideo.classList.add('active');
+          activeVideo = revVideo;
+
+          monitorHold(revVideo, pair.revHold, function () {
+            if (token !== transitionToken) return;
+
+            // Return to base video parked at frame 0
+            var baseVid = videos.clothing.fwd;
+            baseVid.pause();
+            baseVid.currentTime = 0;
+            baseVid.classList.add('active');
+            if (activeVideo !== baseVid) {
+              activeVideo.classList.remove('active');
+              activeVideo = baseVid;
+            }
+
+            // Reveal Title & Restore Controls
+            stage.classList.remove('title-hidden');
+            currentState = 'base';
+
+            Object.keys(buttons).forEach(function (k) {
+              buttons[k].disabled = false;
+              buttons[k].removeAttribute('aria-hidden');
+              buttons[k].removeAttribute('tabindex');
+              buttons[k].style.transform = '';
+            });
+
+            if (hadFocus) {
+              chosenBtn.focus({ preventScroll: true });
+            }
+
+            isLocked = false;
+            announce('Returned to base scene.');
+          });
+        }).catch(function (err) {
+          console.error('Reverse transition error:', err);
+          isLocked = false;
+          Object.keys(buttons).forEach(function (k) {
+            buttons[k].disabled = false;
+          });
+        });
+      }
+
+      // Button Click Listeners
+      Object.keys(buttons).forEach(function (key) {
+        var btn = buttons[key];
+        btn.addEventListener('click', function () {
+          if (currentState === 'base') {
+            runForwardTransition(key);
+          } else if (currentState === key) {
+            runReverseTransition(key);
+          }
+        });
+      });
+
+      // Initialize Base Scene at Frame 0
+      var baseVideo = videos.clothing.fwd;
+      baseVideo.currentTime = 0;
+      baseVideo.pause();
+
+      setCapsulePosition(0);
+    })();
+  </script>
+</body>
+</html>

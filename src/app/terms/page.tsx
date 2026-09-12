@@ -1,20 +1,64 @@
 import React from 'react';
+import Link from 'next/link';
+
+export const metadata = {
+  title: 'Terms & Conditions | FUKU Archive',
+  description: 'Terms of service, sales terms, intellectual property, and transactional protocols for FUKU garments.',
+};
 
 export default function TermsPage() {
   return (
-    <div className="w-full px-margin-mobile md:px-margin-desktop py-12 max-w-4xl mx-auto">
-      <div className="border-b border-outline-variant pb-8 mb-8">
-        <span className="font-label-caps text-label-caps text-outline uppercase block mb-2 font-semibold">
-          Legal
-        </span>
-        <h1 className="font-headline-lg text-4xl uppercase font-semibold text-primary">
-          Terms &amp; Conditions
-        </h1>
-      </div>
+    <div className="min-h-screen bg-[#0E0F10] text-[#F3EFE7] py-12 md:py-20 px-4 sm:px-8 md:px-12">
+      <div className="max-w-4xl mx-auto space-y-10">
+        <div className="text-center space-y-3 pb-8 border-b border-[#222426]">
+          <span className="text-xs font-mono uppercase tracking-[0.25em] text-[#FF3B30] font-bold block">
+            Legal Protocol
+          </span>
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white">
+            Terms &amp; Conditions of Sale
+          </h1>
+          <p className="text-xs font-mono text-[#8C9094]">
+            Effective Date: January 1, 2026 • FUKU Atelier Dhaka
+          </p>
+        </div>
 
-      <div className="space-y-6 font-body-md text-sm text-secondary leading-relaxed">
-        <p>By accessing the BUNON platform, you agree to comply with our commerce and order terms. All prices are listed in Bangladeshi Taka (BDT ৳) inclusive of applicable taxes.</p>
-        <p>All garment designs, photography, and editorial branding are protected properties of BUNON Platform Bangladesh.</p>
+        <div className="p-8 sm:p-10 bg-[#121315] border border-[#242628] space-y-8 text-xs sm:text-sm text-[#9CA0A4] leading-relaxed font-sans">
+          <section className="space-y-2">
+            <h2 className="font-display text-base uppercase font-bold text-white">
+              1. Commercial Agreement
+            </h2>
+            <p>
+              By accessing the FUKU Archive digital platform, placing a consignment order, or visiting our physical showrooms, you consent to these legal conditions. All prices are denominated in Bangladeshi Taka (BDT ৳) and include applicable local value-added taxes unless stated otherwise.
+            </p>
+          </section>
+
+          <section className="space-y-2">
+            <h2 className="font-display text-base uppercase font-bold text-white">
+              2. Limited Editions &amp; Fabric Variation
+            </h2>
+            <p>
+              Because our Jamdani, Khadi silk, and vegetable-tanned leather pieces are individually crafted by master artisans using traditional pit looms and hand tooling, subtle organic variations in weave texture and dye absorption are natural characteristics of authentic heritage production and do not constitute manufacturing flaws.
+            </p>
+          </section>
+
+          <section className="space-y-2">
+            <h2 className="font-display text-base uppercase font-bold text-white">
+              3. Intellectual Property Rights
+            </h2>
+            <p>
+              All garment silhouettes, proprietary pattern engineering, photographic lookbooks, videography, software code, and brand trademarks are the exclusive intellectual property of FUKU Atelier Dhaka. Unauthorized duplication or commercial imitation is strictly prohibited under international copyright laws.
+            </p>
+          </section>
+
+          <section className="space-y-2">
+            <h2 className="font-display text-base uppercase font-bold text-white">
+              4. Payment &amp; Gateway Security
+            </h2>
+            <p>
+              Digital payments made via bKash, Nagad, Rocket, or SSLCommerz card gateways are processed through 256-bit encrypted merchant conduits. FUKU does not store customer CVV or credit card account secrets on client-facing servers.
+            </p>
+          </section>
+        </div>
       </div>
     </div>
   );

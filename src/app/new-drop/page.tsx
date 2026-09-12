@@ -1,39 +1,25 @@
-import React from 'react';
-import { ProductCard } from '@/components/product/ProductCard';
-import { CATALOG_PRODUCTS } from '@/lib/queries/products';
+import { Suspense } from 'react';
+import { ShopContent } from '@/components/product/ShopContent';
+
+export const metadata = {
+  title: 'New Drop 2026 | FUKU Archive',
+  description: 'Fresh release from FUKU atelier: Spring/Summer 2026 runway pieces.',
+};
 
 export default function NewDropPage() {
-  const newDropProducts = CATALOG_PRODUCTS.filter(
-    (p) => p.collection === 'new-drop-2026' || p.tag === 'NEW'
-  );
-
   return (
-    <div className="w-full px-margin-mobile md:px-margin-desktop pt-24 md:pt-28 pb-16">
-      <div className="w-full aspect-[21/9] bg-surface-container mb-8 overflow-hidden">
-        <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhN9KXDhW5X0_uSX8proRPzhXUzAdbN5F1LT221FDpVHz1Eh2NqiWwwJvZyO1-OD7cvm8pln68IcbESiyRUr-3P3AGMVzpSMCldYMl1spVvnQRFVPyQEXWn5BMELL-TXHMMHQpj-HUoEmy0aNpsUX74PZzxMbcj1ey0VmQAWOFn7mqk2JaZfdPhT9AWz0ciKtLuNKXdOh4FVWCrxU4JxbucGMACl2m4RPF3RGb_3xb5ieA69jK3VrD"
-          alt="New Drop 2026 Editorial"
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-      <div className="border-b border-outline-variant pb-8 mb-10">
-        <span className="font-label-caps text-label-caps text-vermilion uppercase block mb-2 font-bold">
-          Limited Capsule Drop
-        </span>
-        <h1 className="font-headline-lg text-4xl uppercase font-semibold text-primary">
-          New Drop 2026
-        </h1>
-        <p className="font-body-md text-sm text-secondary mt-2 max-w-2xl">
-          The debut capsule celebrating Future Bengal Industrial aesthetic — stark whites, carbon blacks, and structural textiles.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {newDropProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-    </div>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0E0F10] flex items-center justify-center text-xs font-mono uppercase tracking-widest text-[#8C9094]">
+          Loading New Drop...
+        </div>
+      }
+    >
+      <ShopContent
+        initialCategory="new-drop"
+        pageTitle="Drop 01: 2026 Runway Series"
+        pageSubtitle="Limited seasonal batch featuring new technical kimonos, asymmetric draped dresses, and Khadi silk mandarin cuts."
+      />
+    </Suspense>
   );
 }

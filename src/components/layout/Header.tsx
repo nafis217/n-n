@@ -2,20 +2,45 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, User, Heart, ShoppingBag, X } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
+import { Search, User, Heart, ShoppingBag, X, ArrowRight, Sparkles } from 'lucide-react';
 import { useCartStore } from '@/lib/store/cart';
+import { useWishlistStore } from '@/lib/store/wishlist';
+import { useAuthStore } from '@/lib/store/auth';
+import { searchProducts } from '@/lib/queries/products';
 
-type MenuTab = 'women' | 'men' | 'panjabi' | 'collections';
+type MenuTab = 'women' | 'men' | 'panjabi' | 'unisex' | 'collections';
 
 export const Header: React.FC = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState<MenuTab>('women');
-  const [isScrolledDark, setIsScrolledDark] = useState(false);
-  const { getItemCount } = useCartStore();
-  const cartCount = getItemCount();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  // Close menu on ESC key press & handle body scroll lock
+  const isHome = pathname === '/';
+
+  const { getItemCount, openDrawer } = useCartStore();
+  const { wishlistIds } = useWishlistStore();
+  const { isAuthenticated, user } = useAuthStore();
+
+  const cartCount = mounted ? getItemCount() : 0;
+  const wishlistCount = mounted ? wishlistIds.length : 0;
+
+  useEffect(() => {
+    setMounted(true);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 30);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close menu & search on ESC key or route changes
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -24,7 +49,7 @@ export const Header: React.FC = () => {
       }
     };
 
-    if (menuOpen) {
+    if (menuOpen || searchOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -35,236 +60,311 @@ export const Header: React.FC = () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [menuOpen]);
+  }, [menuOpen, searchOpen]);
 
-  const ZARA_MENU_DATA: Record<MenuTab, { categoryTitle: string; items: { name: string; href: string; highlight?: boolean }[] }[]> = {
+  useEffect(() => {
+    setMenuOpen(false);
+    setSearchOpen(false);
+  }, [pathname]);
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setSearchOpen(false);
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
+  const instantResults = searchQuery.trim().length >= 2 ? searchProducts(searchQuery).slice(0, 4) : [];
+
+  const POPULAR_SEARCHES = ['Tactical Kimono', 'Jamdani Saree', 'Heavyweight Tee', 'Khadi Panjabi', 'Linen Blazer', 'Leather Tote'];
+
+  const NAVIGATION_DATA: Record<MenuTab, { categoryTitle: string; items: { name: string; href: string; highlight?: boolean }[] }[]> = {
     women: [
       {
-        categoryTitle: 'COLLECTION 2026',
+        categoryTitle: 'HIGHLIGHTS',
         items: [
-          { name: 'NEW DROP', href: '/new-drop', highlight: true },
-          { name: 'EDITORIAL SERIES', href: '/' },
-          { name: 'LINEAR SILHOUETTES', href: '/collections' },
+          { name: 'ALL WOMEN', href: '/women', highlight: true },
+          { name: 'NEW ARRIVALS', href: '/new-drop', highlight: true },
+          { name: 'BEST SELLERS', href: '/best-sellers' },
+          { name: 'ARCHIVE SALE', href: '/sale' },
         ],
       },
       {
-        categoryTitle: 'CLOTHING',
+        categoryTitle: 'GARMENTS',
         items: [
-          { name: 'ALL WOMEN', href: '/women' },
-          { name: 'LINEN TUNICS', href: '/women' },
-          { name: 'ARCHITECTURAL BLAZERS', href: '/women' },
-          { name: 'WIDE-LEG TROUSERS', href: '/women' },
-          { name: 'COORDINATES', href: '/women' },
+          { name: 'JAMDANI REFRAMED SAREE', href: '/women' },
+          { name: 'DRAPED ATELIER DRESSES', href: '/women' },
+          { name: 'PALAZZO CARGO TROUSERS', href: '/women' },
+          { name: 'RAW LINEN TUNICS', href: '/women' },
         ],
       },
       {
         categoryTitle: 'ACCESSORIES',
         items: [
-          { name: 'COMPONENT PENDANTS', href: '/accessories' },
-          { name: 'HANDBAGS & TOTES', href: '/accessories' },
-          { name: 'LEATHER BELTS', href: '/accessories' },
+          { name: 'GEO-JAMDANI STOLES', href: '/accessories' },
+          { name: 'ATELIER LEATHER TOTE', href: '/accessories' },
+          { name: '925 STERLING SILVER CUFF', href: '/accessories' },
         ],
       },
     ],
     men: [
       {
-        categoryTitle: 'NEW ARRIVALS',
+        categoryTitle: 'HIGHLIGHTS',
         items: [
+          { name: 'ALL MEN', href: '/men', highlight: true },
           { name: 'SPRING DROP 2026', href: '/new-drop', highlight: true },
           { name: 'TAILORED RUNWAY', href: '/collections' },
+          { name: 'BEST SELLERS', href: '/best-sellers' },
         ],
       },
       {
-        categoryTitle: 'SUITING & SHIRTS',
+        categoryTitle: 'TAILORING & SEPARATES',
         items: [
-          { name: 'ALL MEN', href: '/men' },
-          { name: 'MINIMALIST SHIRTS', href: '/men' },
-          { name: 'TAILORED JACKETS', href: '/men' },
-          { name: 'CASUAL TROUSERS', href: '/men' },
+          { name: 'DECONSTRUCTED BLAZERS', href: '/men' },
+          { name: 'PLEATED ARCHITECTURAL TROUSERS', href: '/men' },
+          { name: 'RAW SELVEDGE DENIM JACKET', href: '/men' },
+          { name: 'HEAVYWEIGHT OVERSIZED TEES', href: '/shop' },
         ],
       },
       {
-        categoryTitle: 'HERITAGE',
+        categoryTitle: 'HERITAGE CEREMONIAL',
         items: [
-          { name: 'MODERN PANJABI', href: '/panjabi' },
-          { name: 'WOVEN KURTA', href: '/panjabi' },
+          { name: 'CHARCOAL KHADI SILK PANJABI', href: '/panjabi' },
+          { name: 'MANDARIN FORMAL SHIRTS', href: '/men' },
         ],
       },
     ],
     panjabi: [
       {
-        categoryTitle: 'PANJABI COLLECTION',
+        categoryTitle: 'THE PANJABI REINVENTION',
         items: [
-          { name: 'THE PANJABI REINVENTION', href: '/panjabi', highlight: true },
-          { name: 'COTTON WAFFLE PANJABI', href: '/panjabi' },
-          { name: 'EMBROIDERED HERITAGE', href: '/panjabi' },
-          { name: 'SILK PANJABI', href: '/panjabi' },
+          { name: 'VIEW ALL PANJABIS', href: '/panjabi', highlight: true },
+          { name: 'CHARCOAL KHADI SILK', href: '/panjabi' },
+          { name: 'ORGANIC COTTON WAFFLE', href: '/panjabi' },
+          { name: 'MONOCHROME MINIMALIST', href: '/panjabi' },
         ],
       },
       {
-        categoryTitle: 'JAMDANI & STOLES',
+        categoryTitle: 'HERITAGE ACCESSORIES',
         items: [
-          { name: 'JAMDANI REFRAMED', href: '/collections' },
-          { name: 'GEO-JAMDANI STOLES', href: '/collections' },
-          { name: 'ARTISANAL DUPATTA', href: '/collections' },
+          { name: 'JAMDANI STOLES', href: '/accessories' },
+          { name: 'STERLING SILVER BUTTONS', href: '/accessories' },
+        ],
+      },
+    ],
+    unisex: [
+      {
+        categoryTitle: 'GENDERLESS ARCHIVE',
+        items: [
+          { name: 'ALL UNISEX', href: '/unisex', highlight: true },
+          { name: 'TACTICAL CYBER KIMONO', href: '/unisex' },
+          { name: 'MONOLITH 280 GSM TEES', href: '/unisex' },
+          { name: '450 GSM FRENCH TERRY HOODIE', href: '/unisex' },
+          { name: 'MODULAR UTILITY VEST', href: '/unisex' },
+          { name: 'WEATHERPROOF PARKAS', href: '/unisex' },
+        ],
+      },
+      {
+        categoryTitle: 'LEATHER & HARDWARE',
+        items: [
+          { name: 'ALL ACCESSORIES', href: '/accessories' },
+          { name: 'MINIMALIST LEATHER TOTES', href: '/accessories' },
+          { name: 'FORGED SILVER CUFF', href: '/accessories' },
         ],
       },
     ],
     collections: [
       {
-        categoryTitle: 'EDITORIAL DROPS',
+        categoryTitle: 'EDITORIAL CAMPAIGNS',
         items: [
-          { name: 'DHAKA AFTER DARK', href: '/', highlight: true },
-          { name: 'LINEAR SILHOUETTES', href: '/collections' },
+          { name: 'DHAKA AFTER DARK', href: '/collections', highlight: true },
+          { name: 'JAMDANI REFRAMED', href: '/collections' },
           { name: 'FUTURE BENGAL INDUSTRIAL', href: '/collections' },
+          { name: '2026 ARCHIVE SHOWCASE', href: '/collections' },
         ],
       },
       {
-        categoryTitle: 'LOOKBOOK',
+        categoryTitle: 'BRAND DOSSIER',
         items: [
-          { name: 'VIEW ALL LOOKBOOKS', href: '/collections' },
-          { name: 'CAMPAIGN ARCHIVE', href: '/collections' },
+          { name: 'ABOUT FUKU ATELIER', href: '/about' },
+          { name: 'SUSTAINABILITY & ARTISANS', href: '/about' },
+          { name: 'VISIT GULSHAN FLAGSHIP', href: '/contact' },
         ],
       },
     ],
   };
 
+  const headerBgClass = isHome
+    ? isScrolled
+      ? 'bg-white/95 backdrop-blur-md border-b border-black/10 text-black shadow-sm'
+      : 'bg-transparent text-white'
+    : 'bg-white/95 backdrop-blur-md border-b border-black/10 text-black shadow-sm';
+
   return (
     <>
-      {/* 
-        Zara-Style Floating Transparent Header Bar
-        - 100% Background Transparent (no white box, no border)
-        - Left: MENU (3 Lines) + N & N Logo (Home link to navigate back anytime!)
-        - Right: SEARCH + BAG
-        - mix-blend-difference for crisp white/black high-contrast visibility on all pages!
-      */}
-      <nav className="fixed top-0 left-0 w-full z-[100] h-[72px] bg-transparent border-none shadow-none flex justify-between items-center px-margin-mobile md:px-margin-desktop pointer-events-none transition-all duration-300">
-        {/* LEFT: Zara 3 Lines Menu Trigger + N & N Brand Home Link */}
-        <div className="flex items-center gap-6 md:gap-10 pointer-events-auto mix-blend-difference">
+      <header
+        className={`fixed top-0 left-0 w-full z-[100] h-[72px] transition-all duration-300 flex items-center justify-between px-4 sm:px-8 md:px-12 ${headerBgClass}`}
+      >
+        {/* LEFT: Menu Trigger + Main Nav Links */}
+        <div className="flex items-center gap-6 lg:gap-8">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="flex items-center gap-3 text-white focus:outline-none group/menu cursor-pointer py-2"
+            className="flex items-center gap-2.5 hover:opacity-70 transition-opacity py-2 focus:outline-none cursor-pointer"
             aria-label="Toggle Navigation Menu"
           >
-            {/* 3 Horizontal Line Icon */}
-            <div className="flex flex-col gap-1.5 w-7 transition-all duration-300">
-              <span className={`h-[2.5px] w-7 bg-white transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`h-[2.5px] w-7 bg-white transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
-              <span className={`h-[2.5px] w-7 bg-white transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            <div className="flex flex-col gap-1.5 w-6">
+              <span
+                className={`h-[2px] w-6 bg-current transition-all duration-300 ${
+                  menuOpen ? 'rotate-45 translate-y-2' : ''
+                }`}
+              />
+              <span
+                className={`h-[2px] w-6 bg-current transition-all duration-300 ${
+                  menuOpen ? 'opacity-0' : ''
+                }`}
+              />
+              <span
+                className={`h-[2px] w-6 bg-current transition-all duration-300 ${
+                  menuOpen ? '-rotate-45 -translate-y-2' : ''
+                }`}
+              />
             </div>
-            <span className="hidden sm:inline font-label-caps text-xs tracking-widest font-extrabold text-white uppercase group-hover/menu:underline">
-              {menuOpen ? 'CLOSE' : 'MENU'}
+            <span className="hidden sm:inline font-display text-[11px] tracking-[0.2em] font-bold uppercase">
+              {menuOpen ? 'Close' : 'Menu'}
             </span>
           </button>
 
-          {/* Clickable Brand Logo (Navigates back to Home / at any time) */}
+          <nav className="hidden lg:flex items-center gap-6 font-display text-xs tracking-widest uppercase font-semibold">
+            <Link href="/shop" className="hover:opacity-60 transition-opacity">
+              Shop All
+            </Link>
+            <Link href="/women" className="hover:opacity-60 transition-opacity">
+              Women
+            </Link>
+            <Link href="/men" className="hover:opacity-60 transition-opacity">
+              Men
+            </Link>
+            <Link href="/panjabi" className="hover:opacity-60 transition-opacity">
+              Panjabi
+            </Link>
+            <Link href="/new-drop" className="hover:opacity-60 transition-opacity flex items-center gap-1 font-bold">
+              <Sparkles className="w-3 h-3" />
+              <span>New Drop</span>
+            </Link>
+          </nav>
+        </div>
+
+        {/* CENTER: Brand Logo */}
+        <div className="absolute left-1/2 -translate-x-1/2">
           <Link
             href="/"
             onClick={() => setMenuOpen(false)}
-            className="font-display-lg text-[22px] md:text-[28px] tracking-tighter text-white uppercase font-black hover:opacity-80 transition-opacity"
-            title="Go to Homepage"
+            className="font-display text-2xl md:text-3xl font-black tracking-[-0.05em] uppercase hover:opacity-70 transition-opacity"
+            title="FUKU Official"
           >
-            N &amp; N
+            fuku
           </Link>
         </div>
 
-        {/* RIGHT: Essential Utilities (Search, Account, Bag) */}
-        <div className="flex items-center gap-4 md:gap-6 pointer-events-auto mix-blend-difference">
+        {/* RIGHT: Actions (Search, Wishlist, Account, Bag) */}
+        <div className="flex items-center gap-3 sm:gap-5">
           <button
-            onClick={() => setSearchOpen(!searchOpen)}
-            className="text-white cursor-pointer hover:opacity-70 transition-opacity p-1"
-            aria-label="Search"
+            onClick={() => setSearchOpen(true)}
+            className="p-2 hover:opacity-60 transition-opacity cursor-pointer"
+            aria-label="Search collection"
           >
             <Search className="w-5 h-5 stroke-[1.5]" />
           </button>
 
           <Link
-            href="/account"
-            className="text-white hover:opacity-70 transition-opacity hidden sm:block p-1"
-            aria-label="Account"
+            href="/wishlist"
+            className="p-2 hover:opacity-60 transition-opacity relative hidden sm:flex items-center"
+            aria-label="Wishlist"
+          >
+            <Heart className="w-5 h-5 stroke-[1.5]" />
+            {wishlistCount > 0 && (
+              <span className="absolute top-1 right-1 w-4 h-4 bg-black text-white font-mono text-[9px] font-bold rounded-full flex items-center justify-center">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
+
+          <Link
+            href={isAuthenticated ? '/account' : '/login'}
+            className="p-2 hover:opacity-60 transition-opacity hidden sm:block"
+            aria-label="User Account"
           >
             <User className="w-5 h-5 stroke-[1.5]" />
           </Link>
 
-          <Link
-            href="/bag"
-            className="text-white hover:opacity-70 transition-opacity relative flex items-center p-1 font-label-caps text-xs font-bold tracking-wider"
-            aria-label="Shopping Bag"
+          <button
+            onClick={openDrawer}
+            className="p-2 hover:opacity-60 transition-opacity relative flex items-center gap-1.5 font-mono text-xs font-bold cursor-pointer"
+            aria-label="Open Cart Bag"
           >
-            <ShoppingBag className="w-5 h-5 stroke-[1.5] mr-1" />
-            <span>({cartCount})</span>
-          </Link>
+            <ShoppingBag className="w-5 h-5 stroke-[1.5]" />
+            <span className="text-[11px] bg-black text-white px-1.5 py-0.2 rounded-none font-mono">
+              {cartCount}
+            </span>
+          </button>
         </div>
-      </nav>
+      </header>
 
-      {/* Zara-Style Full-Screen Tabbed Mega Menu Overlay */}
+      {/* Full-Screen Tabbed Navigation Overlay */}
       {menuOpen && (
-        <div className="fixed inset-0 z-[250] bg-neutral-950/98 backdrop-blur-3xl text-white flex flex-col justify-between p-6 md:p-12 overflow-y-auto animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[250] bg-white text-black flex flex-col justify-between p-6 sm:p-10 md:p-14 overflow-y-auto animate-in fade-in duration-300">
           {/* Top Bar inside Overlay */}
-          <div className="flex justify-between items-center border-b border-neutral-800 pb-6 mb-6">
-            {/* Close / Go Back Button */}
+          <div className="flex justify-between items-center border-b border-black/10 pb-6 mb-6">
             <button
               onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors group cursor-pointer"
+              className="flex items-center gap-2 text-neutral-600 hover:text-black transition-colors group cursor-pointer"
             >
               <X className="w-6 h-6 stroke-[1.5] group-hover:rotate-90 transition-transform duration-300" />
-              <span className="font-label-caps text-xs uppercase tracking-widest font-bold">CLOSE</span>
+              <span className="font-display text-xs uppercase tracking-widest font-bold">Close</span>
             </button>
 
-            {/* Brand Logo Home Link */}
             <Link
               href="/"
               onClick={() => setMenuOpen(false)}
-              className="font-display-lg text-2xl font-black uppercase text-white tracking-widest hover:opacity-80 transition-opacity"
+              className="font-display text-2xl md:text-3xl font-black uppercase tracking-tighter"
             >
-              N &amp; N
+              fuku
             </Link>
 
-            {/* Header Utility Links */}
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  setSearchOpen(true);
-                }}
-                className="text-neutral-400 hover:text-white transition-colors p-1"
-                aria-label="Search"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-
+            <div className="flex items-center gap-3">
               <Link
-                href="/account"
+                href="/wishlist"
                 onClick={() => setMenuOpen(false)}
-                className="text-neutral-400 hover:text-white transition-colors p-1 hidden sm:block"
+                className="text-neutral-600 hover:text-black p-2"
+                aria-label="Wishlist"
+              >
+                <Heart className="w-5 h-5" />
+              </Link>
+              <Link
+                href={isAuthenticated ? '/account' : '/login'}
+                onClick={() => setMenuOpen(false)}
+                className="text-neutral-600 hover:text-black p-2"
                 aria-label="Account"
               >
                 <User className="w-5 h-5" />
               </Link>
-
-              <Link
-                href="/bag"
-                onClick={() => setMenuOpen(false)}
-                className="font-label-caps text-xs uppercase tracking-widest text-neutral-400 hover:text-white font-bold flex items-center gap-1.5"
-              >
-                <ShoppingBag className="w-4 h-4" /> ({cartCount})
-              </Link>
             </div>
           </div>
 
-          {/* Zara Main Navigation Category Tabs (WOMEN | MEN | PANJABI | COLLECTIONS) */}
-          <div className="flex justify-center items-center gap-6 md:gap-12 border-b border-neutral-800 pb-4 mb-8">
-            {(['women', 'men', 'panjabi', 'collections'] as MenuTab[]).map((tab) => (
+          {/* Navigation Category Tabs */}
+          <div className="flex justify-center items-center gap-4 sm:gap-8 md:gap-12 border-b border-black/10 pb-4 mb-8 overflow-x-auto">
+            {(['women', 'men', 'panjabi', 'unisex', 'collections'] as MenuTab[]).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`font-label-caps text-sm md:text-base font-extrabold uppercase tracking-widest transition-all pb-2 border-b-2 ${
+                className={`font-display text-xs sm:text-sm font-bold uppercase tracking-widest transition-all pb-2 border-b-2 whitespace-nowrap cursor-pointer ${
                   activeTab === tab
-                    ? 'text-white border-vermilion'
-                    : 'text-neutral-500 border-transparent hover:text-neutral-300'
+                    ? 'text-black border-black'
+                    : 'text-neutral-400 border-transparent hover:text-neutral-800'
                 }`}
               >
-                {tab === 'panjabi' ? 'PANJABI & ETHNIC' : tab}
+                {tab === 'panjabi' ? 'Panjabi & Ethnic' : tab}
               </button>
             ))}
           </div>
@@ -272,9 +372,9 @@ export const Header: React.FC = () => {
           {/* Active Tab Subcategories Content Grid */}
           <div className="flex-1 max-w-6xl w-full mx-auto my-auto py-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
-              {ZARA_MENU_DATA[activeTab].map((col) => (
+              {NAVIGATION_DATA[activeTab].map((col) => (
                 <div key={col.categoryTitle} className="flex flex-col gap-4">
-                  <h3 className="font-label-caps text-xs font-black uppercase tracking-widest text-vermilion border-b border-neutral-800 pb-2">
+                  <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-black border-b border-black/10 pb-2">
                     {col.categoryTitle}
                   </h3>
                   <ul className="flex flex-col gap-3">
@@ -283,10 +383,10 @@ export const Header: React.FC = () => {
                         <Link
                           href={item.href}
                           onClick={() => setMenuOpen(false)}
-                          className={`font-label-caps text-xs md:text-sm uppercase tracking-wider block transition-all hover:translate-x-1 ${
+                          className={`font-display text-xs sm:text-sm uppercase tracking-wider block transition-all hover:translate-x-1.5 ${
                             item.highlight
-                              ? 'text-white font-extrabold underline decoration-vermilion underline-offset-4'
-                              : 'text-neutral-300 hover:text-white font-medium'
+                              ? 'text-black font-bold underline decoration-black underline-offset-4'
+                              : 'text-neutral-600 hover:text-black'
                           }`}
                         >
                           {item.name}
@@ -299,43 +399,113 @@ export const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Bottom Footer Info inside Overlay */}
-          <div className="border-t border-neutral-800 pt-6 mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-neutral-400 text-xs font-label-caps uppercase tracking-wider">
-            <div className="flex items-center gap-6">
-              <Link href="/" onClick={() => setMenuOpen(false)} className="hover:text-white transition-colors font-bold text-white">
-                HOME
+          {/* Bottom Footer Info inside Mega Menu */}
+          <div className="border-t border-black/10 pt-6 mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-neutral-600 text-xs font-mono uppercase tracking-wider">
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              <Link href="/shop" onClick={() => setMenuOpen(false)} className="hover:text-black transition-colors font-bold text-black">
+                Shop Archive
               </Link>
-              <Link href="/account" onClick={() => setMenuOpen(false)} className="hover:text-white transition-colors">
-                MY ACCOUNT
+              <Link href="/about" onClick={() => setMenuOpen(false)} className="hover:text-black transition-colors">
+                Atelier Story
               </Link>
-              <Link href="/track-order" onClick={() => setMenuOpen(false)} className="hover:text-white transition-colors">
-                TRACK ORDER
+              <Link href="/faq" onClick={() => setMenuOpen(false)} className="hover:text-black transition-colors">
+                FAQ &amp; Sizing
               </Link>
-              <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-white transition-colors">
-                HELP &amp; CONTACT
+              <Link href="/contact" onClick={() => setMenuOpen(false)} className="hover:text-black transition-colors">
+                Flagship Stores
               </Link>
             </div>
-            <p className="text-neutral-500 font-medium">DHAKA, BANGLADESH © 2026 N &amp; N</p>
+            <p className="text-neutral-500">DHAKA ATELIER © 2026 FUKU</p>
           </div>
         </div>
       )}
 
-      {/* Quick Search Drawer Bar */}
+      {/* Interactive Live Search Modal Drawer */}
       {searchOpen && (
-        <div className="fixed top-0 left-0 w-full bg-neutral-900/98 backdrop-blur-xl text-white z-[350] border-b border-neutral-800 p-6 px-margin-desktop flex items-center gap-4 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300">
-          <Search className="w-5 h-5 text-neutral-400" />
-          <input
-            type="text"
-            placeholder="SEARCH PANJABI, JAMDANI, LINEN TUNIC, ACCESSORIES..."
-            className="w-full font-label-caps text-body-md text-white placeholder:text-neutral-500 bg-transparent border-none focus:outline-none uppercase font-semibold"
-            autoFocus
-          />
-          <button
-            onClick={() => setSearchOpen(false)}
-            className="text-neutral-400 font-label-caps text-xs uppercase hover:text-white font-bold cursor-pointer"
-          >
-            Close
-          </button>
+        <div className="fixed inset-0 z-[350] bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="bg-white border-b border-black/10 shadow-2xl py-12">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 text-black">
+              {/* Search Input Bar */}
+              <form onSubmit={handleSearchSubmit} className="relative border-b-2 border-black pb-3 flex items-center gap-4">
+                <Search className="w-6 h-6 text-black/80 shrink-0" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search kimonos, tees, jamdani, trousers, accessories..."
+                  className="w-full font-display text-lg sm:text-2xl text-black placeholder-neutral-400 bg-transparent border-none focus:outline-none uppercase font-bold tracking-wider"
+                  autoFocus
+                />
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  className="text-neutral-500 hover:text-black p-1 cursor-pointer"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </form>
+
+              {/* Instant Search Suggestions / Results */}
+              <div className="mt-8 space-y-6">
+                {instantResults.length > 0 ? (
+                  <div>
+                    <div className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-4">
+                      Matching Archive Garments ({instantResults.length})
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {instantResults.map((product) => (
+                        <Link
+                          key={product.id}
+                          href={`/product/${product.id}`}
+                          onClick={() => setSearchOpen(false)}
+                          className="flex items-center gap-4 p-3 bg-neutral-50 border border-neutral-200 hover:border-black transition-colors group"
+                        >
+                          <div className="w-14 h-16 bg-neutral-200 relative overflow-hidden shrink-0">
+                            <img src={product.images[0]} alt="" className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-display text-xs uppercase tracking-wider text-black font-bold group-hover:underline transition-colors truncate">
+                              {product.nameEn}
+                            </h4>
+                            <div className="text-[10px] text-neutral-500 font-mono mt-0.5">
+                              {product.category} • ৳{product.priceBDT.toLocaleString()}
+                            </div>
+                          </div>
+                          <ArrowRight className="w-4 h-4 text-neutral-400 group-hover:text-black group-hover:translate-x-1 transition-all shrink-0" />
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : searchQuery.trim().length >= 2 ? (
+                  <div className="text-center py-6 text-neutral-500 font-mono text-xs">
+                    No exact matches for &quot;{searchQuery}&quot;. Press enter to view all search results.
+                  </div>
+                ) : null}
+
+                {/* Popular Search Keywords */}
+                <div>
+                  <div className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-3">
+                    Popular Search Inquiries
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {POPULAR_SEARCHES.map((term) => (
+                      <button
+                        key={term}
+                        onClick={() => {
+                          setSearchQuery(term);
+                          router.push(`/search?q=${encodeURIComponent(term)}`);
+                          setSearchOpen(false);
+                        }}
+                        className="px-3.5 py-1.5 bg-neutral-100 border border-neutral-200 hover:border-black text-xs font-mono text-neutral-800 hover:text-black uppercase transition-colors cursor-pointer"
+                      >
+                        {term}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </>
