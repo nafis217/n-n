@@ -79,14 +79,14 @@ export default function HomePage() {
       <section className="relative w-full h-screen min-h-[640px] overflow-hidden">
         {/* Campaign image */}
         <Image
-          src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=90&w=2400"
+          src="/images/products/architectural-black-suit-1.jpg"
           alt="FUKU Autumn / Winter 2026 Campaign"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-top"
         />
         {/* Minimal dark overlay — bottom only so top of image stays clean */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
         {/* Hero copy — bottom-left, editorial */}
         <div className="absolute bottom-16 left-0 right-0 px-6 md:px-12 max-w-7xl mx-auto">
@@ -134,10 +134,10 @@ export default function HomePage() {
         {/* Image */}
         <div className="relative min-h-[400px] lg:min-h-0 bg-[#F3F3F1]">
           <Image
-            src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1200"
+            src="/images/products/monolith-contrast-polo.jpg"
             alt="FUKU — Form / Function"
             fill
-            className="object-cover"
+            className="object-cover object-top"
           />
         </div>
 
@@ -205,10 +205,10 @@ export default function HomePage() {
       ══════════════════════════════════════════ */}
       <section className="relative w-full min-h-[60vh] md:min-h-[70vh] overflow-hidden bg-black">
         <Image
-          src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=2000"
+          src="/images/products/raw-selvedge-trucker-jacket.jpg"
           alt="FUKU Men's Collection"
           fill
-          className="object-cover object-top opacity-60"
+          className="object-cover object-top opacity-70"
         />
         <div className="relative z-10 h-full min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end px-6 md:px-12 pb-16 max-w-7xl mx-auto">
           <RevealSection>
@@ -275,10 +275,10 @@ export default function HomePage() {
             {/* Large left image */}
             <div className="col-span-12 md:col-span-7 relative aspect-[4/5] md:aspect-auto md:row-span-2 bg-[#E8E8E5] overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1200"
+                src="/images/products/architectural-black-suit-full.jpg"
                 alt="Lookbook 01"
                 fill
-                className="object-cover"
+                className="object-cover object-top"
               />
               <div className="absolute bottom-4 left-5">
                 <p className="text-label text-white/80 uppercase tracking-[0.15em]">Look 01</p>
@@ -288,7 +288,7 @@ export default function HomePage() {
             {/* Top right */}
             <div className="col-span-6 md:col-span-5 relative aspect-square bg-[#E8E8E5] overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&q=80&w=800"
+                src="/images/products/espoir_La-Boheme-L-768x765.jpg"
                 alt="Lookbook 02"
                 fill
                 className="object-cover"
@@ -301,7 +301,7 @@ export default function HomePage() {
             {/* Bottom right */}
             <div className="col-span-6 md:col-span-5 relative aspect-square bg-[#E8E8E5] overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80&w=800"
+                src="/images/products/product1_red_1.jpg"
                 alt="Lookbook 03"
                 fill
                 className="object-cover"

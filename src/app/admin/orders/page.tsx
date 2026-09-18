@@ -99,7 +99,7 @@ export default async function AdminOrdersPage() {
           quantity: 1,
           unitPrice: 18500,
           totalPrice: 18500,
-          imageUrl: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1200',
+          imageUrl: '/images/products/architectural-black-suit-1.jpg',
         },
       ],
       subtotalBDT: 18500,

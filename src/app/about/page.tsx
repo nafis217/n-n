@@ -28,10 +28,10 @@ export default function AboutPage() {
         {/* Large Visual Frame */}
         <div className="relative aspect-[16/9] w-full bg-neutral-100 border border-neutral-200 overflow-hidden shadow-sm">
           <Image
-            src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1600"
+            src="/images/products/architectural-black-suit-full.jpg"
             alt="FUKU Atelier Runway and Workshop"
             fill
-            className="object-cover grayscale contrast-125 hover:grayscale-0 transition-all duration-1000"
+            className="object-cover object-top grayscale contrast-125 hover:grayscale-0 transition-all duration-1000"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-6 sm:p-10">
             <p className="font-mono text-xs uppercase tracking-widest text-neutral-200">
@@ -100,10 +100,10 @@ export default function AboutPage() {
 
           <div className="relative aspect-[4/3] bg-neutral-100 border border-neutral-200 overflow-hidden shadow-sm">
             <Image
-              src="https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=1200"
+              src="/images/products/raw-selvedge-trucker-jacket.jpg"
               alt="Artisan pattern tailoring"
               fill
-              className="object-cover"
+              className="object-cover object-top"
             />
           </div>
         </section>

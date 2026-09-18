@@ -27,9 +27,9 @@ export default async function AdminCMSPage() {
           </h3>
           <div className="aspect-[21/9] bg-neutral-100 mb-4 overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=80"
+              src="/images/products/architectural-black-suit-1.jpg"
               alt="New Drop Hero"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
             />
           </div>
           <p className="font-mono text-xs text-black font-bold">New Drop 2026</p>
@@ -43,9 +43,9 @@ export default async function AdminCMSPage() {
           </h3>
           <div className="aspect-[21/9] bg-neutral-100 mb-4 overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80"
+              src="/images/products/espoir_La-Boheme-L-768x765.jpg"
               alt="Dhaka After Dark"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
             />
           </div>
           <p className="font-mono text-xs text-black font-bold">Dhaka After Dark Series</p>

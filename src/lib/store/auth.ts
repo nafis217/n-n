@@ -46,7 +46,7 @@ const DEFAULT_USER: UserProfile = {
   name: 'Nafis Al Safayet',
   email: 'nafis@fukustudio.com',
   phone: '+880 1712-345678',
-  avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400',
+  avatarUrl: '/images/user_portrait.jpg',
   gender: 'male',
   birthday: '1998-04-15',
   memberTier: 'ARCHIVE_VIP',

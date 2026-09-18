@@ -13,11 +13,11 @@ import { searchProducts } from '@/lib/queries/products';
 type MenuTab = 'women' | 'men' | 'panjabi' | 'unisex' | 'collections';
 
 const MEGA_MENU_IMAGE: Record<MenuTab, string> = {
-  women:       'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=900',
-  men:         'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=900',
-  panjabi:     'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=900',
-  unisex:      'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&q=80&w=900',
-  collections: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=900',
+  women:       '/images/products/espoir_La-Boheme-L-768x765.jpg',
+  men:         '/images/products/architectural-black-suit-1.jpg',
+  panjabi:     '/images/products/item_maroon.jpg',
+  unisex:      '/images/products/raw-selvedge-trucker-jacket.jpg',
+  collections: '/images/products/architectural-black-suit-full.jpg',
 };
 
 const NAVIGATION_DATA: Record<MenuTab, { categoryTitle: string; items: { name: string; href: string }[] }[]> = {

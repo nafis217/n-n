@@ -12,25 +12,22 @@ export default function CollectionsPage() {
     {
       id: 'dhaka-after-dark',
       title: 'Dhaka After Dark',
-      subtitle: 'Editorial Series No. 01 • Heavy Japanese Technical Knits',
-      image:
-        'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1600',
+      subtitle: 'Editorial Series No. 01 • Heavy Japanese Technical Knits & Tailored Suiting',
+      image: '/images/products/architectural-black-suit-full.jpg',
       href: '/shop',
     },
     {
       id: 'jamdani-reframed',
-      title: 'Jamdani Reframed',
-      subtitle: 'Bengali Heritage x Industrial Minimalism • 200-Count Handspun Muslin',
-      image:
-        'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1600',
+      title: 'Espoir Haute Couture & Silk Muslin',
+      subtitle: 'Artisanal Heritage x Architectural Minimalism • Pure Silk Twill & Georgette',
+      image: '/images/products/espoir_La-Boheme-L-768x765.jpg',
       href: '/women',
     },
     {
       id: 'ethnic-contemporary',
-      title: 'Ethnic Contemporary Panjabi',
-      subtitle: 'Minimal Seam Architecture • Raw Khadi Silk',
-      image:
-        'https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?auto=format&fit=crop&q=80&w=1600',
+      title: 'Ethnic Contemporary Panjabi & Shirting',
+      subtitle: 'Minimal Seam Architecture • Handcrafted Silk Jacquard',
+      image: '/images/products/item_maroon.jpg',
       href: '/panjabi',
     },
   ];

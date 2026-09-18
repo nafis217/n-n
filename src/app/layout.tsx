@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     siteName: 'FUKU Archive',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80',
+        url: '/images/products/architectural-black-suit-1.jpg',
         width: 1200,
         height: 630,
         alt: 'FUKU Modern Clothing Archive Campaign',
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     title: 'FUKU | Modern Clothing Archive 2026',
     description:
       'Luxury clothing archive & e-commerce for FUKU — Architectural silhouettes and handcrafted Bengali heritage textiles.',
-    images: ['https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80'],
+    images: ['/images/products/architectural-black-suit-1.jpg'],
   },
   alternates: {
     canonical: siteUrl,
