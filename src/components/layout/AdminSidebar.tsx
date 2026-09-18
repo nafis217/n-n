@@ -37,7 +37,7 @@ export const AdminSidebar: React.FC = () => {
     { name: 'Orders Queue', href: '/admin/orders', icon: ShoppingBag },
     { name: 'Payment Transactions', href: '/admin/payments', icon: CreditCard },
     { name: 'Warehouse Fulfilment', href: '/admin/fulfilment', icon: Boxes },
-    { name: 'Retail POS Terminal', href: '/pos', icon: Store },
+    { name: 'Retail POS Terminal', href: '/admin/pos', icon: Store },
     { name: 'Purchasing & POs', href: '/admin/purchasing', icon: Truck },
     { name: 'Apparel Production', href: '/admin/production', icon: Factory },
     { name: 'Financial Reports', href: '/admin/reports', icon: PieChart },
