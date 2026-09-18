@@ -130,12 +130,12 @@ export default async function AdminDashboardPage() {
 
       {/* Overview Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10">
-        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+        <div className="p-4 sm:p-5 lg:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
           <div>
             <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">
               Gross Sales Revenue
             </span>
-            <p className="text-2xl sm:text-3xl font-bold text-black tracking-tight mb-2 truncate">
+            <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-black tracking-tight mb-2 tabular-nums">
               ৳ {grossSalesBDT.toLocaleString()}
             </p>
           </div>
@@ -144,15 +144,15 @@ export default async function AdminDashboardPage() {
           </span>
         </div>
 
-        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+        <div className="p-4 sm:p-5 lg:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
           <div>
             <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">
               Total Orders &amp; AOV
             </span>
             <div className="flex items-baseline gap-2 flex-wrap mb-2">
-              <span className="text-2xl sm:text-3xl font-bold text-black tracking-tight">{totalOrdersCount}</span>
+              <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-black tracking-tight tabular-nums">{totalOrdersCount}</span>
               <span className="text-xs sm:text-sm text-neutral-500 font-mono font-medium">
-                {avgOrderValueBDT ? `৳${avgOrderValueBDT.toLocaleString()} AOV` : '৳0 AOV'}
+                {avgOrderValueBDT ? `(৳${avgOrderValueBDT.toLocaleString()} AOV)` : '(৳0 AOV)'}
               </span>
             </div>
           </div>
@@ -161,13 +161,13 @@ export default async function AdminDashboardPage() {
           </span>
         </div>
 
-        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+        <div className="p-4 sm:p-5 lg:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
           <div>
             <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">
               Net Available Stock
             </span>
             <div className="flex items-baseline gap-1.5 flex-wrap mb-2">
-              <span className="text-2xl sm:text-3xl font-bold text-black tracking-tight">{totalAvailable.toLocaleString()}</span>
+              <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-black tracking-tight tabular-nums">{totalAvailable.toLocaleString()}</span>
               <span className="text-xs text-neutral-500 font-mono">Available</span>
             </div>
           </div>
@@ -176,13 +176,13 @@ export default async function AdminDashboardPage() {
           </span>
         </div>
 
-        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+        <div className="p-4 sm:p-5 lg:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
           <div>
             <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">
               Damaged / QC Stock
             </span>
             <div className="flex items-baseline gap-1.5 flex-wrap mb-2">
-              <span className="text-2xl sm:text-3xl font-bold text-red-600 tracking-tight">{totalDamaged.toLocaleString()}</span>
+              <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-red-600 tracking-tight tabular-nums">{totalDamaged.toLocaleString()}</span>
               <span className="text-xs text-neutral-500 font-mono">Units</span>
             </div>
           </div>
