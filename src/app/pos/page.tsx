@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Search, ShoppingBag, Trash2, Printer, CreditCard, ArrowLeft, UserCheck, Lock } from 'lucide-react';
 import { CATALOG_PRODUCTS } from '@/lib/queries/products';
 import { Button } from '@/components/ui/Button';
+import { AdminAuthGuard } from '@/components/admin/AdminAuthGuard';
 
 interface POSCartItem {
   variantId: string;
@@ -104,7 +105,8 @@ export default function RetailPOSPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-on-background flex flex-col font-sans">
+    <AdminAuthGuard>
+      <div className="min-h-screen bg-background text-on-background flex flex-col font-sans">
       {/* POS Top Header */}
       <header className="h-[60px] bg-primary text-on-primary px-6 flex justify-between items-center font-label-caps text-xs">
         <div className="flex items-center gap-6">
@@ -319,5 +321,6 @@ export default function RetailPOSPage() {
         </div>
       )}
     </div>
+    </AdminAuthGuard>
   );
 }
