@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AppLayoutClient } from '@/components/layout/AppLayoutClient';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fukustudio.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fuku-official.vercel.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
