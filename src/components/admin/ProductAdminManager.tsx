@@ -21,7 +21,8 @@ import {
   Archive,
   Download,
   Search,
-  Filter
+  Filter,
+  Upload
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { ProductEditorModal, AdminProductFormValues } from './ProductEditorModal';
@@ -89,6 +90,121 @@ export const ProductAdminManager: React.FC<ProductAdminManagerProps> = ({ initia
   const handleOpenCreateModal = () => {
     setEditingProduct(null);
     setIsEditorOpen(true);
+  };
+
+  const handleQuickDeviceUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const fileArray = Array.from(e.target.files).filter((file) => file.type.startsWith('image/'));
+      if (fileArray.length === 0) return;
+
+      let loadedCount = 0;
+      const uploadedImages: string[] = [];
+
+      fileArray.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (event.target?.result) {
+            uploadedImages.push(event.target.result as string);
+            loadedCount++;
+            if (loadedCount === fileArray.length) {
+              setEditingProduct({
+                titleEn: '',
+                subtitle: 'Limited Archive Release',
+                shortDescription: 'High-density architectural silhouette tailored with Japanese precision cut.',
+                fullDescription: 'Crafted from premium sustainable fibers with custom hardware. Designed for effortless modern draping and enduring performance.',
+                brand: 'FUKU ARCHIVE',
+                category: 'JACKETS',
+                subcategory: 'Tailoring',
+                collection: 'CORE ARCHIVE 2026',
+                tags: 'Outerwear, Tailoring, Minimal, Monochrome',
+                sku: `FK-${Math.floor(1000 + Math.random() * 9000)}`,
+                barcode: `880${Math.floor(100000000 + Math.random() * 900000000)}`,
+                status: 'ACTIVE',
+                visibility: 'PUBLIC',
+                gender: 'MEN',
+                images: uploadedImages,
+                featuredImageIndex: 0,
+                priceBDT: 19500,
+                salePriceBDT: 0,
+                costPriceBDT: 8500,
+                compareAtPriceBDT: 24000,
+                taxRatePercent: 0,
+                currency: 'BDT',
+                stockCount: 20,
+                lowStockThreshold: 5,
+                inventoryTracking: true,
+                stockStatus: 'IN_STOCK',
+                warehouse: 'GULSHAN_ATELIER',
+                allowBackorders: false,
+                soldIndividually: false,
+                sizes: ['S', 'M', 'L', 'XL'],
+                colors: [{ name: 'Obsidian Black', hex: '#000000' }],
+                material: 'Super 130s Wool & Technical Oxford',
+                fit: 'Structured Architectural Cut',
+                style: 'Avant-Garde Minimalism',
+                variantsList: [],
+                weightKg: 1.0,
+                lengthCm: 40,
+                widthCm: 30,
+                heightCm: 5,
+                shippingClass: 'STANDARD',
+                requiresShipping: true,
+                freeShipping: false,
+                isBestSeller: true,
+                bestSellerOrder: 1,
+                merchandisingSections: {
+                  isFeatured: true,
+                  isNewArrival: true,
+                  isTrending: true,
+                  isStaffPick: false,
+                  isMoreProducts: true,
+                },
+                relatedProductSlugs: [],
+                frequentlyBoughtTogetherSlugs: [],
+                recommendedProductSlugs: [],
+                seoTitle: 'New Product | FUKU Archive',
+                metaDescription: 'Shop new release at FUKU Archive.',
+                slug: 'new-release',
+                searchKeywords: 'fashion, streetwear, fuku',
+                socialImage: uploadedImages[0] || '',
+                careInstructions: ['Dry clean only'],
+                details: ['Tailored in Dhaka Atelier'],
+              });
+              setIsEditorOpen(true);
+              setSuccessToast(`Uploaded ${loadedCount} image(s) from device!`);
+              setTimeout(() => setSuccessToast(''), 3500);
+            }
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+      e.target.value = '';
+    }
+  };
+
+  const handleUploadToProductRow = (productId: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      if (!file.type.startsWith('image/')) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const dataUrl = event.target.result as string;
+          setProducts((prev) =>
+            prev.map((p) =>
+              p.id === productId
+                ? { ...p, images: [dataUrl, ...(p.images || [])] }
+                : p
+            )
+          );
+          setSuccessToast('Product image uploaded from device!');
+          setTimeout(() => setSuccessToast(''), 3000);
+        }
+      };
+      reader.readAsDataURL(file);
+      e.target.value = '';
+    }
   };
 
   const handleOpenEditModal = (product: AdminProductRow) => {
@@ -297,6 +413,19 @@ export const ProductAdminManager: React.FC<ProductAdminManagerProps> = ({ initia
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Quick Upload from Device Button in Main Toolbar */}
+          <label className="cursor-pointer bg-neutral-900 text-white hover:bg-black px-3.5 py-2 font-mono text-xs uppercase font-bold flex items-center gap-1.5 border border-neutral-700 shadow-2xs transition-colors">
+            <Upload className="w-4 h-4 text-emerald-400" />
+            <span>Upload from Device</span>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleQuickDeviceUpload}
+              className="hidden"
+            />
+          </label>
+
           <Button
             variant="primary"
             size="md"
@@ -456,10 +585,13 @@ export const ProductAdminManager: React.FC<ProductAdminManagerProps> = ({ initia
                         />
                       </td>
 
-                      {/* Product Thumbnail & Title */}
+                      {/* Product Thumbnail & Title with Quick Image Upload */}
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-14 bg-neutral-100 border border-neutral-200 shrink-0 overflow-hidden flex items-center justify-center">
+                          <label
+                            title="Click to Upload Photo from Device"
+                            className="w-12 h-14 bg-neutral-100 border border-neutral-200 shrink-0 overflow-hidden flex items-center justify-center relative cursor-pointer group/img"
+                          >
                             {p.images && p.images[0] ? (
                               <img
                                 src={p.images[0]}
@@ -469,7 +601,17 @@ export const ProductAdminManager: React.FC<ProductAdminManagerProps> = ({ initia
                             ) : (
                               <ImageIcon className="w-5 h-5 text-neutral-400" />
                             )}
-                          </div>
+                            <span className="absolute inset-0 bg-black/60 text-white opacity-0 group-hover/img:opacity-100 flex flex-col items-center justify-center text-[8px] font-mono font-bold uppercase transition-opacity">
+                              <Upload className="w-3.5 h-3.5 mb-0.5" />
+                              Upload
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleUploadToProductRow(p.id, e)}
+                              className="hidden"
+                            />
+                          </label>
                           <div>
                             <span className="font-bold text-black block group-hover:underline cursor-pointer" onClick={() => handleOpenEditModal(p)}>
                               {p.titleEn}
@@ -543,6 +685,20 @@ export const ProductAdminManager: React.FC<ProductAdminManagerProps> = ({ initia
                       {/* Actions */}
                       <td className="p-4 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1 font-mono text-xs">
+                          {/* Direct Device Upload Action */}
+                          <label
+                            title="Upload Photo from Device"
+                            className="p-1.5 border border-neutral-300 bg-white hover:bg-neutral-100 text-neutral-700 hover:text-black cursor-pointer inline-flex items-center"
+                          >
+                            <Upload className="w-3.5 h-3.5 text-emerald-600" />
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handleUploadToProductRow(p.id, e)}
+                              className="hidden"
+                            />
+                          </label>
+
                           {/* Edit */}
                           <button
                             type="button"

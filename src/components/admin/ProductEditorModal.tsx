@@ -423,6 +423,19 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
             </h2>
           </div>
           <div className="flex items-center gap-2">
+            {/* Direct Device Upload Button in Header */}
+            <label className="cursor-pointer bg-black text-white hover:bg-neutral-800 px-3 py-1.5 font-mono text-xs uppercase font-bold flex items-center gap-1.5 shadow-2xs border border-black transition-colors">
+              <Upload className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Upload from Device</span>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileInputChange}
+                className="hidden"
+              />
+            </label>
+
             <button
               onClick={onClose}
               className="p-1.5 border border-neutral-300 bg-white hover:bg-neutral-100 text-neutral-700 hover:text-black"
@@ -437,6 +450,19 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
           <div className="px-5 py-3 bg-red-50 border-b border-red-200 flex items-center gap-2 text-red-800 font-mono text-xs font-bold">
             <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
             <span>{validationError}</span>
+          </div>
+        )}
+
+        {/* Upload Success Alert */}
+        {uploadNotice && (
+          <div className="px-5 py-2.5 bg-emerald-50 border-b border-emerald-300 flex items-center justify-between text-emerald-900 font-mono text-xs font-bold">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>{uploadNotice}</span>
+            </div>
+            <button type="button" onClick={() => setUploadNotice('')} className="text-emerald-700 hover:text-black">
+              <X className="w-3.5 h-3.5" />
+            </button>
           </div>
         )}
 
@@ -467,6 +493,58 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
           {/* TAB 1: GENERAL */}
           {activeTab === 'GENERAL' && (
             <div className="space-y-4">
+              {/* Quick Image Upload Strip right in General tab */}
+              <div className="p-3 bg-neutral-50 border border-neutral-200 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="font-mono text-xs font-bold uppercase text-black flex items-center gap-1.5">
+                    <ImageIcon className="w-4 h-4 text-neutral-600" />
+                    <span>Product Photos ({form.images.length})</span>
+                  </span>
+                  <label className="cursor-pointer bg-black text-white hover:bg-neutral-800 px-3 py-1 font-mono text-[11px] uppercase font-bold flex items-center gap-1">
+                    <Upload className="w-3 h-3 text-emerald-400" />
+                    <span>+ Upload Photo from Device</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleFileInputChange}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+
+                <div className="flex gap-2 overflow-x-auto py-1">
+                  {form.images.map((img, i) => (
+                    <div key={i} className="relative w-16 h-20 shrink-0 border border-neutral-300 bg-white overflow-hidden group">
+                      <img src={img} alt={`Thumb ${i}`} className="w-full h-full object-cover object-top" />
+                      {i === form.featuredImageIndex && (
+                        <span className="absolute bottom-0 inset-x-0 bg-black text-white text-[8px] font-mono text-center font-bold uppercase">
+                          Cover
+                        </span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(i)}
+                        className="absolute top-0.5 right-0.5 bg-red-600 text-white p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Trash2 className="w-2.5 h-2.5" />
+                      </button>
+                    </div>
+                  ))}
+                  <label className="w-16 h-20 shrink-0 border-2 border-dashed border-neutral-300 hover:border-black bg-white flex flex-col items-center justify-center cursor-pointer text-neutral-400 hover:text-black">
+                    <Plus className="w-5 h-5" />
+                    <span className="font-mono text-[8px] font-bold uppercase mt-1">Add</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleFileInputChange}
+                      className="hidden"
+                    />
+                  </label>
+                </div>
+              </div>
+
               <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500 border-b pb-2">
                 Basic Identification &amp; Core Taxonomy
               </h3>
