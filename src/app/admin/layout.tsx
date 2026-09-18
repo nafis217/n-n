@@ -10,11 +10,14 @@ export const metadata = {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <AdminAuthGuard>
-      <div className="flex w-full min-h-[calc(100vh-64px)] bg-white text-black">
+      <div className="flex flex-col md:flex-row w-full min-h-screen bg-white text-black">
         <AdminSidebar />
-        <main className="flex-grow p-8 md:p-12 overflow-y-auto">{children}</main>
+        <main className="flex-1 p-4 sm:p-6 md:p-10 lg:p-12 overflow-y-auto max-w-full">
+          {children}
+        </main>
       </div>
     </AdminAuthGuard>
   );
 }
+
 

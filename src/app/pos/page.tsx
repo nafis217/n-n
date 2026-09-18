@@ -106,40 +106,40 @@ export default function RetailPOSPage() {
 
   return (
     <AdminAuthGuard>
-      <div className="min-h-screen bg-background text-on-background flex flex-col font-sans">
+      <div className="min-h-screen bg-white text-black flex flex-col font-sans">
       {/* POS Top Header */}
-      <header className="h-[60px] bg-primary text-on-primary px-6 flex justify-between items-center font-label-caps text-xs">
-        <div className="flex items-center gap-6">
-          <Link href="/admin" className="flex items-center gap-2 hover:opacity-80">
+      <header className="h-auto sm:h-[60px] bg-black text-white p-3 sm:px-6 flex flex-wrap justify-between items-center text-xs font-mono gap-3">
+        <div className="flex items-center gap-4">
+          <Link href="/admin" className="flex items-center gap-1.5 hover:text-neutral-300 text-neutral-400">
             <ArrowLeft className="w-4 h-4" />
-            <span>Admin Control</span>
+            <span>Admin</span>
           </Link>
-          <span className="font-bold text-sm tracking-wider uppercase">BUNON POS — Gulshan Flagship Store</span>
+          <span className="font-bold text-xs sm:text-sm tracking-wider uppercase font-display">FUKU POS — Gulshan Atelier</span>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 text-[11px]">
           <span className="text-emerald-400 font-bold flex items-center gap-1">
             ● CASHIER SHIFT ACTIVE (#SHF-8492)
           </span>
-          <span className="text-neutral-300">OPENING BAL: ৳ 5,000</span>
+          <span className="text-neutral-400 hidden md:inline">OPENING BAL: ৳ 5,000</span>
         </div>
       </header>
 
       {/* Main POS Interface Grid */}
-      <div className="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-0 overflow-hidden">
+      <div className="flex-grow grid grid-cols-1 lg:grid-cols-12 gap-0 overflow-y-auto">
         {/* Left 7 Columns: Barcode Scanner & Product Grid */}
-        <div className="lg:col-span-7 p-6 border-r border-outline-variant flex flex-col justify-between overflow-y-auto">
+        <div className="lg:col-span-7 p-4 sm:p-6 border-b lg:border-b-0 lg:border-r border-neutral-200 flex flex-col justify-between">
           <div>
             {/* Barcode Input Bar */}
             <form onSubmit={handleScanBarcode} className="mb-6">
-              <div className="relative flex items-center border-2 border-primary bg-white p-2">
-                <Search className="w-5 h-5 text-primary ml-2 mr-3" />
+              <div className="relative flex items-center border-2 border-black bg-white p-2">
+                <Search className="w-5 h-5 text-black ml-2 mr-3" />
                 <input
                   type="text"
                   value={barcodeInput}
                   onChange={(e) => setBarcodeInput(e.target.value)}
-                  placeholder="SCAN BARCODE (E.G. 8801928472910) OR TYPE SKU..."
-                  className="w-full bg-transparent font-label-caps text-sm text-primary placeholder:text-outline focus:outline-none uppercase font-bold"
+                  placeholder="SCAN BARCODE OR TYPE SKU..."
+                  className="w-full bg-transparent font-mono text-xs sm:text-sm text-black placeholder:text-neutral-400 focus:outline-none uppercase font-bold"
                   autoFocus
                 />
                 <Button variant="primary" size="sm" type="submit">SCAN</Button>
@@ -147,10 +147,10 @@ export default function RetailPOSPage() {
             </form>
 
             {/* Quick Product Grid */}
-            <h3 className="font-label-caps text-xs font-bold uppercase text-primary mb-4">
+            <h3 className="font-mono text-xs font-bold uppercase text-black mb-4">
               Quick Select Catalogue
             </h3>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {CATALOG_PRODUCTS.map((prod) => (
                 <button
                   key={prod.id}
