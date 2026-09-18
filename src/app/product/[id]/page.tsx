@@ -159,7 +159,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
         onClick={() => toggleAccordion(key)}
         className="w-full flex items-center justify-between text-left cursor-pointer group"
       >
-        <span className="text-label uppercase tracking-[0.1em] text-[#111111]">{label}</span>
+        <span className="text-label uppercase tracking-[0.1em] text-black">{label}</span>
         {openAccordion === key
           ? <ChevronUp className="w-3.5 h-3.5 stroke-[1.25] text-[#6B6B6B] transition-transform" />
           : <ChevronDown className="w-3.5 h-3.5 stroke-[1.25] text-[#6B6B6B] transition-transform" />
@@ -174,18 +174,18 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
   );
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#111111]">
+    <div className="min-h-screen bg-[#FFFFFF] text-black">
 
       {/* Breadcrumb */}
       <div className="pt-20 pb-0 px-6 md:px-12 max-w-[1440px] mx-auto">
         <nav className="flex items-center gap-2 text-label text-[#9B9B9B] py-4">
-          <Link href="/" className="hover:text-[#111111] transition-colors">Home</Link>
+          <Link href="/" className="hover:text-black transition-colors">Home</Link>
           <span>/</span>
-          <Link href={`/${product.category}`} className="hover:text-[#111111] transition-colors capitalize">
+          <Link href={`/${product.category}`} className="hover:text-black transition-colors capitalize">
             {product.category}
           </Link>
           <span>/</span>
-          <span className="text-[#111111] truncate max-w-[200px]">{product.nameEn}</span>
+          <span className="text-black truncate max-w-[200px]">{product.nameEn}</span>
         </nav>
       </div>
 
@@ -232,14 +232,14 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                 className="absolute bottom-4 right-4 w-9 h-9 bg-white/90 flex items-center justify-center hover:bg-white transition-colors cursor-pointer"
                 aria-label="Zoom image"
               >
-                <ZoomIn className="w-4 h-4 stroke-[1.25] text-[#111111]" />
+                <ZoomIn className="w-4 h-4 stroke-[1.25] text-black" />
               </button>
 
               {/* Tag badge */}
               {product.tag && (product.tag === 'SALE' || product.tag === 'NEW' || product.tag === 'LIMITED') && (
                 <div className="absolute top-4 left-4">
                   <span className={`text-[9px] uppercase tracking-[0.15em] px-2 py-1 font-medium ${
-                    product.tag === 'SALE' ? 'bg-[#B42318] text-white' : 'bg-[#111111] text-white'
+                    product.tag === 'SALE' ? 'bg-[#B42318] text-white' : 'bg-black text-white'
                   }`}>
                     {product.tag}
                   </span>
@@ -259,7 +259,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                 </p>
                 <button
                   onClick={handleShare}
-                  className="flex items-center gap-1.5 text-label text-[#9B9B9B] hover:text-[#111111] transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 text-label text-[#9B9B9B] hover:text-black transition-colors cursor-pointer"
                 >
                   <Share2 className="w-3.5 h-3.5 stroke-[1.25]" />
                   Share
@@ -268,7 +268,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
               {/* Product name */}
               <h1
-                className="font-display font-light text-[#111111] leading-[1.05]"
+                className="font-display font-light text-black leading-[1.05]"
                 style={{ fontSize: 'clamp(22px, 2.5vw, 32px)', letterSpacing: '-0.02em' }}
               >
                 {product.nameEn.toUpperCase()}
@@ -279,7 +279,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
               {/* Price */}
               <div className="flex items-baseline gap-3 mt-4 mb-5 pb-5 border-b border-[#E8E8E5]">
-                <span className={`text-[20px] font-medium ${product.originalPriceBDT ? 'price-sale' : 'text-[#111111]'}`}>
+                <span className={`text-[20px] font-medium ${product.originalPriceBDT ? 'price-sale' : 'text-black'}`}>
                   ৳{product.priceBDT.toLocaleString()}
                 </span>
                 {product.originalPriceBDT && (
@@ -298,7 +298,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               {product.colors.length > 0 && (
                 <div className="mb-5">
                   <p className="text-label uppercase tracking-[0.1em] text-[#6B6B6B] mb-3">
-                    Colour — <span className="text-[#111111]">{selectedColor.name}</span>
+                    Colour — <span className="text-black">{selectedColor.name}</span>
                   </p>
                   <div className="flex gap-2.5">
                     {product.colors.map((c) => (
@@ -325,11 +325,11 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-label uppercase tracking-[0.1em] text-[#6B6B6B]">
-                    Size{selectedSize && <span className="text-[#111111] ml-1">— {selectedSize}</span>}
+                    Size{selectedSize && <span className="text-black ml-1">— {selectedSize}</span>}
                   </p>
                   <button
                     onClick={() => setIsSizeGuideOpen(true)}
-                    className="text-label uppercase tracking-[0.1em] text-[#6B6B6B] hover:text-[#111111] transition-colors cursor-pointer flex items-center gap-1"
+                    className="text-label uppercase tracking-[0.1em] text-[#6B6B6B] hover:text-black transition-colors cursor-pointer flex items-center gap-1"
                   >
                     <Ruler className="w-3 h-3 stroke-[1.25]" />
                     Size Guide
@@ -343,8 +343,8 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                       onClick={() => setSelectedSize(s)}
                       className={`min-w-[44px] px-3 py-2.5 border text-label uppercase tracking-[0.08em] transition-all duration-150 cursor-pointer ${
                         selectedSize === s
-                          ? 'border-[#111111] bg-[#111111] text-white'
-                          : 'border-[#D9D9D6] text-[#111111] hover:border-[#111111]'
+                          ? 'border-black bg-black text-white'
+                          : 'border-[#D9D9D6] text-black hover:border-black'
                       }`}
                     >
                       {s}
@@ -369,14 +369,14 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                 <div className="flex items-center border border-[#D9D9D6]">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 flex items-center justify-center text-[#6B6B6B] hover:text-[#111111] transition-colors cursor-pointer"
+                    className="w-8 h-8 flex items-center justify-center text-[#6B6B6B] hover:text-black transition-colors cursor-pointer"
                   >
                     <Minus className="w-3 h-3 stroke-[1.25]" />
                   </button>
-                  <span className="w-8 text-center text-label text-[#111111]">{quantity}</span>
+                  <span className="w-8 text-center text-label text-black">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-8 h-8 flex items-center justify-center text-[#6B6B6B] hover:text-[#111111] transition-colors cursor-pointer"
+                    className="w-8 h-8 flex items-center justify-center text-[#6B6B6B] hover:text-black transition-colors cursor-pointer"
                   >
                     <Plus className="w-3 h-3 stroke-[1.25]" />
                   </button>
@@ -387,7 +387,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               <div className="flex gap-3 mb-6">
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 py-4 bg-[#111111] text-white text-label uppercase tracking-[0.12em] flex items-center justify-center gap-2 hover:bg-[#333] transition-colors duration-150 cursor-pointer group"
+                  className="flex-1 py-4 bg-black text-white text-label uppercase tracking-[0.12em] flex items-center justify-center gap-2 hover:bg-[#333] transition-colors duration-150 cursor-pointer group"
                 >
                   <ShoppingBag className="w-3.5 h-3.5 stroke-[1.25]" />
                   Add to Bag
@@ -396,8 +396,8 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                   onClick={() => toggleWishlist(product.id, product.nameEn)}
                   className={`w-12 h-12 border flex items-center justify-center transition-all duration-150 cursor-pointer ${
                     wishlisted
-                      ? 'bg-[#111111] border-[#111111] text-white'
-                      : 'border-[#D9D9D6] text-[#6B6B6B] hover:border-[#111111] hover:text-[#111111]'
+                      ? 'bg-black border-black text-white'
+                      : 'border-[#D9D9D6] text-[#6B6B6B] hover:border-black hover:text-black'
                   }`}
                   aria-label="Toggle wishlist"
                 >
@@ -407,7 +407,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
               <button
                 onClick={handleBuyNow}
-                className="w-full py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.12em] text-[#111111] hover:border-[#111111] transition-colors duration-150 cursor-pointer mb-8"
+                className="w-full py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.12em] text-black hover:border-black transition-colors duration-150 cursor-pointer mb-8"
               >
                 Buy Now
               </button>
@@ -435,8 +435,8 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
                 {accordionItem('composition', 'Composition & Fit', (
                   <div className="space-y-2 text-body-sm">
-                    {product.material && <p>Material: <span className="text-[#111111]">{product.material}</span></p>}
-                    {product.fit && <p>Fit: <span className="text-[#111111]">{product.fit}</span></p>}
+                    {product.material && <p>Material: <span className="text-black">{product.material}</span></p>}
+                    {product.fit && <p>Fit: <span className="text-black">{product.fit}</span></p>}
                   </div>
                 ))}
 
@@ -449,11 +449,11 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                 {accordionItem('shipping', 'Delivery & Returns', (
                   <div className="space-y-3 text-body-sm">
                     <div className="flex items-start gap-2">
-                      <Truck className="w-3.5 h-3.5 stroke-[1.25] mt-0.5 shrink-0 text-[#111111]" />
+                      <Truck className="w-3.5 h-3.5 stroke-[1.25] mt-0.5 shrink-0 text-black" />
                       <span>Dhaka: 24–48 hrs · Nationwide: 3–5 business days</span>
                     </div>
                     <div className="flex items-start gap-2">
-                      <RefreshCw className="w-3.5 h-3.5 stroke-[1.25] mt-0.5 shrink-0 text-[#111111]" />
+                      <RefreshCw className="w-3.5 h-3.5 stroke-[1.25] mt-0.5 shrink-0 text-black" />
                       <span>Free returns within 7 days of delivery. In-store or courier pickup.</span>
                     </div>
                   </div>
@@ -465,13 +465,13 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       </section>
 
       {/* ── REVIEWS ── */}
-      <section className="border-t border-[#E8E8E5] py-16 md:py-24 px-6 md:px-12 bg-[#FAFAF8]">
+      <section className="border-t border-[#E8E8E5] py-16 md:py-24 px-6 md:px-12 bg-[#FFFFFF]">
         <div className="max-w-[1440px] mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
               <p className="text-editorial-label mb-2">Verified Buyers</p>
               <h2
-                className="font-display font-light text-[#111111]"
+                className="font-display font-light text-black"
                 style={{ fontSize: 'clamp(22px, 2.5vw, 32px)', letterSpacing: '-0.02em' }}
               >
                 Reviews ({reviewsList.length})
@@ -479,7 +479,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             </div>
             <button
               onClick={() => setIsReviewModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 border border-[#D9D9D6] text-label uppercase tracking-[0.1em] text-[#111111] hover:border-[#111111] transition-colors cursor-pointer self-start"
+              className="flex items-center gap-2 px-4 py-2.5 border border-[#D9D9D6] text-label uppercase tracking-[0.1em] text-black hover:border-black transition-colors cursor-pointer self-start"
             >
               <MessageSquarePlus className="w-3.5 h-3.5 stroke-[1.25]" />
               Write a Review
@@ -500,10 +500,10 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                     </div>
                     <span className="text-label text-[#9B9B9B]">{rev.date}</span>
                   </div>
-                  <h4 className="text-label uppercase tracking-[0.08em] text-[#111111] mb-2">{rev.title}</h4>
+                  <h4 className="text-label uppercase tracking-[0.08em] text-black mb-2">{rev.title}</h4>
                   <p className="text-body text-[#6B6B6B] mb-3 leading-relaxed">&ldquo;{rev.comment}&rdquo;</p>
                   <div className="flex items-center justify-between text-label text-[#9B9B9B]">
-                    <span className="text-[#111111]">{rev.author}</span>
+                    <span className="text-black">{rev.author}</span>
                     {rev.verified && (
                       <span className="flex items-center gap-1 text-[#286749]">
                         <CheckCircle2 className="w-3 h-3" />
@@ -526,13 +526,13 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               <div>
                 <p className="text-editorial-label mb-2">Style It With</p>
                 <h2
-                  className="font-display font-light text-[#111111]"
+                  className="font-display font-light text-black"
                   style={{ fontSize: 'clamp(22px, 2.5vw, 32px)', letterSpacing: '-0.02em' }}
                 >
                   Complete the Look
                 </h2>
               </div>
-              <Link href="/shop" className="text-label uppercase tracking-[0.1em] text-[#6B6B6B] hover:text-[#111111] transition-colors flex items-center gap-1.5">
+              <Link href="/shop" className="text-label uppercase tracking-[0.1em] text-[#6B6B6B] hover:text-black transition-colors flex items-center gap-1.5">
                 Shop All <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
               </Link>
             </div>
@@ -572,8 +572,8 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
           <div className="absolute inset-0 bg-black/40" onClick={() => setIsReviewModalOpen(false)} />
           <div className="relative w-full max-w-md bg-white p-8 z-10">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-label uppercase tracking-[0.12em] text-[#111111]">Write a Review</h3>
-              <button onClick={() => setIsReviewModalOpen(false)} className="text-[#9B9B9B] hover:text-[#111111] transition-colors cursor-pointer">
+              <h3 className="text-label uppercase tracking-[0.12em] text-black">Write a Review</h3>
+              <button onClick={() => setIsReviewModalOpen(false)} className="text-[#9B9B9B] hover:text-black transition-colors cursor-pointer">
                 <X className="w-4 h-4 stroke-[1.25]" />
               </button>
             </div>
@@ -602,7 +602,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                     value={value}
                     onChange={(e) => setter(e.target.value)}
                     placeholder={placeholder}
-                    className="w-full border border-[#D9D9D6] px-4 py-2.5 text-body text-[#111111] placeholder-[#9B9B9B] focus:outline-none focus:border-[#111111] bg-transparent transition-colors"
+                    className="w-full border border-[#D9D9D6] px-4 py-2.5 text-body text-black placeholder-[#9B9B9B] focus:outline-none focus:border-black bg-transparent transition-colors"
                   />
                 </div>
               ))}
@@ -615,7 +615,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                   value={newReviewComment}
                   onChange={(e) => setNewReviewComment(e.target.value)}
                   placeholder="Describe the fit, fabric, and how it wears..."
-                  className="w-full border border-[#D9D9D6] px-4 py-2.5 text-body text-[#111111] placeholder-[#9B9B9B] focus:outline-none focus:border-[#111111] bg-transparent transition-colors resize-none"
+                  className="w-full border border-[#D9D9D6] px-4 py-2.5 text-body text-black placeholder-[#9B9B9B] focus:outline-none focus:border-black bg-transparent transition-colors resize-none"
                 />
               </div>
 
@@ -623,13 +623,13 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                 <button
                   type="button"
                   onClick={() => setIsReviewModalOpen(false)}
-                  className="flex-1 py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.1em] text-[#111111] hover:border-[#111111] transition-colors cursor-pointer"
+                  className="flex-1 py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.1em] text-black hover:border-black transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-3 bg-[#111111] text-white text-label uppercase tracking-[0.1em] hover:bg-[#333] transition-colors cursor-pointer"
+                  className="flex-1 py-3 bg-black text-white text-label uppercase tracking-[0.1em] hover:bg-[#333] transition-colors cursor-pointer"
                 >
                   Submit
                 </button>

@@ -206,7 +206,7 @@ export const Header: React.FC = () => {
 
   const headerClass = isTransparent
     ? 'bg-transparent text-white'
-    : 'bg-white/98 text-[#111111] border-b border-[#E8E8E5]';
+    : 'bg-white/98 text-black border-b border-[#E8E8E5]';
 
   return (
     <>
@@ -220,9 +220,9 @@ export const Header: React.FC = () => {
             className="flex flex-col gap-[5px] w-5 cursor-pointer group"
             aria-label="Toggle menu"
           >
-            <span className={`h-px w-5 transition-all duration-200 ${isTransparent ? 'bg-white' : 'bg-[#111111]'} ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`} />
-            <span className={`h-px w-5 transition-all duration-200 ${isTransparent ? 'bg-white' : 'bg-[#111111]'} ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`h-px w-5 transition-all duration-200 ${isTransparent ? 'bg-white' : 'bg-[#111111]'} ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`} />
+            <span className={`h-px w-5 transition-all duration-200 ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`} />
+            <span className={`h-px w-5 transition-all duration-200 ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? 'opacity-0' : ''}`} />
+            <span className={`h-px w-5 transition-all duration-200 ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`} />
           </button>
 
           <nav className="hidden lg:flex items-center gap-7" aria-label="Primary navigation">
@@ -230,14 +230,14 @@ export const Header: React.FC = () => {
               <button
                 key={tab}
                 onClick={() => { setActiveTab(tab); setMenuOpen(true); }}
-                className={`text-nav uppercase tracking-[0.08em] hover:opacity-60 transition-opacity duration-150 flex items-center gap-0.5 cursor-pointer capitalize ${isTransparent ? 'text-white' : 'text-[#111111]'}`}
+                className={`text-nav uppercase tracking-[0.08em] hover:opacity-60 transition-opacity duration-150 flex items-center gap-0.5 cursor-pointer capitalize ${isTransparent ? 'text-white' : 'text-black'}`}
               >
                 {tab === 'panjabi' ? 'Panjabi' : tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
             ))}
             <Link
               href="/new-drop"
-              className={`text-nav uppercase tracking-[0.08em] hover:opacity-60 transition-opacity duration-150 ${isTransparent ? 'text-white' : 'text-[#111111]'}`}
+              className={`text-nav uppercase tracking-[0.08em] hover:opacity-60 transition-opacity duration-150 ${isTransparent ? 'text-white' : 'text-black'}`}
             >
               New In
             </Link>
@@ -249,7 +249,7 @@ export const Header: React.FC = () => {
           <Link
             href="/"
             onClick={() => setMenuOpen(false)}
-            className={`font-display text-[22px] font-medium tracking-[0.1em] uppercase hover:opacity-70 transition-opacity duration-150 ${isTransparent ? 'text-white' : 'text-[#111111]'}`}
+            className={`font-display text-[22px] font-medium tracking-[0.1em] uppercase hover:opacity-70 transition-opacity duration-150 ${isTransparent ? 'text-white' : 'text-black'}`}
           >
             FUKU
           </Link>
@@ -259,7 +259,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center gap-1">
           <button
             onClick={() => setSearchOpen(true)}
-            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 cursor-pointer ${isTransparent ? 'text-white' : 'text-[#111111]'}`}
+            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 cursor-pointer ${isTransparent ? 'text-white' : 'text-black'}`}
             aria-label="Search"
           >
             <Search className="w-[18px] h-[18px] stroke-[1.25]" />
@@ -267,12 +267,12 @@ export const Header: React.FC = () => {
 
           <Link
             href="/wishlist"
-            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 relative hidden sm:flex items-center ${isTransparent ? 'text-white' : 'text-[#111111]'}`}
+            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 relative hidden sm:flex items-center ${isTransparent ? 'text-white' : 'text-black'}`}
             aria-label="Wishlist"
           >
             <Heart className="w-[18px] h-[18px] stroke-[1.25]" />
             {wishlistCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-[14px] h-[14px] bg-[#111111] text-white font-mono text-[8px] font-bold flex items-center justify-center leading-none">
+              <span className="absolute top-1.5 right-1.5 w-[14px] h-[14px] bg-black text-white font-mono text-[8px] font-bold flex items-center justify-center leading-none">
                 {wishlistCount > 9 ? '9+' : wishlistCount}
               </span>
             )}
@@ -280,7 +280,7 @@ export const Header: React.FC = () => {
 
           <Link
             href={isAuthenticated ? '/account' : '/login'}
-            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 hidden sm:block ${isTransparent ? 'text-white' : 'text-[#111111]'}`}
+            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 hidden sm:block ${isTransparent ? 'text-white' : 'text-black'}`}
             aria-label="Account"
           >
             <User className="w-[18px] h-[18px] stroke-[1.25]" />
@@ -288,12 +288,12 @@ export const Header: React.FC = () => {
 
           <button
             onClick={openDrawer}
-            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 relative flex items-center cursor-pointer ${isTransparent ? 'text-white' : 'text-[#111111]'}`}
+            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 relative flex items-center cursor-pointer ${isTransparent ? 'text-white' : 'text-black'}`}
             aria-label="Shopping bag"
           >
             <ShoppingBag className="w-[18px] h-[18px] stroke-[1.25]" />
             {cartCount > 0 && (
-              <span className="absolute top-1.5 right-0.5 w-[14px] h-[14px] bg-[#111111] text-white font-mono text-[8px] font-bold flex items-center justify-center leading-none">
+              <span className="absolute top-1.5 right-0.5 w-[14px] h-[14px] bg-black text-white font-mono text-[8px] font-bold flex items-center justify-center leading-none">
                 {cartCount > 9 ? '9+' : cartCount}
               </span>
             )}
@@ -303,7 +303,7 @@ export const Header: React.FC = () => {
 
       {/* ─── MEGA MENU OVERLAY ─── */}
       <div
-        className={`fixed inset-0 z-[200] bg-white text-[#111111] flex flex-col transition-all duration-250 ${
+        className={`fixed inset-0 z-[200] bg-white text-black flex flex-col transition-all duration-250 ${
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
@@ -312,7 +312,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16 px-6 md:px-12 border-b border-[#E8E8E5] shrink-0">
           <button
             onClick={() => setMenuOpen(false)}
-            className="flex items-center gap-2.5 text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 cursor-pointer"
+            className="flex items-center gap-2.5 text-[#6B6B6B] hover:text-black transition-colors duration-150 cursor-pointer"
             aria-label="Close menu"
           >
             <X className="w-4 h-4 stroke-[1.25]" />
@@ -322,16 +322,16 @@ export const Header: React.FC = () => {
           <Link
             href="/"
             onClick={() => setMenuOpen(false)}
-            className="font-display text-[22px] font-medium tracking-[0.1em] uppercase text-[#111111] hover:opacity-70 transition-opacity"
+            className="font-display text-[22px] font-medium tracking-[0.1em] uppercase text-black hover:opacity-70 transition-opacity"
           >
             FUKU
           </Link>
 
           <div className="flex items-center gap-1">
-            <Link href="/search" onClick={() => setMenuOpen(false)} className="p-2.5 text-[#111111] hover:opacity-60 transition-opacity">
+            <Link href="/search" onClick={() => setMenuOpen(false)} className="p-2.5 text-black hover:opacity-60 transition-opacity">
               <Search className="w-[18px] h-[18px] stroke-[1.25]" />
             </Link>
-            <Link href={isAuthenticated ? '/account' : '/login'} onClick={() => setMenuOpen(false)} className="p-2.5 text-[#111111] hover:opacity-60 transition-opacity hidden sm:block">
+            <Link href={isAuthenticated ? '/account' : '/login'} onClick={() => setMenuOpen(false)} className="p-2.5 text-black hover:opacity-60 transition-opacity hidden sm:block">
               <User className="w-[18px] h-[18px] stroke-[1.25]" />
             </Link>
           </div>
@@ -345,7 +345,7 @@ export const Header: React.FC = () => {
               onClick={() => setActiveTab(tab)}
               className={`relative py-4 text-label uppercase tracking-[0.12em] whitespace-nowrap cursor-pointer transition-colors duration-150 ${
                 activeTab === tab
-                  ? 'text-[#111111] after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-[#111111]'
+                  ? 'text-black after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black'
                   : 'text-[#9B9B9B] hover:text-[#6B6B6B]'
               }`}
             >
@@ -368,7 +368,7 @@ export const Header: React.FC = () => {
                         <Link
                           href={item.href}
                           onClick={() => setMenuOpen(false)}
-                          className="text-body-lg text-[#111111] hover:text-[#6B6B6B] transition-colors duration-150 block"
+                          className="text-body-lg text-black hover:text-[#6B6B6B] transition-colors duration-150 block"
                         >
                           {item.name}
                         </Link>
@@ -419,7 +419,7 @@ export const Header: React.FC = () => {
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="text-label uppercase tracking-[0.08em] text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150"
+              className="text-label uppercase tracking-[0.08em] text-[#6B6B6B] hover:text-black transition-colors duration-150"
             >
               {link.label}
             </Link>
@@ -435,12 +435,12 @@ export const Header: React.FC = () => {
       >
         {/* Search header */}
         <div className="h-16 flex items-center justify-between px-6 md:px-12 border-b border-[#E8E8E5] shrink-0">
-          <Link href="/" onClick={() => setSearchOpen(false)} className="font-display text-[22px] font-medium tracking-[0.1em] uppercase text-[#111111]">
+          <Link href="/" onClick={() => setSearchOpen(false)} className="font-display text-[22px] font-medium tracking-[0.1em] uppercase text-black">
             FUKU
           </Link>
           <button
             onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
-            className="flex items-center gap-2.5 text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 cursor-pointer"
+            className="flex items-center gap-2.5 text-[#6B6B6B] hover:text-black transition-colors duration-150 cursor-pointer"
           >
             <span className="text-label uppercase tracking-[0.12em]">Close</span>
             <X className="w-4 h-4 stroke-[1.25]" />
@@ -457,13 +457,13 @@ export const Header: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search garments, collections..."
-              className="w-full bg-transparent text-[clamp(22px,4vw,36px)] text-[#111111] placeholder-[#D9D9D6] focus:outline-none font-display font-light"
+              className="w-full bg-transparent text-[clamp(22px,4vw,36px)] text-black placeholder-[#D9D9D6] focus:outline-none font-display font-light"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="text-[#9B9B9B] hover:text-[#111111] transition-colors"
+                className="text-[#9B9B9B] hover:text-black transition-colors"
               >
                 <X className="w-4 h-4 stroke-[1.25]" />
               </button>
@@ -488,7 +488,7 @@ export const Header: React.FC = () => {
                       <img src={product.images[0]} alt="" className="w-full h-full object-cover" loading="lazy" />
                     </div>
                     <div>
-                      <p className="text-label uppercase tracking-[0.08em] text-[#111111] mb-1 group-hover:underline">
+                      <p className="text-label uppercase tracking-[0.08em] text-black mb-1 group-hover:underline">
                         {product.nameEn}
                       </p>
                       <p className="text-label text-[#6B6B6B]">৳{product.priceBDT.toLocaleString()}</p>
@@ -512,7 +512,7 @@ export const Header: React.FC = () => {
                       setSearchOpen(false);
                       setSearchQuery('');
                     }}
-                    className="px-4 py-2 border border-[#D9D9D6] text-body text-[#111111] hover:border-[#111111] transition-colors duration-150 cursor-pointer"
+                    className="px-4 py-2 border border-[#D9D9D6] text-body text-black hover:border-black transition-colors duration-150 cursor-pointer"
                   >
                     {term}
                   </button>

@@ -62,7 +62,7 @@ export function CartDrawer() {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8E8E5]">
           <div>
-            <h2 className="text-label uppercase tracking-[0.12em] text-[#111111]">Your Bag</h2>
+            <h2 className="text-label uppercase tracking-[0.12em] text-black">Your Bag</h2>
             {items.length > 0 && (
               <p className="text-label text-[#9B9B9B] mt-0.5">
                 {items.reduce((s, i) => s + i.quantity, 0)} item{items.reduce((s, i) => s + i.quantity, 0) !== 1 ? 's' : ''}
@@ -71,7 +71,7 @@ export function CartDrawer() {
           </div>
           <button
             onClick={closeDrawer}
-            className="p-2 text-[#9B9B9B] hover:text-[#111111] transition-colors duration-150 cursor-pointer -mr-2"
+            className="p-2 text-[#9B9B9B] hover:text-black transition-colors duration-150 cursor-pointer -mr-2"
             aria-label="Close"
           >
             <X className="w-[18px] h-[18px] stroke-[1.25]" />
@@ -86,7 +86,7 @@ export function CartDrawer() {
             </p>
             <div className="mt-2 h-px bg-[#D9D9D6] relative">
               <div
-                className="absolute left-0 top-0 h-px bg-[#111111] transition-all duration-500"
+                className="absolute left-0 top-0 h-px bg-black transition-all duration-500"
                 style={{ width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%` }}
               />
             </div>
@@ -103,11 +103,11 @@ export function CartDrawer() {
           {items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center px-8 py-16">
               <ShoppingBag className="w-8 h-8 text-[#D9D9D6] stroke-[1] mb-5" />
-              <p className="text-body text-[#111111] mb-1 uppercase tracking-wider">Your bag is empty</p>
+              <p className="text-body text-black mb-1 uppercase tracking-wider">Your bag is empty</p>
               <p className="text-body-sm text-[#9B9B9B] mb-8">Add garments to your bag to continue</p>
               <button
                 onClick={closeDrawer}
-                className="px-6 py-3 bg-[#111111] text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 cursor-pointer"
+                className="px-6 py-3 bg-black text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 cursor-pointer"
               >
                 Continue Shopping
               </button>
@@ -138,7 +138,7 @@ export function CartDrawer() {
                         <Link
                           href={`/product/${item.id}`}
                           onClick={closeDrawer}
-                          className="text-label uppercase tracking-[0.08em] text-[#111111] hover:opacity-60 transition-opacity line-clamp-1 block"
+                          className="text-label uppercase tracking-[0.08em] text-black hover:opacity-60 transition-opacity line-clamp-1 block"
                         >
                           {item.title}
                         </Link>
@@ -149,7 +149,7 @@ export function CartDrawer() {
                       </div>
                       <button
                         onClick={() => removeItem(item.id, item.selectedSize, item.selectedColor)}
-                        className="text-[#D9D9D6] hover:text-[#111111] transition-colors duration-150 cursor-pointer shrink-0 pt-0.5"
+                        className="text-[#D9D9D6] hover:text-black transition-colors duration-150 cursor-pointer shrink-0 pt-0.5"
                         aria-label="Remove"
                       >
                         <X className="w-3.5 h-3.5 stroke-[1.25]" />
@@ -161,19 +161,19 @@ export function CartDrawer() {
                       <div className="flex items-center border border-[#D9D9D6]">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1, item.selectedSize, item.selectedColor)}
-                          className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 cursor-pointer"
+                          className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-black transition-colors duration-150 cursor-pointer"
                         >
                           <Minus className="w-3 h-3 stroke-[1.25]" />
                         </button>
-                        <span className="w-7 text-center text-label text-[#111111]">{item.quantity}</span>
+                        <span className="w-7 text-center text-label text-black">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1, item.selectedSize, item.selectedColor)}
-                          className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 cursor-pointer"
+                          className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-black transition-colors duration-150 cursor-pointer"
                         >
                           <Plus className="w-3 h-3 stroke-[1.25]" />
                         </button>
                       </div>
-                      <span className="text-label text-[#111111]">৳{(item.price * item.quantity).toLocaleString()}</span>
+                      <span className="text-label text-black">৳{(item.price * item.quantity).toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
@@ -193,7 +193,7 @@ export function CartDrawer() {
                 </span>
                 <button
                   onClick={removeCoupon}
-                  className="text-[#9B9B9B] hover:text-[#111111] transition-colors cursor-pointer underline"
+                  className="text-[#9B9B9B] hover:text-black transition-colors cursor-pointer underline"
                 >
                   Remove
                 </button>
@@ -205,11 +205,11 @@ export function CartDrawer() {
                   placeholder="Promo code"
                   value={couponInput}
                   onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                  className="flex-1 border border-[#D9D9D6] px-3 py-2 text-label text-[#111111] placeholder-[#9B9B9B] uppercase tracking-[0.08em] focus:outline-none focus:border-[#111111] transition-colors bg-transparent"
+                  className="flex-1 border border-[#D9D9D6] px-3 py-2 text-label text-black placeholder-[#9B9B9B] uppercase tracking-[0.08em] focus:outline-none focus:border-black transition-colors bg-transparent"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2 border border-[#111111] text-label uppercase tracking-[0.08em] text-[#111111] hover:bg-[#111111] hover:text-white transition-all duration-150 cursor-pointer"
+                  className="px-4 py-2 border border-black text-label uppercase tracking-[0.08em] text-black hover:bg-black hover:text-white transition-all duration-150 cursor-pointer"
                 >
                   Apply
                 </button>
@@ -221,7 +221,7 @@ export function CartDrawer() {
             <div className="space-y-1.5 text-label">
               <div className="flex justify-between">
                 <span className="text-[#6B6B6B] uppercase tracking-[0.08em]">Subtotal</span>
-                <span className="text-[#111111]">৳{subtotal.toLocaleString()}</span>
+                <span className="text-black">৳{subtotal.toLocaleString()}</span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between">
@@ -230,8 +230,8 @@ export function CartDrawer() {
                 </div>
               )}
               <div className="flex justify-between pt-2 border-t border-[#E8E8E5] mt-2">
-                <span className="text-[#111111] uppercase tracking-[0.08em]">Total</span>
-                <span className="text-[#111111] font-medium">৳{total.toLocaleString()}</span>
+                <span className="text-black uppercase tracking-[0.08em]">Total</span>
+                <span className="text-black font-medium">৳{total.toLocaleString()}</span>
               </div>
               <p className="text-label text-[#9B9B9B]">Shipping calculated at checkout</p>
             </div>
@@ -241,7 +241,7 @@ export function CartDrawer() {
               <Link
                 href="/checkout"
                 onClick={closeDrawer}
-                className="w-full py-3.5 bg-[#111111] text-white text-label uppercase tracking-[0.12em] flex items-center justify-center gap-2 hover:bg-[#333] transition-colors duration-150 group"
+                className="w-full py-3.5 bg-black text-white text-label uppercase tracking-[0.12em] flex items-center justify-center gap-2 hover:bg-[#333] transition-colors duration-150 group"
               >
                 <span>Checkout</span>
                 <ArrowRight className="w-3.5 h-3.5 stroke-[1.25] group-hover:translate-x-0.5 transition-transform duration-150" />
@@ -249,7 +249,7 @@ export function CartDrawer() {
               <Link
                 href="/bag"
                 onClick={closeDrawer}
-                className="w-full py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.12em] text-[#111111] flex items-center justify-center hover:border-[#111111] transition-colors duration-150"
+                className="w-full py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.12em] text-black flex items-center justify-center hover:border-black transition-colors duration-150"
               >
                 View Bag
               </Link>

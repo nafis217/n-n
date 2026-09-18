@@ -13,42 +13,42 @@ const config: Config = {
         black:  '#000000',
         white:  '#FFFFFF',
 
-        // ── Surface System ──
-        'f-bg':        '#FAFAF8',   // primary page background
-        'f-surface':   '#FFFFFF',   // main surface (cards, drawers)
-        'f-surface-2': '#F3F3F1',   // alternate sections
-        'f-surface-3': '#EBEBEA',   // deeper alternate
+        // ── Surface System (Pure White & Pure Black) ──
+        'f-bg':        '#FFFFFF',   // pure white primary page background
+        'f-surface':   '#FFFFFF',   // pure white main surface
+        'f-surface-2': '#F7F7F7',   // clean light gray alternate
+        'f-surface-3': '#EFEFEF',   // subtle gray alternate
 
         // ── Typography ──
-        'f-text':    '#111111',   // primary text
-        'f-text-2':  '#6B6B6B',   // secondary / metadata
-        'f-text-3':  '#9B9B9B',   // placeholder / disabled
+        'f-text':    '#000000',   // pure black primary text
+        'f-text-2':  '#555555',   // crisp secondary / metadata
+        'f-text-3':  '#888888',   // placeholder / disabled
 
         // ── Borders & Dividers ──
-        'f-border':  '#D9D9D6',   // card edges, input borders
-        'f-divider': '#E8E8E5',   // subtle section dividers
+        'f-border':  '#E5E5E5',   // clean border lines
+        'f-divider': '#EEEEEE',   // subtle section dividers
 
         // ── Functional Accents ──
         'f-sale':    '#B42318',   // sale price, destructive
         'f-success': '#286749',   // confirmation, in stock
 
-        // ── Legacy aliases (keep for admin/pos pages) ──
-        background: '#FAFAF8',
-        'on-background': '#111111',
+        // ── Legacy aliases ──
+        background: '#FFFFFF',
+        'on-background': '#000000',
         primary: '#000000',
-        'on-primary': '#ffffff',
-        secondary: '#6B6B6B',
-        'on-secondary': '#ffffff',
-        'surface-container-lowest': '#ffffff',
-        'surface-container-low':    '#F3F3F1',
-        'surface-container':        '#EBEBEA',
-        'surface-container-high':   '#E0E0DE',
-        'surface-variant':          '#D9D9D6',
-        outline:          '#9B9B9B',
-        'outline-variant': '#D9D9D6',
+        'on-primary': '#FFFFFF',
+        secondary: '#555555',
+        'on-secondary': '#FFFFFF',
+        'surface-container-lowest': '#FFFFFF',
+        'surface-container-low':    '#F7F7F7',
+        'surface-container':        '#EFEFEF',
+        'surface-container-high':   '#E5E5E5',
+        'surface-variant':          '#E5E5E5',
+        outline:          '#888888',
+        'outline-variant': '#E5E5E5',
         error:       '#B42318',
         vermilion:   '#B42318',
-        'warm-bone': '#F3F3F1',
+        'warm-bone': '#F7F7F7',
       },
 
       borderRadius: {

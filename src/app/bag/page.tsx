@@ -28,7 +28,7 @@ export default function ShoppingBagPage() {
   useEffect(() => { setMounted(true); }, []);
 
   if (!mounted) return (
-    <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
+    <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center">
       <p className="text-label text-[#9B9B9B] uppercase tracking-[0.12em]">Loading...</p>
     </div>
   );
@@ -52,10 +52,10 @@ export default function ShoppingBagPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#FAFAF8] flex flex-col items-center justify-center text-center px-6 pt-24">
+      <div className="min-h-screen bg-[#FFFFFF] flex flex-col items-center justify-center text-center px-6 pt-24">
         <ShoppingBag className="w-10 h-10 text-[#D9D9D6] stroke-[1] mb-6" />
         <h1
-          className="font-display font-light text-[#111111] mb-3"
+          className="font-display font-light text-black mb-3"
           style={{ fontSize: 'clamp(24px, 3vw, 36px)', letterSpacing: '-0.02em' }}
         >
           Your bag is empty.
@@ -63,7 +63,7 @@ export default function ShoppingBagPage() {
         <p className="text-body text-[#9B9B9B] mb-8">Add garments to your bag to continue.</p>
         <Link
           href="/shop"
-          className="px-6 py-3 bg-[#111111] text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 inline-flex items-center gap-2"
+          className="px-6 py-3 bg-black text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 inline-flex items-center gap-2"
         >
           Continue Shopping
           <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
@@ -73,12 +73,12 @@ export default function ShoppingBagPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#111111] pt-24">
+    <div className="min-h-screen bg-[#FFFFFF] text-black pt-24">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 pb-20">
 
         {/* Page title */}
         <h1
-          className="font-display font-light text-[#111111] mb-2"
+          className="font-display font-light text-black mb-2"
           style={{ fontSize: 'clamp(28px, 4vw, 48px)', letterSpacing: '-0.025em' }}
         >
           Your Bag
@@ -95,7 +95,7 @@ export default function ShoppingBagPage() {
             </p>
             <div className="mt-2 h-px bg-[#E8E8E5] relative">
               <div
-                className="absolute left-0 top-0 h-px bg-[#111111] transition-all duration-500"
+                className="absolute left-0 top-0 h-px bg-black transition-all duration-500"
                 style={{ width: `${Math.min(100, (subtotal / freeShippingThreshold) * 100)}%` }}
               />
             </div>
@@ -130,7 +130,7 @@ export default function ShoppingBagPage() {
                     <div className="flex flex-col justify-center min-w-0">
                       <Link
                         href={`/product/${item.id}`}
-                        className="text-label uppercase tracking-[0.08em] text-[#111111] hover:opacity-60 transition-opacity line-clamp-1"
+                        className="text-label uppercase tracking-[0.08em] text-black hover:opacity-60 transition-opacity line-clamp-1"
                       >
                         {item.title}
                       </Link>
@@ -138,7 +138,7 @@ export default function ShoppingBagPage() {
                         {item.selectedColor && <span>{item.selectedColor}</span>}
                         {item.selectedSize && <span>· Size {item.selectedSize}</span>}
                       </div>
-                      <p className="text-label text-[#111111] mt-1 md:hidden">
+                      <p className="text-label text-black mt-1 md:hidden">
                         ৳{(item.price * item.quantity).toLocaleString()}
                       </p>
                     </div>
@@ -149,14 +149,14 @@ export default function ShoppingBagPage() {
                     <div className="flex items-center border border-[#D9D9D6]">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1, item.selectedSize, item.selectedColor)}
-                        className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-[#111111] transition-colors cursor-pointer"
+                        className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-black transition-colors cursor-pointer"
                       >
                         <Minus className="w-3 h-3 stroke-[1.25]" />
                       </button>
-                      <span className="w-7 text-center text-label text-[#111111]">{item.quantity}</span>
+                      <span className="w-7 text-center text-label text-black">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1, item.selectedSize, item.selectedColor)}
-                        className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-[#111111] transition-colors cursor-pointer"
+                        className="w-7 h-7 flex items-center justify-center text-[#6B6B6B] hover:text-black transition-colors cursor-pointer"
                       >
                         <Plus className="w-3 h-3 stroke-[1.25]" />
                       </button>
@@ -164,7 +164,7 @@ export default function ShoppingBagPage() {
                   </div>
 
                   {/* Price (desktop) */}
-                  <div className="hidden md:block col-span-3 text-right text-label text-[#111111]">
+                  <div className="hidden md:block col-span-3 text-right text-label text-black">
                     ৳{(item.price * item.quantity).toLocaleString()}
                   </div>
 
@@ -172,7 +172,7 @@ export default function ShoppingBagPage() {
                   <div className="col-span-2 md:col-span-1 flex justify-end">
                     <button
                       onClick={() => removeItem(item.id, item.selectedSize, item.selectedColor)}
-                      className="text-[#D9D9D6] hover:text-[#111111] transition-colors cursor-pointer p-1"
+                      className="text-[#D9D9D6] hover:text-black transition-colors cursor-pointer p-1"
                       aria-label="Remove item"
                     >
                       <X className="w-3.5 h-3.5 stroke-[1.25]" />
@@ -186,7 +186,7 @@ export default function ShoppingBagPage() {
             <div className="pt-6 border-t border-[#E8E8E5]">
               <Link
                 href="/shop"
-                className="text-label uppercase tracking-[0.1em] text-[#6B6B6B] hover:text-[#111111] transition-colors flex items-center gap-1.5"
+                className="text-label uppercase tracking-[0.1em] text-[#6B6B6B] hover:text-black transition-colors flex items-center gap-1.5"
               >
                 ← Continue Shopping
               </Link>
@@ -196,7 +196,7 @@ export default function ShoppingBagPage() {
           {/* Order summary */}
           <div className="lg:col-span-4">
             <div className="bg-white border border-[#E8E8E5] p-6 space-y-5">
-              <h2 className="text-label uppercase tracking-[0.12em] text-[#111111] border-b border-[#E8E8E5] pb-4">
+              <h2 className="text-label uppercase tracking-[0.12em] text-black border-b border-[#E8E8E5] pb-4">
                 Order Summary
               </h2>
 
@@ -206,7 +206,7 @@ export default function ShoppingBagPage() {
                   <span className="text-[#286749] uppercase tracking-[0.08em]">
                     {couponCode} (−৳{discount.toLocaleString()})
                   </span>
-                  <button onClick={removeCoupon} className="text-[#9B9B9B] hover:text-[#111111] transition-colors underline cursor-pointer">
+                  <button onClick={removeCoupon} className="text-[#9B9B9B] hover:text-black transition-colors underline cursor-pointer">
                     Remove
                   </button>
                 </div>
@@ -217,11 +217,11 @@ export default function ShoppingBagPage() {
                     placeholder="Promo code"
                     value={promoCodeInput}
                     onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
-                    className="flex-1 border border-[#D9D9D6] px-3 py-2 text-label text-[#111111] placeholder-[#9B9B9B] uppercase tracking-[0.08em] focus:outline-none focus:border-[#111111] transition-colors bg-transparent"
+                    className="flex-1 border border-[#D9D9D6] px-3 py-2 text-label text-black placeholder-[#9B9B9B] uppercase tracking-[0.08em] focus:outline-none focus:border-black transition-colors bg-transparent"
                   />
                   <button
                     type="submit"
-                    className="px-3 py-2 border border-[#111111] text-label uppercase tracking-[0.08em] text-[#111111] hover:bg-[#111111] hover:text-white transition-all duration-150 cursor-pointer"
+                    className="px-3 py-2 border border-black text-label uppercase tracking-[0.08em] text-black hover:bg-black hover:text-white transition-all duration-150 cursor-pointer"
                   >
                     Apply
                   </button>
@@ -233,7 +233,7 @@ export default function ShoppingBagPage() {
               <div className="space-y-2 text-label border-b border-[#E8E8E5] pb-4">
                 <div className="flex justify-between">
                   <span className="text-[#6B6B6B] uppercase tracking-[0.08em]">Subtotal</span>
-                  <span className="text-[#111111]">৳{subtotal.toLocaleString()}</span>
+                  <span className="text-black">৳{subtotal.toLocaleString()}</span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between">
@@ -243,18 +243,18 @@ export default function ShoppingBagPage() {
                 )}
                 <div className="flex justify-between">
                   <span className="text-[#6B6B6B] uppercase tracking-[0.08em]">Delivery</span>
-                  <span className="text-[#111111]">{subtotal >= freeShippingThreshold ? 'Free' : `৳${(shippingFee || 80).toLocaleString()}`}</span>
+                  <span className="text-black">{subtotal >= freeShippingThreshold ? 'Free' : `৳${(shippingFee || 80).toLocaleString()}`}</span>
                 </div>
               </div>
 
               <div className="flex justify-between text-label">
-                <span className="text-[#111111] uppercase tracking-[0.08em]">Total</span>
-                <span className="text-[#111111] font-medium text-[15px]">৳{total.toLocaleString()}</span>
+                <span className="text-black uppercase tracking-[0.08em]">Total</span>
+                <span className="text-black font-medium text-[15px]">৳{total.toLocaleString()}</span>
               </div>
 
               <Link
                 href="/checkout"
-                className="w-full py-4 bg-[#111111] text-white text-label uppercase tracking-[0.12em] flex items-center justify-center gap-2 hover:bg-[#333] transition-colors duration-150 group"
+                className="w-full py-4 bg-black text-white text-label uppercase tracking-[0.12em] flex items-center justify-center gap-2 hover:bg-[#333] transition-colors duration-150 group"
               >
                 Checkout
                 <ArrowRight className="w-3.5 h-3.5 stroke-[1.25] group-hover:translate-x-0.5 transition-transform duration-150" />

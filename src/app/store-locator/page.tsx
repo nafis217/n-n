@@ -35,14 +35,14 @@ export default function StoreLocatorPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#111111] pt-24 pb-20">
+    <div className="min-h-screen bg-[#FFFFFF] text-black pt-24 pb-20">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="border-b border-[#E8E8E5] pb-8 mb-12">
           <span className="text-label text-[#9B9B9B] uppercase tracking-[0.16em] block mb-2 font-medium">
             Physical Destinations
           </span>
           <h1
-            className="font-display font-light text-[#111111]"
+            className="font-display font-light text-black"
             style={{ fontSize: 'clamp(28px, 4vw, 48px)', letterSpacing: '-0.025em' }}
           >
             FUKU Atelier &amp; Store Network
@@ -53,10 +53,10 @@ export default function StoreLocatorPage() {
           {stores.map((st) => (
             <div
               key={st.id}
-              className="p-8 bg-white border border-[#E8E8E5] flex flex-col justify-between hover:border-[#111111] transition-colors"
+              className="p-8 bg-white border border-[#E8E8E5] flex flex-col justify-between hover:border-black transition-colors"
             >
               <div>
-                <h2 className="text-label uppercase tracking-[0.12em] font-medium text-[#111111] text-sm mb-3">
+                <h2 className="text-label uppercase tracking-[0.12em] font-medium text-black text-sm mb-3">
                   {st.name}
                 </h2>
                 <p className="text-body text-xs text-[#6B6B6B] leading-relaxed mb-6">
@@ -65,15 +65,15 @@ export default function StoreLocatorPage() {
 
                 <div className="space-y-3 text-xs border-t border-[#F0F0EE] pt-6 text-[#6B6B6B]">
                   <div className="flex items-start gap-3">
-                    <MapPin className="w-4 h-4 text-[#111111] shrink-0 mt-0.5 stroke-[1.25]" />
+                    <MapPin className="w-4 h-4 text-black shrink-0 mt-0.5 stroke-[1.25]" />
                     <span className="text-body text-xs leading-relaxed">{st.address}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="w-4 h-4 text-[#111111] shrink-0 stroke-[1.25]" />
+                    <Clock className="w-4 h-4 text-black shrink-0 stroke-[1.25]" />
                     <span className="text-body text-xs">{st.hours}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Phone className="w-4 h-4 text-[#111111] shrink-0 stroke-[1.25]" />
+                    <Phone className="w-4 h-4 text-black shrink-0 stroke-[1.25]" />
                     <span className="text-body text-xs">{st.phone}</span>
                   </div>
                 </div>
@@ -83,7 +83,7 @@ export default function StoreLocatorPage() {
                 <span className="text-[10px] text-[#6B6B6B] uppercase tracking-[0.1em] font-medium">
                   Showroom Walk-ins Welcome
                 </span>
-                <ArrowUpRight className="w-3.5 h-3.5 text-[#111111]" />
+                <ArrowUpRight className="w-3.5 h-3.5 text-black" />
               </div>
             </div>
           ))}

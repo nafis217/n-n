@@ -36,14 +36,14 @@ export default function CollectionsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#111111] pt-24 pb-20">
+    <div className="min-h-screen bg-[#FFFFFF] text-black pt-24 pb-20">
       <div className="max-w-[1440px] mx-auto px-6 md:px-12">
         <div className="border-b border-[#E8E8E5] pb-8 mb-12">
           <span className="text-label text-[#9B9B9B] uppercase tracking-[0.16em] block mb-2 font-medium">
             Curated Archives
           </span>
           <h1
-            className="font-display font-light text-[#111111]"
+            className="font-display font-light text-black"
             style={{ fontSize: 'clamp(28px, 4vw, 48px)', letterSpacing: '-0.025em' }}
           >
             FUKU Editorial Collections

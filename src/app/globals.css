@@ -26,8 +26,8 @@
   }
 
   body {
-    background-color: #FAFAF8;
-    color: #111111;
+    background-color: #FFFFFF;
+    color: #000000;
     font-family: 'Geist', 'Noto Sans Bengali', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -43,7 +43,7 @@
 
   /* Focus visible for accessibility */
   :focus-visible {
-    outline: 1.5px solid #111111;
+    outline: 1.5px solid #000000;
     outline-offset: 2px;
   }
 
@@ -54,7 +54,7 @@
 
   /* Thin selection color */
   ::selection {
-    background-color: #111111;
+    background-color: #000000;
     color: #FFFFFF;
   }
 }

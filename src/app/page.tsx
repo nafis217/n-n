@@ -71,7 +71,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#111111]">
+    <div className="min-h-screen bg-[#FFFFFF] text-black">
 
       {/* ═══════════════════════════════════════════
           SECTION 01 — FULL-SCREEN CAMPAIGN HERO
@@ -142,11 +142,11 @@ export default function HomePage() {
         </div>
 
         {/* Editorial text */}
-        <div className="flex flex-col justify-center px-8 md:px-16 py-20 bg-[#FAFAF8]">
+        <div className="flex flex-col justify-center px-8 md:px-16 py-20 bg-[#FFFFFF]">
           <RevealSection>
             <p className="text-editorial-label mb-6">The Edit</p>
             <h2
-              className="font-display font-light text-[#111111] leading-[1.0] mb-6"
+              className="font-display font-light text-black leading-[1.0] mb-6"
               style={{ fontSize: 'clamp(36px, 4vw, 56px)', letterSpacing: '-0.03em' }}
             >
               FORM /<br />FUNCTION.
@@ -156,7 +156,7 @@ export default function HomePage() {
             </p>
             <Link
               href="/collections"
-              className="inline-flex items-center gap-2 text-label uppercase tracking-[0.12em] text-[#111111] border-b border-[#111111] pb-0.5 hover:text-[#6B6B6B] hover:border-[#6B6B6B] transition-colors duration-150 self-start"
+              className="inline-flex items-center gap-2 text-label uppercase tracking-[0.12em] text-black border-b border-black pb-0.5 hover:text-[#6B6B6B] hover:border-[#6B6B6B] transition-colors duration-150 self-start"
             >
               Explore Collections
               <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
@@ -173,7 +173,7 @@ export default function HomePage() {
           <div>
             <p className="text-editorial-label mb-2">Seasonal Release</p>
             <h2
-              className="font-display font-light text-[#111111]"
+              className="font-display font-light text-black"
               style={{ fontSize: 'clamp(28px, 3vw, 40px)', letterSpacing: '-0.025em' }}
             >
               New In
@@ -181,7 +181,7 @@ export default function HomePage() {
           </div>
           <Link
             href="/new-drop"
-            className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 flex items-center gap-1.5"
+            className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-black transition-colors duration-150 flex items-center gap-1.5"
           >
             View All
             <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
@@ -203,7 +203,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════
           SECTION 04 — FULL-BLEED COLLECTION BANNER
       ══════════════════════════════════════════ */}
-      <section className="relative w-full min-h-[60vh] md:min-h-[70vh] overflow-hidden bg-[#111111]">
+      <section className="relative w-full min-h-[60vh] md:min-h-[70vh] overflow-hidden bg-black">
         <Image
           src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=2000"
           alt="FUKU Men's Collection"
@@ -238,7 +238,7 @@ export default function HomePage() {
           <div>
             <p className="text-editorial-label mb-2">Always in demand</p>
             <h2
-              className="font-display font-light text-[#111111]"
+              className="font-display font-light text-black"
               style={{ fontSize: 'clamp(28px, 3vw, 40px)', letterSpacing: '-0.025em' }}
             >
               Best Sellers
@@ -246,7 +246,7 @@ export default function HomePage() {
           </div>
           <Link
             href="/best-sellers"
-            className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 flex items-center gap-1.5"
+            className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-black transition-colors duration-150 flex items-center gap-1.5"
           >
             View All
             <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
@@ -315,7 +315,7 @@ export default function HomePage() {
           <div className="mt-6 flex justify-end">
             <Link
               href="/collections"
-              className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-[#111111] transition-colors duration-150 flex items-center gap-1.5"
+              className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-black transition-colors duration-150 flex items-center gap-1.5"
             >
               View Lookbook
               <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
@@ -327,11 +327,11 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════
           SECTION 07 — BRAND STATEMENT
       ══════════════════════════════════════════ */}
-      <section className="py-24 md:py-36 px-6 md:px-12 bg-[#FAFAF8]">
+      <section className="py-24 md:py-36 px-6 md:px-12 bg-[#FFFFFF]">
         <RevealSection className="max-w-5xl mx-auto text-center">
           <p className="text-editorial-label text-[#9B9B9B] mb-8">FUKU — Dhaka, Bangladesh</p>
           <blockquote
-            className="font-display font-light text-[#111111]"
+            className="font-display font-light text-black"
             style={{ fontSize: 'clamp(32px, 5vw, 72px)', letterSpacing: '-0.04em', lineHeight: '1.0' }}
           >
             &ldquo;BUILT FOR THE<br />EVERYDAY.&rdquo;
@@ -343,7 +343,7 @@ export default function HomePage() {
           <div className="mt-8">
             <Link
               href="/about"
-              className="text-label uppercase tracking-[0.12em] text-[#111111] border-b border-[#111111] pb-0.5 hover:text-[#6B6B6B] hover:border-[#6B6B6B] transition-colors duration-150"
+              className="text-label uppercase tracking-[0.12em] text-black border-b border-black pb-0.5 hover:text-[#6B6B6B] hover:border-[#6B6B6B] transition-colors duration-150"
             >
               Our Story
             </Link>
@@ -358,7 +358,7 @@ export default function HomePage() {
         <RevealSection className="max-w-xl mx-auto text-center">
           <p className="text-editorial-label text-[#9B9B9B] mb-5">Early Access</p>
           <h2
-            className="font-display font-light text-[#111111] mb-8"
+            className="font-display font-light text-black mb-8"
             style={{ fontSize: 'clamp(28px, 3vw, 40px)', letterSpacing: '-0.025em' }}
           >
             Join the Edit
@@ -374,11 +374,11 @@ export default function HomePage() {
                 value={newsletterEmail}
                 onChange={(e) => setNewsletterEmail(e.target.value)}
                 placeholder="Your email address"
-                className="flex-1 border border-[#D9D9D6] border-r-0 px-4 py-3 text-label text-[#111111] placeholder-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors bg-transparent"
+                className="flex-1 border border-[#D9D9D6] border-r-0 px-4 py-3 text-label text-black placeholder-[#9B9B9B] focus:outline-none focus:border-black transition-colors bg-transparent"
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-[#111111] text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 cursor-pointer whitespace-nowrap"
+                className="px-6 py-3 bg-black text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 cursor-pointer whitespace-nowrap"
               >
                 Subscribe
               </button>

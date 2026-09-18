@@ -58,7 +58,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView, 
               className={`text-[9px] uppercase tracking-[0.15em] px-2 py-1 font-medium ${
                 product.tag === 'SALE'
                   ? 'bg-[#B42318] text-white'
-                  : 'bg-[#111111] text-white'
+                  : 'bg-black text-white'
               }`}
             >
               {product.tag}
@@ -120,11 +120,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView, 
         {/* Quick add — slides up from bottom on hover (desktop), always visible mobile */}
         <button
           onClick={handleQuickAdd}
-          className={`absolute bottom-0 left-0 w-full z-10 py-3 bg-white/95 backdrop-blur-sm border-t border-[#E8E8E5] text-label uppercase tracking-[0.12em] text-[#111111] flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer hover:bg-[#111111] hover:text-white ${
+          className={`absolute bottom-0 left-0 w-full z-10 py-3 bg-white/95 backdrop-blur-sm border-t border-[#E8E8E5] text-label uppercase tracking-[0.12em] text-black flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer hover:bg-black hover:text-white ${
             hovered
               ? 'translate-y-0 opacity-100'
               : 'translate-y-full opacity-0 md:translate-y-full md:opacity-0'
-          } ${added ? 'bg-[#111111] text-white translate-y-0 opacity-100' : ''}`}
+          } ${added ? 'bg-black text-white translate-y-0 opacity-100' : ''}`}
           aria-label="Quick add to bag"
         >
           {added ? (
@@ -145,7 +145,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView, 
       <div className="flex flex-col gap-0.5 px-0.5">
         <Link
           href={`/product/${product.id}`}
-          className="text-label uppercase tracking-[0.08em] text-[#111111] hover:text-[#6B6B6B] transition-colors duration-150 line-clamp-1"
+          className="text-label uppercase tracking-[0.08em] text-black hover:text-[#6B6B6B] transition-colors duration-150 line-clamp-1"
         >
           {product.nameEn}
         </Link>
@@ -158,7 +158,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView, 
         )}
 
         <div className="flex items-center gap-2.5 mt-0.5">
-          <span className={`text-label ${product.originalPriceBDT ? 'price-sale' : 'text-[#111111]'}`}>
+          <span className={`text-label ${product.originalPriceBDT ? 'price-sale' : 'text-black'}`}>
             ৳{product.priceBDT.toLocaleString()}
           </span>
           {product.originalPriceBDT && (

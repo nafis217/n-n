@@ -118,7 +118,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-white text-[#111111] min-h-screen flex flex-col justify-between overflow-x-hidden antialiased selection:bg-black selection:text-white">
+      <body className="bg-white text-black min-h-screen flex flex-col justify-between overflow-x-hidden antialiased selection:bg-black selection:text-white">
         <AppLayoutClient>{children}</AppLayoutClient>
       </body>
     </html>

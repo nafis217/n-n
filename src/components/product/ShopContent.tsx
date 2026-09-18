@@ -95,18 +95,18 @@ export function ShopContent({
   const currentSortLabel = SORT_OPTIONS.find(o => o.value === selectedSort)?.label || 'Featured';
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#111111]">
+    <div className="min-h-screen bg-[#FFFFFF] text-black">
 
       {/* ── Page Header ── */}
       <div className="pt-24 md:pt-28 pb-10 px-6 md:px-12 max-w-[1440px] mx-auto border-b border-[#E8E8E5]">
         <nav className="flex items-center gap-2 text-label text-[#9B9B9B] mb-5">
-          <Link href="/" className="hover:text-[#111111] transition-colors">Home</Link>
+          <Link href="/" className="hover:text-black transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/shop" className="hover:text-[#111111] transition-colors">Shop</Link>
+          <Link href="/shop" className="hover:text-black transition-colors">Shop</Link>
           {selectedCategory !== 'all' && (
             <>
               <span>/</span>
-              <span className="text-[#111111]">{CATEGORIES.find(c => c.id === selectedCategory)?.label}</span>
+              <span className="text-black">{CATEGORIES.find(c => c.id === selectedCategory)?.label}</span>
             </>
           )}
         </nav>
@@ -114,7 +114,7 @@ export function ShopContent({
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
           <div>
             <h1
-              className="font-display font-light text-[#111111]"
+              className="font-display font-light text-black"
               style={{ fontSize: 'clamp(28px, 4vw, 48px)', letterSpacing: '-0.025em' }}
             >
               {pageTitle}
@@ -128,7 +128,7 @@ export function ShopContent({
       </div>
 
       {/* ── Filter & Sort Bar ── */}
-      <div className="sticky top-16 z-50 bg-[#FAFAF8]/95 backdrop-blur-sm border-b border-[#E8E8E5]">
+      <div className="sticky top-16 z-50 bg-[#FFFFFF]/95 backdrop-blur-sm border-b border-[#E8E8E5]">
         <div className="max-w-[1440px] mx-auto px-6 md:px-12">
           <div className="flex items-center justify-between h-12">
             {/* Category pills (desktop) */}
@@ -139,7 +139,7 @@ export function ShopContent({
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`text-label uppercase tracking-[0.08em] h-full border-b-[1.5px] transition-all duration-150 cursor-pointer ${
                     selectedCategory === cat.id
-                      ? 'border-[#111111] text-[#111111]'
+                      ? 'border-black text-black'
                       : 'border-transparent text-[#9B9B9B] hover:text-[#6B6B6B]'
                   }`}
                 >
@@ -151,7 +151,7 @@ export function ShopContent({
             {/* Mobile: filter button */}
             <button
               onClick={() => setMobileFilterOpen(true)}
-              className="md:hidden flex items-center gap-2 text-label uppercase tracking-[0.08em] text-[#111111] cursor-pointer"
+              className="md:hidden flex items-center gap-2 text-label uppercase tracking-[0.08em] text-black cursor-pointer"
             >
               <SlidersHorizontal className="w-3.5 h-3.5 stroke-[1.25]" />
               Filter{hasFilters ? ' (active)' : ''}
@@ -171,7 +171,7 @@ export function ShopContent({
                   onChange={(e) => setMaxPrice(Number(e.target.value))}
                   className="w-24 accent-[#111111]"
                 />
-                <span className="text-[#111111] w-14">৳{(maxPrice / 1000).toFixed(0)}K</span>
+                <span className="text-black w-14">৳{(maxPrice / 1000).toFixed(0)}K</span>
               </div>
 
               {/* In stock */}
@@ -189,7 +189,7 @@ export function ShopContent({
               <div className="relative">
                 <button
                   onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                  className="flex items-center gap-1.5 text-label uppercase tracking-[0.08em] text-[#111111] cursor-pointer"
+                  className="flex items-center gap-1.5 text-label uppercase tracking-[0.08em] text-black cursor-pointer"
                 >
                   {currentSortLabel}
                   <ChevronDown className={`w-3 h-3 stroke-[1.5] transition-transform duration-150 ${sortDropdownOpen ? 'rotate-180' : ''}`} />
@@ -204,8 +204,8 @@ export function ShopContent({
                           onClick={() => { setSelectedSort(opt.value); setSortDropdownOpen(false); }}
                           className={`w-full text-left px-4 py-2.5 text-label uppercase tracking-[0.06em] transition-colors duration-150 cursor-pointer ${
                             selectedSort === opt.value
-                              ? 'text-[#111111] bg-[#F3F3F1]'
-                              : 'text-[#6B6B6B] hover:text-[#111111] hover:bg-[#F3F3F1]'
+                              ? 'text-black bg-[#F3F3F1]'
+                              : 'text-[#6B6B6B] hover:text-black hover:bg-[#F3F3F1]'
                           }`}
                         >
                           {opt.label}
@@ -220,7 +220,7 @@ export function ShopContent({
               {hasFilters && (
                 <button
                   onClick={resetFilters}
-                  className="text-label text-[#9B9B9B] hover:text-[#111111] transition-colors duration-150 cursor-pointer flex items-center gap-1"
+                  className="text-label text-[#9B9B9B] hover:text-black transition-colors duration-150 cursor-pointer flex items-center gap-1"
                 >
                   <X className="w-3 h-3 stroke-[1.5]" />
                   Clear
@@ -238,7 +238,7 @@ export function ShopContent({
             <p className="text-body text-[#6B6B6B] mb-6">No garments match the selected filters.</p>
             <button
               onClick={resetFilters}
-              className="px-6 py-3 bg-[#111111] text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 cursor-pointer"
+              className="px-6 py-3 bg-black text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 cursor-pointer"
             >
               Clear Filters
             </button>
@@ -266,8 +266,8 @@ export function ShopContent({
           <div className="absolute inset-y-0 right-0 w-full max-w-[320px] bg-white flex flex-col">
             {/* Drawer header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8E8E5]">
-              <h3 className="text-label uppercase tracking-[0.12em] text-[#111111]">Filter & Sort</h3>
-              <button onClick={() => setMobileFilterOpen(false)} className="text-[#9B9B9B] hover:text-[#111111] transition-colors cursor-pointer">
+              <h3 className="text-label uppercase tracking-[0.12em] text-black">Filter & Sort</h3>
+              <button onClick={() => setMobileFilterOpen(false)} className="text-[#9B9B9B] hover:text-black transition-colors cursor-pointer">
                 <X className="w-4 h-4 stroke-[1.25]" />
               </button>
             </div>
@@ -283,7 +283,7 @@ export function ShopContent({
                       onClick={() => setSelectedCategory(cat.id)}
                       className={`text-left text-body py-1 transition-colors duration-150 cursor-pointer ${
                         selectedCategory === cat.id
-                          ? 'text-[#111111] font-medium'
+                          ? 'text-black font-medium'
                           : 'text-[#9B9B9B] hover:text-[#6B6B6B]'
                       }`}
                     >
@@ -303,7 +303,7 @@ export function ShopContent({
                       onClick={() => setSelectedSort(opt.value)}
                       className={`text-left text-body py-1 transition-colors duration-150 cursor-pointer ${
                         selectedSort === opt.value
-                          ? 'text-[#111111] font-medium'
+                          ? 'text-black font-medium'
                           : 'text-[#9B9B9B] hover:text-[#6B6B6B]'
                       }`}
                     >
@@ -347,13 +347,13 @@ export function ShopContent({
             <div className="px-6 py-5 border-t border-[#E8E8E5] flex gap-3">
               <button
                 onClick={() => { resetFilters(); setMobileFilterOpen(false); }}
-                className="flex-1 py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.08em] text-[#111111] hover:border-[#111111] transition-colors duration-150 cursor-pointer"
+                className="flex-1 py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.08em] text-black hover:border-black transition-colors duration-150 cursor-pointer"
               >
                 Reset
               </button>
               <button
                 onClick={() => setMobileFilterOpen(false)}
-                className="flex-1 py-3 bg-[#111111] text-white text-label uppercase tracking-[0.08em] hover:bg-[#333] transition-colors duration-150 cursor-pointer"
+                className="flex-1 py-3 bg-black text-white text-label uppercase tracking-[0.08em] hover:bg-[#333] transition-colors duration-150 cursor-pointer"
               >
                 Apply
               </button>
