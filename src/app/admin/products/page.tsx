@@ -6,7 +6,18 @@ import { ProductAdminManager } from '@/components/admin/ProductAdminManager';
 export const revalidate = 0;
 
 export default async function AdminProductsPage() {
-  let products = CATALOG_PRODUCTS.map((cp) => ({
+  let products: Array<{
+    id: string;
+    titleEn: string;
+    nameBn?: string;
+    slug: string;
+    gender: string;
+    category: string;
+    priceBDT: number;
+    stock: number;
+    images: string[];
+    isPublished: boolean;
+  }> = CATALOG_PRODUCTS.map((cp) => ({
     id: cp.id,
     titleEn: cp.nameEn,
     nameBn: cp.nameBn,
@@ -32,7 +43,7 @@ export default async function AdminProductsPage() {
     });
 
     if (dbProducts && dbProducts.length > 0) {
-      products = dbProducts.map((p) => {
+      products = dbProducts.map((p: any) => {
         const prices = p.variants?.map((v: any) => v.priceBDT) || [];
         const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
         const totalStock = p.variants?.reduce((acc: number, v: any) => {
@@ -42,14 +53,14 @@ export default async function AdminProductsPage() {
 
         return {
           id: p.id,
-          titleEn: p.titleEn,
-          nameBn: p.nameBn || '',
+          titleEn: p.titleEn || 'Product',
+          nameBn: p.titleBn || p.nameBn || '',
           slug: p.slug,
-          gender: p.gender,
+          gender: p.gender || 'UNISEX',
           category: p.category?.nameEn || 'GENERAL',
           priceBDT: minPrice || 8500,
           stock: totalStock,
-          images: [],
+          images: [] as string[],
           isPublished: p.isPublished,
         };
       });
