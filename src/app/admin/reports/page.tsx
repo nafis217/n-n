@@ -78,31 +78,39 @@ export default async function AdminReportsPage() {
       </div>
 
       {/* Top Level Financial Summary */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        <div className="p-6 bg-white border border-neutral-200 shadow-sm">
-          <span className="font-mono text-xs text-neutral-500 uppercase font-semibold block mb-2">Total Gross Sales</span>
-          <p className="text-3xl font-bold text-black mb-2">৳ {totalGrossSales.toLocaleString()}</p>
-          <span className="font-mono text-[11px] text-emerald-700 font-bold flex items-center gap-1">
-            <TrendingUp className="w-3.5 h-3.5" /> E-COM + POS CONSOLIDATED
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10">
+        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+          <div>
+            <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">Total Gross Sales</span>
+            <p className="text-2xl sm:text-3xl font-bold text-black tracking-tight mb-2 truncate">৳ {totalGrossSales.toLocaleString()}</p>
+          </div>
+          <span className="font-mono text-[10px] sm:text-[11px] text-emerald-700 font-bold flex items-center gap-1 truncate mt-1">
+            <TrendingUp className="w-3.5 h-3.5 shrink-0" /> E-COM + POS
           </span>
         </div>
 
-        <div className="p-6 bg-white border border-neutral-200 shadow-sm">
-          <span className="font-mono text-xs text-neutral-500 uppercase font-semibold block mb-2">Total COGS</span>
-          <p className="text-3xl font-bold text-black mb-2">৳ {totalCOGS.toLocaleString()}</p>
-          <span className="font-mono text-[11px] text-neutral-500 font-medium">MANUFACTURING &amp; ACQUISITION</span>
+        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+          <div>
+            <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">Total COGS</span>
+            <p className="text-2xl sm:text-3xl font-bold text-black tracking-tight mb-2 truncate">৳ {totalCOGS.toLocaleString()}</p>
+          </div>
+          <span className="font-mono text-[10px] sm:text-[11px] text-neutral-500 font-medium truncate mt-1">MANUFACTURING &amp; ACQUISITION</span>
         </div>
 
-        <div className="p-6 bg-white border border-neutral-200 shadow-sm">
-          <span className="font-mono text-xs text-neutral-500 uppercase font-semibold block mb-2">Gross Profit</span>
-          <p className="text-3xl font-bold text-emerald-700 mb-2">৳ {grossProfitBDT.toLocaleString()}</p>
-          <span className="font-mono text-[11px] text-emerald-700 font-bold">{grossMarginPercent}% GROSS MARGIN</span>
+        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+          <div>
+            <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">Gross Profit</span>
+            <p className="text-2xl sm:text-3xl font-bold text-emerald-700 tracking-tight mb-2 truncate">৳ {grossProfitBDT.toLocaleString()}</p>
+          </div>
+          <span className="font-mono text-[10px] sm:text-[11px] text-emerald-700 font-bold truncate mt-1">{grossMarginPercent}% GROSS MARGIN</span>
         </div>
 
-        <div className="p-6 bg-white border border-neutral-200 shadow-sm">
-          <span className="font-mono text-xs text-neutral-500 uppercase font-semibold block mb-2">Raw Material Asset Value</span>
-          <p className="text-3xl font-bold text-black mb-2">৳ {Math.round(rawMaterialValuationBDT).toLocaleString()}</p>
-          <span className="font-mono text-[11px] text-neutral-600 font-medium">WAREHOUSE LOT VALUATION</span>
+        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+          <div>
+            <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">Raw Material Assets</span>
+            <p className="text-2xl sm:text-3xl font-bold text-black tracking-tight mb-2 truncate">৳ {Math.round(rawMaterialValuationBDT).toLocaleString()}</p>
+          </div>
+          <span className="font-mono text-[10px] sm:text-[11px] text-neutral-600 font-medium truncate mt-1">WAREHOUSE LOT VALUATION</span>
         </div>
       </div>
 

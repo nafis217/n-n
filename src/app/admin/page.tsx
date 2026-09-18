@@ -129,52 +129,65 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Overview Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-        <div className="p-6 bg-white border border-neutral-200 shadow-sm">
-          <span className="font-mono text-xs text-neutral-500 uppercase font-semibold block mb-2">
-            Gross Sales Revenue
-          </span>
-          <p className="text-3xl font-bold text-black mb-2">
-            ৳ {grossSalesBDT.toLocaleString()}
-          </p>
-          <span className="font-mono text-[11px] text-emerald-700 font-bold flex items-center gap-1">
-            <TrendingUp className="w-3.5 h-3.5" /> LIVE TRANSACTIONAL REVENUE
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-10">
+        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+          <div>
+            <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">
+              Gross Sales Revenue
+            </span>
+            <p className="text-2xl sm:text-3xl font-bold text-black tracking-tight mb-2 truncate">
+              ৳ {grossSalesBDT.toLocaleString()}
+            </p>
+          </div>
+          <span className="font-mono text-[10px] sm:text-[11px] text-emerald-700 font-bold flex items-center gap-1 truncate mt-1">
+            <TrendingUp className="w-3.5 h-3.5 shrink-0" /> LIVE REVENUE
           </span>
         </div>
 
-        <div className="p-6 bg-white border border-neutral-200 shadow-sm">
-          <span className="font-mono text-xs text-neutral-500 uppercase font-semibold block mb-2">
-            Total Orders / AOV
-          </span>
-          <p className="text-3xl font-bold text-black mb-2">
-            {totalOrdersCount} <span className="text-base text-neutral-500 font-normal">({avgOrderValueBDT ? `৳ ${avgOrderValueBDT.toLocaleString()} AOV` : '৳ 0'})</span>
-          </p>
-          <span className="font-mono text-[11px] text-black font-bold">
+        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+          <div>
+            <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">
+              Total Orders &amp; AOV
+            </span>
+            <div className="flex items-baseline gap-2 flex-wrap mb-2">
+              <span className="text-2xl sm:text-3xl font-bold text-black tracking-tight">{totalOrdersCount}</span>
+              <span className="text-xs sm:text-sm text-neutral-500 font-mono font-medium">
+                {avgOrderValueBDT ? `৳${avgOrderValueBDT.toLocaleString()} AOV` : '৳0 AOV'}
+              </span>
+            </div>
+          </div>
+          <span className="font-mono text-[10px] sm:text-[11px] text-black font-bold truncate mt-1">
             {pendingFulfilmentCount} AWAITING FULFILMENT
           </span>
         </div>
 
-        <div className="p-6 bg-white border border-neutral-200 shadow-sm">
-          <span className="font-mono text-xs text-neutral-500 uppercase font-semibold block mb-2">
-            Net Available Stock
-          </span>
-          <p className="text-3xl font-bold text-black mb-2">
-            {totalAvailable.toLocaleString()} <span className="text-sm text-neutral-500 font-normal">Units</span>
-          </p>
-          <span className="font-mono text-[11px] text-neutral-600 font-semibold">
-            {totalPhysical} Physical | {totalReserved} Reserved
+        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+          <div>
+            <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">
+              Net Available Stock
+            </span>
+            <div className="flex items-baseline gap-1.5 flex-wrap mb-2">
+              <span className="text-2xl sm:text-3xl font-bold text-black tracking-tight">{totalAvailable.toLocaleString()}</span>
+              <span className="text-xs text-neutral-500 font-mono">Available</span>
+            </div>
+          </div>
+          <span className="font-mono text-[10px] sm:text-[11px] text-neutral-600 font-medium truncate mt-1">
+            {totalPhysical} Physical • {totalReserved} Reserved
           </span>
         </div>
 
-        <div className="p-6 bg-white border border-neutral-200 shadow-sm">
-          <span className="font-mono text-xs text-neutral-500 uppercase font-semibold block mb-2">
-            Damaged / QC Stock
-          </span>
-          <p className="text-3xl font-bold text-red-600 mb-2">
-            {totalDamaged.toLocaleString()} <span className="text-sm text-neutral-500 font-normal">Units</span>
-          </p>
-          <span className="font-mono text-[11px] text-red-600 font-bold flex items-center gap-1">
-            <AlertTriangle className="w-3.5 h-3.5" /> QC ISOLATED
+        <div className="p-5 sm:p-6 bg-white border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden min-w-0">
+          <div>
+            <span className="font-mono text-[11px] sm:text-xs text-neutral-500 uppercase font-semibold block mb-2 truncate">
+              Damaged / QC Stock
+            </span>
+            <div className="flex items-baseline gap-1.5 flex-wrap mb-2">
+              <span className="text-2xl sm:text-3xl font-bold text-red-600 tracking-tight">{totalDamaged.toLocaleString()}</span>
+              <span className="text-xs text-neutral-500 font-mono">Units</span>
+            </div>
+          </div>
+          <span className="font-mono text-[10px] sm:text-[11px] text-red-600 font-bold flex items-center gap-1 truncate mt-1">
+            <AlertTriangle className="w-3.5 h-3.5 shrink-0" /> QC ISOLATED
           </span>
         </div>
       </div>
