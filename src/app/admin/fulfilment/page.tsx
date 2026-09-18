@@ -1,106 +1,147 @@
 import React from 'react';
 import { db } from '@/lib/db';
-import { Button } from '@/components/ui/Button';
+import { FulfilmentManager, FulfilmentRecord } from '@/components/admin/FulfilmentManager';
 
 export const revalidate = 0;
 
 export default async function AdminFulfilmentPage() {
-  let pendingOrders: any[] = [
+  let initialFulfilments: FulfilmentRecord[] = [
     {
-      id: 'ord-101',
+      id: 'ful-101',
+      fulfilmentNumber: 'FUL-20260918-001',
       orderNumber: 'FUKU-20260918-8472',
-      paymentMethod: 'BKASH',
-      address: { recipient: 'Ahsanul Islam', city: 'Dhaka', street: 'Gulshan 2' },
-      items: [{ id: 'it-1', productName: 'Tactical Cyber Kimono', quantity: 1, variantSku: 'FUKU-CYB-KIM-M' }],
+      orderId: 'ord-101',
+      customerName: 'Ahsanul Islam',
+      phone: '+880 1711-223344',
+      shippingAddress: 'House 42, Road 11, Block D, Banani',
+      city: 'Dhaka',
+      warehouse: 'GULSHAN_ATELIER',
+      items: [
+        {
+          id: 'it-1',
+          productName: 'Architectural Oversized Black Suit',
+          sku: 'FUKU-SUIT-BLK-40',
+          size: '40R',
+          color: 'Midnight Black',
+          quantity: 1,
+        },
+      ],
+      status: 'AWAITING_PICK',
+      courier: 'Steadfast Courier',
+      trackingNumber: '',
+      shippingMethod: 'SAME_DAY_DHAKA',
+      createdAt: new Date().toISOString(),
     },
     {
-      id: 'ord-102',
+      id: 'ful-102',
+      fulfilmentNumber: 'FUL-20260918-002',
       orderNumber: 'FUKU-20260918-7911',
-      paymentMethod: 'CARD',
-      address: { recipient: 'Tasnim Rahman', city: 'Dhaka', street: 'Banani Block C' },
-      items: [{ id: 'it-2', productName: 'Jamdani Geometric Panjabi', quantity: 1, variantSku: 'FUKU-JMD-BLK-42' }],
+      orderId: 'ord-102',
+      customerName: 'Tasnim Rahman',
+      phone: '+880 1812-998877',
+      shippingAddress: 'Apartment 5B, Road 7, Dhanmondi',
+      city: 'Dhaka',
+      warehouse: 'TEJGAON_CENTRAL',
+      items: [
+        {
+          id: 'it-2',
+          productName: 'Raw Selvedge Denim Trucker Jacket',
+          sku: 'FUKU-JCK-SLV-L',
+          size: 'Large',
+          color: 'Raw Indigo',
+          quantity: 1,
+        },
+      ],
+      status: 'PACKED',
+      courier: 'Pathao Courier',
+      trackingNumber: 'PTH-9921048',
+      shippingMethod: 'STANDARD_EXPRESS',
+      createdAt: new Date(Date.now() - 3600000).toISOString(),
+      packedAt: new Date(Date.now() - 1800000).toISOString(),
+    },
+    {
+      id: 'ful-103',
+      fulfilmentNumber: 'FUL-20260918-003',
+      orderNumber: 'FUKU-20260918-6204',
+      orderId: 'ord-103',
+      customerName: 'Kazi Mahbub',
+      phone: '+880 1913-445566',
+      shippingAddress: 'Holding 88, Nasirabad Housing Society',
+      city: 'Chittagong',
+      warehouse: 'TEJGAON_CENTRAL',
+      items: [
+        {
+          id: 'it-3',
+          productName: 'Monolith Contrast Collar Knit Polo',
+          sku: 'FUKU-POLO-OBS-M',
+          size: 'Medium',
+          color: 'Obsidian / Chalk',
+          quantity: 2,
+        },
+      ],
+      status: 'SHIPPED',
+      courier: 'Steadfast Courier',
+      trackingNumber: 'STDF-881920',
+      shippingMethod: 'NATIONWIDE',
+      createdAt: new Date(Date.now() - 86400000).toISOString(),
+      packedAt: new Date(Date.now() - 72000000).toISOString(),
+      shippedAt: new Date(Date.now() - 43200000).toISOString(),
     },
   ];
 
-  let dispatchedOrders: any[] = [];
-
   try {
-    const dbPending = await db.order.findMany({
-      where: { orderStatus: { in: ['PLACED', 'CONFIRMED', 'PROCESSING'] } },
-      orderBy: { createdAt: 'asc' },
+    const orders = await db.order.findMany({
+      take: 20,
+      orderBy: { createdAt: 'desc' },
       include: {
         items: true,
         address: true,
+        customer: true,
       },
     });
-    if (dbPending && dbPending.length > 0) pendingOrders = dbPending;
 
-    const dbDispatched = await db.order.findMany({
-      where: { orderStatus: { in: ['PACKED', 'DISPATCHED', 'DELIVERED'] } },
-      orderBy: { updatedAt: 'desc' },
-      take: 10,
-      include: { address: true },
-    });
-    if (dbDispatched && dbDispatched.length > 0) dispatchedOrders = dbDispatched;
+    if (orders && orders.length > 0) {
+      initialFulfilments = orders.map((ord, idx) => {
+        let mappedStatus: FulfilmentRecord['status'] = 'AWAITING_PICK';
+        if (ord.orderStatus === 'PACKED') mappedStatus = 'PACKED';
+        else if (ord.orderStatus === 'DISPATCHED' || ord.orderStatus === 'SHIPPED') mappedStatus = 'SHIPPED';
+        else if (ord.orderStatus === 'DELIVERED') mappedStatus = 'DELIVERED';
+        else if (ord.orderStatus === 'CANCELLED') mappedStatus = 'CANCELLED';
+
+        return {
+          id: ord.id,
+          fulfilmentNumber: `FUL-${ord.orderNumber.replace(/[^0-9]/g, '').slice(-8) || `10${idx}`}`,
+          orderNumber: ord.orderNumber,
+          orderId: ord.id,
+          customerName: ord.address?.recipient || ord.customer?.name || 'Valued Client',
+          phone: ord.address?.phone || ord.customer?.mobile || '+880 1700-000000',
+          shippingAddress: ord.address?.street || 'Gulshan / Banani Area',
+          city: ord.address?.city || 'Dhaka',
+          warehouse: 'GULSHAN_ATELIER',
+          items: (ord.items || []).map((it) => ({
+            id: it.id,
+            productName: it.productName,
+            sku: it.variantSku || 'FUKU-SKU',
+            size: it.sizeName || 'Regular',
+            color: it.colorName || 'Monochrome',
+            quantity: it.quantity || 1,
+          })),
+          status: mappedStatus,
+          courier: ord.courierName || 'Steadfast Courier',
+          trackingNumber: ord.trackingNumber || '',
+          shippingMethod: 'STANDARD_EXPRESS',
+          createdAt: ord.createdAt.toISOString(),
+        };
+      });
+    }
   } catch (err) {
-    console.warn('Using fallback fulfilment data:', err);
+    console.warn('Fallback to static fulfilment dataset:', err);
   }
 
   return (
     <div className="w-full">
-      <div className="border-b border-neutral-200 pb-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-end">
-        <div>
-          <span className="font-mono text-xs text-neutral-500 uppercase block mb-2 font-medium tracking-wider">
-            Warehouse Operations
-          </span>
-          <h1 className="text-3xl uppercase font-semibold text-black tracking-tight">
-            Fulfilment, Pick Lists &amp; Courier Dispatch
-          </h1>
-        </div>
-        <Button variant="primary" size="md" className="mt-2 md:mt-0">
-          + GENERATE BATCH WAVE PICK LIST
-        </Button>
-      </div>
-
-      {/* Wave Picking & Order Packing Table */}
-      <div className="bg-white border border-neutral-200 overflow-x-auto mb-10 shadow-sm">
-        <div className="p-4 bg-neutral-50 border-b border-neutral-200 font-mono text-xs font-bold text-black uppercase">
-          Awaiting Barcode-Verified Picking &amp; Packing ({pendingOrders.length})
-        </div>
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-neutral-200 font-mono text-[11px] uppercase text-black">
-              <th className="p-4">Order Ref</th>
-              <th className="p-4">Customer &amp; Area</th>
-              <th className="p-4">SKU Pick Items</th>
-              <th className="p-4">Payment</th>
-              <th className="p-4">Fulfilment Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-100 text-xs text-neutral-600 font-sans">
-            {pendingOrders.map((ord) => (
-              <tr key={ord.id} className="hover:bg-neutral-50 transition-colors">
-                <td className="p-4 font-bold font-mono text-black">{ord.orderNumber}</td>
-                <td className="p-4">
-                  <span className="font-bold text-black uppercase block">{ord.address?.recipient || 'Customer'}</span>
-                  <span className="text-[11px] text-neutral-500">{ord.address?.street}, {ord.address?.city}</span>
-                </td>
-                <td className="p-4">
-                  {ord.items?.map((it: any) => (
-                    <span key={it.id} className="block font-mono text-[11px] text-black">
-                      {it.quantity}x {it.productName || it.variantSku}
-                    </span>
-                  ))}
-                </td>
-                <td className="p-4 font-mono font-bold text-black">{ord.paymentMethod}</td>
-                <td className="p-4">
-                  <Button variant="primary" size="sm">Pack &amp; Scan Courier</Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <FulfilmentManager initialFulfilments={initialFulfilments} />
     </div>
   );
 }
+
