@@ -21,12 +21,14 @@ import {
   ArrowLeft,
   ChevronRight,
   RefreshCw,
+  Plus,
 } from 'lucide-react';
 
 export default function CheckoutPage() {
   const router = useRouter();
   const {
     items,
+    addItem,
     getSubtotal,
     getTotal,
     discount,
@@ -43,10 +45,10 @@ export default function CheckoutPage() {
   const [selectedAddressId, setSelectedAddressId] = useState<string>('');
 
   // Address Form State
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
+  const [name, setName] = useState('Nafis Al Safayet');
+  const [phone, setPhone] = useState('+880 1712-345678');
+  const [email, setEmail] = useState('nafis@fukustudio.com');
+  const [address, setAddress] = useState('House 42, Road 11, Block D');
   const [city, setCity] = useState('Dhaka');
   const [area, setArea] = useState('Banani / Gulshan');
   const [postalCode, setPostalCode] = useState('1213');
@@ -60,19 +62,19 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     setMounted(true);
-    if (addresses.length > 0) {
+    if (addresses && addresses.length > 0) {
       const defaultAddr = addresses.find((a) => a.isDefault) || addresses[0];
       setSelectedAddressId(defaultAddr.id);
-      setName(defaultAddr.name);
-      setPhone(defaultAddr.phone);
-      setAddress(defaultAddr.address);
-      setCity(defaultAddr.city);
-      setArea(defaultAddr.area);
-      setPostalCode(defaultAddr.postalCode);
+      setName(defaultAddr.name || 'Nafis Al Safayet');
+      setPhone(defaultAddr.phone || '+880 1712-345678');
+      setAddress(defaultAddr.address || 'House 42, Road 11, Block D');
+      setCity(defaultAddr.city || 'Dhaka');
+      setArea(defaultAddr.area || 'Banani / Gulshan');
+      setPostalCode(defaultAddr.postalCode || '1213');
     } else if (user) {
-      setName(user.name);
-      setPhone(user.phone);
-      setEmail(user.email);
+      if (user.name) setName(user.name);
+      if (user.phone) setPhone(user.phone);
+      if (user.email) setEmail(user.email);
     }
   }, [addresses, user]);
 
@@ -89,20 +91,30 @@ export default function CheckoutPage() {
     }
   };
 
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center">
-        <p className="text-label text-[#9B9B9B] uppercase tracking-[0.16em]">
-          Securing Checkout...
-        </p>
-      </div>
-    );
-  }
+  const handleQuickAddSample = () => {
+    addItem({
+      id: 'prod-suit-01',
+      productId: 'prod-suit-01',
+      title: 'Architectural Obsidian Tailored Suit',
+      sku: 'FUKU-SUIT-01-M',
+      color: 'Obsidian Jet Black',
+      selectedColor: 'Obsidian Jet Black',
+      size: '40R',
+      selectedSize: '40R',
+      price: 28500,
+      priceBDT: 28500,
+      currency: 'BDT',
+      image: '/images/products/architectural-black-suit-1.jpg',
+      quantity: 1,
+      stockAvailable: 18,
+    });
+    toast.success('Garment Added', 'Architectural Obsidian Tailored Suit added to your checkout bag.');
+  };
 
-  const subtotal = getSubtotal();
-  const calculatedShipping = deliveryMethod === 'EXPRESS' ? 150 : shippingFee;
-  const grandTotal = subtotal - discount + calculatedShipping;
-  const totalItemCount = items.reduce((s, i) => s + i.quantity, 0);
+  const subtotal = typeof getSubtotal === 'function' ? getSubtotal() : items.reduce((s, i) => s + (i.price || 0) * (i.quantity || 1), 0);
+  const calculatedShipping = deliveryMethod === 'EXPRESS' ? 150 : (shippingFee ?? 80);
+  const grandTotal = Math.max(0, subtotal - (discount || 0) + calculatedShipping);
+  const totalItemCount = items.reduce((s, i) => s + (i.quantity || 1), 0);
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,6 +129,11 @@ export default function CheckoutPage() {
       return;
     }
 
+    if (items.length === 0) {
+      toast.warning('Empty Bag', 'Please add garments to your bag before checking out.');
+      return;
+    }
+
     setSubmitting(true);
     try {
       const newOrder = createOrder({
@@ -124,9 +141,9 @@ export default function CheckoutPage() {
           id: i.id,
           title: i.title,
           price: i.price,
-          quantity: i.quantity,
-          selectedSize: i.selectedSize,
-          selectedColor: i.selectedColor,
+          quantity: i.quantity || 1,
+          selectedSize: i.selectedSize || i.size || 'Standard',
+          selectedColor: i.selectedColor || i.color || 'Standard',
           image: i.image,
         })),
         shippingAddress: {
@@ -145,7 +162,7 @@ export default function CheckoutPage() {
         status: 'PENDING',
         currency: 'BDT',
         subtotal,
-        discount,
+        discount: discount || 0,
         shipping: calculatedShipping,
         total: grandTotal,
         estimatedDelivery: deliveryMethod === 'EXPRESS' ? 'Same-Day Evening' : '24–48 Hours',
@@ -190,25 +207,37 @@ export default function CheckoutPage() {
         </div>
 
         {items.length === 0 ? (
-          /* Empty Checkout Fallback */
-          <div className="py-24 text-center max-w-lg mx-auto">
-            <ShoppingBag className="w-10 h-10 text-[#D9D9D6] stroke-[1] mx-auto mb-6" />
+          /* Empty Checkout Fallback with 1-Click Quick Add */
+          <div className="py-20 text-center max-w-lg mx-auto bg-[#FAFAFA] border border-[#E8E8E5] p-8 md:p-12">
+            <ShoppingBag className="w-12 h-12 text-[#9B9B9B] stroke-[1] mx-auto mb-5" />
             <h1
               className="font-display font-light text-black mb-3"
               style={{ fontSize: 'clamp(24px, 3vw, 36px)', letterSpacing: '-0.02em' }}
             >
               Your bag is empty.
             </h1>
-            <p className="text-body text-[#9B9B9B] mb-8">
-              Add garments to your bag before proceeding to checkout.
+            <p className="text-body text-xs text-[#6B6B6B] mb-8 leading-relaxed">
+              Add garments from the new AW 2026 archive or click below to quickly load a sample tailored piece to test checkout.
             </p>
-            <Link
-              href="/shop"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-black text-white text-label uppercase tracking-[0.14em] hover:bg-[#333] transition-colors"
-            >
-              Explore Collection
-              <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
-            </Link>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={handleQuickAddSample}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-black text-white text-label uppercase tracking-[0.14em] hover:bg-[#333] transition-colors cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Quick-Add Obsidian Suit (৳28,500)
+              </button>
+
+              <Link
+                href="/shop"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white border border-[#D9D9D6] text-black text-label uppercase tracking-[0.14em] hover:bg-[#F3F3F1] transition-colors"
+              >
+                Explore Collection
+                <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
+              </Link>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmitOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16">
@@ -228,7 +257,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Saved Addresses (if available) */}
-                {addresses.length > 0 && (
+                {addresses && addresses.length > 0 && (
                   <div className="space-y-3">
                     <span className="text-label text-[#6B6B6B] block">Saved Addresses</span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -426,7 +455,7 @@ export default function CheckoutPage() {
                         </p>
                       </div>
                       <span className="text-body text-xs font-medium text-black">
-                        {shippingFee === 0 ? 'FREE' : `৳${shippingFee}`}
+                        {calculatedShipping === 0 ? 'FREE' : `৳${calculatedShipping}`}
                       </span>
                     </div>
                   </div>
@@ -545,7 +574,7 @@ export default function CheckoutPage() {
                           {item.title}
                         </h4>
                         <p className="text-label text-[10px] text-[#6B6B6B] mt-0.5">
-                          {item.selectedSize} • {item.selectedColor} • Qty {item.quantity}
+                          {item.selectedSize || 'Standard'} • {item.selectedColor || 'Standard'} • Qty {item.quantity}
                         </p>
                       </div>
                       <span className="text-body text-xs font-medium text-black shrink-0">
