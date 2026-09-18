@@ -15,24 +15,33 @@ import {
   ArrowRight,
   Lock,
   ShoppingBag,
-  CheckCircle2,
+  Check,
   MapPin,
-  Smartphone,
-  Building,
-  User,
-  Plus,
   Sparkles,
+  ArrowLeft,
+  ChevronRight,
+  RefreshCw,
 } from 'lucide-react';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, getSubtotal, getTotal, discount, couponCode, clearCart, shippingFee, deliveryZone, setDeliveryZone } = useCartStore();
+  const {
+    items,
+    getSubtotal,
+    getTotal,
+    discount,
+    couponCode,
+    clearCart,
+    shippingFee,
+    deliveryZone,
+    setDeliveryZone,
+  } = useCartStore();
   const { user, addresses, isAuthenticated } = useAuthStore();
   const { createOrder } = useOrdersStore();
 
   const [mounted, setMounted] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState<string>('');
-  
+
   // Address Form State
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -82,8 +91,10 @@ export default function CheckoutPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center text-xs font-mono text-neutral-500 uppercase tracking-widest">
-        Securing Checkout Portal...
+      <div className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
+        <p className="text-label text-[#9B9B9B] uppercase tracking-[0.16em]">
+          Securing Checkout...
+        </p>
       </div>
     );
   }
@@ -91,12 +102,18 @@ export default function CheckoutPage() {
   const subtotal = getSubtotal();
   const calculatedShipping = deliveryMethod === 'EXPRESS' ? 150 : shippingFee;
   const grandTotal = subtotal - discount + calculatedShipping;
+  const totalItemCount = items.reduce((s, i) => s + i.quantity, 0);
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!name.trim() || !phone.trim() || !address.trim() || !city.trim()) {
-      toast.warning('Incomplete Address', 'Please provide full name, contact number, and address.');
+      toast.warning('Incomplete Information', 'Please complete recipient name, contact phone, and delivery address.');
+      return;
+    }
+
+    if (!termsAccepted) {
+      toast.warning('Terms Required', 'Please accept the terms of sale to proceed.');
       return;
     }
 
@@ -136,115 +153,123 @@ export default function CheckoutPage() {
 
       // Clear shopping bag
       clearCart();
-      toast.success('Order Confirmed', `Order #${newOrder.orderNumber} has been successfully logged.`);
+      toast.success('Order Placed', `Order #${newOrder.orderNumber} has been logged.`);
 
       // Navigate to order confirmation
       router.push(`/order-confirmation/${newOrder.id}`);
     } catch (err) {
-      toast.error('Order Processing Error', 'An unexpected error occurred while reserving garments.');
+      toast.error('Processing Error', 'An unexpected error occurred while placing your order.');
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-neutral-900 py-10 md:py-16 px-4 sm:px-8 md:px-12">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="border-b border-neutral-200 pb-6 mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-          <div>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-neutral-500 font-bold block mb-2">
-              Encrypted Checkout
-            </span>
-            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl uppercase font-extrabold tracking-tight text-black">
-              Finalize Garment Order
-            </h1>
+    <div className="min-h-screen bg-[#FAFAF8] text-[#111111] pt-24 pb-24">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+        {/* Top Minimal Navigation / Breadcrumbs */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-8 mb-8 border-b border-[#E8E8E5] gap-4">
+          <div className="flex items-center gap-3 text-label">
+            <Link
+              href="/bag"
+              className="text-[#6B6B6B] hover:text-[#111111] transition-colors flex items-center gap-1.5"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 stroke-[1.25]" />
+              Bag
+            </Link>
+            <span className="text-[#D9D9D6]">/</span>
+            <span className="text-[#111111] font-medium">Checkout</span>
+            <span className="text-[#D9D9D6]">/</span>
+            <span className="text-[#9B9B9B]">Confirmation</span>
           </div>
-          <div className="flex items-center gap-2 font-mono text-xs text-neutral-800 bg-white border border-neutral-300 px-3.5 py-1.5 shadow-xs">
-            <Lock className="w-3.5 h-3.5 text-black" />
-            <span>256-Bit SSL Secured Atelier Gateway</span>
+
+          <div className="flex items-center gap-2 text-label text-[#6B6B6B]">
+            <Lock className="w-3.5 h-3.5 stroke-[1.25] text-[#111111]" />
+            <span>256-Bit SSL Encrypted Checkout</span>
           </div>
         </div>
 
         {items.length === 0 ? (
           /* Empty Checkout Fallback */
-          <div className="py-20 text-center border border-neutral-200 bg-white p-8 max-w-xl mx-auto shadow-sm">
-            <ShoppingBag className="w-12 h-12 text-neutral-400 mx-auto mb-4 stroke-[1.2]" />
-            <h3 className="font-display text-base font-bold uppercase tracking-widest text-black mb-2">
-              Your Bag is Empty
-            </h3>
-            <p className="text-xs text-neutral-600 mb-6 font-sans">
-              Add garments to your archive before accessing the checkout terminal.
+          <div className="py-24 text-center max-w-lg mx-auto">
+            <ShoppingBag className="w-10 h-10 text-[#D9D9D6] stroke-[1] mx-auto mb-6" />
+            <h1
+              className="font-display font-light text-[#111111] mb-3"
+              style={{ fontSize: 'clamp(24px, 3vw, 36px)', letterSpacing: '-0.02em' }}
+            >
+              Your bag is empty.
+            </h1>
+            <p className="text-body text-[#9B9B9B] mb-8">
+              Add garments to your bag before proceeding to checkout.
             </p>
             <Link
               href="/shop"
-              className="inline-block px-8 py-3.5 bg-black text-white font-display font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#111111] text-white text-label uppercase tracking-[0.14em] hover:bg-[#333] transition-colors"
             >
-              Return to Archive
+              Explore Collection
+              <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
             </Link>
           </div>
         ) : (
-          <form onSubmit={handleSubmitOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-            {/* Left: Shipping, Delivery & Payment Methods (Col 7) */}
-            <div className="lg:col-span-7 xl:col-span-8 space-y-10">
-              {/* Step 1: Customer & Delivery Address */}
-              <div className="p-6 sm:p-8 bg-white border border-neutral-200 shadow-sm space-y-6">
-                <div className="flex items-center justify-between pb-4 border-b border-neutral-200">
-                  <h2 className="font-display text-sm uppercase tracking-widest font-bold text-black flex items-center gap-2.5">
-                    <Truck className="w-4 h-4 text-black" />
-                    <span>1. Delivery Destination</span>
+          <form onSubmit={handleSubmitOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-12 xl:gap-16">
+            {/* Left Column: Form Details (Col 7 / 8) */}
+            <div className="lg:col-span-7 xl:col-span-8 space-y-12">
+              {/* Section 01: Customer & Delivery Address */}
+              <section className="space-y-6">
+                <div className="flex items-baseline justify-between pb-3 border-b border-[#111111]">
+                  <h2 className="text-label uppercase tracking-[0.14em] font-medium text-[#111111]">
+                    01 / Delivery Destination
                   </h2>
-                  {isAuthenticated && (
-                    <span className="text-[11px] font-mono text-neutral-600 bg-neutral-100 px-2 py-0.5 border border-neutral-200">
-                      Logged In: {user?.name}
+                  {isAuthenticated && user && (
+                    <span className="text-label text-[#6B6B6B]">
+                      Signed in as <strong className="text-[#111111] font-medium">{user.name}</strong>
                     </span>
                   )}
                 </div>
 
-                {/* Saved Address Cards (if available) */}
+                {/* Saved Addresses (if available) */}
                 {addresses.length > 0 && (
-                  <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-neutral-600 mb-3">
-                      Saved Address Book:
-                    </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                      {addresses.map((addr) => (
-                        <div
-                          key={addr.id}
-                          onClick={() => handleAddressSelect(addr.id)}
-                          className={`p-4 border cursor-pointer transition-all ${
-                            selectedAddressId === addr.id
-                              ? 'border-black bg-neutral-50 shadow-md ring-1 ring-black'
-                              : 'border-neutral-200 bg-white hover:border-neutral-400'
-                          }`}
-                        >
-                          <div className="flex justify-between items-start mb-1">
-                            <span className="font-display text-xs uppercase font-bold text-black">
-                              {addr.name}
-                            </span>
-                            {addr.isDefault && (
-                              <span className="text-[9px] font-mono text-black uppercase bg-neutral-200 px-1.5 py-0.5 font-bold">
-                                Default
+                  <div className="space-y-3">
+                    <span className="text-label text-[#6B6B6B] block">Saved Addresses</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {addresses.map((addr) => {
+                        const isSelected = selectedAddressId === addr.id;
+                        return (
+                          <div
+                            key={addr.id}
+                            onClick={() => handleAddressSelect(addr.id)}
+                            className={`p-4 border transition-colors cursor-pointer ${
+                              isSelected
+                                ? 'border-[#111111] bg-[#F7F7F5]'
+                                : 'border-[#E8E8E5] bg-white hover:border-[#111111]'
+                            }`}
+                          >
+                            <div className="flex justify-between items-start mb-1">
+                              <span className="text-label font-medium text-[#111111] uppercase tracking-[0.08em]">
+                                {addr.name}
                               </span>
-                            )}
+                              {addr.isDefault && (
+                                <span className="text-[9px] uppercase tracking-[0.1em] text-[#6B6B6B] bg-[#E8E8E5] px-1.5 py-0.5">
+                                  Default
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-body text-xs text-[#6B6B6B] leading-relaxed line-clamp-2">
+                              {addr.address}, {addr.area}, {addr.city}
+                            </p>
+                            <p className="text-label text-[#9B9B9B] mt-2">{addr.phone}</p>
                           </div>
-                          <p className="text-xs text-neutral-600 font-mono leading-relaxed line-clamp-2">
-                            {addr.address}, {addr.area}, {addr.city}
-                          </p>
-                          <div className="text-[11px] font-mono text-neutral-500 mt-2">
-                            {addr.phone}
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}
 
-                {/* Address Input Fields */}
+                {/* Form Fields */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
-                      Recipient Full Name *
+                    <label className="text-label text-[#6B6B6B] block mb-2">
+                      Recipient Full Name <span className="text-[#B42318]">*</span>
                     </label>
                     <input
                       type="text"
@@ -252,68 +277,75 @@ export default function CheckoutPage() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="e.g. Nafis Al Safayet"
-                      className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
+                      className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
-                      Contact Phone (WhatsApp/SMS) *
+                    <label className="text-label text-[#6B6B6B] block mb-2">
+                      Phone Number <span className="text-[#B42318]">*</span>
                     </label>
                     <input
-                      type="text"
+                      type="tel"
                       required
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="+880 1712-345678"
-                      className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors font-mono"
+                      className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
-                    Email Address (For Invoices &amp; Tracking)
+                  <label className="text-label text-[#6B6B6B] block mb-2">
+                    Email Address (For Invoicing &amp; Tracking)
                   </label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="nafis@example.com"
-                    className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
+                    className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
-                      District / City *
+                    <label className="text-label text-[#6B6B6B] block mb-2">
+                      District / City <span className="text-[#B42318]">*</span>
                     </label>
-                    <select
-                      value={city}
-                      onChange={(e) => {
-                        setCity(e.target.value);
-                        setDeliveryZone(e.target.value.toLowerCase().includes('dhaka') ? 'DHAKA' : 'OUTSIDE_DHAKA');
-                      }}
-                      className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black uppercase focus:outline-none focus:border-black focus:bg-white transition-colors"
-                    >
-                      <option value="Dhaka">Dhaka Metropolitan</option>
-                      <option value="Chittagong">Chittagong</option>
-                      <option value="Sylhet">Sylhet</option>
-                      <option value="Rajshahi">Rajshahi</option>
-                      <option value="Khulna">Khulna</option>
-                      <option value="Barisal">Barisal</option>
-                      <option value="Rangpur">Rangpur</option>
-                      <option value="Mymensingh">Mymensingh</option>
-                      <option value="Comilla">Comilla</option>
-                      <option value="Gazipur">Gazipur</option>
-                      <option value="Narayanganj">Narayanganj</option>
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={city}
+                        onChange={(e) => {
+                          setCity(e.target.value);
+                          setDeliveryZone(e.target.value.toLowerCase().includes('dhaka') ? 'DHAKA' : 'OUTSIDE_DHAKA');
+                        }}
+                        className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] focus:outline-none focus:border-[#111111] transition-colors appearance-none cursor-pointer"
+                      >
+                        <option value="Dhaka">Dhaka</option>
+                        <option value="Chittagong">Chittagong</option>
+                        <option value="Sylhet">Sylhet</option>
+                        <option value="Rajshahi">Rajshahi</option>
+                        <option value="Khulna">Khulna</option>
+                        <option value="Barisal">Barisal</option>
+                        <option value="Rangpur">Rangpur</option>
+                        <option value="Mymensingh">Mymensingh</option>
+                        <option value="Comilla">Comilla</option>
+                        <option value="Gazipur">Gazipur</option>
+                        <option value="Narayanganj">Narayanganj</option>
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#6B6B6B]">
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
+                          <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
-                      Area / Thana *
+                    <label className="text-label text-[#6B6B6B] block mb-2">
+                      Area / Thana <span className="text-[#B42318]">*</span>
                     </label>
                     <input
                       type="text"
@@ -321,12 +353,12 @@ export default function CheckoutPage() {
                       value={area}
                       onChange={(e) => setArea(e.target.value)}
                       placeholder="e.g. Banani / Dhanmondi"
-                      className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
+                      className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
+                    <label className="text-label text-[#6B6B6B] block mb-2">
                       Postal Code
                     </label>
                     <input
@@ -334,14 +366,14 @@ export default function CheckoutPage() {
                       value={postalCode}
                       onChange={(e) => setPostalCode(e.target.value)}
                       placeholder="1213"
-                      className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors font-mono"
+                      className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
-                    Street Address / House / Flat Number *
+                  <label className="text-label text-[#6B6B6B] block mb-2">
+                    Detailed Street Address / House / Flat <span className="text-[#B42318]">*</span>
                   </label>
                   <input
                     type="text"
@@ -349,164 +381,174 @@ export default function CheckoutPage() {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="House 42, Road 11, Block D, Apt 4B"
-                    className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
+                    className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-neutral-700 mb-1.5">
-                    Special Delivery Notes / Landmark (Optional)
+                  <label className="text-label text-[#6B6B6B] block mb-2">
+                    Delivery Instructions / Landmark (Optional)
                   </label>
                   <input
                     type="text"
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="e.g. Please leave with building concierge"
-                    className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
+                    placeholder="e.g. Leave with concierge or call upon arrival"
+                    className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors"
                   />
                 </div>
-              </div>
+              </section>
 
-              {/* Step 2: Delivery Speed */}
-              <div className="p-6 sm:p-8 bg-white border border-neutral-200 shadow-sm space-y-4">
-                <h2 className="font-display text-sm uppercase tracking-widest font-bold text-black pb-3 border-b border-neutral-200 flex items-center gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-black" />
-                  <span>2. Delivery Speed &amp; Courier Service</span>
-                </h2>
+              {/* Section 02: Delivery Speed */}
+              <section className="space-y-6">
+                <div className="pb-3 border-b border-[#111111]">
+                  <h2 className="text-label uppercase tracking-[0.14em] font-medium text-[#111111]">
+                    02 / Delivery Method
+                  </h2>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <label
+                  <div
                     onClick={() => setDeliveryMethod('STANDARD')}
-                    className={`p-4 border cursor-pointer flex flex-col justify-between transition-all ${
+                    className={`p-5 border cursor-pointer transition-colors flex flex-col justify-between ${
                       deliveryMethod === 'STANDARD'
-                        ? 'border-black bg-neutral-50 shadow-md ring-1 ring-black'
-                        : 'border-neutral-200 bg-white hover:border-neutral-400'
+                        ? 'border-[#111111] bg-[#F7F7F5]'
+                        : 'border-[#E8E8E5] bg-white hover:border-[#111111]'
                     }`}
                   >
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-display text-xs uppercase font-bold text-black">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <p className="text-label font-medium uppercase tracking-[0.1em] text-[#111111]">
                           Standard Courier
-                        </span>
-                        <span className="font-mono text-xs text-black font-bold">
-                          {shippingFee === 0 ? 'FREE' : `৳${shippingFee}`}
-                        </span>
+                        </p>
+                        <p className="text-body text-xs text-[#6B6B6B] mt-1">
+                          24–48 hours inside Dhaka • 3–5 days nationwide
+                        </p>
                       </div>
-                      <p className="text-[11px] text-neutral-600 font-sans leading-relaxed">
-                        Inside Dhaka (24-48h) or Nationwide (3-5 days) with tracked delivery.
-                      </p>
+                      <span className="text-body text-xs font-medium text-[#111111]">
+                        {shippingFee === 0 ? 'FREE' : `৳${shippingFee}`}
+                      </span>
                     </div>
-                  </label>
+                  </div>
 
-                  <label
+                  <div
                     onClick={() => setDeliveryMethod('EXPRESS')}
-                    className={`p-4 border cursor-pointer flex flex-col justify-between transition-all ${
+                    className={`p-5 border cursor-pointer transition-colors flex flex-col justify-between ${
                       deliveryMethod === 'EXPRESS'
-                        ? 'border-black bg-neutral-50 shadow-md ring-1 ring-black'
-                        : 'border-neutral-200 bg-white hover:border-neutral-400'
+                        ? 'border-[#111111] bg-[#F7F7F5]'
+                        : 'border-[#E8E8E5] bg-white hover:border-[#111111]'
                     }`}
                   >
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-display text-xs uppercase font-bold text-black flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-black" />
-                          <span>Atelier Priority Express</span>
-                        </span>
-                        <span className="font-mono text-xs text-black font-bold">৳150</span>
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-label font-medium uppercase tracking-[0.1em] text-[#111111]">
+                            Express Delivery
+                          </p>
+                          <span className="text-[9px] uppercase tracking-[0.08em] bg-[#111111] text-white px-1.5 py-0.2">
+                            Fast
+                          </span>
+                        </div>
+                        <p className="text-body text-xs text-[#6B6B6B] mt-1">
+                          Same-day or next-morning dispatch (Dhaka only)
+                        </p>
                       </div>
-                      <p className="text-[11px] text-neutral-600 font-sans leading-relaxed">
-                        Same-day / next-morning direct dispatch inside Dhaka with signature packaging.
-                      </p>
+                      <span className="text-body text-xs font-medium text-[#111111]">৳150</span>
                     </div>
-                  </label>
+                  </div>
                 </div>
-              </div>
+              </section>
 
-              {/* Step 3: Payment Method Selection */}
-              <div className="p-6 sm:p-8 bg-white border border-neutral-200 shadow-sm space-y-6">
-                <h2 className="font-display text-sm uppercase tracking-widest font-bold text-black pb-3 border-b border-neutral-200 flex items-center gap-2.5">
-                  <CreditCard className="w-4 h-4 text-black" />
-                  <span>3. Payment Method</span>
-                </h2>
+              {/* Section 03: Payment Method */}
+              <section className="space-y-6">
+                <div className="pb-3 border-b border-[#111111]">
+                  <h2 className="text-label uppercase tracking-[0.14em] font-medium text-[#111111]">
+                    03 / Payment Method
+                  </h2>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
                     {
                       id: 'COD',
-                      name: 'Cash on Delivery (COD)',
-                      desc: 'Pay cash upon arrival. Check garment sizing with courier.',
-                      badge: 'Convenient',
+                      name: 'Cash on Delivery',
+                      desc: 'Pay cash to the courier upon delivery inspection.',
+                      tag: 'Standard',
                     },
                     {
                       id: 'BKASH',
-                      name: 'bKash Merchant Pay',
-                      desc: 'Instant direct checkout via bKash payment gateway.',
-                      badge: 'Instant',
+                      name: 'bKash Digital Pay',
+                      desc: 'Direct payment via bKash mobile gateway.',
+                      tag: 'Instant',
                     },
                     {
                       id: 'NAGAD',
-                      name: 'Nagad Digital Payment',
-                      desc: 'Secure digital transfer with zero merchant transaction surcharge.',
-                      badge: 'Zero Fee',
+                      name: 'Nagad Digital Wallet',
+                      desc: 'Instant checkout with zero transaction surcharge.',
+                      tag: '0% Surcharge',
                     },
                     {
                       id: 'SSLCOMMERZ',
-                      name: 'Debit / Credit Card (SSLCommerz)',
-                      desc: 'Visa, Mastercard, Amex, UnionPay & internet banking.',
-                      badge: 'Cards',
+                      name: 'Card / Net Banking',
+                      desc: 'Visa, Mastercard, Amex & local internet banking.',
+                      tag: 'Secured',
                     },
-                  ].map((pm) => (
-                    <div
-                      key={pm.id}
-                      onClick={() => setPaymentMethod(pm.id as any)}
-                      className={`p-4 border cursor-pointer flex flex-col justify-between transition-all ${
-                        paymentMethod === pm.id
-                          ? 'border-black bg-neutral-50 shadow-md ring-1 ring-black'
-                          : 'border-neutral-200 bg-white hover:border-neutral-400'
-                      }`}
-                    >
-                      <div>
-                        <div className="flex items-center justify-between mb-1.5">
-                          <span className="font-display text-xs uppercase font-bold text-black">
+                  ].map((pm) => {
+                    const isSelected = paymentMethod === pm.id;
+                    return (
+                      <div
+                        key={pm.id}
+                        onClick={() => setPaymentMethod(pm.id as any)}
+                        className={`p-5 border cursor-pointer transition-colors flex flex-col justify-between ${
+                          isSelected
+                            ? 'border-[#111111] bg-[#F7F7F5]'
+                            : 'border-[#E8E8E5] bg-white hover:border-[#111111]'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <span className="text-label font-medium uppercase tracking-[0.1em] text-[#111111]">
                             {pm.name}
                           </span>
-                          <span className="text-[9px] font-mono text-black bg-neutral-100 border border-neutral-200 px-1.5 py-0.5 uppercase font-medium">
-                            {pm.badge}
+                          <span className="text-[9px] uppercase tracking-[0.1em] text-[#6B6B6B] bg-[#E8E8E5] px-1.5 py-0.5">
+                            {pm.tag}
                           </span>
                         </div>
-                        <p className="text-[11px] text-neutral-600 font-sans leading-relaxed">
-                          {pm.desc}
-                        </p>
+                        <p className="text-body text-xs text-[#6B6B6B] leading-relaxed">{pm.desc}</p>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
-              </div>
+              </section>
             </div>
 
-            {/* Right: Order Summary Sidebar (Col 5) */}
+            {/* Right Column: Order Summary (Col 5 / 4) */}
             <div className="lg:col-span-5 xl:col-span-4">
-              <div className="p-6 sm:p-8 bg-white border border-neutral-200 shadow-lg space-y-6 sticky top-28">
-                <h2 className="font-display text-sm uppercase tracking-widest font-bold text-black pb-4 border-b border-neutral-200">
-                  Order Summary ({items.reduce((s, i) => s + i.quantity, 0)})
-                </h2>
+              <div className="bg-white border border-[#E8E8E5] p-6 lg:p-8 space-y-6 sticky top-28">
+                <div className="pb-4 border-b border-[#E8E8E5] flex items-center justify-between">
+                  <h2 className="text-label uppercase tracking-[0.14em] font-medium text-[#111111]">
+                    Summary
+                  </h2>
+                  <span className="text-label text-[#6B6B6B]">
+                    {totalItemCount} item{totalItemCount !== 1 ? 's' : ''}
+                  </span>
+                </div>
 
                 {/* Items preview */}
-                <div className="divide-y divide-neutral-100 max-h-[260px] overflow-y-auto pr-1">
+                <div className="divide-y divide-[#F0F0EE] max-h-[300px] overflow-y-auto pr-1">
                   {items.map((item) => (
-                    <div key={`${item.id}-${item.selectedSize}`} className="py-3 flex gap-3 items-center">
-                      <div className="w-12 h-14 bg-neutral-100 relative overflow-hidden border border-neutral-200 shrink-0">
-                        <Image src={item.image} alt="" fill className="object-cover" />
+                    <div key={`${item.id}-${item.selectedSize}`} className="py-3.5 flex gap-3.5 items-center">
+                      <div className="w-12 h-16 bg-[#F0F0EE] relative overflow-hidden shrink-0">
+                        <Image src={item.image} alt={item.title} fill className="object-cover" />
                       </div>
-                      <div className="flex-1 min-w-0 text-xs">
-                        <h4 className="font-display uppercase text-black font-bold truncate">
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-body text-xs font-medium text-[#111111] uppercase tracking-[0.04em] truncate">
                           {item.title}
                         </h4>
-                        <div className="text-[10px] text-neutral-500 font-mono">
-                          {item.selectedSize} • {item.selectedColor} • Qty: {item.quantity}
-                        </div>
+                        <p className="text-label text-[10px] text-[#6B6B6B] mt-0.5">
+                          {item.selectedSize} • {item.selectedColor} • Qty {item.quantity}
+                        </p>
                       </div>
-                      <span className="font-mono text-xs font-bold text-black">
+                      <span className="text-body text-xs font-medium text-[#111111] shrink-0">
                         ৳{(item.price * item.quantity).toLocaleString()}
                       </span>
                     </div>
@@ -514,64 +556,72 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Financial Totals */}
-                <div className="space-y-2.5 font-mono text-xs text-neutral-600 pt-4 border-t border-neutral-200">
-                  <div className="flex justify-between">
-                    <span>Archive Subtotal</span>
-                    <span className="text-black font-medium">৳{subtotal.toLocaleString()}</span>
+                <div className="space-y-3 pt-4 border-t border-[#E8E8E5] text-body text-xs">
+                  <div className="flex justify-between text-[#6B6B6B]">
+                    <span>Subtotal</span>
+                    <span className="text-[#111111] font-medium">৳{subtotal.toLocaleString()}</span>
                   </div>
 
-                  <div className="flex justify-between">
-                    <span>Shipping Fee ({deliveryMethod})</span>
-                    <span className="text-black font-medium">
-                      {calculatedShipping === 0 ? (
-                        <strong className="text-black font-bold">FREE</strong>
-                      ) : (
-                        `৳${calculatedShipping.toLocaleString()}`
-                      )}
+                  <div className="flex justify-between text-[#6B6B6B]">
+                    <span>Delivery ({deliveryMethod === 'EXPRESS' ? 'Express' : 'Standard'})</span>
+                    <span className="text-[#111111] font-medium">
+                      {calculatedShipping === 0 ? 'FREE' : `৳${calculatedShipping.toLocaleString()}`}
                     </span>
                   </div>
 
                   {discount > 0 && (
-                    <div className="flex justify-between text-black font-bold">
-                      <span>Voucher ({couponCode})</span>
-                      <span>-৳{discount.toLocaleString()}</span>
+                    <div className="flex justify-between text-[#286749]">
+                      <span>Voucher Discount ({couponCode})</span>
+                      <span className="font-medium">-৳{discount.toLocaleString()}</span>
                     </div>
                   )}
 
-                  <div className="pt-4 border-t border-neutral-200 flex justify-between items-baseline text-black">
-                    <span className="font-display text-sm uppercase tracking-widest font-bold">
-                      Final Total
+                  <div className="pt-4 border-t border-[#111111] flex justify-between items-baseline">
+                    <span className="text-label uppercase tracking-[0.14em] font-medium text-[#111111]">
+                      Total
                     </span>
-                    <span className="font-mono text-2xl font-bold">
+                    <span className="text-xl font-medium text-[#111111] tracking-tight">
                       ৳{grandTotal.toLocaleString()}
                     </span>
                   </div>
                 </div>
 
-                {/* Terms Agreement */}
+                {/* Terms Agreement Checkbox */}
                 <div className="pt-2">
-                  <label className="flex items-start gap-2.5 cursor-pointer">
+                  <label className="flex items-start gap-3 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={termsAccepted}
                       onChange={(e) => setTermsAccepted(e.target.checked)}
-                      className="mt-0.5 accent-black w-4 h-4 cursor-pointer"
+                      className="mt-0.5 w-4 h-4 accent-[#111111] cursor-pointer"
                     />
-                    <span className="text-[11px] text-neutral-600 font-sans leading-relaxed">
-                      I agree to the FUKU Archive terms of sale, 7-day garment exchange guidelines, and privacy policy.
+                    <span className="text-body text-[11px] text-[#6B6B6B] leading-relaxed select-none">
+                      I agree to the FUKU terms of sale, 7-day garment exchange policy, and privacy statement.
                     </span>
                   </label>
                 </div>
 
-                {/* Place Order Button */}
+                {/* Submit Order Button */}
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 bg-black text-white hover:bg-neutral-800 disabled:opacity-50 font-display font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 transition-all shadow-md group"
+                  className="w-full py-4 bg-[#111111] text-white text-label uppercase tracking-[0.14em] hover:bg-[#333] transition-colors disabled:opacity-50 flex items-center justify-center gap-2 group cursor-pointer"
                 >
-                  <span>{submitting ? 'Authenticating & Placing Order...' : 'Confirm & Place Order'}</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <span>{submitting ? 'Placing Order...' : 'Confirm & Place Order'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 stroke-[1.25] group-hover:translate-x-0.5 transition-transform" />
                 </button>
+
+                {/* Trust Elements */}
+                <div className="pt-4 border-t border-[#E8E8E5] space-y-2">
+                  <div className="flex items-center gap-2 text-label text-[10px] text-[#6B6B6B]">
+                    <ShieldCheck className="w-3.5 h-3.5 stroke-[1.25] text-[#111111]" />
+                    <span>Guaranteed Authentic Atelier Garments</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-label text-[10px] text-[#6B6B6B]">
+                    <RefreshCw className="w-3.5 h-3.5 stroke-[1.25] text-[#111111]" />
+                    <span>7-Day Complimentary Exchange Policy</span>
+                  </div>
+                </div>
               </div>
             </div>
           </form>

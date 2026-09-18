@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, PackageCheck, Clock, Truck, CheckCircle2 } from 'lucide-react';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import Link from 'next/link';
+import { Search, PackageCheck, Clock, Truck, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export default function TrackOrderPage() {
   const [orderNumber, setOrderNumber] = useState('');
@@ -16,73 +15,119 @@ export default function TrackOrderPage() {
   };
 
   return (
-    <div className="w-full px-margin-mobile md:px-margin-desktop py-12">
-      <div className="max-w-2xl mx-auto">
-        <div className="border-b border-outline-variant pb-6 mb-8 text-center">
-          <span className="font-label-caps text-label-caps text-outline uppercase block mb-2 font-semibold">
+    <div className="min-h-screen bg-[#FAFAF8] text-[#111111] pt-24 pb-20">
+      <div className="max-w-3xl mx-auto px-6 md:px-12">
+        <div className="border-b border-[#E8E8E5] pb-6 mb-8 text-center">
+          <span className="text-label text-[#9B9B9B] uppercase tracking-[0.16em] block mb-2 font-medium">
             Order Status
           </span>
-          <h1 className="font-headline-lg text-3xl uppercase font-semibold text-primary">
+          <h1
+            className="font-display font-light text-[#111111]"
+            style={{ fontSize: 'clamp(26px, 3.5vw, 40px)', letterSpacing: '-0.02em' }}
+          >
             Track Order Fulfilment
           </h1>
+          <p className="text-body text-xs text-[#6B6B6B] mt-2 max-w-md mx-auto">
+            Enter your order reference code and registered contact number to retrieve live courier telemetry.
+          </p>
         </div>
 
-        <form onSubmit={handleTrack} className="bg-surface-container-low p-8 border border-outline-variant mb-12">
-          <Input
-            label="Order Reference Number"
-            placeholder="E.G. BUN-20260728-8472"
-            value={orderNumber}
-            onChange={(e) => setOrderNumber(e.target.value)}
-            required
-          />
-          <Input
-            label="Customer Mobile Number"
-            placeholder="+8801700000000"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-          />
-          <Button variant="primary" size="lg" fullWidth type="submit" className="mt-4">
-            TRACK ORDER STATUS
-          </Button>
+        <form onSubmit={handleTrack} className="bg-white p-8 border border-[#E8E8E5] mb-10 space-y-5">
+          <div>
+            <label className="text-label text-[#6B6B6B] block mb-2">
+              Order Reference Number
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. FUKU-20260912-8472"
+              value={orderNumber}
+              onChange={(e) => setOrderNumber(e.target.value)}
+              required
+              className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors"
+            />
+          </div>
+
+          <div>
+            <label className="text-label text-[#6B6B6B] block mb-2">
+              Contact Phone Number
+            </label>
+            <input
+              type="tel"
+              placeholder="+880 1712-345678"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              className="w-full bg-white border border-[#D9D9D6] px-4 py-3 text-body text-[#111111] placeholder:text-[#9B9B9B] focus:outline-none focus:border-[#111111] transition-colors"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-4 bg-[#111111] text-white text-label uppercase tracking-[0.14em] hover:bg-[#333] transition-colors cursor-pointer"
+          >
+            Track Waybill Status
+          </button>
         </form>
 
         {searched && (
-          <div className="border border-outline-variant p-8 bg-white">
-            <div className="flex justify-between items-center pb-6 border-b border-outline-variant mb-6">
+          <div className="border border-[#E8E8E5] p-8 bg-white space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#E8E8E5] gap-3">
               <div>
-                <span className="font-label-caps text-xs text-secondary uppercase">Order ID</span>
-                <p className="font-display text-lg font-bold text-primary">{orderNumber || 'BUN-20260728-8472'}</p>
+                <span className="text-label text-[10px] text-[#9B9B9B] uppercase tracking-wider">Order ID</span>
+                <p className="text-body font-medium text-[#111111] uppercase tracking-wide">
+                  {orderNumber || 'FUKU-20260912-8472'}
+                </p>
               </div>
-              <span className="px-3 py-1 bg-emerald-100 text-emerald-800 font-label-caps text-xs uppercase font-bold">
-                IN TRANSIT — COURIER DISPATCHED
+              <span className="px-3 py-1 bg-[#F7F7F5] border border-[#111111] text-[#111111] text-label text-[10px] uppercase font-medium w-fit">
+                In Transit — Courier Dispatched
               </span>
             </div>
 
-            <div className="flex flex-col gap-6">
+            <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <CheckCircle2 className="w-6 h-6 text-emerald-600 flex-shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#286749] shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-label-caps text-xs font-bold text-primary uppercase">Order Confirmed &amp; Reserved</p>
-                  <p className="font-body-md text-xs text-secondary">July 28, 2026 — 14:30 | Physical stock reserved at Tejgaon Central Warehouse</p>
+                  <p className="text-label font-medium text-[#111111] uppercase tracking-wider">
+                    Order Verified &amp; Garments Reserved
+                  </p>
+                  <p className="text-body text-xs text-[#6B6B6B] mt-0.5">
+                    Physical inventory reserved at Tejgaon Central Atelier
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <CheckCircle2 className="w-6 h-6 text-emerald-600 flex-shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-[#286749] shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-label-caps text-xs font-bold text-primary uppercase">Quality Inspection &amp; Packing</p>
-                  <p className="font-body-md text-xs text-secondary">July 28, 2026 — 16:15 | Barcode verified picking complete</p>
+                  <p className="text-label font-medium text-[#111111] uppercase tracking-wider">
+                    Quality Inspection &amp; Archival Packaging
+                  </p>
+                  <p className="text-body text-xs text-[#6B6B6B] mt-0.5">
+                    Barcode verified picking &amp; matte black box sealing completed
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <Truck className="w-6 h-6 text-vermilion flex-shrink-0 animate-bounce" />
+                <Truck className="w-5 h-5 text-[#111111] shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-label-caps text-xs font-bold text-primary uppercase">Out for Delivery — Pathao Express</p>
-                  <p className="font-body-md text-xs text-secondary">Tracking Code: PTH-84920194 | Estimated arrival inside 24 hours</p>
+                  <p className="text-label font-medium text-[#111111] uppercase tracking-wider">
+                    Out for Delivery — Express Courier
+                  </p>
+                  <p className="text-body text-xs text-[#6B6B6B] mt-0.5">
+                    Tracking Code: PTH-84920194 | Estimated arrival in 24 hours
+                  </p>
                 </div>
               </div>
+            </div>
+
+            <div className="pt-6 border-t border-[#E8E8E5] text-center">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-1.5 text-label text-xs text-[#6B6B6B] hover:text-[#111111] transition-colors"
+              >
+                Need assistance with this consignment? Contact Concierge &rarr;
+              </Link>
             </div>
           </div>
         )}

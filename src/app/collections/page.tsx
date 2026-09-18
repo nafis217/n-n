@@ -1,70 +1,85 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+
+export const metadata = {
+  title: 'Editorial Collections | FUKU Archive',
+  description: 'Curated seasonal releases, technical outerwear, and artisanal Jamdani capsule collections.',
+};
 
 export default function CollectionsPage() {
   const collections = [
     {
       id: 'dhaka-after-dark',
       title: 'Dhaka After Dark',
-      subtitle: 'Editorial Series No. 01',
+      subtitle: 'Editorial Series No. 01 • Heavy Japanese Technical Knits',
       image:
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuDLaRVJUicBp_Pwm0AC1oCfYw6SaEoBcCISzSLJc-Vi-JBoED8gBcfQWBCapOG3M_8I3D6EKnd59PuGfenBidubJ-JDkmmoURnkQpisAiw6SQrKUSyn3mNfAeE9I6sZc3G0BVp4UdV36G5aPGgEBgiQaDUXqTbg9KAyF-n4mkLlNXLDi0-22szka_u03AmVlVtH3ScmQJcNfQBUa6G00d0n7fltmjMB_sE96MJP1iIMvw0T6ebVtf32',
-      href: '/products?collection=dhaka-after-dark',
+        'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&q=80&w=1600',
+      href: '/shop',
     },
     {
       id: 'jamdani-reframed',
       title: 'Jamdani Reframed',
-      subtitle: 'Bengali Heritage x Industrial Minimalism',
+      subtitle: 'Bengali Heritage x Industrial Minimalism • 200-Count Handspun Muslin',
       image:
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuA1MSkj6MdzxRABHuA_I8NhFgWW5X1WR47sfF_bmMruPZuchPKRmRZR-JLSO9v4xZjNi2XLEgTKFBfhFMsYFn-8XYkeIzxgK3oEReBRvMGVFYEqOC-1f68bywOmbvDex5nOqRF8bEiN8lrSW6ZOmGR4HyCuyRXA8ja_DjF7mwMK0_A_lut41RyPgeWpP4Rf1Kc7WAKJoQVlL-dKC3kngYXp7p5Vh8HLZndUAKXkgam2sPqJQDVOm6R2',
-      href: '/products?collection=jamdani-reframed',
+        'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1600',
+      href: '/women',
     },
     {
       id: 'ethnic-contemporary',
       title: 'Ethnic Contemporary Panjabi',
-      subtitle: 'Minimal Seam Architecture',
+      subtitle: 'Minimal Seam Architecture • Raw Khadi Silk',
       image:
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuBkZzdNEoqzXp6VHwwmHKm93W8yH61nRWeujHjzC4L1RK0cF0A7bgCzJLoCh3FSswIld6Zs7f-Zr1tvvTCjbNOiNkVUt7aXkCFtf9lgWxThh_fY5QmAJzOpV0YaRDRNQ90ACDhSafvkg-fk4F5_CY1YfxOKGpij3ytGK9XXLa4wvWlycSerFpuGXLhLHBPji0VIpr2ESO3bL_7oBn2V5JgsRZlrMM2xNyVkSC2npWZLJbbkoidfTHDN',
+        'https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?auto=format&fit=crop&q=80&w=1600',
       href: '/panjabi',
     },
   ];
 
   return (
-    <div className="w-full px-margin-mobile md:px-margin-desktop pt-24 md:pt-28 pb-16">
-      <div className="border-b border-outline-variant pb-8 mb-12">
-        <span className="font-label-caps text-label-caps text-outline uppercase block mb-2 font-semibold">
-          Curated Archives
-        </span>
-        <h1 className="font-headline-lg text-4xl uppercase font-semibold text-primary">
-          BUNON Editorial Collections
-        </h1>
-      </div>
-
-      <div className="flex flex-col gap-12">
-        {collections.map((col) => (
-          <Link
-            key={col.id}
-            href={col.href}
-            className="group relative w-full h-[50vh] md:h-[65vh] overflow-hidden block"
+    <div className="min-h-screen bg-[#FAFAF8] text-[#111111] pt-24 pb-20">
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+        <div className="border-b border-[#E8E8E5] pb-8 mb-12">
+          <span className="text-label text-[#9B9B9B] uppercase tracking-[0.16em] block mb-2 font-medium">
+            Curated Archives
+          </span>
+          <h1
+            className="font-display font-light text-[#111111]"
+            style={{ fontSize: 'clamp(28px, 4vw, 48px)', letterSpacing: '-0.025em' }}
           >
-            <img
-              src={col.image}
-              alt={col.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-8 md:p-12 text-white">
-              <span className="font-label-caps text-xs uppercase tracking-widest text-neutral-300 mb-2">
-                {col.subtitle}
-              </span>
-              <h2 className="font-display-lg text-3xl md:text-5xl uppercase font-bold mb-4">
-                {col.title}
-              </h2>
-              <span className="font-label-caps text-xs uppercase border-b border-white pb-1 inline-block w-fit font-bold group-hover:underline">
-                Explore Collection
-              </span>
-            </div>
-          </Link>
-        ))}
+            FUKU Editorial Collections
+          </h1>
+        </div>
+
+        <div className="flex flex-col gap-10">
+          {collections.map((col) => (
+            <Link
+              key={col.id}
+              href={col.href}
+              className="group relative w-full h-[50vh] md:h-[65vh] overflow-hidden block bg-[#F0F0EE]"
+            >
+              <Image
+                src={col.image}
+                alt={col.title}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-1000 grayscale contrast-110 group-hover:grayscale-0"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-8 md:p-14 text-white">
+                <span className="text-label text-xs uppercase tracking-[0.16em] text-neutral-300 mb-2">
+                  {col.subtitle}
+                </span>
+                <h2
+                  className="font-display font-light uppercase tracking-tight text-white mb-4"
+                  style={{ fontSize: 'clamp(24px, 3.5vw, 44px)' }}
+                >
+                  {col.title}
+                </h2>
+                <span className="text-label text-xs uppercase tracking-[0.14em] border-b border-white pb-1 inline-block w-fit font-medium group-hover:text-neutral-200">
+                  Explore Capsule &rarr;
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
