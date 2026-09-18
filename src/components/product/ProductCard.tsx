@@ -95,7 +95,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView, 
               ? '(max-width: 640px) 100vw, 50vw'
               : '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw'
             }
-            className={`object-cover transition-opacity duration-300 ${
+            className={`object-cover object-top transition-all duration-500 group-hover:scale-[1.03] ${
               hovered && hasSecondary ? 'opacity-0' : 'opacity-100'
             }`}
             priority={false}
@@ -109,7 +109,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView, 
                 ? '(max-width: 640px) 100vw, 50vw'
                 : '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw'
               }
-              className={`object-cover transition-opacity duration-300 ${
+              className={`object-cover object-top transition-all duration-500 group-hover:scale-[1.03] ${
                 hovered ? 'opacity-100' : 'opacity-0'
               }`}
               priority={false}

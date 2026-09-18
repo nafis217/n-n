@@ -86,7 +86,7 @@ export function QuickViewModal({ product, isOpen, onClose, onOpenSizeGuide }: Qu
               src={product.images[selectedImageIndex] || product.images[0]}
               alt={product.nameEn}
               fill
-              className="object-cover transition-all duration-300"
+              className="object-cover object-top transition-all duration-300"
             />
             {product.tag && (
               <span className="absolute top-3 left-3 px-2.5 py-1 bg-black border border-black text-[10px] font-mono tracking-widest uppercase text-white font-bold shadow-xs">

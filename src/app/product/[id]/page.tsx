@@ -198,32 +198,32 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
             {/* Thumbnail strip (desktop left) */}
             {product.images.length > 1 && (
-              <div className="flex md:flex-col gap-2.5 overflow-x-auto md:overflow-y-auto md:max-h-[80vh] shrink-0 md:w-[72px] pb-2 md:pb-0 hide-scrollbar">
+              <div className="flex md:flex-col gap-2.5 overflow-x-auto md:overflow-y-auto md:max-h-[80vh] shrink-0 md:w-[76px] pb-2 md:pb-0 hide-scrollbar">
                 {product.images.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setSelectedImageIndex(idx)}
-                    className={`relative w-14 md:w-full aspect-[3/4] shrink-0 overflow-hidden transition-all duration-150 cursor-pointer ${
+                    className={`relative w-14 md:w-full aspect-[3/4] shrink-0 overflow-hidden bg-[#EAEAEA] transition-all duration-150 cursor-pointer ${
                       selectedImageIndex === idx
                         ? 'ring-1 ring-[#111111] opacity-100'
-                        : 'opacity-40 hover:opacity-80'
+                        : 'opacity-50 hover:opacity-90'
                     }`}
                   >
-                    <Image src={img} alt="" fill className="object-cover" />
+                    <Image src={img} alt="" fill className="object-cover object-top" />
                   </button>
                 ))}
               </div>
             )}
 
             {/* Primary image */}
-            <div className="flex-1 relative aspect-[3/4] bg-[#F3F3F1] overflow-hidden">
+            <div className="flex-1 relative aspect-[3/4] bg-[#F3F3F1] overflow-hidden border border-[#E8E8E5]">
               <Image
                 src={product.images[selectedImageIndex] || product.images[0]}
                 alt={product.nameEn}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 60vw"
-                className="object-cover"
+                className="object-cover object-top transition-transform duration-300"
               />
 
               {/* Zoom button */}

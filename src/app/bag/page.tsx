@@ -124,7 +124,7 @@ export default function ShoppingBagPage() {
                   <div className="col-span-10 md:col-span-6 flex gap-4">
                     <Link href={`/product/${item.id}`} className="shrink-0">
                       <div className="w-[72px] h-[90px] bg-[#F3F3F1] relative overflow-hidden">
-                        <Image src={item.image} alt={item.title} fill className="object-cover" />
+                        <Image src={item.image} alt={item.title} fill className="object-cover object-top" />
                       </div>
                     </Link>
                     <div className="flex flex-col justify-center min-w-0">
