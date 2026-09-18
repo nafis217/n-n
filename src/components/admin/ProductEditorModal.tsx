@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   X, 
   Save, 
   Trash2, 
   Plus, 
   Image as ImageIcon, 
+  Upload,
   Layers, 
   Tag, 
   DollarSign, 
@@ -22,7 +23,12 @@ import {
   Eye,
   Sliders,
   ShieldAlert,
-  ArrowRight
+  ArrowRight,
+  ArrowLeft,
+  ArrowUp,
+  ArrowDown,
+  CheckCircle2,
+  FolderOpen
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
@@ -145,6 +151,10 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
     | 'CARE'
   >('GENERAL');
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [uploadNotice, setUploadNotice] = useState('');
+
   const defaultValues: AdminProductFormValues = {
     titleEn: '',
     subtitle: 'Limited Archive Release',
@@ -233,6 +243,15 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
   const [newCare, setNewCare] = useState('');
   const [validationError, setValidationError] = useState('');
 
+  // Preset studio photos
+  const studioPresets = [
+    { name: 'Architectural Suit (Front)', url: '/images/products/architectural-black-suit-1.jpg' },
+    { name: 'Architectural Suit (Detail)', url: '/images/products/architectural-black-suit-2.jpg' },
+    { name: 'Architectural Suit (Full)', url: '/images/products/architectural-black-suit-full.jpg' },
+    { name: 'Selvedge Trucker Jacket', url: '/images/products/raw-selvedge-trucker-jacket.jpg' },
+    { name: 'Monolith Contrast Polo', url: '/images/products/monolith-contrast-polo.jpg' },
+  ];
+
   useEffect(() => {
     if (initialProduct) {
       setForm({ ...defaultValues, ...initialProduct });
@@ -258,6 +277,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
     }));
   };
 
+  // Add Image by URL / path
   const handleAddImage = () => {
     if (!newImageUrl.trim()) return;
     setForm((prev) => ({
@@ -265,6 +285,66 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
       images: [...prev.images, newImageUrl.trim()],
     }));
     setNewImageUrl('');
+    setUploadNotice('Image added to gallery!');
+    setTimeout(() => setUploadNotice(''), 3000);
+  };
+
+  // Add Preset Image
+  const handleAddPresetImage = (url: string) => {
+    if (form.images.includes(url)) {
+      setUploadNotice('Image is already in the gallery.');
+      setTimeout(() => setUploadNotice(''), 3000);
+      return;
+    }
+    setForm((prev) => ({
+      ...prev,
+      images: [...prev.images, url],
+    }));
+    setUploadNotice('Studio image added!');
+    setTimeout(() => setUploadNotice(''), 3000);
+  };
+
+  // Direct File Upload (Converts files to Data URLs)
+  const processFiles = (files: FileList | File[]) => {
+    const fileArray = Array.from(files).filter((file) => file.type.startsWith('image/'));
+    if (fileArray.length === 0) return;
+
+    let loadedCount = 0;
+    const newImages: string[] = [];
+
+    fileArray.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          newImages.push(e.target.result as string);
+          loadedCount++;
+          if (loadedCount === fileArray.length) {
+            setForm((prev) => ({
+              ...prev,
+              images: [...prev.images, ...newImages],
+            }));
+            setUploadNotice(`Successfully uploaded ${loadedCount} photo(s)!`);
+            setTimeout(() => setUploadNotice(''), 3500);
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      processFiles(e.target.files);
+      e.target.value = ''; // Reset input
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      processFiles(e.dataTransfer.files);
+    }
   };
 
   const handleRemoveImage = (index: number) => {
@@ -272,6 +352,21 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
       featuredImageIndex: prev.featuredImageIndex === index ? 0 : prev.featuredImageIndex,
+    }));
+  };
+
+  const handleMoveImage = (index: number, direction: 'left' | 'right') => {
+    const newIdx = direction === 'left' ? index - 1 : index + 1;
+    if (newIdx < 0 || newIdx >= form.images.length) return;
+
+    const updated = [...form.images];
+    const temp = updated[index];
+    updated[index] = updated[newIdx];
+    updated[newIdx] = temp;
+
+    setForm((prev) => ({
+      ...prev,
+      images: updated,
     }));
   };
 
@@ -298,7 +393,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
 
   const tabs: Array<{ id: typeof activeTab; label: string; icon: React.ReactNode }> = [
     { id: 'GENERAL', label: '1. General', icon: <FileText className="w-3.5 h-3.5" /> },
-    { id: 'MEDIA', label: '2. Media Gallery', icon: <ImageIcon className="w-3.5 h-3.5" /> },
+    { id: 'MEDIA', label: `2. Media (${form.images.length})`, icon: <ImageIcon className="w-3.5 h-3.5" /> },
     { id: 'PRICING', label: '3. Pricing & Tax', icon: <DollarSign className="w-3.5 h-3.5" /> },
     { id: 'INVENTORY', label: '4. Inventory', icon: <Boxes className="w-3.5 h-3.5" /> },
     { id: 'VARIANTS', label: '5. Variants & SKUs', icon: <Layers className="w-3.5 h-3.5" /> },
@@ -352,6 +447,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
             return (
               <button
                 key={tab.id}
+                type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 uppercase font-bold whitespace-nowrap transition-all border ${
                   isActive
@@ -480,61 +576,205 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
             </div>
           )}
 
-          {/* TAB 2: MEDIA */}
+          {/* TAB 2: MEDIA (FILE UPLOAD + DRAG/DROP + URL + STUDIO PRESETS) */}
           {activeTab === 'MEDIA' && (
-            <div className="space-y-4">
-              <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500 border-b pb-2">
-                High-Resolution Image Assets
-              </h3>
-
-              {/* Add image input */}
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={newImageUrl}
-                  onChange={(e) => setNewImageUrl(e.target.value)}
-                  placeholder="Enter image URL (e.g. /images/products/architectural-black-suit-1.jpg or https://...)"
-                  className="flex-1 border border-neutral-300 p-2 text-xs font-mono focus:border-black focus:outline-none"
-                />
-                <Button type="button" variant="primary" size="sm" onClick={handleAddImage} className="uppercase font-bold text-xs">
-                  <Plus className="w-4 h-4 mr-1" /> Add Image
-                </Button>
+            <div className="space-y-6">
+              <div className="flex justify-between items-center border-b pb-2">
+                <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500">
+                  Product Image Assets ({form.images.length} Loaded)
+                </h3>
+                {uploadNotice && (
+                  <span className="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 border border-emerald-300 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    {uploadNotice}
+                  </span>
+                )}
               </div>
 
-              {/* Image Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pt-2">
-                {form.images.map((img, idx) => (
-                  <div key={idx} className="relative group border-2 border-neutral-200 bg-neutral-100 p-1 flex flex-col items-center">
-                    <img src={img} alt={`Product ${idx}`} className="w-full h-44 object-cover object-top" />
-                    
-                    {idx === form.featuredImageIndex ? (
-                      <span className="absolute top-2 left-2 bg-black text-white text-[9px] font-mono font-bold px-1.5 py-0.5 uppercase">
-                        Primary
-                      </span>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => setForm({ ...form, featuredImageIndex: idx })}
-                        className="absolute top-2 left-2 bg-white/90 hover:bg-black hover:text-white text-black text-[9px] font-mono font-bold px-1.5 py-0.5 uppercase border border-neutral-300"
-                      >
-                        Set Primary
-                      </button>
-                    )}
+              {/* Hidden File Input for Native File Browser */}
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept="image/*"
+                multiple
+                onChange={handleFileInputChange}
+                className="hidden"
+              />
 
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveImage(idx)}
-                      className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white p-1 rounded-none shadow-xs"
-                      title="Delete Image"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-
-                    <span className="font-mono text-[10px] text-neutral-500 truncate w-full mt-1.5 text-center">
-                      Image #{idx + 1}
-                    </span>
+              {/* DRAG & DROP / UPLOAD BOX */}
+              <div
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  setIsDragging(true);
+                }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={handleDrop}
+                onClick={() => fileInputRef.current?.click()}
+                className={`border-2 border-dashed p-6 sm:p-8 text-center cursor-pointer transition-all ${
+                  isDragging
+                    ? 'border-black bg-neutral-100 scale-[1.01]'
+                    : 'border-neutral-300 hover:border-black bg-neutral-50 hover:bg-neutral-100/60'
+                }`}
+              >
+                <div className="flex flex-col items-center justify-center space-y-2">
+                  <div className="w-12 h-12 bg-white border border-neutral-200 rounded-full flex items-center justify-center text-black shadow-xs">
+                    <Upload className="w-6 h-6" />
                   </div>
-                ))}
+                  <div>
+                    <p className="font-mono text-xs font-bold uppercase text-black">
+                      Click to Browse Files or Drag &amp; Drop Photos Here
+                    </p>
+                    <p className="font-mono text-[11px] text-neutral-500 mt-0.5">
+                      Supports JPG, PNG, WEBP high-resolution atelier images (multiple selection allowed)
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="sm"
+                    className="font-mono text-xs uppercase font-bold mt-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      fileInputRef.current?.click();
+                    }}
+                  >
+                    Choose Images from Device
+                  </Button>
+                </div>
+              </div>
+
+              {/* URL INPUT ROW */}
+              <div className="space-y-1.5">
+                <label className="block font-mono text-[11px] font-bold uppercase text-neutral-600">
+                  Or Add Image by Direct URL / Path
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newImageUrl}
+                    onChange={(e) => setNewImageUrl(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleAddImage();
+                      }
+                    }}
+                    placeholder="e.g. /images/products/architectural-black-suit-1.jpg or https://..."
+                    className="flex-1 border border-neutral-300 p-2 text-xs font-mono focus:border-black focus:outline-none"
+                  />
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="sm"
+                    onClick={handleAddImage}
+                    disabled={!newImageUrl.trim()}
+                    className="uppercase font-mono font-bold text-xs shrink-0"
+                  >
+                    <Plus className="w-4 h-4 mr-1" /> Add URL
+                  </Button>
+                </div>
+              </div>
+
+              {/* STUDIO PRESET LIBRARY */}
+              <div className="space-y-2 pt-2 border-t border-neutral-200">
+                <span className="font-mono text-[11px] font-bold uppercase text-neutral-500 block">
+                  Studio Atelier Preset Library (Click to Quick-Add)
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {studioPresets.map((preset, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => handleAddPresetImage(preset.url)}
+                      className="px-2.5 py-1.5 bg-white border border-neutral-300 hover:border-black text-[11px] font-mono text-black font-bold uppercase flex items-center gap-1.5 transition-colors"
+                    >
+                      <Plus className="w-3 h-3 text-neutral-500" />
+                      <span>{preset.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* CURRENT IMAGE GALLERY GRID */}
+              <div className="space-y-2 pt-3 border-t border-neutral-200">
+                <span className="font-mono text-[11px] font-bold uppercase text-black block">
+                  Active Gallery Matrix ({form.images.length} Images)
+                </span>
+
+                {form.images.length === 0 ? (
+                  <div className="p-8 text-center border border-dashed border-neutral-300 text-neutral-400 font-mono text-xs uppercase">
+                    No images uploaded yet. Use the upload box or preset buttons above.
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    {form.images.map((img, idx) => (
+                      <div
+                        key={idx}
+                        className={`relative group border-2 p-1.5 flex flex-col items-center bg-white transition-all ${
+                          idx === form.featuredImageIndex ? 'border-black shadow-md' : 'border-neutral-200'
+                        }`}
+                      >
+                        <div className="w-full h-44 bg-neutral-100 overflow-hidden relative">
+                          <img
+                            src={img}
+                            alt={`Product photo ${idx + 1}`}
+                            className="w-full h-full object-cover object-top"
+                          />
+
+                          {/* Primary Cover Badge */}
+                          {idx === form.featuredImageIndex ? (
+                            <span className="absolute top-1.5 left-1.5 bg-black text-white text-[9px] font-mono font-bold px-1.5 py-0.5 uppercase shadow-xs">
+                              ★ Primary Cover
+                            </span>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => setForm({ ...form, featuredImageIndex: idx })}
+                              className="absolute top-1.5 left-1.5 bg-white/95 hover:bg-black hover:text-white text-black text-[9px] font-mono font-bold px-1.5 py-0.5 uppercase border border-neutral-300 opacity-90 group-hover:opacity-100 transition-opacity"
+                            >
+                              Set Primary
+                            </button>
+                          )}
+
+                          {/* Delete Button */}
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveImage(idx)}
+                            className="absolute top-1.5 right-1.5 bg-red-600 hover:bg-red-700 text-white p-1 shadow-xs"
+                            title="Delete Image"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+
+                        {/* Controls underneath image */}
+                        <div className="w-full flex items-center justify-between pt-2 px-1 font-mono text-[10px]">
+                          <span className="text-neutral-500 font-bold">#{idx + 1}</span>
+                          <div className="flex items-center gap-1">
+                            <button
+                              type="button"
+                              disabled={idx === 0}
+                              onClick={() => handleMoveImage(idx, 'left')}
+                              className="p-1 border border-neutral-200 hover:bg-neutral-100 disabled:opacity-30"
+                              title="Move Left"
+                            >
+                              <ArrowLeft className="w-3 h-3" />
+                            </button>
+                            <button
+                              type="button"
+                              disabled={idx === form.images.length - 1}
+                              onClick={() => handleMoveImage(idx, 'right')}
+                              className="p-1 border border-neutral-200 hover:bg-neutral-100 disabled:opacity-30"
+                              title="Move Right"
+                            >
+                              <ArrowRight className="w-3 h-3" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )}
