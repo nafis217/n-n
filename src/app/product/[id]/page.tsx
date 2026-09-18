@@ -273,9 +273,6 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               >
                 {product.nameEn.toUpperCase()}
               </h1>
-              {product.nameBn && (
-                <p className="text-body text-[#9B9B9B] font-bengali mt-1">{product.nameBn}</p>
-              )}
 
               {/* Price */}
               <div className="flex items-baseline gap-3 mt-4 mb-5 pb-5 border-b border-[#E8E8E5]">

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 interface ProductItemProps {
   id: string;
   titleEn: string;
-  nameBn?: string;
+  subtitle?: string;
   slug: string;
   gender: string;
   category: string;
@@ -23,10 +23,10 @@ export const ProductAdminManager: React.FC<{ initialProducts: ProductItemProps[]
   const [copiedCode, setCopiedCode] = useState(false);
   const [successToast, setSuccessToast] = useState('');
 
-  // Form State for new product
+  // Form State for new product (100% English)
   const [formData, setFormData] = useState({
     titleEn: '',
-    nameBn: '',
+    subtitle: '',
     category: 'panjabi',
     gender: 'UNISEX',
     priceBDT: 8500,
@@ -52,7 +52,7 @@ export const ProductAdminManager: React.FC<{ initialProducts: ProductItemProps[]
     const newProd: ProductItemProps = {
       id: `prod-${Date.now()}`,
       titleEn: formData.titleEn,
-      nameBn: formData.nameBn,
+      subtitle: formData.subtitle,
       slug,
       gender: formData.gender,
       category: formData.category.toUpperCase(),
@@ -70,7 +70,7 @@ export const ProductAdminManager: React.FC<{ initialProducts: ProductItemProps[]
     // Reset form
     setFormData({
       titleEn: '',
-      nameBn: '',
+      subtitle: '',
       category: 'panjabi',
       gender: 'UNISEX',
       priceBDT: 8500,
@@ -94,7 +94,7 @@ export const ProductAdminManager: React.FC<{ initialProducts: ProductItemProps[]
     id: 'prod-${Date.now().toString().slice(-4)}',
     slug: '${slug}',
     nameEn: '${formData.titleEn || 'New Product'}',
-    nameBn: '${formData.nameBn || 'নতুন প্রোডাক্ট'}',
+    nameBn: '',
     category: '${formData.category}',
     gender: '${formData.gender}',
     priceBDT: ${formData.priceBDT},
@@ -235,11 +235,11 @@ export const ProductAdminManager: React.FC<{ initialProducts: ProductItemProps[]
             </div>
 
             <form onSubmit={handleCreateProduct} className="space-y-4 text-xs">
-              {/* Product Title (EN & BN) */}
+              {/* Product Title (English) & Subtitle / Edition */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="font-bold text-black uppercase block mb-1">
-                    Product Title (English) *
+                    Product Title *
                   </label>
                   <input
                     type="text"
@@ -252,14 +252,14 @@ export const ProductAdminManager: React.FC<{ initialProducts: ProductItemProps[]
                 </div>
                 <div>
                   <label className="font-bold text-black uppercase block mb-1">
-                    Title (Bengali)
+                    Edition / Subtitle (Optional)
                   </label>
                   <input
                     type="text"
-                    value={formData.nameBn}
-                    onChange={(e) => setFormData({ ...formData, nameBn: e.target.value })}
-                    placeholder="e.g. আর্কিটেকচারাল পাঞ্জাবি"
-                    className="w-full bg-white border border-neutral-300 px-3 py-2 text-black focus:outline-none focus:border-black"
+                    value={formData.subtitle}
+                    onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+                    placeholder="e.g. Archive Drop 2026 / Raw Black"
+                    className="w-full bg-white border border-neutral-300 px-3 py-2 text-black focus:outline-none focus:border-black uppercase"
                   />
                 </div>
               </div>

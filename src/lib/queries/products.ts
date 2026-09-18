@@ -12,7 +12,7 @@ export interface ProductItem {
   id: string;
   slug: string;
   nameEn: string;
-  nameBn: string;
+  nameBn?: string;
   category: 'women' | 'men' | 'unisex' | 'panjabi' | 'accessories' | 't-shirts' | 'hoodies' | 'jackets' | 'pants' | 'shirts';
   collection?: string;
   gender: 'WOMEN' | 'MEN' | 'UNISEX';
@@ -45,7 +45,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-1',
     slug: 'tactical-cyber-kimono',
     nameEn: 'Tactical Cyber Kimono (Raw Black)',
-    nameBn: 'ট্যাকটিক্যাল সাইবার কিমোনো',
     category: 'unisex',
     collection: 'new-drop-2026',
     gender: 'UNISEX',
@@ -110,7 +109,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-2',
     slug: 'monolithic-heavyweight-tee',
     nameEn: 'Monolithic Heavyweight Oversized Tee',
-    nameBn: 'মনোলিথিক ওভারসাইজড টি-শার্ট',
     category: 'unisex',
     collection: 'core-archive',
     gender: 'UNISEX',
@@ -163,7 +161,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-3',
     slug: 'architectural-linen-blazer',
     nameEn: 'Architectural Deconstructed Blazer',
-    nameBn: 'আর্কিটেকচারাল ডিকনস্ট্রাক্টেড ব্লেজার',
     category: 'men',
     collection: 'dhaka-after-dark',
     gender: 'MEN',
@@ -216,7 +213,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-4',
     slug: 'architectural-pleated-trouser',
     nameEn: 'Architectural Pleated Trouser',
-    nameBn: 'আর্কিটেকচারাল প্লিটেড ট্রাউজার',
     category: 'men',
     collection: 'dhaka-after-dark',
     gender: 'MEN',
@@ -257,7 +253,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-5',
     slug: 'jamdani-reframed-drape-saree',
     nameEn: 'Jamdani Reframed Drape Saree',
-    nameBn: 'জামদানী রিফ্রেমড ড্রেপ শাড়ি',
     category: 'women',
     collection: 'jamdani-reframed',
     gender: 'WOMEN',
@@ -309,7 +304,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-6',
     slug: 'minimal-khadi-silk-panjabi',
     nameEn: 'Minimal Charcoal Khadi Panjabi',
-    nameBn: 'মিনিমাল চারকোল খাদি পাঞ্জাবি',
     category: 'panjabi',
     collection: 'new-drop-2026',
     gender: 'MEN',
@@ -362,7 +356,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-7',
     slug: 'wide-leg-architectural-trouser-women',
     nameEn: 'Draped Palazzo Cargo Trouser',
-    nameBn: 'ড্র্যাপড পালাজ্জো কার্গো ট্রাউজার',
     category: 'women',
     collection: 'new-drop-2026',
     gender: 'WOMEN',
@@ -403,7 +396,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-8',
     slug: 'geo-jamdani-stole',
     nameEn: 'Monochrome Geo-Jamdani Stole',
-    nameBn: 'মনোক্রোম জিও-জামদানী স্টোল',
     category: 'accessories',
     collection: 'jamdani-reframed',
     gender: 'UNISEX',
@@ -443,7 +435,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-9',
     slug: 'modular-tactical-vest',
     nameEn: 'Modular Utility Cargo Vest',
-    nameBn: 'মডুলার ইউটিলিটি কার্গো ভেস্ট',
     category: 'unisex',
     collection: 'dhaka-after-dark',
     gender: 'UNISEX',
@@ -483,7 +474,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-10',
     slug: 'sculptural-hooded-parka',
     nameEn: 'Sculptural Weatherproof Cocoon Parka',
-    nameBn: 'স্কাল্পচারাল কোকুন পার্কা',
     category: 'unisex',
     collection: 'new-drop-2026',
     gender: 'UNISEX',
@@ -524,7 +514,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-11',
     slug: 'minimalist-leather-atelier-tote',
     nameEn: 'Architectural Minimalist Leather Tote',
-    nameBn: 'আর্কিটেকচারাল লেদার টোট',
     category: 'accessories',
     collection: 'core-archive',
     gender: 'UNISEX',
@@ -564,7 +553,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-12',
     slug: 'asymmetric-cotton-draped-dress',
     nameEn: 'Asymmetrical Draped Atelier Dress',
-    nameBn: 'অ্যাসিমেট্রিক্যাল ড্র্যাপড ড্রেস',
     category: 'women',
     collection: 'new-drop-2026',
     gender: 'WOMEN',
@@ -604,7 +592,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-13',
     slug: 'heavy-raw-denim-jacket',
     nameEn: 'Raw Selvedge Denim Architectural Jacket',
-    nameBn: 'র সেলভেজ ডেনিম জ্যাকেট',
     category: 'men',
     collection: 'core-archive',
     gender: 'MEN',
@@ -643,7 +630,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-14',
     slug: 'fluid-silk-mandarin-shirt',
     nameEn: 'Fluid Mulberry Silk Mandarin Shirt',
-    nameBn: 'মালবেরি সিল্ক ম্যান্ডারিন শার্ট',
     category: 'unisex',
     collection: 'dhaka-after-dark',
     gender: 'UNISEX',
@@ -683,7 +669,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-15',
     slug: 'sculpted-silver-cuff',
     nameEn: 'Forged 925 Sterling Silver Minimalist Cuff',
-    nameBn: 'ফরজড স্টার্লিং সিলভার কাফ',
     category: 'accessories',
     collection: 'core-archive',
     gender: 'UNISEX',
@@ -722,7 +707,6 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
     id: 'prod-16',
     slug: 'heavyweight-oversized-hoodie',
     nameEn: 'Monolith 450 GSM Heavy French Terry Hoodie',
-    nameBn: 'মনোলিথ ওভারসাইজড হুডি',
     category: 'unisex',
     collection: 'core-archive',
     gender: 'UNISEX',
@@ -830,7 +814,6 @@ export function searchProducts(query: string): ProductItem[] {
   return CATALOG_PRODUCTS.filter(
     (p) =>
       p.nameEn.toLowerCase().includes(q) ||
-      p.nameBn.includes(q) ||
       p.category.toLowerCase().includes(q) ||
       p.collection?.toLowerCase().includes(q) ||
       p.shortDescription.toLowerCase().includes(q) ||

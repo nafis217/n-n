@@ -126,13 +126,10 @@ export function QuickViewModal({ product, isOpen, onClose, onOpenSizeGuide }: Qu
               </div>
             </div>
 
-            {/* Title & Bengali Subtitle */}
-            <h2 className="font-display text-xl font-bold uppercase tracking-wider text-black mb-1">
+            {/* Title */}
+            <h2 className="font-display text-xl font-bold uppercase tracking-wider text-black mb-4">
               {product.nameEn}
             </h2>
-            <div className="text-xs text-neutral-500 font-serif mb-4">
-              {product.nameBn}
-            </div>
 
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-6">
