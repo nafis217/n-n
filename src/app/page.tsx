@@ -51,11 +51,20 @@ function RevealSection({ children, className = '', delay = 0 }: { children: Reac
   );
 }
 
+import { useCMSStore, INITIAL_CMS_BANNERS } from '@/lib/store/cms';
+
 export default function HomePage() {
   const [quickViewProduct, setQuickViewProduct] = useState<ProductItem | null>(null);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+
+  const { banners } = useCMSStore();
+
+  const heroBanner = banners.find((b) => b.placement === 'hero' && b.isActive) || INITIAL_CMS_BANNERS[0];
+  const splitBanner = banners.find((b) => b.placement === 'split' && b.isActive) || INITIAL_CMS_BANNERS[1];
+  const fullbleedBanner = banners.find((b) => b.placement === 'fullbleed' && b.isActive) || INITIAL_CMS_BANNERS[2];
+  const lookbookBanner = banners.find((b) => b.placement === 'lookbook' && b.isActive) || INITIAL_CMS_BANNERS[3];
 
   const newArrivals = getNewArrivals().slice(0, 4);
   const bestSellers = getBestSellers().slice(0, 4);
@@ -79,38 +88,50 @@ export default function HomePage() {
       <section className="relative w-full h-screen min-h-[640px] overflow-hidden">
         {/* Campaign image */}
         <Image
-          src="/images/products/architectural-black-suit-1.jpg"
-          alt="FUKU Autumn / Winter 2026 Campaign"
+          src={heroBanner.imageUrl}
+          alt={heroBanner.title}
           fill
           priority
-          className="object-cover object-top"
+          className={`object-cover ${heroBanner.objectFit || 'object-top'}`}
         />
         {/* Minimal dark overlay — bottom only so top of image stays clean */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
 
         {/* Hero copy — bottom-left, editorial */}
         <div className="absolute bottom-16 left-0 right-0 px-6 md:px-12 max-w-7xl mx-auto">
           <div className="max-w-xl">
-            <p className="text-label uppercase tracking-[0.2em] text-white/70 mb-4">
-              Autumn / Winter 2026
+            <p className="text-label uppercase tracking-[0.2em] text-white/80 mb-4">
+              {heroBanner.label}
             </p>
             <h1
-              className="text-white font-display font-light leading-[0.95] mb-6"
-              style={{ fontSize: 'clamp(48px, 7vw, 88px)', letterSpacing: '-0.03em' }}
+              className="text-white font-display font-light leading-[0.95] mb-6 uppercase"
+              style={{ fontSize: 'clamp(44px, 7vw, 84px)', letterSpacing: '-0.03em' }}
             >
-              THE NEW<br />FORM.
+              {heroBanner.title}
             </h1>
+            {heroBanner.subtitle && (
+              <p className="text-body text-white/80 text-sm mb-6 leading-relaxed max-w-md">
+                {heroBanner.subtitle}
+              </p>
+            )}
             <div className="flex items-center gap-4">
               <Link
+                href={heroBanner.targetLink || '/new-drop'}
+                className="text-label uppercase tracking-[0.14em] text-white border-b border-white hover:border-white/60 transition-colors duration-200 pb-0.5"
+              >
+                {heroBanner.ctaText || 'Shop Collection'}
+              </Link>
+              <span className="text-white/30 text-xs">—</span>
+              <Link
                 href="/women"
-                className="text-label uppercase tracking-[0.12em] text-white border-b border-white/50 hover:border-white transition-colors duration-200 pb-0.5"
+                className="text-label uppercase tracking-[0.12em] text-white/80 border-b border-white/40 hover:border-white transition-colors duration-200 pb-0.5"
               >
                 Shop Women
               </Link>
               <span className="text-white/30 text-xs">—</span>
               <Link
                 href="/men"
-                className="text-label uppercase tracking-[0.12em] text-white border-b border-white/50 hover:border-white transition-colors duration-200 pb-0.5"
+                className="text-label uppercase tracking-[0.12em] text-white/80 border-b border-white/40 hover:border-white transition-colors duration-200 pb-0.5"
               >
                 Shop Men
               </Link>
@@ -134,31 +155,31 @@ export default function HomePage() {
         {/* Image */}
         <div className="relative min-h-[400px] lg:min-h-0 bg-[#F3F3F1]">
           <Image
-            src="/images/products/monolith-contrast-polo.jpg"
-            alt="FUKU — Form / Function"
+            src={splitBanner.imageUrl}
+            alt={splitBanner.title}
             fill
-            className="object-cover object-top"
+            className={`object-cover ${splitBanner.objectFit || 'object-top'}`}
           />
         </div>
 
         {/* Editorial text */}
         <div className="flex flex-col justify-center px-8 md:px-16 py-20 bg-[#FFFFFF]">
           <RevealSection>
-            <p className="text-editorial-label mb-6">The Edit</p>
+            <p className="text-editorial-label mb-6">{splitBanner.label}</p>
             <h2
-              className="font-display font-light text-black leading-[1.0] mb-6"
+              className="font-display font-light text-black leading-[1.0] mb-6 uppercase"
               style={{ fontSize: 'clamp(36px, 4vw, 56px)', letterSpacing: '-0.03em' }}
             >
-              FORM /<br />FUNCTION.
+              {splitBanner.title}
             </h2>
             <p className="text-body text-[#6B6B6B] max-w-sm mb-8 leading-relaxed">
-              Garments engineered from handspun Jamdani muslin and Japanese technical knits. Designed for everyday movement, refined for every occasion.
+              {splitBanner.subtitle || 'Garments engineered from handspun Jamdani muslin and Japanese technical knits. Designed for everyday movement, refined for every occasion.'}
             </p>
             <Link
-              href="/collections"
+              href={splitBanner.targetLink || '/collections'}
               className="inline-flex items-center gap-2 text-label uppercase tracking-[0.12em] text-black border-b border-black pb-0.5 hover:text-[#6B6B6B] hover:border-[#6B6B6B] transition-colors duration-150 self-start"
             >
-              Explore Collections
+              {splitBanner.ctaText || 'Explore Collections'}
               <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
             </Link>
           </RevealSection>
@@ -205,25 +226,30 @@ export default function HomePage() {
       ══════════════════════════════════════════ */}
       <section className="relative w-full min-h-[60vh] md:min-h-[70vh] overflow-hidden bg-black">
         <Image
-          src="/images/products/raw-selvedge-trucker-jacket.jpg"
-          alt="FUKU Men's Collection"
+          src={fullbleedBanner.imageUrl}
+          alt={fullbleedBanner.title}
           fill
-          className="object-cover object-top opacity-70"
+          className={`object-cover ${fullbleedBanner.objectFit || 'object-top'} opacity-70`}
         />
         <div className="relative z-10 h-full min-h-[60vh] md:min-h-[70vh] flex flex-col justify-end px-6 md:px-12 pb-16 max-w-7xl mx-auto">
           <RevealSection>
-            <p className="text-editorial-label text-white/60 mb-3">Men's Collection</p>
+            <p className="text-editorial-label text-white/60 mb-3">{fullbleedBanner.label}</p>
             <h2
-              className="font-display font-light text-white mb-6"
+              className="font-display font-light text-white mb-6 uppercase"
               style={{ fontSize: 'clamp(36px, 5vw, 64px)', letterSpacing: '-0.03em', lineHeight: '1.0' }}
             >
-              ESSENTIALS,<br />REFINED.
+              {fullbleedBanner.title}
             </h2>
+            {fullbleedBanner.subtitle && (
+              <p className="text-body text-white/80 text-sm mb-6 leading-relaxed max-w-md">
+                {fullbleedBanner.subtitle}
+              </p>
+            )}
             <Link
-              href="/men"
+              href={fullbleedBanner.targetLink || '/men'}
               className="inline-flex items-center gap-2 text-label uppercase tracking-[0.12em] text-white border-b border-white/50 hover:border-white transition-colors duration-150 pb-0.5"
             >
-              Shop Men
+              {fullbleedBanner.ctaText || 'Shop Collection'}
               <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
             </Link>
           </RevealSection>
@@ -270,18 +296,18 @@ export default function HomePage() {
       ══════════════════════════════════════════ */}
       <section className="py-20 px-6 md:px-12 bg-[#F3F3F1]">
         <RevealSection className="max-w-[1440px] mx-auto">
-          <p className="text-editorial-label mb-8">Lookbook — AW 2026</p>
+          <p className="text-editorial-label mb-8">{lookbookBanner.label || 'Lookbook — AW 2026'}</p>
           <div className="grid grid-cols-12 gap-3 md:gap-4">
             {/* Large left image */}
             <div className="col-span-12 md:col-span-7 relative aspect-[4/5] md:aspect-auto md:row-span-2 bg-[#E8E8E5] overflow-hidden">
               <Image
-                src="/images/products/architectural-black-suit-full.jpg"
-                alt="Lookbook 01"
+                src={lookbookBanner.imageUrl || '/images/products/architectural-black-suit-full.jpg'}
+                alt={lookbookBanner.title || 'Lookbook 01'}
                 fill
-                className="object-cover object-top"
+                className={`object-cover ${lookbookBanner.objectFit || 'object-top'}`}
               />
               <div className="absolute bottom-4 left-5">
-                <p className="text-label text-white/80 uppercase tracking-[0.15em]">Look 01</p>
+                <p className="text-label text-white/80 uppercase tracking-[0.15em]">{lookbookBanner.title || 'Look 01'}</p>
               </div>
             </div>
 
@@ -314,10 +340,10 @@ export default function HomePage() {
 
           <div className="mt-6 flex justify-end">
             <Link
-              href="/collections"
+              href={lookbookBanner.targetLink || '/collections'}
               className="text-label uppercase tracking-[0.12em] text-[#6B6B6B] hover:text-black transition-colors duration-150 flex items-center gap-1.5"
             >
-              View Lookbook
+              {lookbookBanner.ctaText || 'View Lookbook'}
               <ArrowRight className="w-3.5 h-3.5 stroke-[1.25]" />
             </Link>
           </div>

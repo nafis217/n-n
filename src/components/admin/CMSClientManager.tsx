@@ -20,20 +20,7 @@ import {
   X,
 } from 'lucide-react';
 import { toast } from '@/lib/store/toast';
-
-export interface CampaignBanner {
-  id: string;
-  title: string;
-  label: string;
-  subtitle?: string;
-  ctaText: string;
-  targetLink: string;
-  placement: 'hero' | 'split' | 'fullbleed' | 'lookbook' | 'announcement';
-  imageUrl: string;
-  isActive: boolean;
-  objectFit?: 'object-top' | 'object-center' | 'object-bottom' | 'object-cover';
-  lastUpdated: string;
-}
+import { useCMSStore, CampaignBanner, INITIAL_CMS_BANNERS } from '@/lib/store/cms';
 
 const DEFAULT_GALLERY_IMAGES = [
   { url: '/images/products/architectural-black-suit-1.jpg', label: 'Black Suit — Front Stance' },
@@ -62,101 +49,13 @@ const DEFAULT_GALLERY_IMAGES = [
   { url: '/images/products/shop_d40da9a3a7234235e66d6695d9d7098fc3289872.png', label: 'FUKU Typography Heavy Tee' },
 ];
 
-const INITIAL_BANNERS: CampaignBanner[] = [
-  {
-    id: 'hero-aw-2026',
-    title: 'THE NEW FORM.',
-    label: 'Autumn / Winter 2026',
-    subtitle: 'High-twist Italian wool double-breasted tailoring engineered in Dhaka atelier.',
-    ctaText: 'Shop New Arrivals',
-    targetLink: '/new-drop',
-    placement: 'hero',
-    imageUrl: '/images/products/architectural-black-suit-1.jpg',
-    isActive: true,
-    objectFit: 'object-top',
-    lastUpdated: 'Sep 19, 2026',
-  },
-  {
-    id: 'split-the-edit',
-    title: 'FORM / FUNCTION.',
-    label: 'The Edit',
-    subtitle: 'Garments engineered from handspun Jamdani muslin and Japanese technical knits.',
-    ctaText: 'Explore Collections',
-    targetLink: '/collections',
-    placement: 'split',
-    imageUrl: '/images/products/monolith-contrast-polo.jpg',
-    isActive: true,
-    objectFit: 'object-top',
-    lastUpdated: 'Sep 19, 2026',
-  },
-  {
-    id: 'fullbleed-men',
-    title: 'ESSENTIALS, REFINED.',
-    label: "Men's Collection",
-    subtitle: '15.5oz raw Kuroki selvedge denim trucker jacket and bespoke shirting.',
-    ctaText: 'Shop Men',
-    targetLink: '/men',
-    placement: 'fullbleed',
-    imageUrl: '/images/products/raw-selvedge-trucker-jacket.jpg',
-    isActive: true,
-    objectFit: 'object-top',
-    lastUpdated: 'Sep 18, 2026',
-  },
-  {
-    id: 'lookbook-aw26',
-    title: 'AW 2026 ARCHIVAL LOOKBOOK',
-    label: 'Lookbook — AW 2026',
-    subtitle: 'Editorial series captured across Dhaka architectural landmarks.',
-    ctaText: 'View Lookbook',
-    targetLink: '/collections',
-    placement: 'lookbook',
-    imageUrl: '/images/products/architectural-black-suit-full.jpg',
-    isActive: true,
-    objectFit: 'object-top',
-    lastUpdated: 'Sep 18, 2026',
-  },
-  {
-    id: 'announcement-top',
-    title: 'COMPLIMENTARY NATIONWIDE EXPRESS COURIER ON ORDERS OVER BDT 15,000',
-    label: 'Header Bar Promo',
-    subtitle: 'Active across all 64 districts in Bangladesh via RedX & Steadfast.',
-    ctaText: 'Learn More',
-    targetLink: '/shipping',
-    placement: 'announcement',
-    imageUrl: '/images/products/product1_red_1.jpg',
-    isActive: true,
-    lastUpdated: 'Sep 19, 2026',
-  },
-];
-
 export const CMSClientManager: React.FC = () => {
-  const [banners, setBanners] = useState<CampaignBanner[]>(INITIAL_BANNERS);
+  const { banners, updateBanner, addBanner, deleteBanner, toggleBannerActive } = useCMSStore();
   const [selectedBanner, setSelectedBanner] = useState<CampaignBanner | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [filterPlacement, setFilterPlacement] = useState<string>('all');
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Load from localStorage if present
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem('fuku_cms_banners');
-      if (saved) {
-        setBanners(JSON.parse(saved));
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  const saveBanners = (updated: CampaignBanner[]) => {
-    setBanners(updated);
-    try {
-      localStorage.setItem('fuku_cms_banners', JSON.stringify(updated));
-    } catch {
-      // ignore
-    }
-  };
 
   const handleOpenAddModal = () => {
     const newBanner: CampaignBanner = {
@@ -191,46 +90,35 @@ export const CMSClientManager: React.FC = () => {
     }
 
     const exists = banners.some((b) => b.id === selectedBanner.id);
-    let updated: CampaignBanner[];
 
     if (exists) {
-      updated = banners.map((b) =>
-        b.id === selectedBanner.id
-          ? {
-              ...selectedBanner,
-              lastUpdated: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-            }
-          : b
-      );
-      toast.success('Banner Updated', `"${selectedBanner.title}" has been saved.`);
+      updateBanner({
+        ...selectedBanner,
+        lastUpdated: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      });
+      toast.success('Banner Updated & Live', `"${selectedBanner.title}" applied to storefront.`);
     } else {
-      updated = [
-        {
-          ...selectedBanner,
-          lastUpdated: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        },
-        ...banners,
-      ];
-      toast.success('Campaign Created', `New banner "${selectedBanner.title}" created successfully.`);
+      addBanner({
+        ...selectedBanner,
+        lastUpdated: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      });
+      toast.success('Campaign Created', `New banner "${selectedBanner.title}" is now active.`);
     }
 
-    saveBanners(updated);
     setIsModalOpen(false);
   };
 
   const handleDeleteBanner = (id: string, title: string) => {
     if (confirm(`Are you sure you want to delete campaign "${title}"?`)) {
-      const updated = banners.filter((b) => b.id !== id);
-      saveBanners(updated);
+      deleteBanner(id);
       toast.info('Campaign Removed', `"${title}" was removed.`);
     }
   };
 
   const handleToggleActive = (id: string) => {
-    const updated = banners.map((b) => (b.id === id ? { ...b, isActive: !b.isActive } : b));
-    saveBanners(updated);
-    const target = updated.find((b) => b.id === id);
-    toast.info('Status Changed', `Banner is now ${target?.isActive ? 'Active' : 'Inactive'}.`);
+    toggleBannerActive(id);
+    const target = banners.find((b) => b.id === id);
+    toast.info('Status Changed', `Banner is now ${!target?.isActive ? 'Active' : 'Inactive'}.`);
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
