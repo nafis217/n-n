@@ -173,23 +173,26 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // If authenticated, render dashboard children with top security banner & lock action
+  // If authenticated, render dashboard children with top colorful security banner & lock action
   return (
     <div className="relative">
-      <div className="bg-black text-white px-6 py-2 flex items-center justify-between text-[11px] font-mono border-b border-neutral-800">
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-purple-950 text-white px-6 py-2.5 flex items-center justify-between text-[11px] font-mono border-b border-indigo-800/40 shadow-sm">
         <div className="flex items-center gap-3">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="uppercase tracking-[0.12em] text-neutral-300 font-sans font-medium">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400/80 animate-pulse" />
+          <span className="uppercase tracking-[0.14em] text-emerald-400 font-sans font-bold">
             ADMIN SESSION ACTIVE
           </span>
-          <span className="text-neutral-600 hidden sm:inline">•</span>
-          <span className="text-neutral-500 hidden sm:inline">Authenticated Master Node</span>
+          <span className="text-indigo-400/60 hidden sm:inline">•</span>
+          <span className="text-slate-300 hidden sm:inline">Executive Master Node</span>
+          <span className="px-2 py-0.5 rounded-full bg-indigo-500/25 text-indigo-300 text-[10px] border border-indigo-400/30 hidden md:inline font-sans">
+            Live Stream
+          </span>
         </div>
         <button
           onClick={handleLock}
-          className="flex items-center gap-1.5 text-neutral-400 hover:text-white uppercase tracking-[0.12em] text-[10px] border border-neutral-800 hover:border-neutral-600 px-3 py-1 transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-rose-300 hover:text-white bg-rose-950/60 hover:bg-rose-900 uppercase tracking-[0.12em] text-[10px] border border-rose-800/70 px-3 py-1 rounded transition-colors cursor-pointer shadow-xs"
         >
-          <Lock className="w-3 h-3" />
+          <Lock className="w-3 h-3 text-rose-400" />
           <span>Lock Backend</span>
         </button>
       </div>

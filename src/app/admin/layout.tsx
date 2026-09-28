@@ -10,9 +10,9 @@ export const metadata = {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <AdminAuthGuard>
-      <div className="flex flex-col md:flex-row w-full min-h-screen bg-white text-black">
+      <div className="flex flex-col md:flex-row w-full min-h-screen bg-[#F8FAFC] text-slate-900 selection:bg-indigo-500 selection:text-white">
         <AdminSidebar />
-        <main className="flex-1 p-4 sm:p-6 md:p-10 lg:p-12 overflow-y-auto max-w-full">
+        <main className="flex-1 p-4 sm:p-6 md:p-8 lg:p-10 overflow-y-auto max-w-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-50/40 via-transparent to-transparent">
           {children}
         </main>
       </div>

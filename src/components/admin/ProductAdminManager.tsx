@@ -401,22 +401,25 @@ export const ProductAdminManager: React.FC<ProductAdminManagerProps> = ({ initia
       )}
 
       {/* Header Section */}
-      <div className="border-b border-neutral-200 pb-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+      <div className="bg-white/80 backdrop-blur-md border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-sm mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <span className="font-mono text-xs text-neutral-500 uppercase block mb-1.5 font-medium tracking-wider">
-            Merchandising &amp; Master Catalog
-          </span>
-          <h1 className="text-3xl md:text-4xl uppercase font-semibold text-black tracking-tight flex items-center gap-2.5">
-            <Tag className="w-8 h-8" />
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="font-mono text-xs text-indigo-600 font-bold uppercase tracking-wider block">
+              Merchandising &amp; Master Catalog
+            </span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold uppercase text-slate-900 tracking-tight flex items-center gap-2.5">
+            <Tag className="w-7 h-7 text-indigo-600" />
             <span>Product Inventory ({products.length})</span>
           </h1>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5">
           {/* Quick Upload from Device Button in Main Toolbar */}
-          <label className="cursor-pointer bg-neutral-900 text-white hover:bg-black px-3.5 py-2 font-mono text-xs uppercase font-bold flex items-center gap-1.5 border border-neutral-700 shadow-2xs transition-colors">
+          <label className="cursor-pointer bg-slate-900 text-white hover:bg-slate-800 px-4 py-2.5 rounded-xl font-mono text-xs uppercase font-bold flex items-center gap-2 border border-slate-700 shadow-sm transition-all">
             <Upload className="w-4 h-4 text-emerald-400" />
-            <span>Upload from Device</span>
+            <span>Upload Photos</span>
             <input
               type="file"
               accept="image/*"
@@ -426,15 +429,13 @@ export const ProductAdminManager: React.FC<ProductAdminManagerProps> = ({ initia
             />
           </label>
 
-          <Button
-            variant="primary"
-            size="md"
+          <button
             onClick={handleOpenCreateModal}
-            className="font-mono text-xs uppercase font-bold flex items-center gap-1.5 shadow-2xs"
+            className="px-5 py-2.5 bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 text-white rounded-xl font-mono text-xs font-bold uppercase flex items-center gap-2 shadow-md shadow-indigo-500/25 hover:shadow-lg hover:shadow-indigo-500/40 hover:scale-[1.02] active:scale-95 transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Add New Product</span>
-          </Button>
+          </button>
         </div>
       </div>
 
