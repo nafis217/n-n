@@ -23,36 +23,34 @@
 
   html {
     scroll-behavior: smooth;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     background-color: #FFFFFF;
     color: #000000;
-    font-family: 'Geist', 'Noto Sans Bengali', sans-serif;
+    font-family: 'Geist', 'Noto Sans Bengali', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     margin: 0;
     padding: 0;
-  }
-
-  /* Hard-edge minimalism — no rounded corners globally */
-  * {
-    border-radius: 0px !important;
+    overflow-x: hidden;
   }
 
   /* Focus visible for accessibility */
   :focus-visible {
-    outline: 1.5px solid #000000;
+    outline: 2px solid #000000;
     outline-offset: 2px;
   }
 
-  /* Remove default button/input styles for editorial purity */
+  /* Natural form controls */
   button, input, textarea, select {
     font-family: inherit;
   }
 
-  /* Thin selection color */
+  /* Selection style */
   ::selection {
     background-color: #000000;
     color: #FFFFFF;

@@ -27,7 +27,7 @@ export default function CollectionsPage() {
       id: 'ethnic-contemporary',
       title: 'Ethnic Contemporary Panjabi & Shirting',
       subtitle: 'Minimal Seam Architecture • Handcrafted Silk Jacquard',
-      image: '/images/products/item_maroon.jpg',
+      image: '/images/products/product1_maroon_1.jpg',
       href: '/panjabi',
     },
   ];

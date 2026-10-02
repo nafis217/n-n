@@ -52,30 +52,19 @@ const config: Config = {
       },
 
       borderRadius: {
-        DEFAULT: '0px',
         none:    '0px',
-        sm:      '2px',
-        md:      '2px',
-        lg:      '4px',
-        xl:      '4px',
-        '2xl':   '4px',
+        xs:      '2px',
+        sm:      '4px',
+        DEFAULT: '6px',
+        md:      '6px',
+        lg:      '8px',
+        xl:      '12px',
+        '2xl':   '16px',
+        '3xl':   '24px',
         full:    '9999px',
       },
 
       spacing: {
-        // ── Editorial spacing system ──
-        '0.5':  '4px',
-        '1':    '8px',
-        '2':    '16px',
-        '3':    '24px',
-        '4':    '32px',
-        '6':    '48px',
-        '8':    '64px',
-        '10':   '80px',
-        '12':   '96px',
-        '15':   '120px',
-        '20':   '160px',
-
         // ── Named editorial tokens ──
         'margin-desktop': '64px',
         'margin-mobile':  '16px',

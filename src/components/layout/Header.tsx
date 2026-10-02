@@ -15,7 +15,7 @@ type MenuTab = 'women' | 'men' | 'panjabi' | 'unisex' | 'collections';
 const MEGA_MENU_IMAGE: Record<MenuTab, string> = {
   women:       '/images/products/espoir_La-Boheme-L-768x765.jpg',
   men:         '/images/products/architectural-black-suit-1.jpg',
-  panjabi:     '/images/products/item_maroon.jpg',
+  panjabi:     '/images/products/product1_maroon_1.jpg',
   unisex:      '/images/products/raw-selvedge-trucker-jacket.jpg',
   collections: '/images/products/architectural-black-suit-full.jpg',
 };
