@@ -14,6 +14,7 @@ import { StitchHouseWordmark } from '@/components/brand/StitchHouseWordmark';
 import { ArrowRight, ArrowUpRight, Compass, ShieldCheck, Sparkles, Box } from 'lucide-react';
 
 import { StitchHouseHeroHost } from '@/components/home/StitchHouseHeroHost';
+import { ZaraEditorialStatement } from '@/components/home/ZaraEditorialStatement';
 
 // Scroll reveal hook for smooth editorial entries
 function useScrollReveal() {
@@ -109,54 +110,9 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────────────────────────────────────────────────────
-          4. EDITORIAL INTERLUDE (Muted Olive Asymmetric Section)
+          4. ZARA STYLE EDITORIAL STATEMENT SPREAD
       ───────────────────────────────────────────────────────────── */}
-      <section className="bg-[#686B5E] text-[#F2EDE4] py-24 sm:py-32 px-4 sm:px-8">
-        <div className="max-w-[1600px] mx-auto">
-          <RevealSection className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Asymmetric Image */}
-            <div className="lg:col-span-7 relative">
-              <div className="aspect-[16/10] sm:aspect-[16/9] overflow-hidden bg-[#53564A] shadow-xl">
-                <img
-                  src="/images/products/raw-selvedge-trucker-jacket.jpg"
-                  alt="The Autumn Edit — A Study in Craft and Silhouette"
-                  className="w-full h-full object-cover object-center hover:scale-103 transition-transform duration-1000"
-                />
-              </div>
-              <div className="mt-3 flex items-center justify-between text-[10px] tracking-[0.2em] uppercase text-[#EBE5DB]">
-                <span>Plate II — Heavy Selvedge & Antique Brass Rivets</span>
-                <span>Crafted in Limited Run</span>
-              </div>
-            </div>
-
-            {/* Right Editorial Text */}
-            <div className="lg:col-span-5 flex flex-col justify-center lg:pl-6">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-[#F2EDE4]/80 block mb-2 font-medium">
-                Editorial Study
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-serif text-[#F2EDE4] leading-tight mb-6">
-                THE AUTUMN EDIT
-              </h2>
-              <p className="font-serif italic text-lg text-[#F2EDE4]/90 mb-6">
-                “A Study in Craft, Proportion & Raw Fibers.”
-              </p>
-              <p className="text-sm text-[#EBE5DB] font-sans leading-relaxed mb-8">
-                Weighty textures meet effortless fluid cuts. Exploring the dialogue between
-                heritage shuttle-loom denim, structured unbleached canvas, and layered
-                overshirting designed for transition.
-              </p>
-              <div>
-                <Link
-                  href="/collections/outerwear"
-                  className="inline-flex items-center justify-center bg-[#F2EDE4] text-[#241E1A] px-8 py-3.5 text-[11px] font-medium tracking-[0.2em] uppercase hover:bg-[#241E1A] hover:text-[#F2EDE4] transition-all duration-300"
-                >
-                  Explore The Edit
-                </Link>
-              </div>
-            </div>
-          </RevealSection>
-        </div>
-      </section>
+      <ZaraEditorialStatement />
 
       {/* ─────────────────────────────────────────────────────────────
           5. NEW ARRIVALS GRID (Warm Ivory Canvas)
