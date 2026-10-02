@@ -9,58 +9,63 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ── Fashion Primary ──
-        black:  '#000000',
-        white:  '#FFFFFF',
+        // ── STITCH HOUSE MASTER BRAND PALETTE ──
+        'sh-espresso': '#241E1A', // Primary brand color, footer, primary dark UI, packaging
+        'sh-ivory':    '#F2EDE4', // Main website canvas, hero, packaging, showroom walls
+        'sh-stone':    '#B8B0A3', // Secondary sections, subtle UI surfaces, dividers, metadata
+        'sh-olive':    '#686B5E', // Editorial accent, campaign sections, subtle active states
+        'sh-oxblood':  '#542B2E', // Rare accent (<= 3%), atelier selection badges, limited tags
+        'sh-brass':    '#A8946C', // Antique brass micro-accents, hardware details, signage
 
-        // ── Surface System (Pure White & Pure Black) ──
-        'f-bg':        '#FFFFFF',   // pure white primary page background
-        'f-surface':   '#FFFFFF',   // pure white main surface
-        'f-surface-2': '#F7F7F7',   // clean light gray alternate
-        'f-surface-3': '#EFEFEF',   // subtle gray alternate
+        // ── Surface System ──
+        'f-bg':        '#F2EDE4',
+        'f-surface':   '#F2EDE4',
+        'f-surface-2': '#EBE5DB',
+        'f-surface-3': '#E2DBD0',
+        'f-espresso':  '#241E1A',
 
         // ── Typography ──
-        'f-text':    '#000000',   // pure black primary text
-        'f-text-2':  '#555555',   // crisp secondary / metadata
-        'f-text-3':  '#888888',   // placeholder / disabled
+        'f-text':    '#241E1A',
+        'f-text-2':  '#686B5E',
+        'f-text-3':  '#B8B0A3',
 
         // ── Borders & Dividers ──
-        'f-border':  '#E5E5E5',   // clean border lines
-        'f-divider': '#EEEEEE',   // subtle section dividers
+        'f-border':  'rgba(184, 176, 163, 0.35)',
+        'f-divider': '#B8B0A3',
 
         // ── Functional Accents ──
-        'f-sale':    '#B42318',   // sale price, destructive
-        'f-success': '#286749',   // confirmation, in stock
+        'f-sale':    '#542B2E',
+        'f-success': '#686B5E',
 
-        // ── Legacy aliases ──
-        background: '#FFFFFF',
-        'on-background': '#000000',
-        primary: '#000000',
-        'on-primary': '#FFFFFF',
-        secondary: '#555555',
-        'on-secondary': '#FFFFFF',
-        'surface-container-lowest': '#FFFFFF',
-        'surface-container-low':    '#F7F7F7',
-        'surface-container':        '#EFEFEF',
-        'surface-container-high':   '#E5E5E5',
-        'surface-variant':          '#E5E5E5',
-        outline:          '#888888',
-        'outline-variant': '#E5E5E5',
-        error:       '#B42318',
-        vermilion:   '#B42318',
-        'warm-bone': '#F7F7F7',
+        // ── Compatibility Aliases ──
+        background: '#F2EDE4',
+        'on-background': '#241E1A',
+        primary: '#241E1A',
+        'on-primary': '#F2EDE4',
+        secondary: '#686B5E',
+        'on-secondary': '#F2EDE4',
+        'surface-container-lowest': '#F2EDE4',
+        'surface-container-low':    '#EBE5DB',
+        'surface-container':        '#E2DBD0',
+        'surface-container-high':   '#B8B0A3',
+        'surface-variant':          '#EBE5DB',
+        outline:          '#B8B0A3',
+        'outline-variant': 'rgba(184, 176, 163, 0.35)',
+        error:       '#542B2E',
+        vermilion:   '#542B2E',
+        'warm-bone': '#F2EDE4',
       },
 
       borderRadius: {
         none:    '0px',
-        xs:      '2px',
-        sm:      '4px',
-        DEFAULT: '6px',
-        md:      '6px',
-        lg:      '8px',
-        xl:      '12px',
-        '2xl':   '16px',
-        '3xl':   '24px',
+        xs:      '0px',
+        sm:      '0px',
+        DEFAULT: '0px',
+        md:      '0px',
+        lg:      '0px',
+        xl:      '0px',
+        '2xl':   '0px',
+        '3xl':   '0px',
         full:    '9999px',
       },
 
@@ -74,28 +79,34 @@ const config: Config = {
       },
 
       fontFamily: {
-        sans:       ['Geist', 'Noto Sans Bengali', 'sans-serif'],
-        display:    ['Geist', 'sans-serif'],
-        bengali:    ['Noto Sans Bengali', 'sans-serif'],
-        interTight: ["'Inter Tight'", 'sans-serif'],
-        mono:       ['Geist Mono', 'monospace'],
+        serif:      ["'Playfair Display'", "'Cormorant Garamond'", "Georgia", "serif"],
+        display:    ["'Playfair Display'", "'Cormorant Garamond'", "Georgia", "serif"],
+        editorial:  ["'Playfair Display'", "'Cormorant Garamond'", "Georgia", "serif"],
+        sans:       ["'Geist'", "'Inter'", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        grotesk:    ["'Geist'", "'Inter'", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        mono:       ["'Geist Mono'", "monospace"],
       },
 
       fontSize: {
-        // ── Editorial scale ──
-        'hero':       ['clamp(48px, 8vw, 96px)', { lineHeight: '0.95', letterSpacing: '-0.04em', fontWeight: '500' }],
-        'display-xl': ['72px',  { lineHeight: '0.9',  letterSpacing: '-0.04em', fontWeight: '400' }],
-        'display-lg': ['48px',  { lineHeight: '1.0',  letterSpacing: '-0.03em', fontWeight: '400' }],
-        'display-md': ['36px',  { lineHeight: '1.05', letterSpacing: '-0.025em',fontWeight: '400' }],
-        'headline':   ['24px',  { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '400' }],
-        'headline-sm':['18px',  { lineHeight: '1.2',  letterSpacing: '-0.015em',fontWeight: '400' }],
-        'body-lg':    ['16px',  { lineHeight: '1.65', fontWeight: '400' }],
-        'body':       ['14px',  { lineHeight: '1.6',  fontWeight: '400' }],
-        'body-sm':    ['13px',  { lineHeight: '1.55', fontWeight: '400' }],
-        'label':      ['11px',  { lineHeight: '1',    letterSpacing: '0.12em',  fontWeight: '500' }],
-        'label-sm':   ['10px',  { lineHeight: '1',    letterSpacing: '0.15em',  fontWeight: '500' }],
-        'nav':        ['12px',  { lineHeight: '1',    letterSpacing: '0.08em',  fontWeight: '400' }],
-        'price':      ['14px',  { lineHeight: '1',    fontWeight: '500' }],
+        // ── STITCH HOUSE Editorial scale ──
+        'hero':         ['clamp(44px, 6.5vw, 72px)', { lineHeight: '1.05', letterSpacing: '-0.02em', fontWeight: '400' }],
+        'editorial-xl': ['72px', { lineHeight: '1.05', letterSpacing: '-0.02em', fontWeight: '400' }],
+        'editorial-lg': ['48px', { lineHeight: '1.15', letterSpacing: '-0.015em', fontWeight: '400' }],
+        'editorial-md': ['32px', { lineHeight: '1.2', letterSpacing: '-0.01em', fontWeight: '500' }],
+        'quote':        ['24px', { lineHeight: '1.4', letterSpacing: '0em', fontWeight: '400' }],
+        'display-xl':   ['72px', { lineHeight: '1.05', letterSpacing: '-0.02em', fontWeight: '400' }],
+        'display-lg':   ['48px', { lineHeight: '1.15', letterSpacing: '-0.015em', fontWeight: '400' }],
+        'display-md':   ['32px', { lineHeight: '1.2', letterSpacing: '-0.01em', fontWeight: '500' }],
+        'headline':     ['24px', { lineHeight: '1.25', letterSpacing: '-0.01em', fontWeight: '400' }],
+        'headline-sm':  ['18px', { lineHeight: '1.35', letterSpacing: '0em', fontWeight: '400' }],
+        'body-lg':      ['16px', { lineHeight: '1.65', fontWeight: '400' }],
+        'body':         ['15px', { lineHeight: '1.65', fontWeight: '400' }],
+        'body-sm':      ['13px', { lineHeight: '1.55', fontWeight: '400' }],
+        'nav':          ['12px', { lineHeight: '1', letterSpacing: '0.12em', fontWeight: '500' }],
+        'price':        ['14px', { lineHeight: '1', letterSpacing: '0.02em', fontWeight: '500' }],
+        'atelier':      ['10px', { lineHeight: '1', letterSpacing: '0.25em', fontWeight: '600' }],
+        'label':        ['11px', { lineHeight: '1', letterSpacing: '0.18em', fontWeight: '500' }],
+        'label-sm':     ['10px', { lineHeight: '1', letterSpacing: '0.22em', fontWeight: '500' }],
 
         // ── Legacy ──
         'headline-lg':        ['32px', { lineHeight: '1.2', letterSpacing: '-0.02em', fontWeight: '500' }],

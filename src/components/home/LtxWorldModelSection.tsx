@@ -233,7 +233,7 @@ export function LtxWorldModelSection() {
   }, []);
 
   return (
-    <section className="relative w-full h-[100vh] h-[100dvh] bg-black overflow-hidden select-none isolate">
+    <section className="relative w-full h-[100vh] h-[100dvh] bg-black overflow-hidden isolate">
       {/* 8 Persistent Video Elements */}
       <video
         ref={(el) => { videoRefs.current['clothing-fwd'] = el; }}

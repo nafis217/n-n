@@ -1,41 +1,43 @@
 import React from 'react';
 import Link from 'next/link';
-import { Compass, ArrowRight, ShoppingBag } from 'lucide-react';
+import { SHMonogram } from '@/components/brand/SHMonogram';
+import { ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: '404 - Garment Coordinates Not Found | FUKU Archive',
-  description: 'The requested archive piece or URL coordinates could not be located.',
+  title: 'Piece Not Found | STITCH HOUSE',
+  description: 'The requested garment or document cannot be found in the STITCH HOUSE archive.',
 };
 
 export default function NotFound() {
   return (
-    <div className="min-h-[70vh] bg-[#FAFAFA] text-black flex items-center justify-center py-20 px-4 sm:px-8 text-center">
-      <div className="max-w-md mx-auto space-y-6">
-        <span className="font-mono text-xs uppercase tracking-[0.25em] text-neutral-500 font-bold block">
-          Error 404
+    <div className="min-h-[75vh] bg-[#F2EDE4] text-[#241E1A] flex items-center justify-center py-24 px-4 sm:px-8 text-center">
+      <div className="max-w-lg mx-auto space-y-6">
+        <SHMonogram size={40} variant="stone" className="mx-auto opacity-70" />
+
+        <span className="text-[10px] uppercase tracking-[0.3em] text-[#A8946C] font-semibold block">
+          404 • ARCHIVE NOTICE
         </span>
 
-        <h1 className="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-black">
-          Coordinates Not Found
+        <h1 className="text-3xl sm:text-4xl font-serif text-[#241E1A] font-normal leading-snug">
+          THE PIECE YOU ARE LOOKING FOR IS NOT HERE.
         </h1>
 
-        <p className="text-xs sm:text-sm text-neutral-600 font-sans leading-relaxed">
-          The archive silhouette or document you requested has either expired, been relocated, or is restricted to private atelier viewing.
+        <p className="text-xs sm:text-sm text-[#686B5E] max-w-sm mx-auto leading-relaxed">
+          The requested garment edition may have concluded its private allocation or the URL coordinates have shifted.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center pt-4">
+        <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/"
-            className="px-6 py-3.5 border border-neutral-300 hover:border-black text-xs font-mono uppercase tracking-wider text-black transition-colors bg-white shadow-sm"
+            className="sh-btn-primary"
           >
-            Return to Homepage
+            Return to STITCH HOUSE
           </Link>
           <Link
-            href="/shop"
-            className="px-6 py-3.5 bg-black text-white hover:bg-neutral-800 font-display text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-colors shadow-sm"
+            href="/collections/clothing"
+            className="sh-btn-secondary"
           >
-            <ShoppingBag className="w-4 h-4" />
-            <span>Browse Full Archive</span>
+            Explore Full Archive
           </Link>
         </div>
       </div>

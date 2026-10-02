@@ -13,14 +13,25 @@ export interface ProductItem {
   slug: string;
   nameEn: string;
   nameBn?: string;
-  category: 'women' | 'men' | 'unisex' | 'panjabi' | 'accessories' | 't-shirts' | 'hoodies' | 'jackets' | 'pants' | 'shirts';
+  category: string;
   collection?: string;
   gender: 'WOMEN' | 'MEN' | 'UNISEX';
   priceBDT: number;
   originalPriceBDT?: number;
   tag?: 'NEW' | 'SALE' | 'LIMITED' | 'BESTSELLER';
+  atelierSelection?: boolean;
+  atelierNumber?: string;
   material: string;
   fit: string;
+  specs?: {
+    fabric?: string;
+    composition?: string;
+    weight?: string;
+    origin?: string;
+    construction?: string;
+    care?: string;
+    fit?: string;
+  };
   colors: { id: string; name: string; hex: string; imageIndex?: number }[];
   sizes: string[];
   images: string[];
@@ -1361,7 +1372,15 @@ export function getProductById(id: string): ProductItem | undefined {
 
 export function getProductsByCategory(category: string): ProductItem[] {
   const clean = category.toLowerCase().trim();
-  if (clean === 'all' || clean === 'shop') return CATALOG_PRODUCTS;
+  if (clean === 'all' || clean === 'shop' || clean === 'clothing') {
+    if (clean === 'clothing') {
+      return CATALOG_PRODUCTS.filter((p) =>
+        ['jackets', 'pants', 'trousers', 'shirts', 't-shirts', 'outerwear', 'hoodies', 'panjabi'].includes(p.category.toLowerCase()) ||
+        p.gender === 'MEN' || p.gender === 'UNISEX'
+      );
+    }
+    return CATALOG_PRODUCTS;
+  }
   if (clean === 'new-drop' || clean === 'new-arrivals') {
     return CATALOG_PRODUCTS.filter((p) => p.isNewArrival || p.tag === 'NEW');
   }
@@ -1370,6 +1389,18 @@ export function getProductsByCategory(category: string): ProductItem[] {
   }
   if (clean === 'sale') {
     return CATALOG_PRODUCTS.filter((p) => p.tag === 'SALE' || (p.originalPriceBDT && p.originalPriceBDT > p.priceBDT));
+  }
+  if (clean === 'trousers' || clean === 'pants') {
+    return CATALOG_PRODUCTS.filter((p) => p.category.toLowerCase() === 'pants' || p.category.toLowerCase() === 'trousers' || p.nameEn.toLowerCase().includes('trouser') || p.nameEn.toLowerCase().includes('pant'));
+  }
+  if (clean === 'outerwear' || clean === 'jackets') {
+    return CATALOG_PRODUCTS.filter((p) => p.category.toLowerCase() === 'jackets' || p.category.toLowerCase() === 'outerwear' || p.nameEn.toLowerCase().includes('jacket') || p.nameEn.toLowerCase().includes('coat') || p.nameEn.toLowerCase().includes('suit'));
+  }
+  if (clean === 'shirts') {
+    return CATALOG_PRODUCTS.filter((p) => p.category.toLowerCase() === 'shirts' || p.nameEn.toLowerCase().includes('shirt') || p.category.toLowerCase() === 't-shirts');
+  }
+  if (clean === 'accessories') {
+    return CATALOG_PRODUCTS.filter((p) => p.category.toLowerCase() === 'accessories');
   }
   return CATALOG_PRODUCTS.filter(
     (p) =>

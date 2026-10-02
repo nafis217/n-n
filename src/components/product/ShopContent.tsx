@@ -2,11 +2,10 @@
 
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ProductItem, CATALOG_PRODUCTS } from '@/lib/queries/products';
+import { ProductItem, CATALOG_PRODUCTS, getProductsByCategory } from '@/lib/queries/products';
 import { ProductCard } from '@/components/product/ProductCard';
-import { QuickViewModal } from '@/components/product/QuickViewModal';
-import { SizeGuideModal } from '@/components/product/SizeGuideModal';
-import { X, ChevronDown, SlidersHorizontal } from 'lucide-react';
+import { SHMonogram } from '@/components/brand/SHMonogram';
+import { X, ChevronDown, SlidersHorizontal, ArrowLeft } from 'lucide-react';
 
 interface ShopContentProps {
   initialCategory?: string;
@@ -16,215 +15,169 @@ interface ShopContentProps {
 }
 
 const CATEGORIES = [
-  { id: 'all',          label: 'All' },
-  { id: 'new-drop',     label: 'New In' },
-  { id: 'best-sellers', label: 'Best Sellers' },
-  { id: 'sale',         label: 'Sale' },
-  { id: 'women',        label: 'Women' },
-  { id: 'men',          label: 'Men' },
-  { id: 'panjabi',      label: 'Panjabi' },
-  { id: 'unisex',       label: 'Unisex' },
+  { id: 'all',          label: 'All Pieces' },
+  { id: 'new-arrivals', label: 'New Arrivals' },
+  { id: 'clothing',     label: 'All Clothing' },
+  { id: 'shirts',       label: 'Shirting' },
+  { id: 'trousers',     label: 'Trousers' },
+  { id: 'outerwear',    label: 'Outerwear' },
   { id: 'accessories',  label: 'Accessories' },
 ];
 
 const SORT_OPTIONS = [
   { value: 'featured',    label: 'Featured' },
-  { value: 'newest',      label: 'Newest' },
-  { value: 'bestselling', label: 'Best Selling' },
+  { value: 'newest',      label: 'New Arrivals' },
+  { value: 'bestselling', label: 'Atelier Selection' },
   { value: 'price-asc',   label: 'Price: Low to High' },
   { value: 'price-desc',  label: 'Price: High to Low' },
 ];
 
 export function ShopContent({
   initialCategory = 'all',
-  pageTitle = 'All Garments',
-  pageSubtitle = '',
+  pageTitle = 'The Tailoring Catalogue',
+  pageSubtitle = 'A study in architectural cut, natural fibers and quiet luxury menswear.',
 }: ShopContentProps) {
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedSort, setSelectedSort] = useState('featured');
-  const [maxPrice, setMaxPrice] = useState(30000);
+  const [maxPrice, setMaxPrice] = useState(50000);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
 
-  const [quickViewProduct, setQuickViewProduct] = useState<ProductItem | null>(null);
-  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
-
   const filteredProducts = useMemo(() => {
-    let list = [...CATALOG_PRODUCTS];
-
-    if (selectedCategory !== 'all') {
-      if (selectedCategory === 'new-drop') {
-        list = list.filter((p) => p.isNewArrival || p.tag === 'NEW');
-      } else if (selectedCategory === 'best-sellers') {
-        list = list.filter((p) => p.isBestSeller || p.tag === 'BESTSELLER');
-      } else if (selectedCategory === 'sale') {
-        list = list.filter((p) => p.tag === 'SALE' || (p.originalPriceBDT && p.originalPriceBDT > p.priceBDT));
-      } else {
-        list = list.filter(
-          (p) =>
-            p.category.toLowerCase() === selectedCategory.toLowerCase() ||
-            p.gender.toLowerCase() === selectedCategory.toLowerCase()
-        );
-      }
-    }
+    let list = getProductsByCategory(selectedCategory);
 
     list = list.filter((p) => p.priceBDT <= maxPrice);
     if (inStockOnly) list = list.filter((p) => p.inStock);
 
     switch (selectedSort) {
-      case 'newest':      list.sort((a, b) => (b.isNewArrival ? 1 : 0) - (a.isNewArrival ? 1 : 0)); break;
-      case 'price-asc':   list.sort((a, b) => a.priceBDT - b.priceBDT); break;
-      case 'price-desc':  list.sort((a, b) => b.priceBDT - a.priceBDT); break;
-      case 'bestselling': list.sort((a, b) => b.reviewCount - a.reviewCount); break;
-      default:            list.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
+      case 'newest':
+        list.sort((a, b) => (b.isNewArrival ? 1 : 0) - (a.isNewArrival ? 1 : 0));
+        break;
+      case 'price-asc':
+        list.sort((a, b) => a.priceBDT - b.priceBDT);
+        break;
+      case 'price-desc':
+        list.sort((a, b) => b.priceBDT - a.priceBDT);
+        break;
+      case 'bestselling':
+        list.sort((a, b) => (b.atelierSelection ? 1 : 0) - (a.atelierSelection ? 1 : 0));
+        break;
+      default:
+        list.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
     }
 
     return list;
   }, [selectedCategory, selectedSort, maxPrice, inStockOnly]);
 
-  const hasFilters = maxPrice < 30000 || inStockOnly || selectedCategory !== initialCategory;
+  const hasFilters = maxPrice < 50000 || inStockOnly || selectedCategory !== initialCategory;
 
   const resetFilters = () => {
     setSelectedCategory(initialCategory);
-    setMaxPrice(30000);
+    setMaxPrice(50000);
     setInStockOnly(false);
     setSelectedSort('featured');
   };
 
-  const currentSortLabel = SORT_OPTIONS.find(o => o.value === selectedSort)?.label || 'Featured';
+  const currentSortLabel = SORT_OPTIONS.find((o) => o.value === selectedSort)?.label || 'Featured';
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF] text-black">
-
+    <div className="min-h-screen bg-[#F2EDE4] text-[#241E1A] pt-8 sm:pt-12 pb-24">
       {/* ── Page Header ── */}
-      <div className="pt-24 md:pt-28 pb-10 px-6 md:px-12 max-w-[1440px] mx-auto border-b border-[#E8E8E5]">
-        <nav className="flex items-center gap-2 text-label text-[#9B9B9B] mb-5">
-          <Link href="/" className="hover:text-black transition-colors">Home</Link>
-          <span>/</span>
-          <Link href="/shop" className="hover:text-black transition-colors">Shop</Link>
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 mb-12">
+        <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#686B5E] mb-3">
+          <Link href="/" className="hover:text-[#241E1A] transition-colors">
+            Home
+          </Link>
+          <span className="text-[#B8B0A3]">•</span>
+          <span>Archive</span>
           {selectedCategory !== 'all' && (
             <>
-              <span>/</span>
-              <span className="text-black">{CATEGORIES.find(c => c.id === selectedCategory)?.label}</span>
+              <span className="text-[#B8B0A3]">•</span>
+              <span className="text-[#241E1A] font-medium">{selectedCategory}</span>
             </>
           )}
-        </nav>
+        </div>
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#B8B0A3]/30 pb-6 gap-4">
           <div>
-            <h1
-              className="font-display font-light text-black"
-              style={{ fontSize: 'clamp(28px, 4vw, 48px)', letterSpacing: '-0.025em' }}
-            >
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#A8946C] block mb-1 font-semibold">
+              STITCH HOUSE ARCHIVE
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-serif text-[#241E1A] font-normal">
               {pageTitle}
             </h1>
-            {pageSubtitle && (
-              <p className="text-body text-[#6B6B6B] mt-2 max-w-lg">{pageSubtitle}</p>
-            )}
+            <p className="text-sm text-[#686B5E] mt-2 max-w-xl leading-relaxed">
+              {pageSubtitle}
+            </p>
           </div>
-          <p className="text-label text-[#9B9B9B]">{filteredProducts.length} garments</p>
-        </div>
-      </div>
 
-      {/* ── Filter & Sort Bar ── */}
-      <div className="sticky top-16 z-50 bg-[#FFFFFF]/95 backdrop-blur-sm border-b border-[#E8E8E5]">
-        <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-          <div className="flex items-center justify-between h-12">
-            {/* Category pills (desktop) */}
-            <div className="hidden md:flex items-center gap-6 h-full">
-              {CATEGORIES.map((cat) => (
+          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-[#686B5E]">
+            <SHMonogram size={16} variant="stone" />
+            <span>{filteredProducts.length} Pieces Available</span>
+          </div>
+        </div>
+
+        {/* ── Category Tabs (Desktop) ── */}
+        <div className="flex items-center justify-between pt-6 border-b border-[#B8B0A3]/20 pb-4">
+          <div className="hidden lg:flex items-center gap-2 overflow-x-auto">
+            {CATEGORIES.map((cat) => {
+              const active = selectedCategory.toLowerCase() === cat.id.toLowerCase();
+              return (
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`text-label uppercase tracking-[0.08em] h-full border-b-[1.5px] transition-all duration-150 cursor-pointer ${
-                    selectedCategory === cat.id
-                      ? 'border-black text-black'
-                      : 'border-transparent text-[#9B9B9B] hover:text-[#6B6B6B]'
+                  className={`text-xs uppercase tracking-[0.18em] font-medium px-4 py-2 transition-all ${
+                    active
+                      ? 'bg-[#241E1A] text-[#F2EDE4]'
+                      : 'bg-transparent text-[#686B5E] hover:text-[#241E1A] hover:bg-[#EBE5DB]'
                   }`}
                 >
                   {cat.label}
                 </button>
-              ))}
-            </div>
+              );
+            })}
+          </div>
 
-            {/* Mobile: filter button */}
+          {/* Sort & Mobile Filter Toggle */}
+          <div className="flex items-center justify-between lg:justify-end w-full lg:w-auto gap-4">
             <button
               onClick={() => setMobileFilterOpen(true)}
-              className="md:hidden flex items-center gap-2 text-label uppercase tracking-[0.08em] text-black cursor-pointer"
+              className="lg:hidden flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium border border-[#B8B0A3]/60 px-4 py-2 text-[#241E1A]"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5 stroke-[1.25]" />
-              Filter{hasFilters ? ' (active)' : ''}
+              <SlidersHorizontal size={14} />
+              <span>Filters</span>
             </button>
 
-            {/* Right: Sort + Price filter */}
-            <div className="flex items-center gap-5">
-              {/* Price quick filter */}
-              <div className="hidden md:flex items-center gap-2 text-label">
-                <span className="text-[#9B9B9B] uppercase tracking-[0.08em]">Max ৳</span>
-                <input
-                  type="range"
-                  min="4000"
-                  max="30000"
-                  step="1000"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  className="w-24 accent-[#111111]"
-                />
-                <span className="text-black w-14">৳{(maxPrice / 1000).toFixed(0)}K</span>
-              </div>
+            {/* Sort Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
+                className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium border border-[#B8B0A3]/60 px-4 py-2 bg-transparent text-[#241E1A]"
+              >
+                <span>Sort: {currentSortLabel}</span>
+                <ChevronDown size={13} />
+              </button>
 
-              {/* In stock */}
-              <label className="hidden md:flex items-center gap-2 text-label text-[#6B6B6B] cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={inStockOnly}
-                  onChange={(e) => setInStockOnly(e.target.checked)}
-                  className="accent-[#111111] w-3.5 h-3.5"
-                />
-                In stock
-              </label>
-
-              {/* Sort dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                  className="flex items-center gap-1.5 text-label uppercase tracking-[0.08em] text-black cursor-pointer"
-                >
-                  {currentSortLabel}
-                  <ChevronDown className={`w-3 h-3 stroke-[1.5] transition-transform duration-150 ${sortDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-                {sortDropdownOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setSortDropdownOpen(false)} />
-                    <div className="absolute right-0 top-full mt-1 bg-white border border-[#D9D9D6] shadow-sm z-50 min-w-[160px]">
-                      {SORT_OPTIONS.map((opt) => (
-                        <button
-                          key={opt.value}
-                          onClick={() => { setSelectedSort(opt.value); setSortDropdownOpen(false); }}
-                          className={`w-full text-left px-4 py-2.5 text-label uppercase tracking-[0.06em] transition-colors duration-150 cursor-pointer ${
-                            selectedSort === opt.value
-                              ? 'text-black bg-[#F3F3F1]'
-                              : 'text-[#6B6B6B] hover:text-black hover:bg-[#F3F3F1]'
-                          }`}
-                        >
-                          {opt.label}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-
-              {/* Reset */}
-              {hasFilters && (
-                <button
-                  onClick={resetFilters}
-                  className="text-label text-[#9B9B9B] hover:text-black transition-colors duration-150 cursor-pointer flex items-center gap-1"
-                >
-                  <X className="w-3 h-3 stroke-[1.5]" />
-                  Clear
-                </button>
+              {sortDropdownOpen && (
+                <div className="absolute right-0 top-full mt-1 w-48 bg-[#F2EDE4] border border-[#B8B0A3] shadow-lg z-30 py-1">
+                  {SORT_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => {
+                        setSelectedSort(opt.value);
+                        setSortDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-xs uppercase tracking-wider transition-colors ${
+                        selectedSort === opt.value
+                          ? 'bg-[#241E1A] text-[#F2EDE4]'
+                          : 'text-[#241E1A] hover:bg-[#EBE5DB]'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
           </div>
@@ -232,25 +185,22 @@ export function ShopContent({
       </div>
 
       {/* ── Product Grid ── */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 py-10">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8">
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-24">
-            <p className="text-body text-[#6B6B6B] mb-6">No garments match the selected filters.</p>
-            <button
-              onClick={resetFilters}
-              className="px-6 py-3 bg-black text-white text-label uppercase tracking-[0.12em] hover:bg-[#333] transition-colors duration-150 cursor-pointer"
-            >
-              Clear Filters
+          <div className="py-24 text-center">
+            <SHMonogram size={40} variant="stone" className="mb-4 opacity-50" />
+            <h3 className="text-xl font-serif text-[#241E1A] mb-2">NO PIECES MATCH YOUR CRITERIA</h3>
+            <p className="text-xs text-[#686B5E] mb-6">
+              Try adjusting your filters or explore the full seasonal collection.
+            </p>
+            <button onClick={resetFilters} className="sh-btn-primary">
+              Reset Filters
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-14">
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onQuickView={(p) => setQuickViewProduct(p)}
-              />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {filteredProducts.map((prod) => (
+              <ProductCard key={prod.id} product={prod} />
             ))}
           </div>
         )}
@@ -258,33 +208,38 @@ export function ShopContent({
 
       {/* ── Mobile Filter Drawer ── */}
       {mobileFilterOpen && (
-        <div className="fixed inset-0 z-[9990] md:hidden">
-          <div
-            className="absolute inset-0 bg-black/40"
-            onClick={() => setMobileFilterOpen(false)}
-          />
-          <div className="absolute inset-y-0 right-0 w-full max-w-[320px] bg-white flex flex-col">
-            {/* Drawer header */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8E8E5]">
-              <h3 className="text-label uppercase tracking-[0.12em] text-black">Filter & Sort</h3>
-              <button onClick={() => setMobileFilterOpen(false)} className="text-[#9B9B9B] hover:text-black transition-colors cursor-pointer">
-                <X className="w-4 h-4 stroke-[1.25]" />
-              </button>
-            </div>
+        <div className="fixed inset-0 z-50 bg-[#241E1A]/50 flex justify-end">
+          <div className="w-full max-w-sm bg-[#F2EDE4] h-full p-6 flex flex-col justify-between overflow-y-auto">
+            <div>
+              <div className="flex items-center justify-between border-b border-[#B8B0A3]/30 pb-4 mb-6">
+                <span className="text-xs uppercase tracking-[0.2em] font-medium text-[#241E1A]">
+                  Filter Collection
+                </span>
+                <button
+                  onClick={() => setMobileFilterOpen(false)}
+                  className="p-1 text-[#241E1A]"
+                >
+                  <X size={20} strokeWidth={1.5} />
+                </button>
+              </div>
 
-            <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8">
-              {/* Category */}
-              <div>
-                <p className="text-editorial-label mb-4">Category</p>
+              {/* Categories */}
+              <div className="mb-8">
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[#686B5E] block mb-3 font-medium">
+                  Categories
+                </span>
                 <div className="flex flex-col gap-2">
                   {CATEGORIES.map((cat) => (
                     <button
                       key={cat.id}
-                      onClick={() => setSelectedCategory(cat.id)}
-                      className={`text-left text-body py-1 transition-colors duration-150 cursor-pointer ${
+                      onClick={() => {
+                        setSelectedCategory(cat.id);
+                        setMobileFilterOpen(false);
+                      }}
+                      className={`text-left text-sm py-2 px-3 border transition-colors ${
                         selectedCategory === cat.id
-                          ? 'text-black font-medium'
-                          : 'text-[#9B9B9B] hover:text-[#6B6B6B]'
+                          ? 'bg-[#241E1A] text-[#F2EDE4] border-[#241E1A]'
+                          : 'border-[#B8B0A3]/30 text-[#241E1A]'
                       }`}
                     >
                       {cat.label}
@@ -293,67 +248,30 @@ export function ShopContent({
                 </div>
               </div>
 
-              {/* Sort */}
-              <div>
-                <p className="text-editorial-label mb-4">Sort</p>
-                <div className="flex flex-col gap-2">
-                  {SORT_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      onClick={() => setSelectedSort(opt.value)}
-                      className={`text-left text-body py-1 transition-colors duration-150 cursor-pointer ${
-                        selectedSort === opt.value
-                          ? 'text-black font-medium'
-                          : 'text-[#9B9B9B] hover:text-[#6B6B6B]'
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Price */}
-              <div>
-                <p className="text-editorial-label mb-4">Max Price — ৳{maxPrice.toLocaleString()}</p>
-                <input
-                  type="range"
-                  min="4000"
-                  max="30000"
-                  step="1000"
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(Number(e.target.value))}
-                  className="w-full accent-[#111111]"
-                />
-                <div className="flex justify-between text-label text-[#9B9B9B] mt-1">
-                  <span>৳4,000</span>
-                  <span>৳30,000</span>
-                </div>
-              </div>
-
-              {/* In stock */}
-              <label className="flex items-center gap-3 cursor-pointer">
+              {/* In Stock toggle */}
+              <div className="mb-6 pt-4 border-t border-[#B8B0A3]/30 flex items-center justify-between">
+                <span className="text-xs uppercase tracking-wider text-[#241E1A]">
+                  In Stock Only
+                </span>
                 <input
                   type="checkbox"
                   checked={inStockOnly}
                   onChange={(e) => setInStockOnly(e.target.checked)}
-                  className="accent-[#111111] w-4 h-4"
+                  className="w-4 h-4 accent-[#241E1A]"
                 />
-                <span className="text-body text-[#6B6B6B]">In stock only</span>
-              </label>
+              </div>
             </div>
 
-            {/* Drawer actions */}
-            <div className="px-6 py-5 border-t border-[#E8E8E5] flex gap-3">
+            <div className="pt-6 border-t border-[#B8B0A3]/30 flex gap-3">
               <button
-                onClick={() => { resetFilters(); setMobileFilterOpen(false); }}
-                className="flex-1 py-3 border border-[#D9D9D6] text-label uppercase tracking-[0.08em] text-black hover:border-black transition-colors duration-150 cursor-pointer"
+                onClick={resetFilters}
+                className="flex-1 sh-btn-secondary text-center py-3"
               >
                 Reset
               </button>
               <button
                 onClick={() => setMobileFilterOpen(false)}
-                className="flex-1 py-3 bg-black text-white text-label uppercase tracking-[0.08em] hover:bg-[#333] transition-colors duration-150 cursor-pointer"
+                className="flex-1 sh-btn-primary text-center py-3"
               >
                 Apply
               </button>
@@ -361,18 +279,6 @@ export function ShopContent({
           </div>
         </div>
       )}
-
-      <QuickViewModal
-        product={quickViewProduct}
-        isOpen={!!quickViewProduct}
-        onClose={() => setQuickViewProduct(null)}
-        onOpenSizeGuide={() => { setQuickViewProduct(null); setIsSizeGuideOpen(true); }}
-      />
-      <SizeGuideModal
-        isOpen={isSizeGuideOpen}
-        onClose={() => setIsSizeGuideOpen(false)}
-        category={selectedCategory}
-      />
     </div>
   );
 }

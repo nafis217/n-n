@@ -1,78 +1,103 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import { SHMonogram } from '@/components/brand/SHMonogram';
+import { ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Editorial Collections | FUKU Archive',
-  description: 'Curated seasonal releases, technical outerwear, and artisanal Jamdani capsule collections.',
+  title: 'Seasonal Collections & Capsules | STITCH HOUSE',
+  description: 'Curated seasonal releases, bespoke menswear, and tailoring studies from STITCH HOUSE.',
 };
 
 export default function CollectionsPage() {
   const collections = [
     {
-      id: 'dhaka-after-dark',
-      title: 'Dhaka After Dark',
-      subtitle: 'Editorial Series No. 01 • Heavy Japanese Technical Knits & Tailored Suiting',
+      id: 'autumn-winter',
+      slug: 'autumn-winter',
+      title: 'The Autumn Edit',
+      subtitle: 'A Study in Craft, Proportion & Heavy Natural Fibers',
+      description: 'Sculpted double-breasted suiting, unwashed raw selvedge jackets, and brushed Mongolian cashmere.',
       image: '/images/products/architectural-black-suit-full.jpg',
-      href: '/shop',
+      count: '14 Pieces',
     },
     {
-      id: 'jamdani-reframed',
-      title: 'Espoir Haute Couture & Silk Muslin',
-      subtitle: 'Artisanal Heritage x Architectural Minimalism • Pure Silk Twill & Georgette',
-      image: '/images/products/espoir_La-Boheme-L-768x765.jpg',
-      href: '/women',
+      id: 'shirting-archive',
+      slug: 'shirts',
+      title: 'The Shirting Dialogue',
+      subtitle: 'High-Count Poplin, Unbleached Linen & Tailored Overshirts',
+      description: 'Precision collars, mother-of-pearl buttons, and breathable natural drape.',
+      image: '/images/products/raw-selvedge-trucker-jacket.jpg',
+      count: '8 Pieces',
     },
     {
-      id: 'ethnic-contemporary',
-      title: 'Ethnic Contemporary Panjabi & Shirting',
-      subtitle: 'Minimal Seam Architecture • Handcrafted Silk Jacquard',
-      image: '/images/products/product1_maroon_1.jpg',
-      href: '/panjabi',
+      id: 'trousers',
+      slug: 'trousers',
+      title: 'The Art of the Trouser',
+      subtitle: 'Double-Pleated Proportions & Extended Tab Waistbands',
+      description: 'Tailored with English wool flannel, side adjusters, and generous fluid drape.',
+      image: '/images/products/architectural-black-suit-2.jpg',
+      count: '9 Pieces',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF] text-black pt-24 pb-20">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
-        <div className="border-b border-[#E8E8E5] pb-8 mb-12">
-          <span className="text-label text-[#9B9B9B] uppercase tracking-[0.16em] block mb-2 font-medium">
-            Curated Archives
-          </span>
-          <h1
-            className="font-display font-light text-black"
-            style={{ fontSize: 'clamp(28px, 4vw, 48px)', letterSpacing: '-0.025em' }}
-          >
-            FUKU Editorial Collections
-          </h1>
+    <div className="min-h-screen bg-[#F2EDE4] text-[#241E1A] pt-8 sm:pt-12 pb-24">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8">
+        <div className="border-b border-[#B8B0A3]/30 pb-8 mb-16 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#A8946C] block mb-2 font-semibold">
+              Maison Capsules
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-serif text-[#241E1A] font-normal">
+              Editorial Collections
+            </h1>
+            <p className="text-sm text-[#686B5E] max-w-lg mt-2 leading-relaxed">
+              Curated seasonal chapters shaped by timeless proportions, considered materials,
+              and master tailor craftsmanship.
+            </p>
+          </div>
+          <SHMonogram size={28} variant="dark" />
         </div>
 
-        <div className="flex flex-col gap-10">
-          {collections.map((col) => (
+        {/* Collections Stack */}
+        <div className="space-y-16">
+          {collections.map((col, idx) => (
             <Link
               key={col.id}
-              href={col.href}
-              className="group relative w-full h-[50vh] md:h-[65vh] overflow-hidden block bg-[#F0F0EE]"
+              href={`/collections/${col.slug}`}
+              className="group block relative overflow-hidden bg-[#EBE5DB] border border-[#B8B0A3]/40"
             >
-              <Image
-                src={col.image}
-                alt={col.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-1000 grayscale contrast-110 group-hover:grayscale-0"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-8 md:p-14 text-white">
-                <span className="text-label text-xs uppercase tracking-[0.16em] text-neutral-300 mb-2">
-                  {col.subtitle}
-                </span>
-                <h2
-                  className="font-display font-light uppercase tracking-tight text-white mb-4"
-                  style={{ fontSize: 'clamp(24px, 3.5vw, 44px)' }}
-                >
-                  {col.title}
-                </h2>
-                <span className="text-label text-xs uppercase tracking-[0.14em] border-b border-white pb-1 inline-block w-fit font-medium group-hover:text-neutral-200">
-                  Explore Capsule &rarr;
-                </span>
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[420px]">
+                {/* Image */}
+                <div className="lg:col-span-7 relative aspect-[16/10] lg:aspect-auto overflow-hidden">
+                  <img
+                    src={col.image}
+                    alt={col.title}
+                    className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-1000"
+                  />
+                  <div className="absolute top-4 left-4 bg-[#F2EDE4]/90 px-3 py-1 text-[9px] uppercase tracking-[0.2em] font-medium text-[#241E1A]">
+                    Chapter 0{idx + 1} • {col.count}
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div className="lg:col-span-5 p-8 lg:p-14 flex flex-col justify-between bg-[#F2EDE4]">
+                  <div>
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold block mb-2">
+                      {col.subtitle}
+                    </span>
+                    <h2 className="text-3xl sm:text-4xl font-serif text-[#241E1A] mb-4">
+                      {col.title}
+                    </h2>
+                    <p className="text-sm text-[#686B5E] leading-relaxed mb-6">
+                      {col.description}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#241E1A] group-hover:text-[#686B5E] transition-colors border-t border-[#B8B0A3]/25 pt-4">
+                    <span>Explore Capsule</span>
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
               </div>
             </Link>
           ))}

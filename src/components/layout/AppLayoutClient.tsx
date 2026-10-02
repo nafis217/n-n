@@ -22,9 +22,9 @@ export function AppLayoutClient({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-black selection:bg-black selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#F2EDE4] text-[#241E1A] selection:bg-[#241E1A] selection:text-[#F2EDE4]">
       <Header />
-      <main className={`flex-1 ${isLandingPage ? '' : 'pt-[72px]'}`}>
+      <main className="flex-1 pt-[64px]">
         {children}
       </main>
       <Footer />

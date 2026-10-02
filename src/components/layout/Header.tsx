@@ -2,526 +2,324 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter, usePathname } from 'next/navigation';
-import { Search, User, Heart, ShoppingBag, X, ArrowRight, ChevronDown } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Search, User, ShoppingBag, X, ArrowRight, Menu } from 'lucide-react';
 import { useCartStore } from '@/lib/store/cart';
-import { useWishlistStore } from '@/lib/store/wishlist';
 import { useAuthStore } from '@/lib/store/auth';
-import { searchProducts } from '@/lib/queries/products';
+import { StitchHouseLogo } from '../brand/StitchHouseLogo';
+import { SHMonogram } from '../brand/SHMonogram';
+import { searchProducts, ProductItem } from '@/lib/queries/products';
 
-type MenuTab = 'women' | 'men' | 'panjabi' | 'unisex' | 'collections';
+interface NavItem {
+  label: string;
+  href: string;
+  badge?: string;
+}
 
-const MEGA_MENU_IMAGE: Record<MenuTab, string> = {
-  women:       '/images/products/espoir_La-Boheme-L-768x765.jpg',
-  men:         '/images/products/architectural-black-suit-1.jpg',
-  panjabi:     '/images/products/product1_maroon_1.jpg',
-  unisex:      '/images/products/raw-selvedge-trucker-jacket.jpg',
-  collections: '/images/products/architectural-black-suit-full.jpg',
-};
-
-const NAVIGATION_DATA: Record<MenuTab, { categoryTitle: string; items: { name: string; href: string }[] }[]> = {
-  women: [
-    {
-      categoryTitle: 'New In',
-      items: [
-        { name: 'New Arrivals', href: '/new-drop' },
-        { name: 'Best Sellers', href: '/best-sellers' },
-        { name: 'Sale', href: '/sale' },
-      ],
-    },
-    {
-      categoryTitle: 'Clothing',
-      items: [
-        { name: 'All Women', href: '/women' },
-        { name: 'Jamdani Sarees', href: '/women' },
-        { name: 'Dresses', href: '/women' },
-        { name: 'Trousers', href: '/women' },
-        { name: 'Tunics', href: '/women' },
-      ],
-    },
-    {
-      categoryTitle: 'Accessories',
-      items: [
-        { name: 'Stoles', href: '/accessories' },
-        { name: 'Bags', href: '/accessories' },
-        { name: 'Jewellery', href: '/accessories' },
-      ],
-    },
-  ],
-  men: [
-    {
-      categoryTitle: 'New In',
-      items: [
-        { name: 'New Arrivals', href: '/new-drop' },
-        { name: 'Best Sellers', href: '/best-sellers' },
-        { name: 'Sale', href: '/sale' },
-      ],
-    },
-    {
-      categoryTitle: 'Clothing',
-      items: [
-        { name: 'All Men', href: '/men' },
-        { name: 'Blazers', href: '/men' },
-        { name: 'Trousers', href: '/men' },
-        { name: 'T-Shirts', href: '/men' },
-        { name: 'Denim', href: '/men' },
-      ],
-    },
-    {
-      categoryTitle: 'Heritage',
-      items: [
-        { name: 'Panjabi', href: '/panjabi' },
-        { name: 'Formal Shirts', href: '/men' },
-      ],
-    },
-  ],
-  panjabi: [
-    {
-      categoryTitle: 'All Panjabi',
-      items: [
-        { name: 'View All', href: '/panjabi' },
-        { name: 'Khadi Silk', href: '/panjabi' },
-        { name: 'Organic Cotton', href: '/panjabi' },
-        { name: 'Minimalist', href: '/panjabi' },
-      ],
-    },
-    {
-      categoryTitle: 'Accessories',
-      items: [
-        { name: 'Jamdani Stoles', href: '/accessories' },
-        { name: 'Sterling Buttons', href: '/accessories' },
-      ],
-    },
-  ],
-  unisex: [
-    {
-      categoryTitle: 'Genderless',
-      items: [
-        { name: 'All Unisex', href: '/unisex' },
-        { name: 'Kimonos', href: '/unisex' },
-        { name: 'Heavy Tees', href: '/unisex' },
-        { name: 'Hoodies', href: '/unisex' },
-        { name: 'Utility Vests', href: '/unisex' },
-      ],
-    },
-    {
-      categoryTitle: 'Leather',
-      items: [
-        { name: 'All Accessories', href: '/accessories' },
-        { name: 'Tote Bags', href: '/accessories' },
-      ],
-    },
-  ],
-  collections: [
-    {
-      categoryTitle: 'Editorial',
-      items: [
-        { name: 'Dhaka After Dark', href: '/collections' },
-        { name: 'Jamdani Reframed', href: '/collections' },
-        { name: 'Future Bengal', href: '/collections' },
-      ],
-    },
-    {
-      categoryTitle: 'Brand',
-      items: [
-        { name: 'Our Story', href: '/about' },
-        { name: 'Sustainability', href: '/about' },
-        { name: 'Visit Flagship', href: '/contact' },
-      ],
-    },
-  ],
-};
-
-const POPULAR_SEARCHES = ['Tactical Kimono', 'Jamdani Saree', 'Heavyweight Tee', 'Khadi Panjabi', 'Linen Blazer'];
+const NAV_ITEMS: NavItem[] = [
+  { label: 'NEW ARRIVALS', href: '/collections/new-arrivals' },
+  { label: 'CLOTHING', href: '/collections/clothing' },
+  { label: 'SHIRTS', href: '/collections/shirts' },
+  { label: 'TROUSERS', href: '/collections/trousers' },
+  { label: 'OUTERWEAR', href: '/collections/outerwear' },
+  { label: 'ACCESSORIES', href: '/collections/accessories' },
+  { label: 'ATELIER', href: '/atelier' },
+  { label: 'JOURNAL', href: '/journal' },
+];
 
 export const Header: React.FC = () => {
-  const router = useRouter();
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState<MenuTab>('women');
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<ProductItem[]>([]);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const isHome = pathname === '/';
+  const { items, openCart } = useCartStore();
+  const { user } = useAuthStore();
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
-  const { getItemCount, openDrawer } = useCartStore();
-  const { wishlistIds } = useWishlistStore();
-  const { isAuthenticated } = useAuthStore();
-
-  const cartCount = mounted ? getItemCount() : 0;
-  const wishlistCount = mounted ? wishlistIds.length : 0;
-
+  // Scroll detection
   useEffect(() => {
-    setMounted(true);
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close overlays on navigation
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setMenuOpen(false);
-        setSearchOpen(false);
-      }
-    };
-    document.body.style.overflow = (menuOpen || searchOpen) ? 'hidden' : '';
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [menuOpen, searchOpen]);
-
-  useEffect(() => {
-    setMenuOpen(false);
-    setSearchOpen(false);
+    setIsMobileMenuOpen(false);
+    setIsSearchOpen(false);
   }, [pathname]);
 
+  // Focus search input when open
   useEffect(() => {
-    if (searchOpen && searchInputRef.current) {
+    if (isSearchOpen && searchInputRef.current) {
       setTimeout(() => searchInputRef.current?.focus(), 50);
     }
-  }, [searchOpen]);
+  }, [isSearchOpen]);
+
+  // Handle live search
+  useEffect(() => {
+    if (searchQuery.trim().length > 1) {
+      const res = searchProducts(searchQuery.trim());
+      setSearchResults(res.slice(0, 6));
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchQuery]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      setSearchOpen(false);
+      setIsSearchOpen(false);
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchQuery('');
     }
   };
-
-  const instantResults = searchQuery.trim().length >= 2
-    ? searchProducts(searchQuery).slice(0, 5)
-    : [];
-
-  // Header color logic
-  const isTransparent = isHome && !isScrolled && !menuOpen;
-
-  const headerClass = isTransparent
-    ? 'bg-transparent text-white'
-    : 'bg-white/98 text-black border-b border-[#E8E8E5]';
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-[100] h-16 flex items-center justify-between px-6 md:px-12 transition-all duration-200 backdrop-blur-sm ${headerClass}`}
+        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-[#F2EDE4]/95 backdrop-blur-md h-[58px] border-b border-[#B8B0A3]/30 shadow-[0_1px_3px_rgba(36,30,26,0.03)]'
+            : 'bg-[#F2EDE4] h-[64px] border-b border-[#B8B0A3]/25'
+        }`}
       >
-        {/* LEFT: Hamburger + Desktop Nav */}
-        <div className="flex items-center gap-8">
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex flex-col gap-[5px] w-5 cursor-pointer group"
-            aria-label="Toggle menu"
-          >
-            <span className={`h-px w-5 transition-all duration-200 ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? 'rotate-45 translate-y-[6px]' : ''}`} />
-            <span className={`h-px w-5 transition-all duration-200 ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`h-px w-5 transition-all duration-200 ${isTransparent ? 'bg-white' : 'bg-black'} ${menuOpen ? '-rotate-45 -translate-y-[6px]' : ''}`} />
-          </button>
-
-          <nav className="hidden lg:flex items-center gap-7" aria-label="Primary navigation">
-            {(['women', 'men', 'panjabi', 'unisex'] as MenuTab[]).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => { setActiveTab(tab); setMenuOpen(true); }}
-                className={`text-nav uppercase tracking-[0.08em] hover:opacity-60 transition-opacity duration-150 flex items-center gap-0.5 cursor-pointer capitalize ${isTransparent ? 'text-white' : 'text-black'}`}
-              >
-                {tab === 'panjabi' ? 'Panjabi' : tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </button>
-            ))}
-            <Link
-              href="/new-drop"
-              className={`text-nav uppercase tracking-[0.08em] hover:opacity-60 transition-opacity duration-150 ${isTransparent ? 'text-white' : 'text-black'}`}
+        <div className="max-w-[1600px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
+          {/* LEFT: Logo & Wordmark */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden p-1.5 -ml-1.5 text-[#241E1A] hover:opacity-75 transition-opacity"
+              aria-label="Open Navigation Menu"
             >
-              New In
-            </Link>
+              <Menu size={20} strokeWidth={1.5} />
+            </button>
+            <StitchHouseLogo variant="dark" size="sm" showMotto={false} />
+          </div>
+
+          {/* CENTER: Editorial Navigation (Desktop) */}
+          <nav className="hidden lg:flex items-center gap-8" aria-label="Main Navigation">
+            {NAV_ITEMS.slice(0, 6).map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`text-[11px] uppercase tracking-[0.18em] font-medium transition-colors duration-200 relative py-2 ${
+                    isActive ? 'text-[#241E1A]' : 'text-[#686B5E] hover:text-[#241E1A]'
+                  }`}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#241E1A]" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
-        </div>
 
-        {/* CENTER: Logo */}
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <Link
-            href="/"
-            onClick={() => setMenuOpen(false)}
-            className={`font-display text-[22px] font-medium tracking-[0.1em] uppercase hover:opacity-70 transition-opacity duration-150 ${isTransparent ? 'text-white' : 'text-black'}`}
-          >
-            FUKU
-          </Link>
-        </div>
-
-        {/* RIGHT: Actions */}
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => setSearchOpen(true)}
-            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 cursor-pointer ${isTransparent ? 'text-white' : 'text-black'}`}
-            aria-label="Search"
-          >
-            <Search className="w-[18px] h-[18px] stroke-[1.25]" />
-          </button>
-
-          <Link
-            href="/wishlist"
-            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 relative hidden sm:flex items-center ${isTransparent ? 'text-white' : 'text-black'}`}
-            aria-label="Wishlist"
-          >
-            <Heart className="w-[18px] h-[18px] stroke-[1.25]" />
-            {wishlistCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 w-[14px] h-[14px] bg-black text-white font-mono text-[8px] font-bold flex items-center justify-center leading-none">
-                {wishlistCount > 9 ? '9+' : wishlistCount}
+          {/* RIGHT: Utilities (Search, Account, Bag) */}
+          <div className="flex items-center gap-4 sm:gap-6">
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className="flex items-center gap-1.5 text-[#241E1A] hover:text-[#686B5E] transition-colors p-1"
+              aria-label="Search Collection"
+            >
+              <Search size={16} strokeWidth={1.5} />
+              <span className="hidden md:inline text-[11px] uppercase tracking-[0.16em] font-medium">
+                Search
               </span>
-            )}
-          </Link>
+            </button>
 
-          <Link
-            href={isAuthenticated ? '/account' : '/login'}
-            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 hidden sm:block ${isTransparent ? 'text-white' : 'text-black'}`}
-            aria-label="Account"
-          >
-            <User className="w-[18px] h-[18px] stroke-[1.25]" />
-          </Link>
-
-          <button
-            onClick={openDrawer}
-            className={`p-2.5 hover:opacity-60 transition-opacity duration-150 relative flex items-center cursor-pointer ${isTransparent ? 'text-white' : 'text-black'}`}
-            aria-label="Shopping bag"
-          >
-            <ShoppingBag className="w-[18px] h-[18px] stroke-[1.25]" />
-            {cartCount > 0 && (
-              <span className="absolute top-1.5 right-0.5 w-[14px] h-[14px] bg-black text-white font-mono text-[8px] font-bold flex items-center justify-center leading-none">
-                {cartCount > 9 ? '9+' : cartCount}
+            <Link
+              href={user ? '/account' : '/login'}
+              className="flex items-center gap-1.5 text-[#241E1A] hover:text-[#686B5E] transition-colors p-1"
+              aria-label="User Account"
+            >
+              <User size={16} strokeWidth={1.5} />
+              <span className="hidden md:inline text-[11px] uppercase tracking-[0.16em] font-medium">
+                {user ? 'Account' : 'Sign In'}
               </span>
-            )}
-          </button>
+            </Link>
+
+            <button
+              onClick={openCart}
+              className="flex items-center gap-2 bg-[#241E1A] text-[#F2EDE4] px-3.5 py-1.5 hover:bg-[#686B5E] transition-colors duration-200"
+              aria-label={`Shopping Bag, ${itemCount} items`}
+            >
+              <ShoppingBag size={14} strokeWidth={1.5} />
+              <span className="text-[11px] uppercase tracking-[0.18em] font-medium">
+                Bag ({itemCount})
+              </span>
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* ─── MEGA MENU OVERLAY ─── */}
-      <div
-        className={`fixed inset-0 z-[200] bg-white text-black flex flex-col transition-all duration-250 ${
-          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-        style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
-      >
-        {/* Mega menu header bar */}
-        <div className="flex items-center justify-between h-16 px-6 md:px-12 border-b border-[#E8E8E5] shrink-0">
-          <button
-            onClick={() => setMenuOpen(false)}
-            className="flex items-center gap-2.5 text-[#6B6B6B] hover:text-black transition-colors duration-150 cursor-pointer"
-            aria-label="Close menu"
-          >
-            <X className="w-4 h-4 stroke-[1.25]" />
-            <span className="text-label uppercase tracking-[0.12em]">Close</span>
-          </button>
-
-          <Link
-            href="/"
-            onClick={() => setMenuOpen(false)}
-            className="font-display text-[22px] font-medium tracking-[0.1em] uppercase text-black hover:opacity-70 transition-opacity"
-          >
-            FUKU
-          </Link>
-
-          <div className="flex items-center gap-1">
-            <Link href="/search" onClick={() => setMenuOpen(false)} className="p-2.5 text-black hover:opacity-60 transition-opacity">
-              <Search className="w-[18px] h-[18px] stroke-[1.25]" />
-            </Link>
-            <Link href={isAuthenticated ? '/account' : '/login'} onClick={() => setMenuOpen(false)} className="p-2.5 text-black hover:opacity-60 transition-opacity hidden sm:block">
-              <User className="w-[18px] h-[18px] stroke-[1.25]" />
-            </Link>
-          </div>
-        </div>
-
-        {/* Mega menu tabs */}
-        <div className="flex items-center gap-8 px-6 md:px-12 border-b border-[#E8E8E5] overflow-x-auto hide-scrollbar shrink-0">
-          {(['women', 'men', 'panjabi', 'unisex', 'collections'] as MenuTab[]).map((tab) => (
+      {/* ─────────────────────────────────────────────
+          EDITORIAL SEARCH OVERLAY
+      ───────────────────────────────────────────── */}
+      {isSearchOpen && (
+        <div className="fixed inset-0 z-50 bg-[#241E1A]/60 backdrop-blur-sm flex flex-col justify-start items-center p-4 sm:p-8 animate-fadeIn">
+          <div className="w-full max-w-3xl bg-[#F2EDE4] border border-[#B8B0A3]/50 p-6 sm:p-10 shadow-2xl mt-12 relative">
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`relative py-4 text-label uppercase tracking-[0.12em] whitespace-nowrap cursor-pointer transition-colors duration-150 ${
-                activeTab === tab
-                  ? 'text-black after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-black'
-                  : 'text-[#9B9B9B] hover:text-[#6B6B6B]'
-              }`}
+              onClick={() => setIsSearchOpen(false)}
+              className="absolute top-6 right-6 text-[#241E1A] hover:text-[#686B5E] transition-colors p-2"
+              aria-label="Close search"
             >
-              {tab === 'panjabi' ? 'Panjabi & Ethnic' : tab.charAt(0).toUpperCase() + tab.slice(1)}
+              <X size={20} strokeWidth={1.5} />
             </button>
-          ))}
-        </div>
 
-        {/* Mega menu content */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="max-w-7xl mx-auto px-6 md:px-12 py-10 grid grid-cols-1 lg:grid-cols-12 gap-10">
-            {/* Nav columns */}
-            <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
-              {NAVIGATION_DATA[activeTab].map((col) => (
-                <div key={col.categoryTitle}>
-                  <h3 className="text-editorial-label mb-4">{col.categoryTitle}</h3>
-                  <ul className="flex flex-col gap-2.5">
-                    {col.items.map((item) => (
-                      <li key={item.name}>
-                        <Link
-                          href={item.href}
-                          onClick={() => setMenuOpen(false)}
-                          className="text-body-lg text-black hover:text-[#6B6B6B] transition-colors duration-150 block"
-                        >
-                          {item.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+            <div className="mb-6">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#686B5E] font-medium block mb-2">
+                Search Stitch House
+              </span>
+              <form onSubmit={handleSearchSubmit} className="relative">
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search double-breasted suits, linen shirts, trousers..."
+                  className="w-full bg-transparent border-b border-[#241E1A] pb-3 pt-1 text-lg sm:text-2xl font-serif text-[#241E1A] placeholder:text-[#B8B0A3] focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="absolute right-0 bottom-3 text-[#241E1A] hover:text-[#686B5E]"
+                >
+                  <ArrowRight size={20} strokeWidth={1.5} />
+                </button>
+              </form>
             </div>
 
-            {/* Editorial image */}
-            <div className="hidden lg:block lg:col-span-5">
-              <div className="relative aspect-[3/4] bg-[#F3F3F1] overflow-hidden">
-                <Image
-                  src={MEGA_MENU_IMAGE[activeTab]}
-                  alt={activeTab}
-                  fill
-                  className="object-cover transition-opacity duration-300"
-                />
-                <div className="absolute bottom-0 left-0 p-6">
-                  <span className="text-editorial-label text-white/80 block mb-1">
-                    {activeTab === 'collections' ? 'Editorial' : 'Collection'}
-                  </span>
-                  <Link
-                    href={activeTab === 'collections' ? '/collections' : `/${activeTab}`}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-white font-display text-sm uppercase tracking-wider flex items-center gap-1.5 hover:gap-3 transition-all duration-200"
-                  >
-                    Shop {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+            {/* Quick Category Shortcuts */}
+            {searchQuery.trim().length === 0 && (
+              <div className="pt-4 border-t border-[#B8B0A3]/25">
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[#686B5E] block mb-3 font-medium">
+                  Curated Categories
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {['Tailored Suits', 'Pleated Trousers', 'Linen Overshirts', 'Selvedge Jackets', 'Cashmere Knitwear', 'Leather Goods'].map(
+                    (tag) => (
+                      <button
+                        key={tag}
+                        onClick={() => {
+                          setSearchQuery(tag);
+                        }}
+                        className="text-xs uppercase tracking-[0.14em] text-[#241E1A] border border-[#B8B0A3]/50 px-3 py-1.5 hover:bg-[#241E1A] hover:text-[#F2EDE4] transition-colors"
+                      >
+                        {tag}
+                      </button>
+                    )
+                  )}
                 </div>
               </div>
+            )}
+
+            {/* Live Search Results */}
+            {searchResults.length > 0 && (
+              <div className="mt-6 pt-4 border-t border-[#B8B0A3]/25">
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[#686B5E] block mb-3 font-medium">
+                  Suggested Pieces ({searchResults.length})
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-2">
+                  {searchResults.map((prod) => (
+                    <Link
+                      key={prod.id}
+                      href={`/products/${prod.slug}`}
+                      onClick={() => setIsSearchOpen(false)}
+                      className="flex items-center gap-3 p-2 hover:bg-[#EBE5DB] transition-colors group"
+                    >
+                      <img
+                        src={prod.images[0] || '/images/products/architectural-black-suit-1.jpg'}
+                        alt={prod.nameEn}
+                        className="w-12 h-16 object-cover bg-[#EBE5DB]"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-serif text-[#241E1A] truncate group-hover:text-[#686B5E] transition-colors">
+                          {prod.nameEn}
+                        </p>
+                        <p className="text-[11px] font-sans text-[#686B5E] uppercase tracking-wider mt-0.5">
+                          {prod.category}
+                        </p>
+                        <p className="text-xs font-sans text-[#241E1A] font-medium mt-0.5">
+                          BDT {prod.priceBDT.toLocaleString()}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ─────────────────────────────────────────────
+          EDITORIAL MOBILE NAVIGATION DRAWER
+      ───────────────────────────────────────────── */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 bg-[#F2EDE4] flex flex-col justify-between p-6 sm:p-10 animate-fadeIn overflow-y-auto">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between border-b border-[#B8B0A3]/30 pb-4">
+            <StitchHouseLogo variant="dark" size="sm" showMotto={false} />
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="p-2 text-[#241E1A] hover:text-[#686B5E] transition-colors"
+              aria-label="Close menu"
+            >
+              <X size={24} strokeWidth={1.5} />
+            </button>
+          </div>
+
+          {/* Navigation Links (Large Editorial Serif) */}
+          <div className="py-8 flex flex-col gap-5">
+            {NAV_ITEMS.map((item, idx) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="group flex items-center justify-between text-2xl sm:text-3xl font-serif text-[#241E1A] hover:text-[#686B5E] transition-colors"
+              >
+                <span>{item.label}</span>
+                <span className="text-xs font-sans text-[#B8B0A3] tracking-[0.2em] group-hover:translate-x-1 transition-transform">
+                  0{idx + 1}
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          {/* Bottom Brand Creed & Showroom Info */}
+          <div className="pt-6 border-t border-[#B8B0A3]/30 flex flex-col gap-4">
+            <div className="flex items-center justify-between text-xs text-[#686B5E] tracking-wider uppercase">
+              <span>Showroom: Gulshan & Banani</span>
+              <span>2700K Atelier</span>
+            </div>
+            <p className="text-xs font-serif italic text-[#241E1A]">
+              “Quietly Refined. Distinctly Yours.”
+            </p>
+            <div className="flex gap-4 text-xs tracking-widest uppercase font-medium pt-2">
+              <Link href="/account" className="text-[#241E1A] hover:underline">
+                Account
+              </Link>
+              <span className="text-[#B8B0A3]">•</span>
+              <Link href="/contact" className="text-[#241E1A] hover:underline">
+                Concierge
+              </Link>
+              <span className="text-[#B8B0A3]">•</span>
+              <Link href="/about" className="text-[#241E1A] hover:underline">
+                Philosophy
+              </Link>
             </div>
           </div>
         </div>
-
-        {/* Mega menu footer */}
-        <div className="border-t border-[#E8E8E5] px-6 md:px-12 py-4 flex flex-wrap items-center gap-6 shrink-0">
-          {[
-            { label: 'Shop All', href: '/shop' },
-            { label: 'New Arrivals', href: '/new-drop' },
-            { label: 'Sale', href: '/sale' },
-            { label: 'About', href: '/about' },
-            { label: 'Contact', href: '/contact' },
-          ].map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="text-label uppercase tracking-[0.08em] text-[#6B6B6B] hover:text-black transition-colors duration-150"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* ─── SEARCH OVERLAY ─── */}
-      <div
-        className={`fixed inset-0 z-[300] bg-white flex flex-col transition-all duration-200 ${
-          searchOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        {/* Search header */}
-        <div className="h-16 flex items-center justify-between px-6 md:px-12 border-b border-[#E8E8E5] shrink-0">
-          <Link href="/" onClick={() => setSearchOpen(false)} className="font-display text-[22px] font-medium tracking-[0.1em] uppercase text-black">
-            FUKU
-          </Link>
-          <button
-            onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
-            className="flex items-center gap-2.5 text-[#6B6B6B] hover:text-black transition-colors duration-150 cursor-pointer"
-          >
-            <span className="text-label uppercase tracking-[0.12em]">Close</span>
-            <X className="w-4 h-4 stroke-[1.25]" />
-          </button>
-        </div>
-
-        {/* Search input */}
-        <div className="px-6 md:px-12 pt-10 pb-6 border-b border-[#E8E8E5]">
-          <form onSubmit={handleSearchSubmit} className="flex items-center gap-4">
-            <Search className="w-5 h-5 text-[#9B9B9B] shrink-0 stroke-[1.25]" />
-            <input
-              ref={searchInputRef}
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search garments, collections..."
-              className="w-full bg-transparent text-[clamp(22px,4vw,36px)] text-black placeholder-[#D9D9D6] focus:outline-none font-display font-light"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="text-[#9B9B9B] hover:text-black transition-colors"
-              >
-                <X className="w-4 h-4 stroke-[1.25]" />
-              </button>
-            )}
-          </form>
-        </div>
-
-        {/* Search results */}
-        <div className="flex-1 overflow-y-auto px-6 md:px-12 py-8">
-          {instantResults.length > 0 ? (
-            <div>
-              <p className="text-editorial-label mb-6">{instantResults.length} results</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {instantResults.map((product) => (
-                  <Link
-                    key={product.id}
-                    href={`/product/${product.id}`}
-                    onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
-                    className="group flex items-center gap-4 hover:opacity-70 transition-opacity duration-150"
-                  >
-                    <div className="w-16 h-20 bg-[#F3F3F1] relative overflow-hidden shrink-0">
-                      <img src={product.images[0]} alt="" className="w-full h-full object-cover" loading="lazy" />
-                    </div>
-                    <div>
-                      <p className="text-label uppercase tracking-[0.08em] text-black mb-1 group-hover:underline">
-                        {product.nameEn}
-                      </p>
-                      <p className="text-label text-[#6B6B6B]">৳{product.priceBDT.toLocaleString()}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ) : searchQuery.length >= 2 ? (
-            <p className="text-body text-[#6B6B6B]">No results for &ldquo;{searchQuery}&rdquo;</p>
-          ) : (
-            <div>
-              <p className="text-editorial-label mb-5">Popular searches</p>
-              <div className="flex flex-wrap gap-3">
-                {POPULAR_SEARCHES.map((term) => (
-                  <button
-                    key={term}
-                    onClick={() => {
-                      setSearchQuery(term);
-                      router.push(`/search?q=${encodeURIComponent(term)}`);
-                      setSearchOpen(false);
-                      setSearchQuery('');
-                    }}
-                    className="px-4 py-2 border border-[#D9D9D6] text-body text-black hover:border-black transition-colors duration-150 cursor-pointer"
-                  >
-                    {term}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      )}
     </>
   );
 };

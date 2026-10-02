@@ -2,33 +2,30 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AppLayoutClient } from '@/components/layout/AppLayoutClient';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fuku-official.vercel.app';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://stitchhouse.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'FUKU | Modern Clothing Archive & Atelier 2026',
-    template: '%s | FUKU Archive',
+    default: 'STITCH HOUSE | Architectural Tailoring & Quiet Luxury Menswear',
+    template: '%s | STITCH HOUSE',
   },
   description:
-    'Luxury clothing archive & e-commerce for FUKU — Architectural silhouettes, avant-garde minimalism, Japanese technical knits, and handcrafted Bengali heritage textiles.',
+    'Quietly Refined. Distinctly Yours. STITCH HOUSE operates at the intersection of heritage craftsmanship, architectural tailoring, and old-money restraint.',
   keywords: [
-    'FUKU',
-    'FUKU Clothing',
-    'FUKU Archive',
-    'Modern Bengali Fashion',
-    'Architectural Clothing',
-    'Bangladeshi Streetwear',
-    'Luxury Menswear Dhaka',
-    'Luxury Womenswear Dhaka',
-    'Heritage Jamdani Panjabi',
-    'Japanese Technical Knits',
-    'Dhaka Designer Brand',
-    'Minimalist Fashion Bangladesh',
+    'STITCH HOUSE',
+    'Quiet Luxury Menswear',
+    'Architectural Tailoring',
+    'Bespoke Suits Dhaka',
+    'Old Money Aesthetic',
+    'Pleated Trousers',
+    'Raw Selvedge Denim',
+    'High Twist Wool Blazer',
+    'Luxury Menswear Brand',
   ],
-  authors: [{ name: 'FUKU Atelier' }],
-  creator: 'FUKU Atelier',
-  publisher: 'FUKU Studio',
+  authors: [{ name: 'STITCH HOUSE Atelier' }],
+  creator: 'STITCH HOUSE Atelier',
+  publisher: 'STITCH HOUSE Maison',
   robots: {
     index: true,
     follow: true,
@@ -44,25 +41,25 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: siteUrl,
-    title: 'FUKU | Modern Clothing Archive & Atelier 2026',
+    title: 'STITCH HOUSE | Architectural Tailoring & Quiet Luxury Menswear',
     description:
-      'Luxury clothing archive & e-commerce for FUKU — Architectural silhouettes and handcrafted Bengali heritage textiles.',
-    siteName: 'FUKU Archive',
+      'Quietly Refined. Distinctly Yours. Independent menswear house designed with architectural restraint, natural fibers, and bespoke tailoring craftsmanship.',
+    siteName: 'STITCH HOUSE',
     images: [
       {
-        url: '/images/products/architectural-black-suit-1.jpg',
+        url: '/images/products/architectural-black-suit-full.jpg',
         width: 1200,
         height: 630,
-        alt: 'FUKU Modern Clothing Archive Campaign',
+        alt: 'STITCH HOUSE Autumn Winter Tailoring Campaign',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FUKU | Modern Clothing Archive 2026',
+    title: 'STITCH HOUSE | Quietly Refined. Distinctly Yours.',
     description:
-      'Luxury clothing archive & e-commerce for FUKU — Architectural silhouettes and handcrafted Bengali heritage textiles.',
-    images: ['/images/products/architectural-black-suit-1.jpg'],
+      'Independent modern menswear house — architectural silhouettes, considered materials, and refined tailoring.',
+    images: ['/images/products/architectural-black-suit-full.jpg'],
   },
   alternates: {
     canonical: siteUrl,
@@ -75,15 +72,14 @@ const jsonLd = {
     {
       '@type': 'Organization',
       '@id': `${siteUrl}/#organization`,
-      name: 'FUKU Atelier',
+      name: 'STITCH HOUSE',
       url: siteUrl,
       logo: `${siteUrl}/logo.png`,
       sameAs: [
-        'https://instagram.com/fuku.studio',
-        'https://facebook.com/fukustudio',
+        'https://instagram.com/stitchhouse.official',
       ],
       description:
-        'Independent fashion house and textile laboratory founded in Dhaka, Bangladesh.',
+        'Independent modern tailoring house and menswear atelier.',
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Dhaka',
@@ -94,7 +90,7 @@ const jsonLd = {
       '@type': 'WebSite',
       '@id': `${siteUrl}/#website`,
       url: siteUrl,
-      name: 'FUKU Archive',
+      name: 'STITCH HOUSE',
       publisher: { '@id': `${siteUrl}/#organization` },
       potentialAction: {
         '@type': 'SearchAction',
@@ -118,7 +114,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-white text-black min-h-screen flex flex-col justify-between overflow-x-hidden antialiased selection:bg-black selection:text-white">
+      <body className="bg-[#F2EDE4] text-[#241E1A] min-h-screen flex flex-col justify-between overflow-x-hidden antialiased selection:bg-[#241E1A] selection:text-[#F2EDE4]">
         <AppLayoutClient>{children}</AppLayoutClient>
       </body>
     </html>

@@ -2,214 +2,155 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Heart, Plus, Check, Eye } from 'lucide-react';
 import { ProductItem } from '@/lib/queries/products';
 import { useWishlistStore } from '@/lib/store/wishlist';
 import { useCartStore } from '@/lib/store/cart';
+import { Heart, ArrowUpRight } from 'lucide-react';
 
 interface ProductCardProps {
   product: ProductItem;
   onQuickView?: (product: ProductItem) => void;
-  /** Display in 2-column editorial mode (larger images) */
   editorial?: boolean;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, onQuickView, editorial = false }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onQuickView,
+  editorial = false,
+}) => {
   const { isInWishlist, toggleWishlist } = useWishlistStore();
-  const { addItem, openDrawer } = useCartStore();
+  const { addItem, openCart } = useCartStore();
   const wishlisted = isInWishlist(product.id);
-  const [added, setAdded] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0] || 'M');
+  const [isHovered, setIsHovered] = useState(false);
 
-  const secondaryImg = product.secondaryImage || product.images[1] || product.images[0];
-  const hasSecondary = secondaryImg !== product.images[0];
+  const primaryImage = product.images[0] || '/images/products/architectural-black-suit-1.jpg';
+  const hoverImage = product.secondaryImage || product.images[1] || primaryImage;
 
-  const discountPercent = product.originalPriceBDT && product.originalPriceBDT > product.priceBDT
-    ? Math.round(((product.originalPriceBDT - product.priceBDT) / product.originalPriceBDT) * 100)
-    : null;
-
-  const handleQuickAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    addItem({
-      id: product.id,
-      title: product.nameEn,
-      price: product.priceBDT,
-      currency: 'BDT',
-      image: product.images[0],
-      quantity: 1,
-      selectedSize: selectedSize || product.sizes[0] || 'M',
-      selectedColor: product.colors[0]?.name || 'Standard',
-    });
-    setAdded(true);
-    setTimeout(() => {
-      setAdded(false);
-      openDrawer();
-    }, 500);
-  };
-
-  const handleQuickViewClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (onQuickView) {
-      onQuickView(product);
+  // Single badge priority logic
+  const getBadge = () => {
+    if (product.atelierSelection || product.atelierNumber) {
+      return {
+        text: `ATELIER / ${product.atelierNumber || '042'}`,
+        bg: 'bg-[#542B2E] text-[#F2EDE4]', // Oxblood
+      };
     }
+    if (product.tag === 'NEW' || product.isNewArrival) {
+      return {
+        text: 'NEW ARRIVAL',
+        bg: 'bg-[#241E1A] text-[#F2EDE4]', // Deep Espresso
+      };
+    }
+    if (product.tag === 'LIMITED') {
+      return {
+        text: 'LIMITED EDITION',
+        bg: 'bg-[#686B5E] text-[#F2EDE4]', // Muted Olive
+      };
+    }
+    if (product.tag === 'SALE' || (product.originalPriceBDT && product.originalPriceBDT > product.priceBDT)) {
+      return {
+        text: 'PRIVATE ARCHIVE',
+        bg: 'bg-[#38312B] text-[#F2EDE4]',
+      };
+    }
+    return null;
   };
+
+  const badge = getBadge();
 
   return (
     <div
-      className="group relative flex flex-col transition-all duration-300"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      className="group relative flex flex-col"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* ── Image Frame ── */}
-      <div className={`relative overflow-hidden bg-[#F3F3F1] rounded-sm mb-3.5 ${editorial ? 'aspect-[3/4]' : 'aspect-[3/4] sm:aspect-[4/5]'}`}>
-        
-        {/* Badges */}
-        <div className="absolute top-2.5 left-2.5 z-20 flex flex-col gap-1.5 items-start">
-          {product.tag && (
-            <span
-              className={`text-[9px] uppercase tracking-[0.16em] px-2 py-0.5 rounded-xs font-semibold shadow-xs ${
-                product.tag === 'SALE'
-                  ? 'bg-red-700 text-white'
-                  : product.tag === 'NEW'
-                  ? 'bg-black text-white'
-                  : 'bg-zinc-800 text-white'
-              }`}
-            >
-              {product.tag}
-            </span>
-          )}
-          {discountPercent && !product.tag && (
-            <span className="text-[9px] uppercase tracking-[0.14em] px-2 py-0.5 rounded-xs font-semibold bg-red-700 text-white shadow-xs">
-              -{discountPercent}%
-            </span>
-          )}
-        </div>
+      {/* ── IMAGE CANVAS (3:4 Ratio, Unboxed) ── */}
+      <Link
+        href={`/products/${product.slug}`}
+        className={`relative overflow-hidden bg-[#EBE5DB] block ${
+          editorial ? 'aspect-[3/4]' : 'aspect-[3/4]'
+        }`}
+        aria-label={`View ${product.nameEn}`}
+      >
+        {/* Primary and Hover Image with Smooth Crossfade */}
+        <img
+          src={primaryImage}
+          alt={product.nameEn}
+          className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            isHovered && hoverImage !== primaryImage
+              ? 'opacity-0 scale-105'
+              : 'opacity-100 scale-100 group-hover:scale-103'
+          }`}
+          loading="lazy"
+        />
 
-        {/* Wishlist Button */}
+        {hoverImage !== primaryImage && (
+          <img
+            src={hoverImage}
+            alt={`${product.nameEn} alternative perspective`}
+            className={`absolute inset-0 w-full h-full object-cover object-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              isHovered ? 'opacity-100 scale-103' : 'opacity-0 scale-100'
+            }`}
+            loading="lazy"
+          />
+        )}
+
+        {/* Micro Badge (Quiet top-left placement) */}
+        {badge && (
+          <div className="absolute top-3 left-3 z-10">
+            <span
+              className={`text-[9px] uppercase tracking-[0.2em] px-2.5 py-1 font-medium select-none ${badge.bg}`}
+            >
+              {badge.text}
+            </span>
+          </div>
+        )}
+
+        {/* Wishlist Button (Minimal top-right) */}
         <button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             toggleWishlist(product.id, product.nameEn);
           }}
-          className={`absolute top-2.5 right-2.5 z-20 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-xs ${
+          className={`absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center transition-opacity duration-300 ${
             wishlisted
-              ? 'bg-black text-white opacity-100'
-              : 'bg-white/90 text-neutral-800 hover:bg-white hover:text-black opacity-100 md:opacity-0 md:group-hover:opacity-100 backdrop-blur-xs'
+              ? 'opacity-100 bg-[#241E1A] text-[#F2EDE4]'
+              : 'opacity-0 group-hover:opacity-100 bg-[#F2EDE4]/90 text-[#241E1A] hover:bg-[#241E1A] hover:text-[#F2EDE4]'
           }`}
-          aria-label="Toggle wishlist"
+          aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
         >
-          <Heart
-            className={`w-3.5 h-3.5 stroke-[1.5] transition-transform active:scale-125 ${
-              wishlisted ? 'fill-white stroke-white' : 'stroke-current'
-            }`}
-          />
+          <Heart size={13} fill={wishlisted ? '#F2EDE4' : 'none'} strokeWidth={1.5} />
         </button>
 
-        {/* Product Images with smooth Crossfade & Zoom */}
-        <Link href={`/product/${product.id}`} className="absolute inset-0 block overflow-hidden">
-          <Image
-            src={product.images[0]}
-            alt={product.nameEn}
-            fill
-            sizes={editorial
-              ? '(max-width: 640px) 100vw, 50vw'
-              : '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw'
-            }
-            className={`object-cover object-top transition-all duration-500 ease-out group-hover:scale-[1.04] ${
-              hovered && hasSecondary ? 'opacity-0' : 'opacity-100'
-            }`}
-            priority={false}
-          />
-          {hasSecondary && (
-            <Image
-              src={secondaryImg}
-              alt={product.nameEn}
-              fill
-              sizes={editorial
-                ? '(max-width: 640px) 100vw, 50vw'
-                : '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw'
-              }
-              className={`object-cover object-top transition-all duration-500 ease-out group-hover:scale-[1.04] ${
-                hovered ? 'opacity-100' : 'opacity-0'
-              }`}
-              priority={false}
-            />
-          )}
-        </Link>
-
-        {/* Quick View Button (Desktop center overlay) */}
-        {onQuickView && (
-          <button
-            onClick={handleQuickViewClick}
-            className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 items-center gap-1.5 px-3 py-1.5 bg-white/90 hover:bg-white text-black text-[11px] uppercase tracking-[0.1em] font-medium rounded-full shadow-md backdrop-blur-xs opacity-0 group-hover:opacity-100 transition-all duration-200 hover:scale-105 cursor-pointer"
-          >
-            <Eye className="w-3.5 h-3.5 stroke-[1.5]" />
-            Quick View
-          </button>
-        )}
-
-        {/* Quick Add Bar — slides up on hover for desktop, compact action on mobile */}
-        <div className="absolute bottom-0 left-0 w-full z-20">
-          <button
-            onClick={handleQuickAdd}
-            className={`w-full py-2.5 px-3 bg-white/95 backdrop-blur-md border-t border-neutral-200 text-[11px] uppercase tracking-[0.14em] font-medium text-black flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer hover:bg-black hover:text-white ${
-              hovered
-                ? 'translate-y-0 opacity-100'
-                : 'translate-y-full opacity-0 md:translate-y-full md:opacity-0'
-            } ${added ? '!bg-black !text-white !translate-y-0 !opacity-100' : ''}`}
-            aria-label="Quick add to bag"
-          >
-            {added ? (
-              <>
-                <Check className="w-3.5 h-3.5 stroke-[2] text-emerald-400" />
-                <span>Added to Bag</span>
-              </>
-            ) : (
-              <>
-                <Plus className="w-3.5 h-3.5 stroke-[1.5]" />
-                <span>Quick Add</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* ── Product Info ── */}
-      <div className="flex flex-col gap-1 px-1">
-        {/* Colors / Category subtext */}
-        <div className="flex items-center justify-between text-[11px] text-neutral-500">
-          <span className="capitalize">{product.category}</span>
-          {product.colors.length > 0 && (
-            <div className="flex items-center gap-1">
-              <span className="text-[10px] uppercase text-neutral-400 font-mono">
-                {product.colors.length} {product.colors.length === 1 ? 'Color' : 'Colors'}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Product Title */}
-        <Link
-          href={`/product/${product.id}`}
-          className="text-xs uppercase tracking-[0.06em] font-medium text-neutral-900 hover:text-neutral-500 transition-colors duration-150 line-clamp-1"
-          title={product.nameEn}
-        >
-          {product.nameEn}
-        </Link>
-
-        {/* Price display */}
-        <div className="flex items-baseline gap-2 mt-0.5">
-          <span className={`text-xs font-semibold ${product.originalPriceBDT ? 'text-red-700' : 'text-black'}`}>
-            ৳{product.priceBDT.toLocaleString()}
+        {/* Subtle quick-look hover bar at bottom */}
+        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#241E1A]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-between text-[#F2EDE4]">
+          <span className="text-[10px] uppercase tracking-[0.2em] font-medium">
+            Explore Piece
           </span>
-          {product.originalPriceBDT && (
-            <span className="text-[11px] text-neutral-400 line-through">
-              ৳{product.originalPriceBDT.toLocaleString()}
+          <ArrowUpRight size={14} />
+        </div>
+      </Link>
+
+      {/* ── PRODUCT INFORMATION (Unboxed, generous whitespace) ── */}
+      <div className="mt-3.5 flex flex-col">
+        <div className="flex items-baseline justify-between gap-2">
+          <Link
+            href={`/products/${product.slug}`}
+            className="font-serif text-sm sm:text-base text-[#241E1A] hover:text-[#686B5E] transition-colors leading-snug line-clamp-1"
+          >
+            {product.nameEn}
+          </Link>
+          <span className="text-xs sm:text-sm font-sans font-medium text-[#241E1A] whitespace-nowrap tracking-wide">
+            BDT {product.priceBDT.toLocaleString()}
+          </span>
+        </div>
+
+        {/* Material & Tailoring note */}
+        <div className="flex items-center justify-between text-[11px] text-[#686B5E] tracking-wider mt-1">
+          <span className="truncate max-w-[200px]">{product.material}</span>
+          {product.colors && product.colors.length > 1 && (
+            <span className="text-[10px] text-[#B8B0A3] uppercase">
+              {product.colors.length} shades
             </span>
           )}
         </div>

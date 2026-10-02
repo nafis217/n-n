@@ -44,6 +44,7 @@ interface CartState {
 
   // Drawer Controls
   openDrawer: () => void;
+  openCart: () => void;
   closeDrawer: () => void;
   toggleDrawer: () => void;
 
@@ -218,6 +219,7 @@ export const useCartStore = create<CartState>()(
       },
 
       openDrawer: () => set({ isDrawerOpen: true }),
+      openCart: () => set({ isDrawerOpen: true }),
       closeDrawer: () => set({ isDrawerOpen: false }),
       toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
 
