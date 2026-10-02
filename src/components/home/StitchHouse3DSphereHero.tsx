@@ -206,6 +206,18 @@ export const StitchHouse3DSphereHero: React.FC = () => {
   const [isGridView, setIsGridView] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  // Keep refs for loop so useEffect doesn't constantly unmount/remount
+  const isHoveredRef = useRef(false);
+  const activeItemRef = useRef<TailoringPlate | null>(null);
+
+  useEffect(() => {
+    isHoveredRef.current = isHovered;
+  }, [isHovered]);
+
+  useEffect(() => {
+    activeItemRef.current = activeItem;
+  }, [activeItem]);
+
   // State refs for silky smooth 120fps animation loop
   const animState = useRef({
     R: 280,
@@ -283,12 +295,11 @@ export const StitchHouse3DSphereHero: React.FC = () => {
       rafId = requestAnimationFrame(render);
       const s = animState.current;
 
-      // CONTINUOUS SMOOTH 3D ROTATION
-      if (!s.isDragging && !activeItem) {
-        // Slow down slightly on hover for luxurious tactility
-        const rotSpeed = isHovered ? 0.08 : 0.14;
-        s.spin += rotSpeed;
-        s.dragX += s.velX;
+      // CONTINUOUS UNINTERRUPTED SMOOTH 3D ROTATION
+      if (!s.isDragging && !activeItemRef.current) {
+        const rotSpeed = isHoveredRef.current ? 0.08 : 0.12;
+        s.spin = (s.spin + rotSpeed) % 360;
+        s.dragX = (s.dragX + s.velX) % 360;
         s.dragY += s.velY;
         s.velX *= 0.94;
         s.velY *= 0.94;
@@ -306,7 +317,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
       }
 
       const sx = s.tilt + s.dragY;
-      const sy = s.spin + s.dragX;
+      const sy = (s.spin + s.dragX) % 360;
 
       if (worldRef.current) {
         worldRef.current.style.transform = `translateZ(${s.camZ.toFixed(2)}px) rotateY(${sy.toFixed(2)}deg) rotateX(${sx.toFixed(2)}deg)`;
@@ -340,7 +351,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
           fade = Math.max(0, 1 - (absZ - near) / 190);
         }
 
-        if (activeItem) {
+        if (activeItemRef.current) {
           dim = Math.min(1, dim + 0.78);
         }
 
@@ -362,7 +373,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', measure);
     };
-  }, [activeItem, isHovered]);
+  }, []);
 
   // Pointer interactions
   const handlePointerDown = (e: React.PointerEvent) => {
