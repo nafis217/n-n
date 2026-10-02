@@ -18,9 +18,14 @@ import {
   RefreshCw,
   Save,
   X,
+  Sliders,
+  Palette,
+  Film,
+  Globe2,
 } from 'lucide-react';
 import { toast } from '@/lib/store/toast';
 import { useCMSStore, CampaignBanner, INITIAL_CMS_BANNERS } from '@/lib/store/cms';
+import { useBannerStore, HeroBannerStyle } from '@/lib/store/bannerStore';
 
 const DEFAULT_GALLERY_IMAGES = [
   { url: '/images/products/architectural-black-suit-1.jpg', label: 'Black Suit — Front Stance' },
@@ -51,11 +56,86 @@ const DEFAULT_GALLERY_IMAGES = [
 
 export const CMSClientManager: React.FC = () => {
   const { banners, updateBanner, addBanner, deleteBanner, toggleBannerActive } = useCMSStore();
+  const bannerStore = useBannerStore();
+
   const [selectedBanner, setSelectedBanner] = useState<CampaignBanner | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [filterPlacement, setFilterPlacement] = useState<string>('all');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Local state for hero customizer
+  const [heroHeadline, setHeroHeadline] = useState(bannerStore.headline);
+  const [heroSubheadline, setHeroSubheadline] = useState(bannerStore.subheadline);
+  const [heroTagline, setHeroTagline] = useState(bannerStore.tagline);
+  const [heroCtaText, setHeroCtaText] = useState(bannerStore.ctaText);
+  const [heroCtaLink, setHeroCtaLink] = useState(bannerStore.ctaLink);
+
+  useEffect(() => {
+    setHeroHeadline(bannerStore.headline);
+    setHeroSubheadline(bannerStore.subheadline);
+    setHeroTagline(bannerStore.tagline);
+    setHeroCtaText(bannerStore.ctaText);
+    setHeroCtaLink(bannerStore.ctaLink);
+  }, [bannerStore.headline, bannerStore.subheadline, bannerStore.tagline, bannerStore.ctaText, bannerStore.ctaLink]);
+
+  const handleSaveHeroCustomizer = (e: React.FormEvent) => {
+    e.preventDefault();
+    bannerStore.updateConfig({
+      headline: heroHeadline,
+      subheadline: heroSubheadline,
+      tagline: heroTagline,
+      ctaText: heroCtaText,
+      ctaLink: heroCtaLink,
+    });
+    toast.success('Hero Banner Updated', 'New typography & CTA links are live across the homepage.');
+  };
+
+  const handleSelectHeroStyle = (style: HeroBannerStyle) => {
+    bannerStore.setActiveStyle(style);
+    toast.success(
+      'Hero Style Activated',
+      style === 'sphere'
+        ? '3D Interactive Fibonacci Sphere is now the active homepage hero.'
+        : style === 'editorial'
+        ? 'Editorial Lookbook Split is now the active homepage hero.'
+        : 'Cinematic Atelier Video is now the active homepage hero.'
+    );
+  };
+
+  const HERO_STYLES: Array<{
+    id: HeroBannerStyle;
+    name: string;
+    badge: string;
+    description: string;
+    previewImg: string;
+    features: string[];
+  }> = [
+    {
+      id: 'sphere',
+      name: '3D Interactive Fibonacci Sphere',
+      badge: 'Signature Atelier 3D',
+      description: 'Dynamic 3D rotating photo sphere of 21 editorial assets with physics drag, modal zoom, and centered stacked typography.',
+      previewImg: '/images/user_portrait.jpg',
+      features: ['120 FPS Delta Momentum', 'Interactive Card Focus', 'Ultra-fast sub-50ms render', 'Mobile touch drag'],
+    },
+    {
+      id: 'editorial',
+      name: 'Editorial Lookbook Split',
+      badge: 'High-Fashion Quiet Luxury',
+      description: 'Asymmetric high-fashion magazine layout with 3 interactive capsule collection tabs (Formalwear, Atelier, Outerwear) and material callout chips.',
+      previewImg: '/images/products/architectural-black-suit-1.jpg',
+      features: ['3 Interactive Capsule Tabs', 'Material Spec Floating Chips', 'High-res Campaign Photography', 'Direct Add to Cart'],
+    },
+    {
+      id: 'cinematic',
+      name: 'Cinematic Atelier Video Film',
+      badge: 'Runway & Atmosphere',
+      description: 'Full-bleed high-definition video backdrop with play/mute controls, centered quiet-luxury overlay, and bottom lookbook quick-shop strip.',
+      previewImg: '/images/products/architectural-black-suit-full.jpg',
+      features: ['Full-Bleed Video Stream', 'Audio Mute/Play Controls', 'Bottom Quick-Shop Strip', 'High Ambient Mood'],
+    },
+  ];
 
   const handleOpenAddModal = () => {
     const newBanner: CampaignBanner = {
@@ -141,24 +221,24 @@ export const CMSClientManager: React.FC = () => {
   });
 
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-12">
       {/* Top Header Section */}
       <div className="border-b border-neutral-200 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="font-mono text-xs text-neutral-500 uppercase font-medium tracking-wider">
-              Storefront CMS
+              Storefront CMS Studio
             </span>
             <span className="text-neutral-300">•</span>
             <span className="font-mono text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 border border-emerald-200 uppercase font-medium">
-              Live Engine Active
+              Real-time Sync Active
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl uppercase font-semibold text-black tracking-tight">
-            Website Banners &amp; Campaign Editor
+            Homepage Hero &amp; Banners Manager
           </h1>
           <p className="text-xs text-neutral-500 font-sans mt-1">
-            Manage hero drops, editorial split banners, lookbooks, and top promotions directly across the storefront.
+            Choose your primary storefront Hero Banner style, customize live copy, and manage secondary campaign drops.
           </p>
         </div>
 
@@ -169,7 +249,7 @@ export const CMSClientManager: React.FC = () => {
             className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-neutral-300 text-black text-xs font-mono uppercase tracking-wider hover:bg-neutral-50 transition-colors"
           >
             <Eye className="w-3.5 h-3.5" />
-            Live Preview
+            View Storefront
           </Link>
 
           <button
@@ -178,13 +258,239 @@ export const CMSClientManager: React.FC = () => {
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-black text-white text-xs font-mono uppercase tracking-widest hover:bg-neutral-800 transition-colors shadow-sm cursor-pointer"
           >
             <Plus className="w-4 h-4" />
-            + ADD HERO CAMPAIGN
+            + New Campaign Banner
           </button>
         </div>
       </div>
 
-      {/* Placement Filters & Metric Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-neutral-50 p-4 border border-neutral-200">
+      {/* ─────────────────────────────────────────────────────────
+          SECTION 1: HERO BANNER STUDIO (STYLE SWITCHER & LIVE EDITOR)
+      ───────────────────────────────────────────────────────── */}
+      <section className="bg-neutral-900 text-white p-6 sm:p-8 border border-neutral-800 shadow-xl space-y-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-5">
+          <div>
+            <div className="flex items-center gap-2 text-neutral-400 font-mono text-xs uppercase tracking-widest mb-1">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>Interactive Hero Studio</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-white">
+              Homepage Hero Banner Styles (Choose &amp; Customize)
+            </h2>
+            <p className="text-xs text-neutral-400 font-sans mt-1">
+              Switch between 3 tailor-made, high-fashion hero designs. The selected design updates live on the customer-facing home page.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs text-neutral-400 uppercase">Active Hero:</span>
+            <span className="font-mono text-xs uppercase bg-white text-black px-3 py-1 font-bold tracking-wider">
+              {bannerStore.activeStyle.toUpperCase()}
+            </span>
+          </div>
+        </div>
+
+        {/* 3 Hero Banner Style Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {HERO_STYLES.map((style) => {
+            const isActive = bannerStore.activeStyle === style.id;
+            return (
+              <div
+                key={style.id}
+                className={`relative flex flex-col justify-between bg-neutral-950 border transition-all duration-300 p-5 ${
+                  isActive
+                    ? 'border-white ring-2 ring-white/30 shadow-2xl scale-[1.01]'
+                    : 'border-neutral-800 hover:border-neutral-600 opacity-80 hover:opacity-100'
+                }`}
+              >
+                <div>
+                  {/* Top Bar with Badge */}
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="font-mono text-[10px] uppercase px-2 py-0.5 bg-neutral-800 text-neutral-300 border border-neutral-700">
+                      {style.badge}
+                    </span>
+                    {isActive ? (
+                      <span className="inline-flex items-center gap-1 font-mono text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 border border-emerald-500/40">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Currently Active
+                      </span>
+                    ) : (
+                      <span className="font-mono text-[10px] uppercase text-neutral-500">Available</span>
+                    )}
+                  </div>
+
+                  {/* Thumbnail / Visual Mock */}
+                  <div className="relative aspect-video w-full overflow-hidden bg-neutral-900 border border-neutral-800 mb-4 group">
+                    <img
+                      src={style.previewImg}
+                      alt={style.name}
+                      className="w-full h-full object-cover object-top opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/30 to-transparent" />
+                    <div className="absolute bottom-2 left-2 right-2">
+                      <p className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+                        {style.name}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-xs text-neutral-400 leading-relaxed mb-4">
+                    {style.description}
+                  </p>
+
+                  {/* Features List */}
+                  <div className="space-y-1.5 mb-6 border-t border-neutral-800/80 pt-3">
+                    {style.features.map((feat, i) => (
+                      <div key={i} className="flex items-center gap-2 text-[11px] font-mono text-neutral-300">
+                        <span className="text-neutral-500">•</span>
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Switch Action */}
+                <div className="pt-3 border-t border-neutral-800">
+                  {isActive ? (
+                    <div className="w-full py-2.5 text-center font-mono text-xs uppercase bg-white text-black font-bold tracking-wider">
+                      ✓ Active on Storefront
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleSelectHeroStyle(style.id)}
+                      className="w-full py-2.5 text-center font-mono text-xs uppercase bg-neutral-800 text-white font-medium tracking-wider hover:bg-neutral-700 hover:text-white transition-colors border border-neutral-700 cursor-pointer"
+                    >
+                      Set as Primary Hero
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Hero Banner Text & Link Customizer Form */}
+        <form
+          onSubmit={handleSaveHeroCustomizer}
+          className="bg-neutral-950 border border-neutral-800 p-6 space-y-6"
+        >
+          <div className="flex items-center justify-between border-b border-neutral-800 pb-4">
+            <div className="flex items-center gap-2">
+              <Sliders className="w-4 h-4 text-neutral-400" />
+              <h3 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
+                Customize Active Hero Content
+              </h3>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                bannerStore.resetDefaults();
+                toast.info('Reset to Defaults', 'Original brand copy restored.');
+              }}
+              className="text-[11px] font-mono uppercase text-neutral-400 hover:text-white underline underline-offset-4"
+            >
+              Reset to Atelier Defaults
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-1.5">
+              <label className="text-xs font-mono uppercase text-neutral-400 block">
+                Top Tagline / Badge
+              </label>
+              <input
+                type="text"
+                value={heroTagline}
+                onChange={(e) => setHeroTagline(e.target.value)}
+                placeholder="e.g. COLLECTION VOL. 04 / BESPOKE ATELIER"
+                className="w-full px-3 py-2.5 bg-neutral-900 border border-neutral-700 text-sm font-mono text-white focus:outline-none focus:border-white"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-mono uppercase text-neutral-400 block">
+                Main Headline
+              </label>
+              <input
+                type="text"
+                value={heroHeadline}
+                onChange={(e) => setHeroHeadline(e.target.value)}
+                placeholder="e.g. QUIETLY REFINED."
+                className="w-full px-3 py-2.5 bg-neutral-900 border border-neutral-700 text-sm font-serif italic text-white focus:outline-none focus:border-white"
+              />
+            </div>
+
+            <div className="space-y-1.5 md:col-span-2">
+              <label className="text-xs font-mono uppercase text-neutral-400 block">
+                Subheadline / Brand Statement
+              </label>
+              <textarea
+                rows={2}
+                value={heroSubheadline}
+                onChange={(e) => setHeroSubheadline(e.target.value)}
+                placeholder="Modern menswear shaped by timeless proportions, natural fibers, and architectural tailoring."
+                className="w-full px-3 py-2.5 bg-neutral-900 border border-neutral-700 text-sm text-neutral-200 focus:outline-none focus:border-white resize-none"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-mono uppercase text-neutral-400 block">
+                Primary CTA Button Label
+              </label>
+              <input
+                type="text"
+                value={heroCtaText}
+                onChange={(e) => setHeroCtaText(e.target.value)}
+                placeholder="e.g. Explore Collection"
+                className="w-full px-3 py-2.5 bg-neutral-900 border border-neutral-700 text-sm font-mono text-white focus:outline-none focus:border-white"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-mono uppercase text-neutral-400 block">
+                CTA Target Route / Link
+              </label>
+              <input
+                type="text"
+                value={heroCtaLink}
+                onChange={(e) => setHeroCtaLink(e.target.value)}
+                placeholder="e.g. /collections/new-arrivals"
+                className="w-full px-3 py-2.5 bg-neutral-900 border border-neutral-700 text-sm font-mono text-white focus:outline-none focus:border-white"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-4 border-t border-neutral-800">
+            <p className="text-[11px] font-mono text-neutral-500">
+              Changes take effect instantly on client devices upon saving.
+            </p>
+            <button
+              type="submit"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-black text-xs font-mono uppercase font-bold tracking-widest hover:bg-neutral-200 transition-colors cursor-pointer"
+            >
+              <Save className="w-3.5 h-3.5" />
+              Save Hero Banner Copy
+            </button>
+          </div>
+        </form>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────
+          SECTION 2: ALL PROMOTIONAL & CAMPAIGN BANNERS
+      ───────────────────────────────────────────────────────── */}
+      <section className="space-y-6">
+        <div>
+          <h2 className="text-lg font-mono uppercase font-bold text-black tracking-tight">
+            Secondary Campaign Banners &amp; Lookbooks
+          </h2>
+          <p className="text-xs text-neutral-500 font-sans mt-0.5">
+            Manage additional seasonal drops, mid-page editorial splits, and promotional announcements.
+          </p>
+        </div>
+
+        {/* Placement Filters & Metric Bar */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-neutral-50 p-4 border border-neutral-200">
         <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
           {[
             { id: 'all', label: 'All Placements' },
@@ -317,6 +623,7 @@ export const CMSClientManager: React.FC = () => {
           </div>
         ))}
       </div>
+      </section>
 
       {/* ─────────────────────────────────────────────────────────
           CAMPAIGN CREATOR & BANNER EDITOR MODAL

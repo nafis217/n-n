@@ -1,287 +1,1927 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#000000">
-<title>STITCH — Quietly Refined. Distinctly Yours.</title>
-<script>
-/* adds .is-entering only when the entrance can actually run; failsafe shows the static page after 2.6 s */
-(function(d){try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'animate' in Element.prototype){d.classList.add('is-entering');setTimeout(function(){if(!window.__soscaleEntrance)d.classList.remove('is-entering')},2600);}}catch(e){}})(document.documentElement);
-</script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&family=JetBrains+Mono:wght@100..800&display=swap');
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ethan Vale — I See Through the Wild</title>
+  <meta name="description" content="Wildlife photography archive by Ethan Vale. Field notes from natural encounters, captured without intervention.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --ink: #f4f2ef;
+      --dim: #8c8783;
+      --line: rgba(244, 242, 239, .28);
+      --pad: clamp(14px, 2.6vw, 34px);
+      --ease: cubic-bezier(.22, .61, .36, 1);
+      --hw: min(56vw, 640px);
+      --persp: 1150px;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --tap: 44px;
+      --serif: "Playfair Display", "Times New Roman", serif;
+      --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
 
-:root{
-  --u:min(calc(100vw / 1280),calc(100vh / 640));
-  --u:min(calc(100vw / 1280),calc(100svh / 640));
-  --frame-w:calc(1280 * var(--u));
-  --frame-x:calc(50% - 640 * var(--u));
-  --cu:var(--u);--hb:var(--u);--tb:var(--u);--nu:var(--u);
-  --layout:desktop;
-  --strip-top:calc(120 * var(--u));
-  --strip-w:var(--frame-w);
-  --strip-bot:calc(10 * var(--u));
-  --lilac:#DEC1FC;--green:#00B67A;--nav:#c2c2c2;--ink:#1a0b1f;
-}
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#000;overflow:hidden;overscroll-behavior:none}
-body{font-family:"Hanken Grotesk","Hanken",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:geometricPrecision}
-a{color:inherit;text-decoration:none}
-ul{list-style:none}
-:focus-visible{outline:2px solid var(--lilac);outline-offset:3px;border-radius:2px}
+    html {
+      background: #000;
+      scrollbar-gutter: stable;
+    }
 
-/* Stage and video layers */
-.stage{position:relative;width:100%;height:100vh;height:100svh;overflow:hidden;background:#000;isolation:isolate}
-.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:54% 50%;z-index:0;user-select:none;-webkit-user-drag:none;pointer-events:none}
-.photo.is-placed{inset:auto;object-fit:fill;max-width:none}
-.lift{position:absolute;left:0;right:0;top:0;height:var(--band-h,calc(320 * var(--u)));z-index:1;pointer-events:none;background:rgba(150,118,104,.30);mix-blend-mode:screen}
-.shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:none}
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      overflow-x: hidden;
+      min-height: 100vh;
+      min-height: 100dvh;
+      overscroll-behavior-y: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-/* Black band with the knocked-out wordmark */
-.band{position:absolute;left:0;right:0;top:0;z-index:2;display:grid;
-  grid-template-columns:1fr var(--strip-w) 1fr;
-  grid-template-rows:var(--strip-top) calc(var(--strip-w) * 190 / 1280) var(--strip-bot)}
-.band>span{background:#000}
-.band .band-top,.band .band-bot{grid-column:1/-1}
-.band h1{grid-column:2;grid-row:2;position:relative;font-size:0;line-height:0}
-.band svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;display:block}
+    body.locked {
+      overflow: hidden;
+      height: 100vh;
+      height: 100dvh;
+    }
 
-/* Navigation */
-.nav{position:absolute;top:0;left:var(--frame-x);width:var(--frame-w);height:calc(100 * var(--u));z-index:4}
-.nav .col{position:absolute;font-weight:250;font-size:calc(14.286 * var(--nu));line-height:calc(18 * var(--nu));white-space:nowrap;color:var(--nav)}
-.nav .col a{display:inline-block;letter-spacing:calc(var(--ls) * var(--nu));transition:opacity .15s}
-.nav .col a:hover{opacity:.6}
-.tagline{position:absolute;left:calc(509 * var(--u));top:calc(11.357 * var(--u));font-weight:250;font-size:calc(14.286 * var(--nu));line-height:calc(14.286 * var(--nu));letter-spacing:calc(-1.532 * var(--nu));word-spacing:calc(3.44 * var(--nu));white-space:nowrap;color:var(--nav)}
-.cta{position:absolute;left:calc(1067.5 * var(--u));top:calc(9.5 * var(--u));width:calc(199.5 * var(--cu));height:calc(28.5 * var(--cu));background:var(--lilac);color:var(--ink);border-radius:calc(2 * var(--cu));white-space:nowrap;transition:filter .15s}
-.cta b{font-weight:inherit}
-.cta:hover{filter:brightness(1.06)}
-.cta svg{position:absolute;left:calc(10 * var(--cu));top:calc(10 * var(--cu));width:calc(10 * var(--cu));height:calc(10 * var(--cu))}
-.cta span{position:absolute;left:calc(25.5 * var(--cu));top:calc(8.357 * var(--cu));font-weight:280;font-size:calc(14.286 * var(--cu));line-height:calc(14.286 * var(--cu));letter-spacing:calc(-1.042 * var(--cu));word-spacing:calc(3.2 * var(--cu))}
-.menu-btn{display:none}
-.nav-links{display:contents}
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
-/* Hero copy */
-.copy{position:absolute;left:var(--frame-x);width:var(--frame-w);bottom:0;height:calc(100 * var(--u));z-index:3}
-.headline{position:absolute;left:calc(378 * var(--u));top:calc(21.715 * var(--u));font-weight:290;font-size:calc(28.571 * var(--hb));line-height:calc(28.571 * var(--hb));letter-spacing:calc(-0.896 * var(--hb));word-spacing:calc(5.62 * var(--hb));white-space:nowrap}
-.tp{position:absolute;left:calc(478 * var(--u));top:calc(66 * var(--u));width:calc(320 * var(--tb));height:calc(19 * var(--tb));display:block}
-.tp svg{position:absolute;left:0;top:0;width:calc(160 * var(--tb));height:calc(19 * var(--tb));overflow:visible}
-.tp .tp-word{position:absolute;left:calc(17 * var(--tb));top:calc(5.257 * var(--tb));font-weight:500;font-size:calc(12.286 * var(--tb));line-height:calc(12.286 * var(--tb));letter-spacing:calc(-0.149 * var(--tb));white-space:nowrap;color:#fff}
-.tp .tp-meta{position:absolute;left:calc(172.5 * var(--tb));top:calc(4.015 * var(--tb));font-family:"JetBrains Mono","JBMono",ui-monospace,Menlo,monospace;font-weight:400;font-size:calc(11.37 * var(--tb));line-height:calc(11.37 * var(--tb));letter-spacing:calc(-0.268 * var(--tb));white-space:nowrap;color:#FFFEF7}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+    button {
+      font-family: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
 
-/* Entrance pre-state */
-.lid{opacity:0;transform-box:fill-box;transform-origin:50% 0}
-.is-entering .lid{opacity:1}
-.is-entering :is(.nav .col,.menu-btn,.tagline,.cta,.headline,.tp){opacity:0}
+    a {
+      color: inherit;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-/* Responsive: Tablet */
-@media (max-width:1074.98px),(max-height:537.98px){
-  :root{
-    --layout:tablet;
-    --pad:clamp(20px,3.2vw,32px);
-    --nu:1px;--cu:1px;--hb:1px;--tb:1px;
-    --head-h:72px;
-    --strip-top:var(--head-h);
-    --strip-w:min(100vw,calc((100svh - var(--head-h)) * .3 * 1280 / 190));
-    --strip-bot:calc(var(--strip-w) * 10 / 1280);
-  }
-  .nav{left:0;width:100%;height:var(--head-h);padding:0 var(--pad);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:16px}
-  .menu-btn{display:inline-flex;justify-self:start;align-items:center;gap:10px;min-height:44px;background:none;border:0;color:var(--nav);font-family:inherit;font-weight:250;font-size:calc(14.286 * var(--nu));line-height:1;letter-spacing:calc(-1.252 * var(--nu));cursor:pointer;padding:0 8px 0 0;-webkit-tap-highlight-color:transparent}
-  .menu-btn i{position:relative;display:block;width:18px;height:7px}
-  .menu-btn i::before,.menu-btn i::after{content:"";position:absolute;left:0;right:0;height:1px;background:currentColor;transition:transform .22s ease}
-  .menu-btn i::before{top:0}
-  .menu-btn i::after{bottom:0}
-  .nav.is-open .menu-btn i::before{transform:translateY(3px) rotate(45deg)}
-  .nav.is-open .menu-btn i::after{transform:translateY(-3px) rotate(-45deg)}
-  .tagline{position:static;justify-self:center}
-  .cta{position:relative;left:auto;top:auto;justify-self:end;flex:none}
-  .cta::after{content:"";position:absolute;inset:-8px -6px}
-  .nav-links{display:grid;position:absolute;top:var(--head-h);left:0;right:0;z-index:5;grid-template-columns:repeat(3,max-content);column-gap:clamp(40px,7vw,88px);padding:0 var(--pad) 24px;background:#000;
-    visibility:hidden;clip-path:inset(0 0 100% 0);transition:clip-path .26s cubic-bezier(.2,.7,.2,1),visibility 0s linear .26s}
-  .nav.is-open .nav-links{visibility:visible;clip-path:inset(0);transition:clip-path .26s cubic-bezier(.2,.7,.2,1)}
-  .nav .col{position:static}
-  .nav .col a{padding:12px 0}
-  .copy{left:0;width:100%;height:auto;bottom:calc(15 * var(--tb) + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:calc(15.7 * var(--hb));padding:0 var(--pad)}
-  .headline,.tp{position:relative;left:auto;top:auto}
-  .tp{width:calc(320 * var(--tb));margin-left:calc(-2 * var(--tb))}
-}
+    /* ── 1. SCROLL TRACK ── */
+    #scrolltrack {
+      height: 116vh;
+      pointer-events: none;
+    }
 
-/* Responsive: Mobile */
-@media (max-width:559.98px){
-  :root{
-    --layout:mobile;
-    --pad:clamp(14px,4.2vw,22px);
-    --head-h:64px;
-    --tag-row:30px;
-    --cu:min(1px,calc((100vw - 2 * var(--pad) - 88px) / 199.5));
-    --hb:min(1.1px,calc((100vw - 2 * var(--pad)) / 300));
-    --tb:min(1px,calc((100vw - 2 * var(--pad)) / 322));
-    --strip-top:calc(var(--head-h) + var(--tag-row));
-    --strip-w:calc((100vw - 2 * var(--pad)) * 1280 / 1259);
-    --strip-bot:10px;
-  }
-  .nav{height:auto;grid-template-columns:1fr auto;grid-template-rows:var(--head-h) var(--tag-row);column-gap:12px}
-  .menu-btn{grid-column:1;grid-row:1}
-  .cta{grid-column:2;grid-row:1}
-  .tagline{grid-column:1/-1;grid-row:2;align-self:start;justify-self:center;margin-top:2px}
-  .nav-links{column-gap:clamp(12px,5vw,40px);padding-bottom:20px}
-  .copy{bottom:calc(max(18px,env(safe-area-inset-bottom)) + 6px);gap:16px}
-  .headline{white-space:normal;text-align:center;text-wrap:balance;max-width:calc(318 * var(--hb));line-height:1.08}
-  .lift{background:rgba(150,118,104,.52)}
-}
+    /* ── 2. 3D STAGE & WORLD ── */
+    #stage {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      perspective: var(--persp);
+      perspective-origin: 50% 50%;
+      overflow: hidden;
+      touch-action: none;
+      transition: opacity .6s ease, filter .6s ease;
+    }
 
-@media (hover:none){ .nav .col a:hover{opacity:1} .cta:hover{filter:none} }
-@media (prefers-reduced-motion:reduce){ .nav-links,.nav.is-open .nav-links,.menu-btn i::before,.menu-btn i::after{transition:none} }
-</style>
+    @media (pointer: coarse) {
+      #stage {
+        touch-action: pan-y;
+      }
+    }
+
+    body.gridview #stage {
+      opacity: 0;
+      filter: blur(14px);
+      pointer-events: none;
+    }
+
+    #world {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    #orb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+      opacity: 1;
+      transform: none;
+    }
+
+    #headline {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--hw);
+      margin-left: calc(var(--hw) / -2);
+      text-align: center;
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(25px, 3.7vw, 55px);
+      line-height: 1.06;
+      letter-spacing: -.005em;
+      color: #fff;
+      text-shadow: 0 2px 34px rgba(0, 0, 0, .55);
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+      will-change: transform, opacity;
+    }
+
+    #headline .inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+    }
+
+    #headline .w {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(.42em);
+      filter: blur(7px);
+      transition: opacity 1.05s var(--ease), transform 1.15s var(--ease), filter 1.05s var(--ease);
+      transition-delay: calc(.9s + var(--i) * .085s);
+    }
+
+    body.revealed #headline .w {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+
+    /* ── 3D CARDS ── */
+    .card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(var(--cw, 140px) * 1px);
+      height: calc(var(--cw, 140px) / 1.5 * 1px);
+      margin-left: calc(var(--cw, 140px) / -2 * 1px);
+      margin-top: calc(var(--cw, 140px) / -3 * 1px);
+      transform-style: preserve-3d;
+      cursor: pointer;
+      will-change: transform, opacity;
+    }
+
+    .card.tall {
+      height: calc(var(--cw, 140px) * 1.25 * 1px);
+      margin-top: calc(var(--cw, 140px) * -0.625 * 1px);
+    }
+
+    .card figure {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 3px;
+      background: #0a0a0a;
+      transform-style: flat;
+      transition: transform .5s var(--ease);
+    }
+
+    .card:hover figure {
+      transform: scale(1.045);
+    }
+
+    .card figure img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity .8s ease-out;
+    }
+
+    .card figure img.in {
+      opacity: 1;
+    }
+
+    .card figure::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, var(--d, 0));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07);
+      border-radius: 3px;
+      pointer-events: none;
+      transition: background .12s linear;
+    }
+
+    /* ── 3. VIGNETTE ── */
+    .vig {
+      position: fixed;
+      inset: 0;
+      z-index: 12;
+      pointer-events: none;
+      background: radial-gradient(ellipse 88% 92% at 50% 50%, transparent 48%, rgba(0, 0, 0, .26) 80%, rgba(0, 0, 0, .72) 100%);
+      transition: opacity .6s ease;
+    }
+
+    body.gridview .vig, body.lit .vig {
+      opacity: 0;
+    }
+
+    /* ── 4. CHROME ELEMENTS (FADE IN WHEN REVEALED) ── */
+    .chrome {
+      opacity: 0;
+      transition: opacity 1.2s var(--ease) .15s, transform 1.2s var(--ease) .15s;
+    }
+
+    body.revealed .chrome {
+      opacity: 1;
+    }
+
+    /* HEADER */
+    header.chrome {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 60;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-top: calc(var(--pad) * .8 + var(--safe-top));
+      padding-right: calc(var(--pad) + var(--safe-right));
+      padding-bottom: calc(var(--pad) * .35);
+      padding-left: calc(var(--pad) + var(--safe-left));
+      mix-blend-mode: difference;
+    }
+
+    header.chrome a.wordmark {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(19px, 2.1vw, 27px);
+      letter-spacing: .005em;
+      line-height: 1;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    header.chrome a.wordmark em {
+      font-style: normal;
+    }
+
+    button#menuBtn.menu-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+      min-width: var(--tap);
+      min-height: var(--tap);
+      padding: 8px 0 4px;
+    }
+
+    .menu-label {
+      font-size: clamp(12px, 1.25vw, 15px);
+      letter-spacing: .01em;
+      color: #fff;
+      transition: opacity .35s ease;
+    }
+
+    .bars {
+      position: relative;
+      width: clamp(42px, 4.4vw, 62px);
+      height: clamp(16px, 2vw, 22px);
+    }
+
+    .bars i {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: #fff;
+      transition: transform .35s var(--ease), width .35s var(--ease);
+    }
+
+    .bars i:first-child {
+      transform: translateY(-5px);
+    }
+
+    .bars i:last-child {
+      width: clamp(34px, 3.6vw, 50px);
+      left: auto;
+      transform: translateY(5px);
+    }
+
+    button#menuBtn:hover .bars i:last-child {
+      transform: translateY(5px) translateX(-8px);
+    }
+
+    body.menu-open header.chrome {
+      z-index: 90;
+      mix-blend-mode: normal;
+    }
+
+    body.menu-open header.chrome a.wordmark {
+      color: var(--ink);
+    }
+
+    body.menu-open .menu-label {
+      opacity: 0;
+    }
+
+    body.menu-open .bars i {
+      background: var(--ink);
+      width: 100%;
+    }
+
+    body.menu-open .bars i:first-child {
+      transform: translateY(0) rotate(45deg);
+    }
+
+    body.menu-open .bars i:last-child {
+      transform: translateY(0) rotate(-45deg);
+    }
+
+    /* PHOTOGRAPHER CARD */
+    .bio.chrome {
+      position: fixed;
+      left: calc(var(--pad) + var(--safe-left));
+      bottom: calc(var(--pad) + var(--safe-bottom));
+      z-index: 55;
+      max-width: min(320px, 46vw);
+      transition: opacity .4s ease, transform .4s ease;
+    }
+
+    .bio .who {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    #avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 3px;
+      object-fit: cover;
+      filter: grayscale(.15);
+    }
+
+    .bio .who b {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 19px;
+      letter-spacing: .01em;
+      color: var(--ink);
+    }
+
+    .bio p {
+      font-size: 12.5px;
+      line-height: 1.62;
+      color: rgba(244, 242, 239, .72);
+    }
+
+    body.deep .bio.chrome,
+    body.gridview .bio.chrome,
+    body.lit .bio.chrome {
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+    }
+
+    /* COLOPHON */
+    .colophon.chrome {
+      position: fixed;
+      right: calc(var(--pad) + var(--safe-right));
+      bottom: calc(var(--pad) + var(--safe-bottom));
+      z-index: 55;
+      font-size: 12.5px;
+      color: rgba(244, 242, 239, .72);
+      transition: opacity .4s ease;
+    }
+
+    body.gridview .colophon.chrome,
+    body.lit .colophon.chrome {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* GRID TOGGLE BUTTON */
+    button#gridBtn.gridbtn {
+      position: fixed;
+      left: calc(var(--pad) + var(--safe-left));
+      bottom: calc(var(--pad) + var(--safe-bottom));
+      z-index: 56;
+      width: 44px;
+      height: 44px;
+      padding: 5px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity .4s ease, transform .4s ease;
+    }
+
+    button#gridBtn.gridbtn b {
+      display: block;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: background .2s ease, transform .3s var(--ease);
+    }
+
+    button#gridBtn:hover b {
+      background: #fff;
+      transform: scale(.86);
+    }
+
+    body.deep button#gridBtn.gridbtn,
+    body.gridview button#gridBtn.gridbtn {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    body.gridview button#gridBtn.gridbtn b:nth-child(1) {
+      transform: translate(3px, 3px);
+    }
+
+    body.gridview button#gridBtn.gridbtn b:nth-child(4) {
+      transform: translate(-3px, -3px);
+    }
+
+    /* SCROLL CUE */
+    .cue.chrome {
+      position: fixed;
+      left: 50%;
+      bottom: calc(var(--pad) + var(--safe-bottom) + 4px);
+      transform: translateX(-50%);
+      z-index: 54;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .24em;
+      color: rgba(244, 242, 239, .42);
+      white-space: nowrap;
+      transition: opacity .4s ease;
+    }
+
+    .cue s {
+      position: relative;
+      display: block;
+      width: 44px;
+      height: 1px;
+      background: rgba(244, 242, 239, .28);
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .cue s::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #f4f2ef;
+      transform: translateX(-100%);
+      animation: sweep 2.6s var(--ease) infinite;
+    }
+
+    @keyframes sweep {
+      0% { transform: translateX(-100%); }
+      55% { transform: translateX(0); }
+      100% { transform: translateX(100%); }
+    }
+
+    body.deep .cue.chrome,
+    body.gridview .cue.chrome,
+    body.lit .cue.chrome {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ── 5. FLAT GRID ── */
+    #grid {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      overflow-y: auto;
+      background: #000;
+      padding: calc(var(--pad) * 3.4) var(--pad) calc(var(--pad) * 4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .6s ease;
+    }
+
+    body.gridview #grid {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #grid .rows {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: clamp(10px, 1.4vw, 20px);
+      max-width: 1680px;
+      margin: 0 auto;
+    }
+
+    #grid figure {
+      position: relative;
+      aspect-ratio: 3 / 2;
+      border-radius: 3px;
+      background: #0b0b0b;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    #grid figure img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .82;
+      transition: transform .8s var(--ease), opacity .8s var(--ease);
+    }
+
+    #grid figure:hover img {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    #grid figcaption {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: 26px 14px 12px;
+      font-family: var(--serif);
+      font-size: 15px;
+      color: #fff;
+      background: linear-gradient(to top, rgba(0, 0, 0, .82), transparent);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .3s ease, transform .3s ease;
+      pointer-events: none;
+    }
+
+    #grid figure:hover figcaption {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── 6. MENU ── */
+    #menu {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: #050505;
+      display: grid;
+      place-items: center;
+      clip-path: inset(0 0 100% 0);
+      pointer-events: none;
+      transition: clip-path .85s var(--ease);
+    }
+
+    body.menu-open #menu {
+      clip-path: inset(0);
+      pointer-events: auto;
+    }
+
+    #menu nav {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(4px, 1vw, 10px);
+      text-align: center;
+    }
+
+    #menu nav a {
+      font-family: var(--serif);
+      font-size: clamp(34px, 7.6vw, 78px);
+      line-height: 1.08;
+      color: #f4f2ef;
+      text-decoration: none;
+      opacity: .55;
+      transition: opacity .35s ease, letter-spacing .35s ease;
+    }
+
+    #menu nav a:hover {
+      opacity: 1;
+      letter-spacing: .012em;
+    }
+
+    #menu .addr {
+      position: absolute;
+      left: calc(var(--pad) + var(--safe-left));
+      right: calc(var(--pad) + var(--safe-right));
+      bottom: calc(var(--pad) + var(--safe-bottom));
+      text-align: center;
+      font-size: 12.5px;
+      color: var(--dim);
+      line-height: 1.7;
+    }
+
+    /* ── 7. LIGHTBOX ── */
+    #lit {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: clamp(56px, 8vh, 84px) var(--pad);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .42s ease;
+    }
+
+    body.lit #lit {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #lit .scrim {
+      position: absolute;
+      inset: 0;
+    }
+
+    #lit .plate {
+      position: relative;
+      width: min(72vw, 860px, calc((100vh - 230px) * 1.5));
+      transition: transform .62s var(--ease), opacity .42s ease;
+      will-change: transform, opacity;
+    }
+
+    #lit .shot {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      border-radius: 2px;
+      background: #0b0b0b;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, .75);
+    }
+
+    #lit .shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+
+    #lit button.close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 12.5px;
+      min-width: var(--tap);
+      min-height: var(--tap);
+      padding: 10px 14px;
+      border: 1px solid rgba(244, 242, 239, .78);
+      border-radius: 6px;
+      background: rgba(0, 0, 0, .35);
+      color: #f4f2ef;
+      transition: border-color .2s ease, background .2s ease;
+      z-index: 2;
+    }
+
+    #lit button.close:hover {
+      border-color: #fff;
+      background: rgba(0, 0, 0, .55);
+    }
+
+    #lit .meta {
+      display: grid;
+      grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr);
+      gap: clamp(22px, 3.2vw, 48px);
+      padding-top: 16px;
+    }
+
+    #litTitle {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(22px, 2.15vw, 32px);
+      line-height: 1.08;
+      letter-spacing: -.01em;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .where#litWhere {
+      font-size: 13px;
+      color: rgba(244, 242, 239, .62);
+    }
+
+    .note#litNote {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: rgba(244, 242, 239, .92);
+    }
+
+    /* ── 8. INTRO FILM ── */
+    #intro {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: #000;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      transition: opacity .5s linear;
+    }
+
+    #intro video#film {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #intro .veil {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      opacity: 0;
+      transition: opacity 1.15s var(--ease);
+      pointer-events: none;
+    }
+
+    #intro.closing .veil {
+      opacity: 1;
+    }
+
+    #intro.gone {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    button.skip#skip {
+      position: absolute;
+      right: calc(var(--pad) + var(--safe-right));
+      bottom: calc(var(--pad) + var(--safe-bottom));
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(244, 242, 239, .6);
+      min-height: 44px;
+      padding: 10px 18px;
+      border: 1px solid rgba(244, 242, 239, .25);
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      transition: color .2s ease, border-color .2s ease, opacity .3s ease;
+      z-index: 10;
+    }
+
+    button.skip#skip:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, .7);
+    }
+
+    #intro.closing button.skip#skip {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #intro .fallback {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 46%, #14301a 0%, #060c07 42%, #000 72%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s ease;
+    }
+
+    #intro.novideo .fallback {
+      opacity: 1;
+    }
+
+    /* ── 9. SPLASH ── */
+    #splash {
+      position: fixed;
+      inset: 0;
+      z-index: 250;
+      background: #000;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 26px;
+      transition: opacity .6s var(--ease);
+    }
+
+    #splash.out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #splash .mark {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(28px, 4.4vw, 52px);
+      letter-spacing: .005em;
+      color: #f4f2ef;
+      opacity: 0;
+      animation: riseIn 1.25s var(--ease) .15s forwards;
+    }
+
+    #splash .mark em {
+      font-style: normal;
+    }
+
+    #splash .bar {
+      width: clamp(120px, 17vw, 210px);
+      height: 1px;
+      background: rgba(244, 242, 239, .16);
+      overflow: hidden;
+    }
+
+    #splash .bar s {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: #f4f2ef;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform .55s var(--ease);
+    }
+
+    #splash .tag {
+      font-size: 10px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: rgba(244, 242, 239, .38);
+      opacity: 0;
+      animation: riseIn .9s var(--ease) .7s forwards;
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(9px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* ── 10. CUSTOM CURSOR ── */
+    #dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 19px;
+      height: 19px;
+      margin-left: -9.5px;
+      margin-top: -9.5px;
+      border-radius: 50%;
+      background: rgba(214, 212, 209, .9);
+      mix-blend-mode: difference;
+      border: 1px solid transparent;
+      pointer-events: none;
+      z-index: 300;
+      transition: width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);
+      transform: translate3d(-100px, -100px, 0);
+    }
+
+    #dot.wide {
+      width: 52px;
+      height: 52px;
+      margin-left: -26px;
+      margin-top: -26px;
+      background: rgba(244, 242, 239, .14);
+      border-color: rgba(244, 242, 239, .75);
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      #dot {
+        display: none !important;
+      }
+    }
+
+    /* ── RESPONSIVE BREAKPOINTS ── */
+    @media (max-width: 900px) {
+      .bio.chrome {
+        max-width: min(420px, calc(100vw - var(--pad) * 2 - var(--safe-left) - var(--safe-right)));
+      }
+      .bio p {
+        font-size: 12px;
+      }
+      .colophon.chrome {
+        font-size: 11px;
+      }
+      #lit .meta {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding-top: 14px;
+      }
+      #lit .plate {
+        width: min(92vw, calc((100dvh - 220px) * 1.5));
+      }
+      #grid .rows {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+      #grid {
+        padding-top: calc(var(--pad) * 2.8 + var(--safe-top));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .colophon.chrome {
+        display: none;
+      }
+      .bio.chrome {
+        max-width: calc(100vw - var(--pad) * 2 - var(--safe-left) - var(--safe-right));
+      }
+      #headline {
+        font-size: clamp(22px, 6.4vw, 34px);
+      }
+      #menu nav a {
+        font-size: clamp(28px, 9vw, 54px);
+      }
+      #menu .addr {
+        font-size: 11.5px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      :root {
+        --hw: min(84vw, 360px);
+        --pad: clamp(12px, 4vw, 18px);
+      }
+      #avatar {
+        width: 42px;
+        height: 42px;
+      }
+      .bio .who b {
+        font-size: 17px;
+      }
+      .bio p {
+        font-size: 11.5px;
+        line-height: 1.55;
+      }
+      .cue.chrome {
+        display: none;
+      }
+      #lit {
+        display: block;
+        overflow-y: auto;
+        padding: calc(52px + var(--safe-top)) calc(var(--pad) + var(--safe-right)) calc(var(--pad) + var(--safe-bottom)) calc(var(--pad) + var(--safe-left));
+      }
+      #lit .plate {
+        width: 100%;
+        max-width: 560px;
+        margin: 0 auto;
+      }
+      #litTitle {
+        font-size: clamp(20px, 5.6vw, 26px);
+      }
+      .note#litNote {
+        font-size: 12.5px;
+        line-height: 1.58;
+      }
+      #lit button.close {
+        top: 8px;
+        right: 8px;
+      }
+      #grid {
+        padding: calc(var(--pad) * 2.8 + var(--safe-top)) calc(var(--pad) + var(--safe-right)) calc(var(--pad) * 3 + var(--safe-bottom)) calc(var(--pad) + var(--safe-left));
+      }
+      #grid .rows {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      #grid figcaption {
+        opacity: 1;
+        transform: none;
+        font-size: 13px;
+        padding: 20px 8px 8px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      :root {
+        --hw: min(88vw, 320px);
+      }
+      .bio .who {
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+      .bio p {
+        display: none;
+      }
+      #grid .rows {
+        grid-template-columns: 1fr;
+      }
+      #menu nav {
+        gap: 2px;
+      }
+      #menu nav a {
+        font-size: clamp(24px, 10vw, 40px);
+      }
+    }
+
+    @media (max-height: 520px) and (orientation: landscape) {
+      .bio.chrome, .colophon.chrome, .cue.chrome {
+        display: none !important;
+      }
+      #headline {
+        font-size: clamp(18px, 4.8vh, 28px);
+      }
+      #lit {
+        padding-top: calc(36px + var(--safe-top));
+      }
+      #lit .meta {
+        padding-top: 10px;
+      }
+      #lit .plate {
+        width: min(58vw, calc((100dvh - 80px) * 1.5));
+      }
+      header.chrome {
+        padding-top: calc(8px + var(--safe-top));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .14s !important;
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="locked">
 
-<main class="stage" id="stage">
-  <video class="photo" id="photo" width="1920" height="1080" poster="/images/products/architectural-black-suit-full.jpg"
-         autoplay muted loop playsinline preload="auto" aria-hidden="true" disablepictureinpicture>
-    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260930_000857_e98f4291-826d-46eb-9a28-8022b5fb7e62.mp4" type="video/mp4">
-    <source src="/generate_ths_image_in_video_fo.mp4" type="video/mp4">
-  </video>
-  <div class="lift" aria-hidden="true"></div>
-  <div class="shade" aria-hidden="true"></div>
+  <!-- 1. SCROLL TRACK -->
+  <div id="scrolltrack"></div>
 
-  <header class="band" aria-label="STITCH">
-    <span class="band-top"></span>
-    <span></span>
-    <h1><span class="sr">STITCH</span>
-      <svg viewBox="0 120 1280 190" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-        <defs>
-          <mask id="stitch-mask">
-            <!-- White solid box -->
-            <rect x="-4" y="116" width="1288" height="198" fill="#fff" />
-            <!-- Black letters cut out hole for video -->
-            <text x="640" y="276" text-anchor="middle" font-family="'Hanken Grotesk', 'Playfair Display', sans-serif" font-weight="900" font-size="192" letter-spacing="0.16em" fill="#000">
-              STITCH
-            </text>
-          </mask>
-        </defs>
+  <!-- 2. 3D STAGE -->
+  <div id="stage">
+    <div id="world">
+      <div id="orb"></div>
+      <h1 id="headline">
+        <span class="inner">
+          <span class="w" style="--i:0">I</span>
+          <span class="w" style="--i:1">See</span>
+          <span class="w" style="--i:2">Through</span>
+          <span class="w" style="--i:3">the</span>
+          <span class="w" style="--i:4">Wild</span>
+        </span>
+      </h1>
+    </div>
+  </div>
 
-        <!-- Black rectangle with STITCH cutouts -->
-        <rect x="-4" y="116" width="1288" height="198" fill="#000" mask="url(#stitch-mask)" />
+  <!-- 3. VIGNETTE -->
+  <div class="vig"></div>
 
-        <!-- 6 Lids for letter entrance reveal: S, T, I, T, C, H -->
-        <g fill="#000" aria-hidden="true">
-          <rect class="lid" x="50"   y="136" width="175" height="160"/>
-          <rect class="lid" x="245"  y="136" width="180" height="160"/>
-          <rect class="lid" x="445"  y="136" width="110" height="160"/>
-          <rect class="lid" x="575"  y="136" width="180" height="160"/>
-          <rect class="lid" x="775"  y="136" width="195" height="160"/>
-          <rect class="lid" x="990"  y="136" width="240" height="160"/>
-        </g>
-      </svg>
-    </h1>
-    <span></span>
-    <span class="band-bot"></span>
+  <!-- 4. FLAT GRID VIEW -->
+  <div id="grid">
+    <div class="rows" id="gridRows"></div>
+  </div>
+
+  <!-- 5. HEADER & CHROME -->
+  <header class="chrome">
+    <a href="#" class="wordmark" aria-label="Ethan Vale">Ethan<em>Vale</em></a>
+    <button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <span class="menu-label">Menu</span>
+      <span class="bars"><i></i><i></i></span>
+    </button>
   </header>
 
-  <nav class="nav" aria-label="Main">
-    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks"><i aria-hidden="true"></i><span class="menu-label">MENU</span></button>
-    <div class="nav-links" id="navLinks">
-      <ul class="col" style="left:calc(7 * var(--u));top:calc(10.5 * var(--u))">
-        <li><a href="/collections/clothing" style="--ls:-1.966">COLLECTION</a></li>
-        <li><a href="/atelier" style="--ls:-1.139">ATELIER</a></li>
-        <li><a href="/journal" style="--ls:-0.816">JOURNAL</a></li>
-      </ul>
-      <ul class="col" style="left:calc(117 * var(--u));top:calc(10.5 * var(--u))">
-        <li><a href="/about" style="--ls:-1.399">ABOUT</a></li>
-        <li><a href="/store-locator" style="--ls:-1.083">SHOWROOMS</a></li>
-        <li><a href="/contact" style="--ls:-0.581">BESPOKE</a></li>
-      </ul>
-      <ul class="col" style="left:calc(241 * var(--u));top:calc(10.5 * var(--u))">
-        <li><a href="/account" style="--ls:-1.152">ACCOUNT</a></li>
-        <li><a href="/shipping" style="--ls:-1.471">DELIVERY</a></li>
-        <li><a href="/cart" style="--ls:-1.154">BAG</a></li>
-      </ul>
+  <div class="bio chrome">
+    <div class="who">
+      <img id="avatar" alt="Ethan Vale" width="52" height="52" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='52' viewBox='0 0 52 52'%3E%3Crect width='52' height='52' fill='%23111'/%3E%3C/svg%3E">
+      <b>Ethan Vale</b>
     </div>
-    <p class="tagline">QUIETLY REFINED • DISTINCTLY YOURS</p>
-    <a class="cta" href="/collections/new-arrivals">
-      <svg viewBox="0 0 9 9" aria-hidden="true"><path d="M1.6 .4V6H6.2" fill="none" stroke="currentColor" stroke-width="1.35"/><path d="M5.6 3.6 8.6 6 5.6 8.4Z" fill="currentColor"/></svg>
-      <span><b style="letter-spacing:calc(-1.877 * var(--cu))">EXPLORE</b> <b style="letter-spacing:calc(-1.519 * var(--cu))">THE</b> <b style="letter-spacing:calc(-0.564 * var(--cu))">COLLECTION</b></span>
-    </a>
-  </nav>
+    <p>Wildlife photography is less about taking pictures and more about learning when not to move. Every frame in this archive was captured in natural conditions without intervention.</p>
+  </div>
 
-  <section class="copy" aria-label="Introduction">
-    <p class="headline">MODERN MENSWEAR SHAPED BY TIMELESS PROPORTIONS</p>
-    <a class="tp" href="#reviews" aria-label="Trustpilot: rated Excellent, 4.5 out of 5 from 14 reviews">
-      <svg viewBox="0 0 160 19" aria-hidden="true">
-        <path fill="#00B67A" d="M8 0.9L9.796 6.428L15.608 6.428L10.906 9.844L12.702 15.372L8 11.956L3.298 15.372L5.094 9.844L0.392 6.428L6.204 6.428Z"/>
-        <rect x="75" y="1.7" width="15.6" height="15.4" fill="#00B67A"/><rect x="92" y="1.7" width="15.6" height="15.4" fill="#00B67A"/><rect x="109" y="1.7" width="15.6" height="15.4" fill="#00B67A"/><rect x="126" y="1.7" width="15.6" height="15.4" fill="#00B67A"/><rect x="143" y="1.7" width="8" height="15.4" fill="#00B67A"/><rect x="151" y="1.7" width="7.6" height="15.4" fill="#fff" fill-opacity="0.3"/>
-        <path fill="#000" d="M82.8 5.1L83.855 8.347L87.27 8.348L84.508 10.355L85.563 13.602L82.8 11.595L80.037 13.602L81.092 10.355L78.33 8.348L81.745 8.347ZM99.8 5.1L100.855 8.347L104.27 8.348L101.508 10.355L102.563 13.602L99.8 11.595L97.037 13.602L98.092 10.355L95.33 8.348L98.745 8.347ZM116.8 5.1L117.855 8.347L121.27 8.348L118.508 10.355L119.563 13.602L116.8 11.595L114.037 13.602L115.092 10.355L112.33 8.348L115.745 8.347ZM133.8 5.1L134.855 8.347L138.27 8.348L135.508 10.355L136.563 13.602L133.8 11.595L131.037 13.602L132.092 10.355L129.33 8.348L132.745 8.347ZM150.8 5.1L151.855 8.347L155.27 8.348L152.508 10.355L153.563 13.602L150.8 11.595L148.037 13.602L149.092 10.355L146.33 8.348L149.745 8.347Z"/>
-      </svg>
-      <span class="tp-word" aria-hidden="true">Trustpilot</span>
-      <span class="tp-meta" aria-hidden="true">Reviews 14 • Excellent</span>
-    </a>
-  </section>
-</main>
+  <div class="colophon chrome">Field Notes 2026</div>
 
-<script>
-(function(){
-  var stage=document.getElementById('stage'),img=document.getElementById('photo'),band=document.querySelector('.band');
-  var IW=1920,IH=1080,FX=1041,FY=545,ZOOM=0.95,TX=700,BANGLES=956;
-  var root=document.documentElement,nav=document.querySelector('.nav'),btn=document.getElementById('menuBtn'),
-      links=document.getElementById('navLinks'),label=btn.querySelector('.menu-label');
-  function layout(){return getComputedStyle(root).getPropertyValue('--layout').trim()||'desktop';}
-  function place(){
-    var W=stage.clientWidth,H=stage.clientHeight; if(!W||!H) return;
-    var u=Math.min(W/1280,H/640), bh=band.getBoundingClientRect().height, mode=layout();
-    var compact=mode!=='desktop', tablet=compact;
-    var s=Math.max(W/IW,H/IH,compact?(tablet?Math.max(ZOOM*W/1280,H/BANGLES):0):ZOOM*u);
-    var tx=tablet?W*TX/1280:compact?W*0.55:(W-1280*u)/2+TX*u, ty=bh+0.375*(H-bh);
-    var l=tx-FX*s,t=ty-FY*s;
-    l=Math.min(0,Math.max(W-IW*s,l)); t=Math.min(0,Math.max(H-IH*s,tablet?H-BANGLES*s:-Infinity,t));
-    img.style.width=IW*s+'px';img.style.height=IH*s+'px';img.style.left=l+'px';img.style.top=t+'px';
-    img.classList.add('is-placed'); stage.style.setProperty('--band-h',bh+'px');
-    if(!compact&&nav.classList.contains('is-open')) setMenu(false,false);
-  }
-  function setMenu(open,moveFocus){
-    nav.classList.toggle('is-open',open); btn.setAttribute('aria-expanded',String(open)); label.textContent=open?'CLOSE':'MENU';
-    if(moveFocus!==false){ if(open){var first=links.querySelector('a'); if(first) requestAnimationFrame(function(){first.focus({preventScroll:true})});} else btn.focus(); }
-  }
-  btn.addEventListener('click',function(){setMenu(!nav.classList.contains('is-open'))});
-  links.addEventListener('click',function(e){if(e.target.closest('a')&&layout()!=='desktop')setMenu(false,false)});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('is-open'))setMenu(false)});
-  document.addEventListener('pointerdown',function(e){if(nav.classList.contains('is-open')&&!nav.contains(e.target))setMenu(false,false)});
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){img.removeAttribute('autoplay');img.pause();}
-  place(); addEventListener('resize',place); if(window.ResizeObserver) new ResizeObserver(place).observe(stage);
-  if(document.fonts) document.fonts.ready.then(place);
-})();
-</script>
+  <button id="gridBtn" class="gridbtn" aria-label="Toggle grid view">
+    <b></b><b></b><b></b><b></b>
+  </button>
 
-<script>
-(function(){
-  var root=document.documentElement;
-  if(!root.classList.contains('is-entering')) return;
-  var EXPO='cubic-bezier(0.16,1,0.3,1)', QUART='cubic-bezier(0.76,0,0.24,1)';
-  var img=document.getElementById('photo');
-  var waits=[document.fonts?document.fonts.ready:null,img&&img.decode?img.decode().catch(function(){}):null].filter(Boolean);
-  Promise.race([Promise.all(waits),new Promise(function(r){setTimeout(r,700)})]).then(function(){
-    if(!root.classList.contains('is-entering')) return;
-    window.__soscaleEntrance=true;
-    var desk=(getComputedStyle(root).getPropertyValue('--layout').trim()||'desktop')==='desktop';
-    var lift=desk?6:4, anims=[];
-    function play(el,kf,t,d,e){ if(el) anims.push(el.animate(kf,{delay:t*1000,duration:d*1000,easing:e||EXPO,fill:'both'})); }
-    function rise(px){ return [{opacity:0,transform:'translateY('+px+'px)'},{opacity:1,transform:'none'}]; }
-    var q=function(s){return document.querySelector(s)};
-    [].forEach.call(document.querySelectorAll('.lid'),function(l,i){
-      play(l,[{opacity:1,transform:'scaleY(1)'},{opacity:1,transform:'scaleY(0)'}],.06+i*.06,1.0,QUART);
+  <div class="cue chrome">
+    <s></s>
+    <span>Drag to rotate</span>
+  </div>
+
+  <!-- 6. MENU -->
+  <div id="menu" aria-hidden="true">
+    <nav>
+      <a href="#" data-grid>The Archive</a>
+      <a href="#" data-close-menu>Field Notes</a>
+      <a href="#" data-close-menu>Studio</a>
+      <a href="#" data-close-menu>Contact</a>
+    </nav>
+    <div class="addr">
+      Nairobi · Cape Town · Reykjavík<br>
+      studio@ethanvale.photo
+    </div>
+  </div>
+
+  <!-- 7. LIGHTBOX -->
+  <div id="lit" aria-hidden="true">
+    <div class="scrim" data-close></div>
+    <div class="plate" id="litPlate">
+      <div class="shot">
+        <img id="litImg" alt="">
+        <button class="close" data-close aria-label="Close">Close</button>
+      </div>
+      <div class="meta">
+        <div>
+          <h2 id="litTitle"></h2>
+          <div class="where" id="litWhere"></div>
+        </div>
+        <div class="note" id="litNote"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. INTRO FILM -->
+  <div id="intro">
+    <video id="film" muted playsinline autoplay preload="auto" disablepictureinpicture></video>
+    <div class="fallback"></div>
+    <div class="veil"></div>
+    <button class="skip" id="skip">Skip</button>
+  </div>
+
+  <!-- 9. SPLASH SCREEN -->
+  <div id="splash">
+    <div class="mark">Ethan<em>Vale</em></div>
+    <div class="bar"><s id="bar"></s></div>
+    <div class="tag">Field Notes 2026</div>
+  </div>
+
+  <!-- 10. CUSTOM CURSOR -->
+  <div id="dot"></div>
+
+  <!-- 11. ZERO-DEPENDENCY SCRIPT -->
+  <script>
+  (function() {
+    'use strict';
+
+    var CDN = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/';
+    var FILM_URL = CDN + 'hf_20260922_195107_ed3f055a-3a13-4a71-b743-e10310454246.mp4';
+    var AVATAR_ID = 'hf_20260922_194417_a455843c-d8db-461c-8ef6-74a325d2472c';
+
+    var STILLS = [
+      { id: 'hf_20260922_194349_26ffdbfd-ac5e-49e9-a07d-c06d3f7cb4cb', title: 'Before the Dust Settled', place: 'South Africa · Limpopo Province', note: 'Wildlife photography is rarely about pressing the shutter. Most of the work happens earlier — waiting, staying still, and accepting that nature decides if the frame exists. This encounter lasted less than a minute.' },
+      { id: 'hf_20260922_194350_5546ea3d-6336-42c7-a59f-06165c5802be', title: 'The Long Walk Home', place: 'Kenya · Maasai Mara', note: 'A matriarch leading her herd across open grass at the end of the day. I stayed low and let them close the distance on their own terms.' },
+      { id: 'hf_20260922_194349_b4533691-cb49-41d4-b56c-51f0fdcbe250', title: 'Something Understood', place: 'Botswana · Okavango Delta', note: 'He held the look for about four seconds. Long enough to be certain neither of us intended to move first.' },
+      { id: 'hf_20260922_194349_e588abd3-1bfa-4918-894f-05632cc51ccc', title: 'Nine Hours of Nothing', place: 'Finland · Lapland', note: 'A full day in a hide for a single turn of the head. That ratio is normal and I have stopped resenting it.' },
+      { id: 'hf_20260922_194350_28d92c80-de66-41cb-911e-b3b44aebe1f5', title: 'Borrowed Trust', place: 'Scotland · Cairngorms', note: 'She had learned the shape of a person and decided it was uninteresting. That indifference is the rarest thing in this work.' },
+      { id: 'hf_20260922_194349_04e89718-4214-4aff-bac5-490462bbfe2f', title: 'Small Weather', place: 'Costa Rica · Osa Peninsula', note: 'Rain had just stopped. Everything on that branch was the size of a thumbnail and lit like a stage.' },
+      { id: 'hf_20260922_194417_2c031e22-2fad-4c81-a544-83cd6bba1c33', title: 'Against the Weather', place: 'Alaska · Chilkat Valley', note: 'Shot at a thousandth of a second into a rising storm. The light lasted eleven minutes.' },
+      { id: 'hf_20260922_194349_a39c3226-7848-4b15-b840-98ad8aec467b', title: 'The Pale Edge', place: 'India · Bandhavgarh', note: 'Almost entirely hidden. I only found the frame because the foliage stopped moving in the wrong place.' },
+      { id: 'hf_20260922_194417_555e4d90-f35f-4a1a-8c75-def1e8b71988', title: 'Perfect Arithmetic', place: 'Indonesia · Raja Ampat', note: 'Coiled with a precision that looks designed. Nothing about it is — it is just the cheapest way to hold heat.' },
+      { id: 'hf_20260922_194417_e525a243-03c8-454b-83b4-60f541baf70a', title: 'Shallow Water', place: 'French Polynesia · Fakarava', note: 'Three metres down on a single breath. It passed close enough that I stopped composing and simply held the camera still.' },
+      { id: 'hf_20260922_194349_ec830e6f-b8e6-4569-8540-ee7f33902c53', title: 'Two of Nine', place: 'India · Ranthambore', note: 'Siblings resting out the afternoon heat. The second one never opened its eyes.' },
+      { id: 'hf_20260922_194417_35a9af5f-bd07-45a7-bb73-08b47d19d530', title: 'Low Ground', place: 'Nepal · Chitwan', note: 'Flat on the ground at her eye level, which is the only honest angle for an animal that hunts from there.' },
+      { id: 'hf_20260922_194416_30e307a9-1265-45c3-a1a0-5c6fa5bb9f8d', title: 'Everything at Once', place: 'Iceland · Southern Coast', note: 'Free horses on a black beach at dusk. I panned and accepted whatever the frame gave back.' },
+      { id: 'hf_20260922_194417_ff5cb9f8-8eed-4bfb-bb08-11256da92eae', title: 'White on White', place: 'Canada · Ellesmere Island', note: 'Snow removes every reference for exposure. The only reliable meter left is the eyes.' },
+      { id: 'hf_20260922_194418_1d9bff4a-4971-4944-9e49-d72e755ceeb0', title: 'Census', place: 'Namibia · Etosha', note: 'Two of roughly sixteen thousand left. The number is the reason the frame exists.' },
+      { id: 'hf_20260922_194349_75e53821-0807-4ebc-992d-34bae0ec2ce6', title: 'The Whole Field', place: 'France · Provence', note: 'Four millimetres of animal. At this magnification a breath of wind is an earthquake.' },
+      { id: 'hf_20260922_194417_5a227847-3796-4438-805d-7e66e9538205', title: 'First Season', place: 'Germany · Bavarian Forest', note: 'Days old and already still enough to disappear. Stillness is the first thing anything here learns.' },
+      { id: 'hf_20260922_194350_b49aa67e-0401-4029-af4f-f6ac3ee83398', title: 'Listening Posture', place: 'Tanzania · Serengeti', note: 'Ears forward, weight on the back legs. She heard something I never did.' },
+      { id: 'hf_20260922_194349_89b82779-3a46-4c55-b7c5-f4a0fd955874', title: 'A Line of Red', place: 'Spain · Fuente de Piedra', note: 'Underexposed by two stops until only the shape survived.' },
+      { id: 'hf_20260922_194416_47e18c62-253a-42e1-97a9-9e5f6a6b8d59', title: 'Left Behind', place: 'Studio · Reykjavík', note: 'Found beneath a roost at first light. The only frame in this archive an animal agreed to in advance.', tall: true },
+      { id: 'hf_20260922_194417_a455843c-d8db-461c-8ef6-74a325d2472c', title: 'The Other Side', place: 'Uganda · Kibale Forest', note: 'Taken by a colleague between two long waits. Proof, mostly, that someone is holding the camera.' }
+    ];
+
+    var N = STILLS.length;
+    var GA = Math.PI * (3 - Math.sqrt(5));
+    var cardVectors = [];
+
+    for (var i = 0; i < N; i++) {
+      var y = 1 - (i / (N - 1)) * 2;
+      var rad = Math.sqrt(Math.max(0, 1 - y * y));
+      var theta = i * GA;
+      var x = Math.cos(theta) * rad;
+      var z = Math.sin(theta) * rad;
+      var lat = Math.asin(y) * (180 / Math.PI);
+      var lon = Math.atan2(x, z) * (180 / Math.PI);
+      cardVectors.push({ x: x, y: y, z: z, lat: lat, lon: lon });
+    }
+
+    var world = document.getElementById('world');
+    var orb = document.getElementById('orb');
+    var headline = document.getElementById('headline');
+    var stage = document.getElementById('stage');
+    var gridRows = document.getElementById('gridRows');
+    var lit = document.getElementById('lit');
+    var litPlate = document.getElementById('litPlate');
+    var litImg = document.getElementById('litImg');
+    var litTitle = document.getElementById('litTitle');
+    var litWhere = document.getElementById('litWhere');
+    var litNote = document.getElementById('litNote');
+    var menu = document.getElementById('menu');
+    var menuBtn = document.getElementById('menuBtn');
+    var gridBtn = document.getElementById('gridBtn');
+    var intro = document.getElementById('intro');
+    var film = document.getElementById('film');
+    var skip = document.getElementById('skip');
+    var splash = document.getElementById('splash');
+    var progressBar = document.getElementById('bar');
+    var dot = document.getElementById('dot');
+    var avatarImg = document.getElementById('avatar');
+
+    var R = 280;
+    var cw = 140;
+    var currentPersp = 1150;
+    var cardElements = [];
+    var gridFigures = [];
+    var imageBlobUrls = {};
+
+    var spin = 0;
+    var tilt = -4;
+    var camZ = 0;
+    var dragX = 0;
+    var dragY = 0;
+    var velX = 0;
+    var velY = 0;
+    var focusedIndex = -1;
+    var isDragging = false;
+    var isLit = false;
+    var isGridView = false;
+    var isMenuOpen = false;
+
+    var startX = 0, startY = 0;
+    var lastX = 0, lastY = 0;
+    var dragCandidateCard = null;
+    var totalMoved = 0;
+    var touchLocked = false;
+    var isCoarse = window.matchMedia('(pointer: coarse)').matches;
+
+    /* ── DOM INITIALIZATION: SPHERE CARDS & GRID ── */
+    for (var idx = 0; idx < N; idx++) {
+      var item = STILLS[idx];
+
+      // Sphere Card
+      var card = document.createElement('div');
+      card.className = 'card' + (item.tall ? ' tall' : '');
+      card.dataset.idx = idx;
+      var fig = document.createElement('figure');
+      var img = document.createElement('img');
+      img.alt = item.title;
+      img.draggable = false;
+      fig.appendChild(img);
+      card.appendChild(fig);
+      orb.appendChild(card);
+      cardElements.push(card);
+
+      // Grid Figure
+      var gFig = document.createElement('figure');
+      gFig.dataset.idx = idx;
+      var gImg = document.createElement('img');
+      gImg.alt = item.title;
+      gImg.loading = 'lazy';
+      var gCap = document.createElement('figcaption');
+      gCap.textContent = item.title;
+      gFig.appendChild(gImg);
+      gFig.appendChild(gCap);
+      gridRows.appendChild(gFig);
+      gridFigures.push(gFig);
+    }
+
+    /* ── RESPONSIVE MEASURE & LAYOUT ── */
+    var lastMeasuredW = 0;
+    var lastMeasuredH = 0;
+
+    function measureLayout(force) {
+      var w = window.innerWidth;
+      var h = window.innerHeight;
+
+      if (!force && Math.abs(w - lastMeasuredW) < 20 && Math.abs(h - lastMeasuredH) < 20) {
+        return;
+      }
+      lastMeasuredW = w;
+      lastMeasuredH = h;
+
+      var hr = w <= 380 ? 0.38 : (w <= 640 ? 0.42 : 0.46);
+      var wr = w <= 380 ? 0.48 : (w <= 640 ? 0.52 : 0.58);
+      var floor = w <= 380 ? 108 : (w <= 640 ? 120 : 155);
+      R = Math.max(floor, Math.min(480, h * hr, w * wr));
+
+      var scale = w <= 380 ? 0.44 : (w <= 640 ? 0.46 : 0.47);
+      cw = Math.round(Math.max(72, R * scale));
+      document.documentElement.style.setProperty('--cw', cw);
+
+      currentPersp = w <= 380 ? 620 : (w <= 640 ? 760 : (w <= 900 ? 920 : 1150));
+      document.documentElement.style.setProperty('--persp', currentPersp + 'px');
+
+      for (var k = 0; k < N; k++) {
+        var v = cardVectors[k];
+        var pos = 'translate3d(' + (v.x * R) + 'px, ' + (-v.y * R) + 'px, ' + (v.z * R) + 'px) rotateY(' + v.lon + 'deg) rotateX(' + v.lat + 'deg)';
+        cardElements[k].style.transform = pos;
+      }
+    }
+
+    /* ── IMAGE DECODING & ASSET PRELOADING ── */
+    var loadedCount = 0;
+    var totalAssets = N + 1; // 21 stills + 1 film
+    var splashBirthTime = performance.now();
+
+    function updateSplashProgress() {
+      loadedCount++;
+      var pct = Math.min(1, loadedCount / totalAssets);
+      if (progressBar) {
+        progressBar.style.transform = 'scaleX(' + pct + ')';
+      }
+      if (loadedCount >= totalAssets) {
+        onAllAssetsReady();
+      }
+    }
+
+    function getCardDecodeMax() {
+      var w = window.innerWidth;
+      return w <= 380 ? 420 : (w <= 640 ? 520 : (w <= 900 ? 640 : 760));
+    }
+
+    function downscaleImage(srcUrl, maxDim, cb) {
+      var probe = new Image();
+      probe.crossOrigin = 'anonymous';
+      probe.onload = function() {
+        try {
+          var nw = probe.naturalWidth || probe.width;
+          var nh = probe.naturalHeight || probe.height;
+          if (!nw || nw <= maxDim) {
+            cb(srcUrl);
+            return;
+          }
+          var targetW = maxDim;
+          var targetH = Math.round(nh * (maxDim / nw));
+          var canvas = document.createElement('canvas');
+          canvas.width = targetW;
+          canvas.height = targetH;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(probe, 0, 0, targetW, targetH);
+          canvas.toBlob(function(blob) {
+            if (blob) {
+              cb(URL.createObjectURL(blob));
+            } else {
+              cb(srcUrl);
+            }
+          }, 'image/webp', 0.88);
+        } catch (e) {
+          cb(srcUrl);
+        }
+      };
+      probe.onerror = function() {
+        cb(srcUrl);
+      };
+      probe.src = srcUrl;
+    }
+
+    // Load Stills
+    STILLS.forEach(function(item, idx) {
+      var thumbUrl = CDN + item.id + '_min.webp';
+      downscaleImage(thumbUrl, getCardDecodeMax(), function(finalUrl) {
+        imageBlobUrls[item.id] = finalUrl;
+        var sImg = cardElements[idx].querySelector('img');
+        var gImg = gridFigures[idx].querySelector('img');
+        if (sImg) {
+          sImg.src = finalUrl;
+          sImg.classList.add('in');
+        }
+        if (gImg) {
+          gImg.src = finalUrl;
+        }
+        updateSplashProgress();
+      });
     });
-    (desk?[].slice.call(document.querySelectorAll('.nav .col')):[q('.menu-btn')]).forEach(function(el,i){ play(el,rise(lift),.50+i*.06,.6); });
-    play(q('.tagline'),rise(lift),.70,.6);
-    play(q('.headline'),[{transform:'translateY(100%)',clipPath:'inset(-100% -8px 100% -8px)'},{transform:'none',clipPath:'inset(0 -8px 0 -8px)'}],.85,1.0);
-    play(q('.cta'),[{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0 0 0)'}],1.10,.75);
-    play(q('.tp'),rise(lift+2),1.20,.7);
-    root.classList.remove('is-entering');
-    Promise.all(anims.map(function(a){return a.finished})).then(function(){ anims.forEach(function(a){a.cancel()}); },function(){});
-  });
-})();
-</script>
 
+    // Load Avatar
+    var avatarThumb = CDN + AVATAR_ID + '_min.webp';
+    downscaleImage(avatarThumb, 160, function(finalAvatar) {
+      if (avatarImg) avatarImg.src = finalAvatar;
+    });
+
+    // Setup Intro Film
+    film.src = FILM_URL;
+    film.muted = true;
+    film.defaultMuted = true;
+    film.playsInline = true;
+    film.setAttribute('webkit-playsinline', 'true');
+    film.playbackRate = 2;
+
+    film.addEventListener('play', function() {
+      film.playbackRate = 2;
+    });
+
+    film.addEventListener('loadeddata', function() {
+      updateSplashProgress();
+    });
+
+    film.addEventListener('error', function() {
+      if (intro) intro.classList.add('novideo');
+      updateSplashProgress();
+    });
+
+    /* ── SPLASH -> FILM -> REVEAL SEQUENCE ── */
+    var splashDismissed = false;
+    var filmRevealed = false;
+
+    function onAllAssetsReady() {
+      if (splashDismissed) return;
+      var elapsed = performance.now() - splashBirthTime;
+      var minDelay = Math.max(0, 1150 - elapsed);
+      setTimeout(function() {
+        dismissSplash();
+      }, minDelay);
+    }
+
+    // Backstop for splash
+    setTimeout(function() {
+      if (!splashDismissed) dismissSplash();
+    }, 9000);
+
+    function dismissSplash() {
+      if (splashDismissed) return;
+      splashDismissed = true;
+      if (progressBar) progressBar.style.transform = 'scaleX(1)';
+      if (splash) {
+        splash.classList.add('out');
+        setTimeout(function() {
+          if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+        }, 950);
+      }
+      startFilm();
+    }
+
+    function startFilm() {
+      if (film.currentTime > 0.05) film.currentTime = 0;
+      var playPromise = film.play();
+      if (playPromise !== undefined) {
+        playPromise.then(function() {
+          scheduleFilmReveal();
+        }).catch(function() {
+          handleAutoplayBlocked();
+        });
+      }
+
+      film.addEventListener('ended', function() {
+        revealMainPage();
+      });
+    }
+
+    function scheduleFilmReveal() {
+      var d = film.duration || 6;
+      var cur = film.currentTime || 0;
+      var remaining = Math.max(0.3, (d - cur - 0.45) / 2);
+      setTimeout(function() {
+        revealMainPage();
+      }, remaining * 1000);
+    }
+
+    function handleAutoplayBlocked() {
+      var unblock = function() {
+        film.play();
+        window.removeEventListener('pointerdown', unblock);
+        window.removeEventListener('keydown', unblock);
+        window.removeEventListener('touchstart', unblock);
+      };
+      window.addEventListener('pointerdown', unblock);
+      window.addEventListener('keydown', unblock);
+      window.addEventListener('touchstart', unblock);
+
+      setTimeout(function() {
+        revealMainPage();
+      }, 2600);
+    }
+
+    // Backstop for film reveal
+    setTimeout(function() {
+      if (!filmRevealed) revealMainPage();
+    }, 14000);
+
+    if (skip) {
+      skip.addEventListener('click', function(e) {
+        e.stopPropagation();
+        revealMainPage();
+      });
+    }
+
+    function revealMainPage() {
+      if (filmRevealed) return;
+      filmRevealed = true;
+
+      if (intro) intro.classList.add('closing');
+      document.body.classList.remove('locked');
+      document.documentElement.style.overflow = '';
+
+      measureLayout(true);
+      requestAnimationFrame(function() {
+        measureLayout(true);
+      });
+
+      setTimeout(function() {
+        document.body.classList.add('revealed');
+        if (intro) {
+          intro.classList.add('gone');
+          setTimeout(function() {
+            if (intro && intro.parentNode) intro.parentNode.removeChild(intro);
+          }, 700);
+        }
+        measureLayout(true);
+      }, 1000);
+    }
+
+    /* ── CAMERA LOOP (rAF) ── */
+    var lastHeadlineTransform = '';
+    var lastHeadlineOpacity = -1;
+
+    function renderCamera() {
+      requestAnimationFrame(renderCamera);
+
+      if (!isDragging && !isLit) {
+        dragX += velX;
+        dragY += velY;
+        velX *= 0.94;
+        velY *= 0.94;
+        if (Math.abs(velX) < 0.002) velX = 0;
+        if (Math.abs(velY) < 0.002) velY = 0;
+      }
+
+      // Clamp pitch
+      var totalPitch = tilt + dragY;
+      if (totalPitch > 32) {
+        dragY = 32 - tilt;
+        velY = 0;
+      } else if (totalPitch < -32) {
+        dragY = -32 - tilt;
+        velY = 0;
+      }
+
+      var maxScroll = window.innerHeight * 0.16;
+      var sy_scroll = window.scrollY || window.pageYOffset || 0;
+      if (sy_scroll > maxScroll) {
+        window.scrollTo(0, maxScroll);
+        sy_scroll = maxScroll;
+      }
+
+      var p = Math.min(1, Math.max(0, sy_scroll / (window.innerHeight * 0.16 || 1)));
+      if (p > 0.05) {
+        document.body.classList.add('deep');
+      } else {
+        document.body.classList.remove('deep');
+      }
+
+      var camZTarget = p * Math.min(64, R * 0.12);
+      camZ += (camZTarget - camZ) * 0.075;
+
+      var sx = tilt + dragY;
+      var sy = spin + dragX;
+
+      // World Transform
+      world.style.transform = 'translateZ(' + camZ.toFixed(2) + 'px) rotateY(' + sy.toFixed(2) + 'deg) rotateX(' + sx.toFixed(2) + 'deg)';
+
+      // Headline Transform (Order: translateZ -> rotateY -> rotateX)
+      var hTrans = 'rotateX(' + (-sx).toFixed(2) + 'deg) rotateY(' + (-sy).toFixed(2) + 'deg) translateZ(' + (R * 0.62).toFixed(2) + 'px)';
+      if (hTrans !== lastHeadlineTransform) {
+        headline.style.transform = hTrans;
+        lastHeadlineTransform = hTrans;
+      }
+
+      var hOp = Math.max(0, 1 - p * 0.55);
+      if (Math.abs(hOp - lastHeadlineOpacity) > 0.005) {
+        headline.style.opacity = hOp.toFixed(3);
+        lastHeadlineOpacity = hOp;
+      }
+
+      // Card Depth & Shading
+      var radX = sx * (Math.PI / 180);
+      var radY = sy * (Math.PI / 180);
+      var cosX = Math.cos(radX), sinX = Math.sin(radX);
+      var cosY = Math.cos(radY), sinY = Math.sin(radY);
+
+      var near = currentPersp * 0.66;
+      var shade = 1 - Math.min(1, p * 1.6);
+
+      for (var j = 0; j < N; j++) {
+        var u = cardVectors[j];
+
+        // Rotate unit vector by yaw (Y) and pitch (X)
+        var x1 = u.x * cosY + u.z * sinY;
+        var z1 = -u.x * sinY + u.z * cosY;
+        var y1 = u.y * cosX - z1 * sinX;
+        var zf = u.y * sinX + z1 * cosX;
+
+        var base = 0.14 + 0.86 * Math.pow(Math.max(0, (zf + 1) / 2), 0.85);
+        var dim = shade * (1 - base);
+
+        var absZ = zf * R + camZ;
+        var fade = 1;
+        if (absZ > near) {
+          fade = Math.max(0, 1 - (absZ - near) / 190);
+        }
+
+        if (isLit) {
+          dim = Math.min(1, dim + 0.78);
+          if (j === focusedIndex) {
+            fade = 0;
+          }
+        }
+
+        var cardEl = cardElements[j];
+        cardEl.style.opacity = fade.toFixed(3);
+        cardEl.style.setProperty('--d', dim.toFixed(3));
+      }
+    }
+
+    measureLayout(true);
+    renderCamera();
+
+    /* ── DRAG & TOUCH INTERACTIONS ── */
+    stage.addEventListener('pointerdown', function(e) {
+      if (isLit) return;
+      var targetCard = e.target.closest('.card');
+      dragCandidateCard = targetCard;
+
+      startX = e.clientX;
+      startY = e.clientY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      totalMoved = 0;
+      touchLocked = false;
+
+      if (e.pointerType !== 'touch') {
+        isDragging = true;
+        velX = 0;
+        velY = 0;
+        stage.setPointerCapture(e.pointerId);
+      }
+    });
+
+    stage.addEventListener('pointermove', function(e) {
+      if (isLit) return;
+      var dx = e.clientX - lastX;
+      var dy = e.clientY - lastY;
+      var distTotal = Math.hypot(e.clientX - startX, e.clientY - startY);
+      totalMoved = distTotal;
+
+      if (e.pointerType === 'touch' && !isDragging && !touchLocked) {
+        if (distTotal > 10) {
+          var absX = Math.abs(e.clientX - startX);
+          var absY = Math.abs(e.clientY - startY);
+          if (absY > absX * 1.15) {
+            touchLocked = true; // Let the page scroll
+            return;
+          } else {
+            isDragging = true;
+            velX = 0;
+            velY = 0;
+            try { stage.setPointerCapture(e.pointerId); } catch(err) {}
+          }
+        }
+      }
+
+      if (isDragging) {
+        dragX += dx * 0.13;
+        dragY -= dy * 0.13;
+        velX = dx * 0.13;
+        velY = -dy * 0.13;
+        lastX = e.clientX;
+        lastY = e.clientY;
+      }
+    });
+
+    function endPointer(e) {
+      var slop = (e && e.pointerType === 'touch') || isCoarse ? 14 : 6;
+      if (totalMoved < slop && dragCandidateCard) {
+        var idx = parseInt(dragCandidateCard.dataset.idx, 10);
+        if (!isNaN(idx)) {
+          openLightbox(idx, dragCandidateCard);
+        }
+      }
+      isDragging = false;
+      dragCandidateCard = null;
+      try { if (e) stage.releasePointerCapture(e.pointerId); } catch(err) {}
+    }
+
+    stage.addEventListener('pointerup', endPointer);
+    stage.addEventListener('pointercancel', endPointer);
+
+    /* ── FLIP LIGHTBOX ── */
+    var currentToken = 0;
+    var sourceElementForFlip = null;
+
+    function openLightbox(idx, sourceEl) {
+      focusedIndex = idx;
+      isLit = true;
+      sourceElementForFlip = sourceEl || cardElements[idx];
+      var item = STILLS[idx];
+
+      litTitle.textContent = item.title;
+      litWhere.textContent = item.place;
+      litNote.textContent = item.note;
+
+      var placeholderSrc = imageBlobUrls[item.id] || (CDN + item.id + '_min.webp');
+      litImg.src = placeholderSrc;
+
+      // Full PNG swap
+      var myToken = ++currentToken;
+      var fullImg = new Image();
+      fullImg.src = CDN + item.id + '.png';
+      fullImg.onload = function() {
+        if (currentToken === myToken && isLit) {
+          litImg.src = fullImg.src;
+        }
+      };
+
+      document.body.classList.add('lit');
+      lit.setAttribute('aria-hidden', 'false');
+
+      // FLIP Entrance
+      if (sourceElementForFlip) {
+        var srcRect = sourceElementForFlip.getBoundingClientRect();
+        var plateRect = litPlate.getBoundingClientRect();
+
+        var srcCenter = { x: srcRect.left + srcRect.width / 2, y: srcRect.top + srcRect.height / 2 };
+        var plateCenter = { x: plateRect.left + plateRect.width / 2, y: plateRect.top + plateRect.height / 2 };
+
+        var dx = srcCenter.x - plateCenter.x;
+        var dy = srcCenter.y - plateCenter.y;
+        var scale = Math.max(0.04, srcRect.width / (plateRect.width || 1));
+
+        litPlate.style.transition = 'none';
+        litPlate.style.transform = 'translate(' + dx + 'px, ' + dy + 'px) scale(' + scale + ')';
+        litPlate.style.opacity = '0';
+
+        // Force reflow
+        void litPlate.offsetWidth;
+
+        litPlate.style.transition = '';
+        litPlate.style.transform = '';
+        litPlate.style.opacity = '';
+      }
+    }
+
+    function closeLightbox() {
+      if (!isLit) return;
+      currentToken++;
+      var closingIdx = focusedIndex;
+      focusedIndex = -1;
+      isLit = false;
+      document.body.classList.remove('lit');
+      lit.setAttribute('aria-hidden', 'true');
+
+      var targetEl = (isGridView ? gridFigures[closingIdx] : cardElements[closingIdx]) || sourceElementForFlip;
+      if (targetEl) {
+        var tgtRect = targetEl.getBoundingClientRect();
+        var plateRect = litPlate.getBoundingClientRect();
+
+        var tgtCenter = { x: tgtRect.left + tgtRect.width / 2, y: tgtRect.top + tgtRect.height / 2 };
+        var plateCenter = { x: plateRect.left + plateRect.width / 2, y: plateRect.top + plateRect.height / 2 };
+
+        var dx = tgtCenter.x - plateCenter.x;
+        var dy = tgtCenter.y - plateCenter.y;
+        var scale = Math.max(0.04, tgtRect.width / (plateRect.width || 1));
+
+        litPlate.style.transform = 'translate(' + dx + 'px, ' + dy + 'px) scale(' + scale + ')';
+        litPlate.style.opacity = '0';
+
+        setTimeout(function() {
+          litPlate.style.transition = 'none';
+          litPlate.style.transform = '';
+          litPlate.style.opacity = '';
+          void litPlate.offsetWidth;
+          litPlate.style.transition = '';
+        }, 640);
+      }
+    }
+
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('[data-close]')) {
+        closeLightbox();
+      }
+    });
+
+    // Grid Figure Click
+    gridRows.addEventListener('click', function(e) {
+      var fig = e.target.closest('figure');
+      if (fig) {
+        var idx = parseInt(fig.dataset.idx, 10);
+        if (!isNaN(idx)) {
+          openLightbox(idx, fig);
+        }
+      }
+    });
+
+    /* ── MENU & FLAT GRID TOGGLES ── */
+    function toggleGrid() {
+      isGridView = !isGridView;
+      if (isGridView) {
+        document.body.classList.add('gridview');
+      } else {
+        document.body.classList.remove('gridview');
+      }
+    }
+
+    gridBtn.addEventListener('click', function() {
+      toggleGrid();
+    });
+
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      if (isMenuOpen) {
+        document.body.classList.add('menu-open');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+      } else {
+        document.body.classList.remove('menu-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    menuBtn.addEventListener('click', toggleMenu);
+
+    menu.addEventListener('click', function(e) {
+      var target = e.target;
+      if (target.matches('[data-grid]')) {
+        e.preventDefault();
+        toggleMenu();
+        if (!isGridView) toggleGrid();
+      } else if (target.matches('[data-close-menu]')) {
+        e.preventDefault();
+        toggleMenu();
+      }
+    });
+
+    /* ── KEYBOARD ESCAPE LISTENER ── */
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        if (isLit) {
+          closeLightbox();
+        } else if (isMenuOpen) {
+          toggleMenu();
+        } else if (isGridView) {
+          toggleGrid();
+        }
+      }
+    });
+
+    /* ── CUSTOM CURSOR (LERP) ── */
+    var mouseX = -100, mouseY = -100;
+    var cursorX = -100, cursorY = -100;
+
+    window.addEventListener('pointermove', function(e) {
+      if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        var interactive = e.target.closest('.card, a, button, #grid figure');
+        if (interactive) {
+          dot.classList.add('wide');
+        } else {
+          dot.classList.remove('wide');
+        }
+      }
+    });
+
+    function updateCursor() {
+      cursorX += (mouseX - cursorX) * 0.2;
+      cursorY += (mouseY - cursorY) * 0.2;
+      dot.style.transform = 'translate3d(' + cursorX.toFixed(2) + 'px, ' + cursorY.toFixed(2) + 'px, 0)';
+      requestAnimationFrame(updateCursor);
+    }
+    requestAnimationFrame(updateCursor);
+
+    /* ── WINDOW RESIZE & ORIENTATION ── */
+    window.addEventListener('resize', function() {
+      measureLayout(false);
+    });
+
+    window.addEventListener('orientationchange', function() {
+      setTimeout(function() {
+        measureLayout(true);
+      }, 220);
+    });
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', function() {
+        measureLayout(false);
+      });
+      window.visualViewport.addEventListener('scroll', function() {
+        measureLayout(false);
+      });
+    }
+
+  })();
+  </script>
 </body>
 </html>

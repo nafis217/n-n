@@ -13,6 +13,8 @@ import { SHMonogram } from '@/components/brand/SHMonogram';
 import { StitchHouseWordmark } from '@/components/brand/StitchHouseWordmark';
 import { ArrowRight, ArrowUpRight, Compass, ShieldCheck, Sparkles, Box } from 'lucide-react';
 
+import { StitchHouseHeroHost } from '@/components/home/StitchHouseHeroHost';
+
 // Scroll reveal hook for smooth editorial entries
 function useScrollReveal() {
   const ref = useRef<HTMLDivElement>(null);
@@ -63,134 +65,22 @@ function RevealSection({
 }
 
 export default function HomePage() {
-  const [heroLoaded, setHeroLoaded] = useState(false);
   const newArrivals = getNewArrivals().slice(0, 6);
   const featuredPieces = getFeaturedProducts().slice(0, 3);
   const bestSellers = getBestSellers().slice(0, 4);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setHeroLoaded(true), 150);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <div className="bg-[#F2EDE4] text-[#241E1A] overflow-hidden min-h-screen">
       {/* ─────────────────────────────────────────────────────────────
-          1. HERO SECTION (Editorial Fashion Campaign)
+          1. DYNAMIC HERO SECTION (Choose from 3 Distinct Styles)
       ───────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-between pt-8 pb-12 px-4 sm:px-8 max-w-[1600px] mx-auto">
-        {/* Top Minimal Editorial Header Tag */}
-        <div className="flex items-center justify-between border-b border-[#B8B0A3]/30 pb-4">
-          <div className="flex items-center gap-3">
-            <SHMonogram size={18} variant="dark" />
-            <span className="text-[10px] uppercase tracking-[0.25em] text-[#686B5E] font-medium">
-              Collection Vol. 04 / Autumn–Winter
-            </span>
-          </div>
-          <span className="hidden sm:inline text-[10px] uppercase tracking-[0.25em] text-[#686B5E]">
-            Dhaka Atelier • Worldwide Consignment
-          </span>
-        </div>
-
-        {/* Center Split: Large Campaign Imagery + Architectural Typography */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto py-8">
-          {/* Left: Typography & Primary CTA */}
-          <div className="lg:col-span-6 flex flex-col justify-center">
-            <div
-              className={`transform transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                heroLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-            >
-              <span className="text-[11px] uppercase tracking-[0.3em] text-[#A8946C] font-semibold block mb-3">
-                Maison Menswear
-              </span>
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif text-[#241E1A] leading-[1.05] tracking-tight font-normal">
-                QUIETLY REFINED.
-              </h1>
-              <p className="mt-6 text-base sm:text-lg text-[#686B5E] font-sans max-w-lg leading-relaxed">
-                Modern menswear shaped by timeless proportions, considered natural fibers,
-                and the uncompromising discipline of architectural tailoring.
-              </p>
-
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link href="/collections/new-arrivals" className="sh-btn-primary group">
-                  <span>Explore Collection</span>
-                  <ArrowRight
-                    size={14}
-                    className="ml-2 group-hover:translate-x-1 transition-transform"
-                  />
-                </Link>
-                <Link
-                  href="/atelier"
-                  className="text-xs uppercase tracking-[0.2em] font-medium text-[#241E1A] hover:text-[#686B5E] transition-colors py-3 px-2"
-                >
-                  The Atelier Study →
-                </Link>
-              </div>
-            </div>
-
-            {/* Micro Details */}
-            <div
-              className={`mt-12 pt-6 border-t border-[#B8B0A3]/25 grid grid-cols-3 gap-4 text-left transform transition-all duration-1000 delay-300 ${
-                heroLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              <div>
-                <span className="text-[9px] uppercase tracking-[0.22em] text-[#B8B0A3] block">
-                  Material
-                </span>
-                <span className="text-xs font-serif text-[#241E1A]">Super 130s & Irish Linen</span>
-              </div>
-              <div>
-                <span className="text-[9px] uppercase tracking-[0.22em] text-[#B8B0A3] block">
-                  Construction
-                </span>
-                <span className="text-xs font-serif text-[#241E1A]">Full Floating Canvas</span>
-              </div>
-              <div>
-                <span className="text-[9px] uppercase tracking-[0.22em] text-[#B8B0A3] block">
-                  Edition
-                </span>
-                <span className="text-xs font-serif text-[#542B2E] font-medium">Bespoke 042</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Large Editorial Hero Visual */}
-          <div className="lg:col-span-6 relative">
-            <div
-              className={`relative aspect-[3/4] sm:aspect-[4/5] overflow-hidden bg-[#EBE5DB] shadow-lg transform transition-all duration-1000 delay-150 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                heroLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-98'
-              }`}
-            >
-              <img
-                src="/images/products/architectural-black-suit-full.jpg"
-                alt="STITCH HOUSE Autumn Winter Tailoring Campaign"
-                className="w-full h-full object-cover object-top hover:scale-103 transition-transform duration-1000"
-              />
-              <div className="absolute bottom-4 left-4 bg-[#F2EDE4]/90 backdrop-blur-xs px-3 py-1.5 border border-[#B8B0A3]/40">
-                <span className="text-[9px] uppercase tracking-[0.2em] text-[#241E1A] font-medium">
-                  Plate I — Obsidian Tailored Wool
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Banner Scroll Anchor */}
-        <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-[#B8B0A3] pt-4 border-t border-[#B8B0A3]/20">
-          <span>01 / 05 Editorial Sequences</span>
-          <span>Scroll to Explore Craft</span>
-        </div>
-      </section>
-
-
+      <StitchHouseHeroHost />
 
       {/* ─────────────────────────────────────────────────────────────
-          3. CURATED PIECES (3-Column Unboxed Editorial Grid)
+          2. CURATED PIECES (3-Column Unboxed Editorial Grid)
       ───────────────────────────────────────────────────────────── */}
-      <section className="py-24 sm:py-32 px-4 sm:px-8 max-w-[1600px] mx-auto">
-        <RevealSection className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 border-b border-[#B8B0A3]/30 pb-6 gap-4">
+      <section className="pt-8 sm:pt-12 pb-16 sm:pb-24 px-4 sm:px-8 max-w-[1600px] mx-auto">
+        <RevealSection className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 border-b border-[#B8B0A3]/30 pb-5 gap-4">
           <div>
             <span className="text-[10px] uppercase tracking-[0.25em] text-[#686B5E] block mb-1 font-medium">
               Curated Selection
