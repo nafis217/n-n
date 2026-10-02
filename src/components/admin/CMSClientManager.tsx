@@ -50,8 +50,8 @@ const DEFAULT_GALLERY_IMAGES = [
   { url: '/images/products/espoir_Summer-Fruits-L-768x763.jpg', label: 'Espoir Kimono — Summer Fruits' },
   { url: '/images/products/espoir_6-1-768x768.jpg', label: 'Espoir Atelier — Stone Ecru' },
   { url: '/images/products/shop_seiko-5-gmt-ssk001-18.jpg', label: 'Heritage SSK GMT Chronograph' },
-  { url: '/images/products/shop_769b9d60ff941dde9bc0e54431b8d8fe3182f5e9.png', label: 'FUKU Graphic Boxy Tee' },
-  { url: '/images/products/shop_d40da9a3a7234235e66d6695d9d7098fc3289872.png', label: 'FUKU Typography Heavy Tee' },
+  { url: '/images/products/shop_769b9d60ff941dde9bc0e54431b8d8fe3182f5e9.png', label: 'STITCH HOUSE Graphic Boxy Tee' },
+  { url: '/images/products/shop_d40da9a3a7234235e66d6695d9d7098fc3289872.png', label: 'STITCH HOUSE Typography Heavy Tee' },
 ];
 
 export const CMSClientManager: React.FC = () => {

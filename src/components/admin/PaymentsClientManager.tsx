@@ -85,7 +85,7 @@ export const PaymentsClientManager: React.FC<PaymentsClientManagerProps> = ({ in
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `FUKU_Financial_Ledger_${Date.now()}.csv`);
+    link.setAttribute('download', `STITCH_HOUSE_Financial_Ledger_${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -2,8 +2,8 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'Shop All Garments | FUKU Archive',
-  description: 'Explore the complete FUKU clothing archive: architectural outerwear, luxury oversized tees, modern tailored trousers, and limited heritage Jamdani editions.',
+  title: 'Shop All Garments | STITCH HOUSE',
+  description: 'Explore the complete STITCH HOUSE clothing collection: architectural outerwear, luxury oversized tees, modern tailored trousers, and limited heritage Jamdani editions.',
 };
 
 export default function ShopPage() {
@@ -18,7 +18,7 @@ export default function ShopPage() {
       <ShopContent
         initialCategory="all"
         pageTitle="The Complete Archive"
-        pageSubtitle="Every silhouette engineered by FUKU Atelier — Japanese technical knits, Belgian linen, and handwoven Jamdani."
+        pageSubtitle="Every silhouette engineered by STITCH HOUSE Atelier — Japanese technical knits, Belgian linen, and handwoven Jamdani."
       />
     </Suspense>
   );

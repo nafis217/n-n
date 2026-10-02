@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'Unisex Archive | FUKU Archive',
+  title: 'Unisex Collection | STITCH HOUSE',
   description: 'Tactical kimonos, 280 GSM heavyweight tees, 450 GSM French terry hoodies, and utility vests.',
 };
 

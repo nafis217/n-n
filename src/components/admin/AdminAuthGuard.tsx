@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Lock, KeyRound, ShieldAlert, ArrowLeft, CheckCircle2, Eye, EyeOff } from 'lucide-react';
 
-const VALID_ADMIN_PINS = ['fuku2026', 'admin2026', '998877'];
+const VALID_ADMIN_PINS = ['stitch2026', 'admin2026', '998877'];
 
 export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -15,7 +15,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Check if previously authorized
-    const session = localStorage.getItem('fuku_admin_auth_token');
+    const session = localStorage.getItem('stitchhouse_admin_auth_token');
     if (session === 'authorized_master_session') {
       setIsAuthenticated(true);
     } else {
@@ -27,14 +27,13 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
     e.preventDefault();
     setError('');
     setIsSubmitting(true);
-
     const entered = pinInput.trim();
     const envPin = process.env.NEXT_PUBLIC_ADMIN_PIN;
     const allowed = envPin ? [...VALID_ADMIN_PINS, envPin] : VALID_ADMIN_PINS;
 
     setTimeout(() => {
       if (allowed.includes(entered)) {
-        localStorage.setItem('fuku_admin_auth_token', 'authorized_master_session');
+        localStorage.setItem('stitchhouse_admin_auth_token', 'authorized_master_session');
         setIsAuthenticated(true);
         setError('');
       } else {
@@ -45,7 +44,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   };
 
   const handleLock = () => {
-    localStorage.removeItem('fuku_admin_auth_token');
+    localStorage.removeItem('stitchhouse_admin_auth_token');
     setIsAuthenticated(false);
     setPinInput('');
     setError('');
@@ -68,7 +67,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
         {/* Top Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="font-display font-medium text-lg tracking-[0.2em] uppercase">FUKU</span>
+            <span className="font-display font-medium text-lg tracking-[0.2em] uppercase">STITCH HOUSE</span>
             <span className="text-[10px] tracking-[0.2em] uppercase text-neutral-500 font-mono px-2 py-0.5 border border-neutral-800">
               SYS-AUTH v2.6
             </span>
@@ -159,7 +158,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
 
             <div className="mt-8 pt-6 border-t border-neutral-900 text-center">
               <p className="text-[11px] text-neutral-500 font-mono">
-                Default Master Passcode: <span className="text-neutral-300 select-all font-bold">fuku2026</span>
+                Default Master Passcode: <span className="text-neutral-300 select-all font-bold">stitch2026</span>
               </p>
             </div>
           </div>
@@ -167,7 +166,7 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
 
         {/* Footer */}
         <div className="text-center text-[10px] uppercase tracking-[0.2em] text-neutral-600 font-mono">
-          FUKU Independent Fashion Archive • Security Layer
+          STITCH HOUSE Luxury Atelier • Security Layer
         </div>
       </div>
     );

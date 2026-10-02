@@ -130,7 +130,7 @@ export const useCMSStore = create<CMSState>()(
       },
     }),
     {
-      name: 'fuku_cms_banners_v2',
+      name: 'stitchhouse_cms_banners_v2',
     }
   )
 );

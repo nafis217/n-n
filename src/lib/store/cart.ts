@@ -61,7 +61,8 @@ interface CartState {
 }
 
 const VALID_COUPONS: Record<string, number> = {
-  FUKU10: 10,
+  STITCH10: 10,
+  ATELIER15: 15,
   BENGAL20: 20,
   BUNON10: 10,
   WELCOME: 15,
@@ -76,7 +77,7 @@ export const useCartStore = create<CartState>()(
           variantId: 'prod-1-default',
           productId: 'prod-suit-01',
           title: 'Architectural Obsidian Tailored Suit',
-          sku: 'FUKU-SUIT-01-M',
+          sku: 'SH-SUIT-01-M',
           color: 'Obsidian Jet Black',
           selectedColor: 'Obsidian Jet Black',
           size: '40R',
@@ -253,7 +254,7 @@ export const useCartStore = create<CartState>()(
       },
     }),
     {
-      name: 'fuku-cart-storage',
+      name: 'stitchhouse-cart-storage',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         items: state.items,

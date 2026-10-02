@@ -171,7 +171,7 @@ export default function ContactPage() {
                 <span>Gulshan Flagship Showroom</span>
               </div>
               <h3 className="font-display text-base font-bold uppercase text-black">
-                FUKU Atelier &amp; Gallery
+                STITCH HOUSE Atelier &amp; Gallery
               </h3>
               <p className="text-xs font-mono text-neutral-600 leading-relaxed">
                 House 42, Road 11, Block D, Banani / Gulshan-2, Dhaka 1213, Bangladesh
@@ -203,7 +203,7 @@ export default function ContactPage() {
                   <Clock className="w-3.5 h-3.5" /> Mon – Fri: 10:00 AM – 7:00 PM
                 </div>
                 <div className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5" /> concierge@fukustudio.com
+                  <Mail className="w-3.5 h-3.5" /> concierge@stitchhouse.com
                 </div>
               </div>
             </div>

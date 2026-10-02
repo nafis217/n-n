@@ -2,8 +2,8 @@ import React from 'react';
 import { MapPin, Clock, Phone, ArrowUpRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Store Locator & Ateliers | FUKU Archive',
-  description: 'Visit FUKU flagship showrooms, retail boutiques, and research ateliers in Dhaka.',
+  title: 'Store Locator & Ateliers | STITCH HOUSE',
+  description: 'Visit STITCH HOUSE flagship showrooms, retail boutiques, and research ateliers in Dhaka.',
 };
 
 export default function StoreLocatorPage() {
@@ -45,7 +45,7 @@ export default function StoreLocatorPage() {
             className="font-display font-light text-black"
             style={{ fontSize: 'clamp(28px, 4vw, 48px)', letterSpacing: '-0.025em' }}
           >
-            FUKU Atelier &amp; Store Network
+            STITCH HOUSE Atelier &amp; Store Network
           </h1>
         </div>
 

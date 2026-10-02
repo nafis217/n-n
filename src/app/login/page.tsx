@@ -12,7 +12,7 @@ export default function CustomerLoginPage() {
   const { login } = useAuthStore();
 
   const [loginMethod, setLoginMethod] = useState<'email' | 'mobile'>('email');
-  const [email, setEmail] = useState('nafis@fukustudio.com');
+  const [email, setEmail] = useState('client@stitchhouse.com');
   const [password, setPassword] = useState('atelier2026');
   const [mobile, setMobile] = useState('+880 1712-345678');
   const [otp, setOtp] = useState('');
@@ -52,7 +52,7 @@ export default function CustomerLoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      await login('collector@fukustudio.com', 'FUKU COLLECTOR');
+      await login('client@stitchhouse.com', 'STITCH HOUSE CLIENT');
       router.push('/account');
     } finally {
       setLoading(false);
@@ -66,9 +66,9 @@ export default function CustomerLoginPage() {
         <div className="text-center space-y-2">
           <Link
             href="/"
-            className="font-display text-3xl font-black uppercase tracking-tighter text-black inline-block mb-2"
+            className="font-display text-2xl sm:text-3xl font-black uppercase tracking-widest text-black inline-block mb-2"
           >
-            fuku
+            STITCH HOUSE
           </Link>
           <h1 className="font-display text-xl sm:text-2xl font-bold uppercase tracking-tight text-black">
             Client Archive Authentication
@@ -118,7 +118,7 @@ export default function CustomerLoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="client@fukustudio.com"
+                  placeholder="client@stitchhouse.com"
                   className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
                 />
               </div>
@@ -222,7 +222,7 @@ export default function CustomerLoginPage() {
           <div className="mt-6 pt-4 border-t border-neutral-200 text-center">
             <button
               onClick={() => {
-                setEmail('nafis@fukustudio.com');
+                setEmail('client@stitchhouse.com');
                 setPassword('atelier2026');
                 setLoginMethod('email');
               }}

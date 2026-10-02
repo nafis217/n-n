@@ -75,8 +75,8 @@ export const PaymentMethodsManager: React.FC = () => {
       isTestMode: true,
       customerLabel: 'Credit / Debit Card (Visa, Mastercard, Amex)',
       customerInstructions: 'Pay with any Bangladeshi or international Visa, Mastercard, UnionPay, or Nexus card via SSLCommerz 3D Secure.',
-      publicIdOrKey: 'fuku_store_live',
-      secretKey: 'fuku_store_passwd_sec_9482',
+      publicIdOrKey: 'stitchhouse_store_live',
+      secretKey: 'stitchhouse_store_passwd_sec_9482',
       transactionFeePercent: 2.5,
       currency: 'BDT',
       sortOrder: 3,
@@ -119,7 +119,7 @@ export const PaymentMethodsManager: React.FC = () => {
       isEnabled: true,
       isTestMode: false,
       customerLabel: 'Direct Bank Transfer / BEFTN / NPSB',
-      customerInstructions: 'Transfer total amount to: FUKU ATELIER LTD, City Bank Gulshan Branch, A/C: 110-8492019-01. Include Order # in memo.',
+      customerInstructions: 'Transfer total amount to: STITCH HOUSE ATELIER LTD, City Bank Gulshan Branch, A/C: 110-8492019-01. Include Order # in memo.',
       publicIdOrKey: 'CITY_BANK_1108492',
       secretKey: '',
       transactionFeePercent: 0,
@@ -359,7 +359,7 @@ export const PaymentMethodsManager: React.FC = () => {
                   const val = e.target.value;
                   setMethods((prev) => prev.map((m) => (m.id === activeMethod.id ? { ...m, publicIdOrKey: val } : m)));
                 }}
-                placeholder="e.g. fuku_bkash_merchant_8492"
+                placeholder="e.g. stitch_bkash_merchant_8492"
                 className="w-full bg-white border border-neutral-300 px-3 py-2 text-black font-mono focus:outline-none focus:border-black"
               />
             </div>

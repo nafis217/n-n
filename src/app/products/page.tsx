@@ -2,8 +2,8 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'Catalogue & Products | FUKU Archive',
-  description: 'Explore the full FUKU modern clothing collection.',
+  title: 'Catalogue & Products | STITCH HOUSE',
+  description: 'Explore the full STITCH HOUSE modern clothing collection.',
 };
 
 export default function ProductsCataloguePage() {

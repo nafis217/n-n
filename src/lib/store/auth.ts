@@ -42,9 +42,9 @@ interface AuthState {
 }
 
 const DEFAULT_USER: UserProfile = {
-  id: 'usr_fuku_8829',
+  id: 'usr_sh_8829',
   name: 'Nafis Al Safayet',
-  email: 'nafis@fukustudio.com',
+  email: 'nafis@stitchhouse.atelier',
   phone: '+880 1712-345678',
   avatarUrl: '/images/user_portrait.jpg',
   gender: 'male',
@@ -66,7 +66,7 @@ const DEFAULT_ADDRESSES: Address[] = [
   },
   {
     id: 'addr_2',
-    name: 'FUKU Design Studio',
+    name: 'STITCH HOUSE Design Atelier',
     phone: '+880 1819-998877',
     address: 'Level 4, Plot 88, Pragati Sarani, Kuril',
     city: 'Dhaka',
@@ -107,7 +107,7 @@ export const useAuthStore = create<AuthState>()(
           points: 100,
         };
         set({ user: newUser, isAuthenticated: true });
-        toast.success('Account Created', `Welcome to FUKU Archive, ${name}!`);
+        toast.success('Account Created', `Welcome to STITCH HOUSE Archive, ${name}!`);
         return true;
       },
 
@@ -177,7 +177,7 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: 'fuku-auth-storage',
+      name: 'stitchhouse-auth-storage',
     }
   )
 );

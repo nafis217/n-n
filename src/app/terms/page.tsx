@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Terms & Conditions | FUKU Archive',
-  description: 'Terms of service, sales terms, intellectual property, and transactional protocols for FUKU garments.',
+  title: 'Terms & Conditions | STITCH HOUSE',
+  description: 'Terms of service, sales terms, intellectual property, and transactional protocols for STITCH HOUSE garments.',
 };
 
 export default function TermsPage() {
@@ -18,7 +18,7 @@ export default function TermsPage() {
             Terms &amp; Conditions of Sale
           </h1>
           <p className="text-xs font-mono text-neutral-500">
-            Effective Date: January 1, 2026 • FUKU Atelier Dhaka
+            Effective Date: January 1, 2026 • STITCH HOUSE Atelier Dhaka
           </p>
         </div>
 
@@ -28,7 +28,7 @@ export default function TermsPage() {
               1. Commercial Agreement
             </h2>
             <p>
-              By accessing the FUKU Archive digital platform, placing a consignment order, or visiting our physical showrooms, you consent to these legal conditions. All prices are denominated in Bangladeshi Taka (BDT ৳) and include applicable local value-added taxes unless stated otherwise.
+              By accessing the STITCH HOUSE digital platform, placing a consignment order, or visiting our physical showrooms, you consent to these legal conditions. All prices are denominated in Bangladeshi Taka (BDT ৳) and include applicable local value-added taxes unless stated otherwise.
             </p>
           </section>
 
@@ -46,7 +46,7 @@ export default function TermsPage() {
               3. Intellectual Property Rights
             </h2>
             <p>
-              All garment silhouettes, proprietary pattern engineering, photographic lookbooks, videography, software code, and brand trademarks are the exclusive intellectual property of FUKU Atelier Dhaka. Unauthorized duplication or commercial imitation is strictly prohibited under international copyright laws.
+              All garment silhouettes, proprietary pattern engineering, photographic lookbooks, videography, software code, and brand trademarks are the exclusive intellectual property of STITCH HOUSE Atelier Dhaka. Unauthorized duplication or commercial imitation is strictly prohibited under international copyright laws.
             </p>
           </section>
 
@@ -55,7 +55,7 @@ export default function TermsPage() {
               4. Payment &amp; Gateway Security
             </h2>
             <p>
-              Digital payments made via bKash, Nagad, Rocket, or SSLCommerz card gateways are processed through 256-bit encrypted merchant conduits. FUKU does not store customer CVV or credit card account secrets on client-facing servers.
+              Digital payments made via bKash, Nagad, Rocket, or SSLCommerz card gateways are processed through 256-bit encrypted merchant conduits. STITCH HOUSE does not store customer CVV or credit card account secrets on client-facing servers.
             </p>
           </section>
         </div>

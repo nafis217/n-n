@@ -34,7 +34,7 @@ export default function FAQPage() {
         },
         {
           q: 'Can I track my consignment in real time?',
-          a: 'Immediately upon dispatch, you will receive an SMS and email containing your courier waybill tracking number (RedX / SteadFast) which can be monitored directly in your FUKU Client Portal.',
+          a: 'Immediately upon dispatch, you will receive an SMS and email containing your courier waybill tracking number (RedX / SteadFast) which can be monitored directly in your STITCH HOUSE Client Portal.',
         },
       ],
     },
@@ -42,7 +42,7 @@ export default function FAQPage() {
       title: 'Sartorial Fits & Sizing Architecture',
       items: [
         {
-          q: 'How do FUKU oversized and architectural cuts fit compared to standard sizes?',
+          q: 'How do STITCH HOUSE oversized and architectural cuts fit compared to standard sizes?',
           a: 'Our silhouettes are intentionally designed with generous drop shoulders, boxy chest measurements, and structured drapery. For a classic relaxed runway fit, select your true standard size. For a slimmer tailored profile, take one size down.',
         },
         {
@@ -60,7 +60,7 @@ export default function FAQPage() {
         },
         {
           q: 'Are your Jamdani motifs authentic handloom?',
-          a: 'Every FUKU Jamdani piece is hand-woven on traditional pit looms by our cooperative of master artisans in Narayanganj, taking between 20 and 45 days per individual piece.',
+          a: 'Every STITCH HOUSE Jamdani piece is hand-woven on traditional pit looms by our cooperative of master artisans in Narayanganj, taking between 20 and 45 days per individual piece.',
         },
       ],
     },

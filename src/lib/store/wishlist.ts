@@ -52,7 +52,7 @@ export const useWishlistStore = create<WishlistState>()(
       isInWishlist: (productId: string) => get().wishlistIds.includes(productId),
     }),
     {
-      name: 'fuku-wishlist-storage',
+      name: 'stitchhouse-wishlist-storage',
     }
   )
 );

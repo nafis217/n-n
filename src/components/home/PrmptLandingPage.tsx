@@ -366,17 +366,28 @@ export function PrmptLandingPage() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          {/* "fuku" Wordmark */}
+          {/* "stitch house" Wordmark */}
           <text
             x="0"
-            y="80"
+            y="55"
             fill="#FFFFFF"
             fontFamily="'Inter Tight', sans-serif"
             fontWeight="900"
-            fontSize="92"
-            letterSpacing="-0.06em"
+            fontSize="44"
+            letterSpacing="-0.04em"
           >
-            fuku
+            STITCH
+          </text>
+          <text
+            x="0"
+            y="98"
+            fill="#FFFFFF"
+            fontFamily="'Inter Tight', sans-serif"
+            fontWeight="900"
+            fontSize="44"
+            letterSpacing="-0.04em"
+          >
+            HOUSE
           </text>
           {/* Circled "R" Mark */}
           <circle cx="230" cy="40" r="14" stroke="#FFFFFF" strokeWidth="3" />
@@ -468,9 +479,9 @@ export function PrmptLandingPage() {
           </div>
 
           <div className="font-inter-tight font-medium text-[20px] lg:text-[30px] leading-none text-left tracking-[-0.04em] text-white uppercase">
-            ARCHIVE COLLECTION
+            ATELIER SUITE
             <br />
-            &quot;FUKU&quot;
+            &quot;STITCH HOUSE&quot;
           </div>
         </div>
 
@@ -533,7 +544,7 @@ export function PrmptLandingPage() {
         ref={outroFooterRef}
         className="fixed z-20 pointer-events-none mix-blend-exclusion opacity-0 flex flex-row items-center justify-between lg:justify-start lg:gap-20 left-4 right-4 lg:right-auto bottom-6 lg:bottom-8 font-inter-tight font-medium text-[11px] lg:text-[13px] text-white tracking-[-0.02em] uppercase"
       >
-        <span>FUKU (R) 2026</span>
+        <span>STITCH HOUSE (R) 2026</span>
         <span>PRIVACY POLICY</span>
       </div>
 

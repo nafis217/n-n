@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'Women Collection | FUKU Archive',
+  title: 'Women Collection | STITCH HOUSE',
   description: 'Sculptural dresses, draped Jamdani sarees, fluid trousers, and modern tunics for women.',
 };
 

@@ -126,15 +126,15 @@ export const Header: React.FC = () => {
             <button
               onClick={toggleMenu}
               onMouseEnter={() => setIsMenuOpen(true)}
-              className="w-8 h-8 sm:w-9 sm:h-9 border border-black flex flex-col justify-center items-center gap-1 p-1.5 hover:bg-black group transition-colors cursor-pointer"
+              className="w-8 h-8 sm:w-9 sm:h-9 border border-[#241E1A] flex flex-col justify-center items-center gap-1 p-1.5 hover:bg-[#241E1A] group transition-colors cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
               {isMenuOpen ? (
-                <X size={16} className="text-black group-hover:text-white" />
+                <X size={16} className="text-[#241E1A] group-hover:text-[#F2EDE4]" />
               ) : (
                 <>
-                  <span className="w-full h-[1.5px] bg-black group-hover:bg-white transition-colors" />
-                  <span className="w-full h-[1.5px] bg-black group-hover:bg-white transition-colors" />
+                  <span className="w-full h-[1.5px] bg-[#241E1A] group-hover:bg-[#F2EDE4] transition-colors" />
+                  <span className="w-full h-[1.5px] bg-[#241E1A] group-hover:bg-[#F2EDE4] transition-colors" />
                 </>
               )}
             </button>
@@ -154,10 +154,10 @@ export const Header: React.FC = () => {
             {/* Search Input Bar (Zara Style) */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-2 text-black hover:text-neutral-500 transition-colors cursor-pointer group"
+              className="flex items-center gap-2 text-[#241E1A] hover:text-neutral-500 transition-colors cursor-pointer group"
               aria-label="Search Collection"
             >
-              <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-medium border-b border-black pb-0.5 group-hover:border-neutral-400">
+              <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-medium border-b border-[#241E1A] pb-0.5 group-hover:border-neutral-400">
                 SEARCH
               </span>
               <Search size={14} strokeWidth={2} />
@@ -166,7 +166,7 @@ export const Header: React.FC = () => {
             {/* Account / Log In */}
             <Link
               href={user ? '/account' : '/login'}
-              className="hidden sm:inline-block text-[11px] font-mono uppercase tracking-[0.16em] font-medium text-black hover:text-neutral-500 transition-colors"
+              className="hidden sm:inline-block text-[11px] font-mono uppercase tracking-[0.16em] font-medium text-[#241E1A] hover:text-neutral-500 transition-colors"
             >
               {user ? 'ACCOUNT' : 'LOG IN'}
             </Link>
@@ -174,7 +174,7 @@ export const Header: React.FC = () => {
             {/* Help / Concierge */}
             <Link
               href="/faq"
-              className="hidden md:inline-block text-[11px] font-mono uppercase tracking-[0.16em] text-neutral-500 hover:text-black transition-colors"
+              className="hidden md:inline-block text-[11px] font-mono uppercase tracking-[0.16em] text-neutral-500 hover:text-[#241E1A] transition-colors"
             >
               HELP
             </Link>
@@ -182,7 +182,7 @@ export const Header: React.FC = () => {
             {/* Bag Button */}
             <button
               onClick={openCart}
-              className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.18em] font-bold text-black border border-black px-3 py-1.5 hover:bg-black hover:text-white transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.18em] font-bold text-[#241E1A] border border-[#241E1A] px-3 py-1.5 hover:bg-[#241E1A] hover:text-[#F2EDE4] transition-colors cursor-pointer"
               aria-label={`Shopping Bag, ${itemCount} items`}
             >
               <ShoppingBag size={13} strokeWidth={2} />

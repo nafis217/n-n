@@ -444,7 +444,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
       ref={containerRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative w-full h-[90vh] min-h-[600px] max-h-[920px] bg-[#0A0A0A] text-[#F2EDE4] overflow-hidden select-none isolate border-b border-[#26211D]"
+      className="relative w-full h-[90vh] min-h-[600px] max-h-[920px] bg-[#241E1A] text-[#F2EDE4] overflow-hidden select-none isolate border-b border-[#38312B]"
       style={{
         perspective: 'var(--persp, 1150px)',
       }}
@@ -495,7 +495,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
                   transformStyle: 'preserve-3d',
                 }}
               >
-                <div className="relative w-full h-full overflow-hidden rounded-[2px] bg-[#12100E] shadow-2xl transition-transform duration-300 group-hover:scale-105 border border-[#2E2823] group-hover:border-[#A8946C]">
+                <div className="relative w-full h-full overflow-hidden rounded-[2px] bg-[#1A1614] shadow-2xl transition-transform duration-300 group-hover:scale-105 border border-[#38312B] group-hover:border-[#A8946C]">
                   <img
                     src={item.imgSrc}
                     alt={item.title}
@@ -503,11 +503,11 @@ export const StitchHouse3DSphereHero: React.FC = () => {
                     className="w-full h-full object-cover"
                     draggable={false}
                   />
-                  {/* Depth overlay */}
+                  {/* Depth overlay fading gracefully into #241E1A */}
                   <div
                     className="absolute inset-0 rounded-[2px] pointer-events-none transition-colors duration-150"
                     style={{
-                      background: 'rgba(0,0,0,var(--d,0))',
+                      background: 'rgba(36, 30, 26, calc(var(--d, 0) * 0.9))',
                     }}
                   />
                 </div>
@@ -523,7 +523,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
               width: 'min(56vw, 480px)',
               marginLeft: 'calc(min(56vw, 480px) / -2)',
               color: '#F2EDE4',
-              textShadow: '0 4px 30px rgba(0,0,0,0.95), 0 0 50px rgba(0,0,0,0.8)',
+              textShadow: '0 4px 30px rgba(18,14,12,0.95), 0 0 50px rgba(18,14,12,0.85)',
             }}
           >
             <span className="absolute top-0 left-0 w-full -translate-y-1/2 flex flex-col items-center justify-center">
@@ -548,7 +548,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
       </div>
 
       {/* ── AMBIENT VIGNETTE ── */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_88%_92%_at_50%_50%,transparent_40%,rgba(0,0,0,0.45)_75%,rgba(0,0,0,0.95)_100%)]" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_88%_92%_at_50%_50%,transparent_40%,rgba(26,22,20,0.35)_75%,rgba(18,14,12,0.85)_100%)]" />
 
       {/* ── TOP EDITORIAL OVERLAY ── */}
       <div className="absolute top-6 inset-x-0 px-6 sm:px-12 flex items-center justify-between pointer-events-none z-20">
@@ -561,7 +561,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
         <div className="flex items-center gap-4 pointer-events-auto">
           <button
             onClick={() => setIsGridView(!isGridView)}
-            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] px-3.5 py-1.5 bg-[#1A1614] text-[#F2EDE4] border border-[#38312B] hover:border-[#A8946C] hover:bg-[#241E1A] transition-all shadow-sm"
+            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] px-3.5 py-1.5 bg-[#1A1614] text-[#F2EDE4] border border-[#38312B] hover:border-[#A8946C] hover:bg-[#2D2622] transition-all shadow-sm"
           >
             <Grid size={12} className="text-[#A8946C]" />
             <span>{isGridView ? '3D Sphere' : 'Flat Archive'}</span>
@@ -587,7 +587,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
 
       {/* ── FLAT ARCHIVE GRID VIEW (TOGGLEABLE) ── */}
       {isGridView && (
-        <div className="absolute inset-0 z-30 overflow-y-auto bg-black/95 backdrop-blur-md p-8 sm:p-16 pt-24">
+        <div className="absolute inset-0 z-30 overflow-y-auto bg-[#241E1A]/98 backdrop-blur-md p-8 sm:p-16 pt-24">
           <div className="max-w-[1400px] mx-auto">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#38312B]">
               <div className="flex items-center gap-3">
@@ -608,7 +608,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
                 <div
                   key={item.id}
                   onClick={() => setActiveItem(item)}
-                  className="group cursor-pointer bg-[#0E0C0B] rounded-[2px] overflow-hidden border border-[#2E2823] hover:border-[#A8946C] shadow-md transition-all"
+                  className="group cursor-pointer bg-[#1A1614] rounded-[2px] overflow-hidden border border-[#38312B] hover:border-[#A8946C] shadow-md transition-all"
                 >
                   <div className="aspect-[3/4] overflow-hidden bg-[#141210]">
                     <img
@@ -617,7 +617,7 @@ export const StitchHouse3DSphereHero: React.FC = () => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="p-3 bg-[#0E0C0B]">
+                  <div className="p-3 bg-[#1A1614]">
                     <h4 className="text-xs font-serif text-[#F2EDE4] truncate font-medium">{item.title}</h4>
                     <p className="text-[10px] text-[#A8946C] truncate mt-0.5 font-medium">{item.category}</p>
                     <p className="text-[10px] text-[#B8B0A3] truncate mt-0.5">{item.fabric}</p>
@@ -636,16 +636,16 @@ export const StitchHouse3DSphereHero: React.FC = () => {
             onClick={() => setActiveItem(null)}
             className="absolute inset-0"
           />
-          <div className="relative max-w-3xl w-full bg-[#141210] border border-[#38312B] p-6 sm:p-8 z-10 shadow-2xl">
+          <div className="relative max-w-3xl w-full bg-[#241E1A] border border-[#38312B] p-6 sm:p-8 z-10 shadow-2xl">
             <button
               onClick={() => setActiveItem(null)}
-              className="absolute top-4 right-4 p-2 text-[#B8B0A3] hover:text-white bg-[#241E1A] border border-[#38312B] transition-colors"
+              className="absolute top-4 right-4 p-2 text-[#B8B0A3] hover:text-white bg-[#1A1614] border border-[#38312B] transition-colors"
               aria-label="Close modal"
             >
               <X size={16} />
             </button>
 
-            <div className="aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden bg-black mb-6 border border-[#38312B]">
+            <div className="aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden bg-[#1A1614] mb-6 border border-[#38312B]">
               <img
                 src={activeItem.imgSrc}
                 alt={activeItem.title}

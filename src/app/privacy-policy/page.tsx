@@ -2,8 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Privacy Policy | FUKU Archive',
-  description: 'Client data protection, cookie policy, and encrypted information handling at FUKU.',
+  title: 'Privacy Policy | STITCH HOUSE',
+  description: 'Client data protection, cookie policy, and encrypted information handling at STITCH HOUSE.',
 };
 
 export default function PrivacyPolicyPage() {
@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
             Client Privacy Policy
           </h1>
           <p className="text-xs font-mono text-neutral-500">
-            FUKU Atelier Bangladesh • Data Integrity Protocol
+            STITCH HOUSE Bangladesh • Data Integrity Protocol
           </p>
         </div>
 
@@ -37,7 +37,7 @@ export default function PrivacyPolicyPage() {
               2. Data Safeguards &amp; Zero Third-Party Selling
             </h2>
             <p>
-              FUKU will never sell, rent, or trade your personal client dossier to third-party advertisers or data brokers. Information is shared strictly with our bonded delivery courier partners (RedX / SteadFast) solely for shipment routing purposes.
+              STITCH HOUSE will never sell, rent, or trade your personal client dossier to third-party advertisers or data brokers. Information is shared strictly with our bonded delivery courier partners (RedX / SteadFast) solely for shipment routing purposes.
             </p>
           </section>
 
@@ -46,7 +46,7 @@ export default function PrivacyPolicyPage() {
               3. Client Rights &amp; Data Deletion
             </h2>
             <p>
-              Clients may request the complete deletion of their account records, delivery addresses, and purchase histories at any time by contacting our data protection officer at privacy@fukustudio.com.
+              Clients may request the complete deletion of their account records, delivery addresses, and purchase histories at any time by contacting our data protection officer at privacy@stitchhouse.com.
             </p>
           </section>
         </div>

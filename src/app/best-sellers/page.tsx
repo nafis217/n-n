@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'Best Sellers | FUKU Archive',
+  title: 'Best Sellers | STITCH HOUSE',
   description: 'Our most iconic garments: 280 GSM heavyweight tees, minimal leather totes, and tactical outerwear.',
 };
 
@@ -17,7 +17,7 @@ export default function BestSellersPage() {
     >
       <ShopContent
         initialCategory="best-sellers"
-        pageTitle="The FUKU Icons"
+        pageTitle="The Atelier Icons"
         pageSubtitle="The most celebrated pieces in our repertoire, tested and beloved by collectors across Bangladesh and abroad."
       />
     </Suspense>

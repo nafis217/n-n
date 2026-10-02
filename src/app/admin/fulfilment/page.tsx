@@ -9,7 +9,7 @@ export default async function AdminFulfilmentPage() {
     {
       id: 'ful-101',
       fulfilmentNumber: 'FUL-20260918-001',
-      orderNumber: 'FUKU-20260918-8472',
+      orderNumber: 'SH-20260918-8472',
       orderId: 'ord-101',
       customerName: 'Ahsanul Islam',
       phone: '+880 1711-223344',
@@ -20,7 +20,7 @@ export default async function AdminFulfilmentPage() {
         {
           id: 'it-1',
           productName: 'Architectural Oversized Black Suit',
-          sku: 'FUKU-SUIT-BLK-40',
+          sku: 'SH-SUIT-BLK-40',
           size: '40R',
           color: 'Midnight Black',
           quantity: 1,
@@ -35,7 +35,7 @@ export default async function AdminFulfilmentPage() {
     {
       id: 'ful-102',
       fulfilmentNumber: 'FUL-20260918-002',
-      orderNumber: 'FUKU-20260918-7911',
+      orderNumber: 'SH-20260918-7911',
       orderId: 'ord-102',
       customerName: 'Tasnim Rahman',
       phone: '+880 1812-998877',
@@ -46,7 +46,7 @@ export default async function AdminFulfilmentPage() {
         {
           id: 'it-2',
           productName: 'Raw Selvedge Denim Trucker Jacket',
-          sku: 'FUKU-JCK-SLV-L',
+          sku: 'SH-JCK-SLV-L',
           size: 'Large',
           color: 'Raw Indigo',
           quantity: 1,
@@ -62,7 +62,7 @@ export default async function AdminFulfilmentPage() {
     {
       id: 'ful-103',
       fulfilmentNumber: 'FUL-20260918-003',
-      orderNumber: 'FUKU-20260918-6204',
+      orderNumber: 'SH-20260918-6204',
       orderId: 'ord-103',
       customerName: 'Kazi Mahbub',
       phone: '+880 1913-445566',
@@ -73,7 +73,7 @@ export default async function AdminFulfilmentPage() {
         {
           id: 'it-3',
           productName: 'Monolith Contrast Collar Knit Polo',
-          sku: 'FUKU-POLO-OBS-M',
+          sku: 'SH-POLO-OBS-M',
           size: 'Medium',
           color: 'Obsidian / Chalk',
           quantity: 2,
@@ -121,7 +121,7 @@ export default async function AdminFulfilmentPage() {
           items: (ord.items || []).map((it) => ({
             id: it.id,
             productName: it.productName,
-            sku: it.variantSku || 'FUKU-SKU',
+            sku: it.variantSku || 'SH-SKU',
             size: it.sizeName || 'Regular',
             color: it.colorName || 'Monochrome',
             quantity: it.quantity || 1,

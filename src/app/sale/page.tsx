@@ -2,8 +2,8 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'Archive Sale | FUKU Archive',
-  description: 'Limited seasonal reductions on select archive garments and accessories.',
+  title: 'Seasonal Reductions | STITCH HOUSE',
+  description: 'Limited seasonal reductions on select bespoke garments and accessories.',
 };
 
 export default function SalePage() {

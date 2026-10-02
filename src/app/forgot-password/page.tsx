@@ -31,9 +31,9 @@ export default function ForgotPasswordPage() {
         <div className="text-center space-y-2">
           <Link
             href="/"
-            className="font-display text-3xl font-black uppercase tracking-tighter text-black inline-block mb-2"
+            className="font-display text-2xl sm:text-3xl font-black uppercase tracking-widest text-black inline-block mb-2"
           >
-            fuku
+            STITCH HOUSE
           </Link>
           <h1 className="font-display text-xl sm:text-2xl font-bold uppercase tracking-tight text-black">
             Reset Client Password
@@ -73,7 +73,7 @@ export default function ForgotPasswordPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="client@fukustudio.com"
+                  placeholder="client@stitchhouse.com"
                   className="w-full bg-neutral-50 border border-neutral-300 px-3.5 py-2.5 text-xs text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
                 />
               </div>

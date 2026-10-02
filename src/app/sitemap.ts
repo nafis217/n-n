@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { CATALOG_PRODUCTS } from '@/lib/queries/products';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fuku-official.vercel.app';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://stitchhouse.vercel.app';
   const currentDate = new Date().toISOString();
 
   const staticRoutes: MetadataRoute.Sitemap = [

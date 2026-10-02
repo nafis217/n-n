@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'Accessories & Leather | FUKU Archive',
+  title: 'Accessories & Leather | STITCH HOUSE',
   description: 'Vegetable-tanned full-grain leather totes, forged 925 silver cuffs, and handwoven Jamdani stoles.',
 };
 

@@ -48,13 +48,13 @@ export default function CustomerAccountPage() {
             Client Authentication Required
           </h1>
           <p className="text-xs text-neutral-600 font-sans">
-            Please log in to your FUKU client profile to view orders and manage saved addresses.
+            Please log in to your STITCH HOUSE client profile to view orders and manage saved addresses.
           </p>
           <Link
             href="/login"
             className="block w-full py-3.5 bg-black text-white font-display font-bold text-xs uppercase tracking-widest hover:bg-neutral-800 transition-colors"
           >
-            Sign In to Archive
+            Sign In to Atelier
           </Link>
         </div>
       </div>

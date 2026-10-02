@@ -327,8 +327,8 @@ export const MegaMenuPanel: React.FC<MegaMenuPanelProps> = ({
                   onClick={() => setSelectedSubCategory(cat.id)}
                   className={`flex items-center gap-2.5 text-lg sm:text-2xl tracking-[0.06em] cursor-pointer transition-colors ${
                     isCurrent
-                      ? 'text-black font-semibold'
-                      : 'text-neutral-400 hover:text-black font-normal'
+                      ? 'text-[#241E1A] font-semibold'
+                      : 'text-neutral-400 hover:text-[#241E1A] font-normal'
                   }`}
                 >
                   <span className={`text-base ${isCurrent ? 'opacity-100' : 'opacity-0'}`}>
@@ -354,7 +354,7 @@ export const MegaMenuPanel: React.FC<MegaMenuPanelProps> = ({
                   {sec.indexLabel && (
                     <span
                       className={`font-mono text-xs uppercase tracking-[0.16em] font-semibold ${
-                        sec.isSpecial ? 'text-[#E11D48]' : 'text-black'
+                        sec.isSpecial ? 'text-[#E11D48]' : 'text-[#241E1A]'
                       }`}
                     >
                       {sec.indexLabel}
@@ -372,7 +372,7 @@ export const MegaMenuPanel: React.FC<MegaMenuPanelProps> = ({
                         className={`text-xs uppercase tracking-[0.14em] transition-colors block ${
                           item.isAccent
                             ? 'text-[#E11D48] hover:text-[#BE123C] font-semibold'
-                            : 'text-neutral-700 hover:text-black hover:font-medium'
+                            : 'text-neutral-700 hover:text-[#241E1A] hover:font-medium'
                         }`}
                       >
                         {item.title}
@@ -400,7 +400,7 @@ export const MegaMenuPanel: React.FC<MegaMenuPanelProps> = ({
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                 </div>
-                <div className="text-center font-mono text-[10px] uppercase tracking-[0.25em] text-neutral-600 leading-tight group-hover:text-black">
+                <div className="text-center font-mono text-[10px] uppercase tracking-[0.25em] text-neutral-600 leading-tight group-hover:text-[#241E1A]">
                   <p>{thumb.labelTop}</p>
                   <p>{thumb.labelBottom}</p>
                 </div>

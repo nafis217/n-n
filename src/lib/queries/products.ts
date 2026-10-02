@@ -254,7 +254,7 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
       },
     ],
     shortDescription: 'All-angle tailored rose pink Oxford shirt woven from premium double-twisted yarn.',
-    description: 'An essential staple in the FUKU shirting suite. Featuring a natural button-down roll collar, genuine mother-of-pearl buttons, and a clean curved hem.',
+    description: 'An essential staple in the STITCH HOUSE shirting suite. Featuring a natural button-down roll collar, genuine mother-of-pearl buttons, and a clean curved hem.',
     details: [
       '100% two-ply long-staple combed cotton',
       'Mother-of-pearl buttons with cross-stitching',
@@ -1079,12 +1079,12 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
   },
 
   // ─────────────────────────────────────────────────────────
-  // 20. FUKU GRAPHIC BOXY TEE (Archive Drop)
+  // 20. STITCH HOUSE GRAPHIC BOXY TEE (Archive Drop)
   // ─────────────────────────────────────────────────────────
   {
     id: 'prod-tee-graphic',
-    slug: 'fuku-graphic-boxy-tee-black',
-    nameEn: 'FUKU Graphic Boxy Tee (Archive Edition)',
+    slug: 'stitchhouse-graphic-boxy-tee-black',
+    nameEn: 'STITCH HOUSE Graphic Boxy Tee (Archive Edition)',
     category: 't-shirts',
     collection: 'streetwear-archive',
     gender: 'UNISEX',
@@ -1117,7 +1117,7 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
       },
     ],
     shortDescription: 'Dual-image showcase of the archive graphic heavyweight streetwear tee.',
-    description: 'Featuring the signature FUKU geometric screenprint on heavyweight carded combed cotton jersey.',
+    description: 'Featuring the signature STITCH HOUSE geometric screenprint on heavyweight carded combed cotton jersey.',
     details: [
       '260 GSM premium carded cotton jersey',
       'High-density water-based archival print',
@@ -1132,12 +1132,12 @@ export const CATALOG_PRODUCTS: ProductItem[] = [
   },
 
   // ─────────────────────────────────────────────────────────
-  // 21. FUKU TYPOGRAPHY HEAVYWEIGHT COTTON TEE
+  // 21. STITCH HOUSE TYPOGRAPHY HEAVYWEIGHT COTTON TEE
   // ─────────────────────────────────────────────────────────
   {
     id: 'prod-tee-typo',
-    slug: 'fuku-typography-heavyweight-tee-ecru',
-    nameEn: 'FUKU Typography Heavyweight Cotton Tee (Ecru)',
+    slug: 'stitchhouse-typography-heavyweight-tee-ecru',
+    nameEn: 'STITCH HOUSE Typography Heavyweight Cotton Tee (Ecru)',
     category: 't-shirts',
     collection: 'streetwear-archive',
     gender: 'UNISEX',

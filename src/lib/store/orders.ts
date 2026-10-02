@@ -96,7 +96,7 @@ const SAMPLE_ORDERS: Order[] = [
     shippingAddress: {
       name: 'Nafis Al Safayet',
       phone: '+880 1712-345678',
-      email: 'nafis@fukustudio.com',
+      email: 'nafis@stitchhouse.atelier',
       address: 'House 42, Road 11, Block D, Banani',
       city: 'Dhaka',
       area: 'Banani / Gulshan',
@@ -122,7 +122,7 @@ const SAMPLE_ORDERS: Order[] = [
       },
       {
         status: 'PROCESSING',
-        title: 'Packaged in FUKU Box',
+        title: 'Packaged in STITCH HOUSE Box',
         description: 'Sealed with archive garment tag and certificate.',
         timestamp: 'Sep 11, 2026 - 04:15 PM',
         isCompleted: true,
@@ -145,7 +145,7 @@ const SAMPLE_ORDERS: Order[] = [
   },
   {
     id: 'ord_771920',
-    orderNumber: 'FK-2026-771920',
+    orderNumber: 'SH-2026-771920',
     createdAt: '2026-08-25T11:15:00.000Z',
     items: [
       {
@@ -170,7 +170,7 @@ const SAMPLE_ORDERS: Order[] = [
     shippingAddress: {
       name: 'Nafis Al Safayet',
       phone: '+880 1712-345678',
-      email: 'nafis@fukustudio.com',
+      email: 'nafis@stitchhouse.atelier',
       address: 'House 42, Road 11, Block D, Banani',
       city: 'Dhaka',
       area: 'Banani / Gulshan',
@@ -326,7 +326,7 @@ export const useOrdersStore = create<OrdersState>()(
       },
     }),
     {
-      name: 'fuku-orders-storage',
+      name: 'stitchhouse-orders-storage',
     }
   )
 );

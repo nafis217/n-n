@@ -146,12 +146,12 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
     subtitle: 'Limited Archive Release',
     shortDescription: 'High-density architectural silhouette tailored with Japanese precision cut.',
     fullDescription: 'Crafted from premium sustainable fibers with custom hardware. Designed for effortless modern draping and enduring performance.',
-    brand: 'FUKU ARCHIVE',
+    brand: 'STITCH HOUSE',
     category: 'JACKETS',
     subcategory: 'Tailoring',
     collection: 'CORE ARCHIVE 2026',
     tags: 'Outerwear, Tailoring, Minimal, Monochrome',
-    sku: `FK-${Math.floor(1000 + Math.random() * 9000)}`,
+    sku: `SH-${Math.floor(1000 + Math.random() * 9000)}`,
     barcode: `880${Math.floor(100000000 + Math.random() * 900000000)}`,
     status: 'ACTIVE',
     visibility: 'PUBLIC',
@@ -253,7 +253,7 @@ export const ProductEditorModal: React.FC<ProductEditorModalProps> = ({
       ...prev,
       titleEn: val,
       slug: autoSlug,
-      seoTitle: `${val} | FUKU Archive`,
+      seoTitle: `${val} | STITCH HOUSE`,
     }));
   };
 

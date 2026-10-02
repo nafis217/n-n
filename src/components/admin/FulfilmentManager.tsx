@@ -451,7 +451,7 @@ export const FulfilmentManager: React.FC<FulfilmentManagerProps> = ({ initialFul
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
           <div className="bg-white text-black max-w-sm w-full p-6 border-4 border-black font-mono shadow-2xl">
             <div className="text-center pb-3 border-b-2 border-black mb-3">
-              <h2 className="text-xl font-bold uppercase tracking-widest">FUKU ARCHIVE</h2>
+              <h2 className="text-xl font-bold uppercase tracking-widest">STITCH HOUSE</h2>
               <p className="text-[10px] text-neutral-600">GULSHAN 2 ATELIER, DHAKA • +880 1700-000000</p>
             </div>
 

@@ -55,17 +55,17 @@ export const AdminSidebar: React.FC = () => {
             className="p-2 border border-slate-300 text-slate-800 hover:bg-slate-100 rounded-md transition-colors"
             aria-label="Toggle navigation menu"
           >
-            {isMobileOpen ? <X className="w-5 h-5 text-rose-600" /> : <Menu className="w-5 h-5 text-indigo-600" />}
+            {isMobileOpen ? <X className="w-5 h-5 text-rose-600" /> : <Menu className="w-5 h-5 text-[#241E1A]" />}
           </button>
-          <span className="font-display font-bold text-sm tracking-[0.14em] uppercase bg-gradient-to-r from-violet-600 via-pink-600 to-amber-500 bg-clip-text text-transparent">
-            FUKU ADMIN
+          <span className="font-serif font-bold text-sm tracking-[0.14em] uppercase text-[#241E1A]">
+            STITCH HOUSE ADMIN
           </span>
         </div>
         <Link
           href="/"
-          className="text-[11px] font-mono uppercase text-slate-600 hover:text-indigo-600 flex items-center gap-1 border border-slate-200 px-2.5 py-1 rounded bg-slate-50 transition-colors"
+          className="text-[11px] font-mono uppercase text-slate-600 hover:text-[#241E1A] flex items-center gap-1 border border-slate-200 px-2.5 py-1 rounded bg-slate-50 transition-colors"
         >
-          <ArrowLeft className="w-3 h-3 text-indigo-500" />
+          <ArrowLeft className="w-3 h-3 text-[#A8946C]" />
           <span>Store</span>
         </Link>
       </div>
@@ -90,12 +90,12 @@ export const AdminSidebar: React.FC = () => {
             <div>
               <div className="flex items-center gap-1.5 mb-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-mono font-bold text-indigo-600 uppercase tracking-widest block">
+                <span className="text-[10px] font-mono font-bold text-[#A8946C] uppercase tracking-widest block">
                   EXECUTIVE PORTAL
                 </span>
               </div>
-              <h2 className="font-display text-xl tracking-[0.06em] uppercase font-extrabold bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-600 bg-clip-text text-transparent">
-                FUKU ARCHIVE
+              <h2 className="font-serif text-xl tracking-[0.06em] uppercase font-bold text-[#241E1A]">
+                STITCH HOUSE
               </h2>
             </div>
             {/* Close button inside mobile menu */}

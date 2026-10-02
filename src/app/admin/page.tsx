@@ -8,7 +8,7 @@ export default async function AdminDashboardPage() {
   let initialOrders: any[] = [
     {
       id: 'ord-101',
-      orderNumber: 'FUKU-20260918-8472',
+      orderNumber: 'SH-20260918-8472',
       customer: { name: 'Ahsanul Islam', email: 'ahsanul@gmail.com', mobile: '+880 1711-223344' },
       paymentMethod: 'BKASH',
       paymentStatus: 'PAID',
@@ -19,7 +19,7 @@ export default async function AdminDashboardPage() {
         {
           id: 'it-1',
           productName: 'Architectural Oversized Black Suit',
-          variantSku: 'FK-SUIT-BLK-40',
+          variantSku: 'SH-SUIT-BLK-40',
           sizeName: '40R',
           colorName: 'Midnight Black',
           quantity: 1,
@@ -30,7 +30,7 @@ export default async function AdminDashboardPage() {
     },
     {
       id: 'ord-102',
-      orderNumber: 'FUKU-20260918-7911',
+      orderNumber: 'SH-20260918-7911',
       customer: { name: 'Tasnim Rahman', email: 'tasnim@yahoo.com', mobile: '+880 1812-998877' },
       paymentMethod: 'CARD',
       paymentStatus: 'PAID',
@@ -41,7 +41,7 @@ export default async function AdminDashboardPage() {
         {
           id: 'it-2',
           productName: 'Raw Selvedge Denim Trucker Jacket',
-          variantSku: 'FK-JCK-SLV-L',
+          variantSku: 'SH-JCK-SLV-L',
           sizeName: 'Large',
           colorName: 'Raw Indigo',
           quantity: 1,
@@ -52,7 +52,7 @@ export default async function AdminDashboardPage() {
     },
     {
       id: 'ord-103',
-      orderNumber: 'FUKU-20260918-6204',
+      orderNumber: 'SH-20260918-6204',
       customer: { name: 'Kazi Mahbub', email: 'mahbub@outlook.com', mobile: '+880 1913-445566' },
       paymentMethod: 'NAGAD',
       paymentStatus: 'PAID',
@@ -63,7 +63,7 @@ export default async function AdminDashboardPage() {
         {
           id: 'it-3',
           productName: 'Monolith Contrast Collar Knit Polo',
-          variantSku: 'FK-POLO-OBS-M',
+          variantSku: 'SH-POLO-OBS-M',
           sizeName: 'Medium',
           colorName: 'Obsidian / Chalk',
           quantity: 2,
@@ -74,8 +74,8 @@ export default async function AdminDashboardPage() {
     },
     {
       id: 'ord-104',
-      orderNumber: 'FUKU-20260917-5182',
-      customer: { name: 'Nafis Chowdhury', email: 'nafis@fuku.com', mobile: '+880 1715-667788' },
+      orderNumber: 'SH-20260917-5182',
+      customer: { name: 'Nafis Chowdhury', email: 'client@stitchhouse.com', mobile: '+880 1715-667788' },
       paymentMethod: 'COD',
       paymentStatus: 'PENDING',
       totalBDT: 19500,
@@ -85,7 +85,7 @@ export default async function AdminDashboardPage() {
         {
           id: 'it-4',
           productName: 'Architectural Oversized Black Suit',
-          variantSku: 'FK-SUIT-BLK-42',
+          variantSku: 'SH-SUIT-BLK-42',
           sizeName: '42R',
           colorName: 'Midnight Black',
           quantity: 1,
@@ -102,7 +102,7 @@ export default async function AdminDashboardPage() {
       physical: 2,
       location: { name: 'Gulshan Atelier Hub' },
       variant: {
-        sku: 'FK-SUIT-BLK-38',
+        sku: 'SH-SUIT-BLK-38',
         product: { titleEn: 'Architectural Oversized Black Suit (38R)' },
       },
     },
@@ -111,7 +111,7 @@ export default async function AdminDashboardPage() {
       physical: 3,
       location: { name: 'Tejgaon Central Hub' },
       variant: {
-        sku: 'FK-JCK-SLV-S',
+        sku: 'SH-JCK-SLV-S',
         product: { titleEn: 'Raw Selvedge Denim Trucker Jacket (S)' },
       },
     },

@@ -21,7 +21,7 @@ export default function FullscreenPOSPage() {
               <span>Back to Admin</span>
             </Link>
             <span className="font-bold uppercase tracking-widest text-sm text-white">
-              FUKU RETAIL POS — Gulshan Atelier
+              STITCH HOUSE RETAIL POS — Gulshan Atelier
             </span>
           </div>
 

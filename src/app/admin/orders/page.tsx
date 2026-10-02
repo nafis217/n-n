@@ -9,7 +9,7 @@ export default async function AdminOrdersPage() {
   let orders: AdminOrderRecord[] = [
     {
       id: 'ord-101',
-      orderNumber: 'FUKU-20260918-8472',
+      orderNumber: 'SH-20260918-8472',
       createdAt: new Date(),
       orderStatus: 'CONFIRMED',
       paymentStatus: 'PAID',
@@ -20,7 +20,7 @@ export default async function AdminOrdersPage() {
         {
           id: 'it-1',
           productName: 'Architectural Obsidian Tailored Suit',
-          variantSku: 'FUKU-SUT-OBS-40R',
+          variantSku: 'SH-SUT-OBS-40R',
           color: 'Obsidian Jet Black',
           size: '40R',
           quantity: 1,
@@ -41,7 +41,7 @@ export default async function AdminOrdersPage() {
     },
     {
       id: 'ord-102',
-      orderNumber: 'FUKU-20260918-7911',
+      orderNumber: 'SH-20260918-7911',
       createdAt: new Date(Date.now() - 3600000 * 4),
       orderStatus: 'PROCESSING',
       paymentStatus: 'PAID',
@@ -52,7 +52,7 @@ export default async function AdminOrdersPage() {
         {
           id: 'it-2',
           productName: 'Raw Selvedge Denim Trucker Jacket',
-          variantSku: 'FUKU-DNM-IND-M',
+          variantSku: 'SH-DNM-IND-M',
           color: 'Raw Deep Indigo',
           size: 'M',
           quantity: 1,
@@ -63,7 +63,7 @@ export default async function AdminOrdersPage() {
         {
           id: 'it-3',
           productName: 'Monolith Contrast-Collar Technical Polo',
-          variantSku: 'FUKU-POL-BLK-M',
+          variantSku: 'SH-POL-BLK-M',
           color: 'Jet Black / Gold Trim',
           size: 'M',
           quantity: 1,
@@ -82,7 +82,7 @@ export default async function AdminOrdersPage() {
     },
     {
       id: 'ord-103',
-      orderNumber: 'FUKU-20260917-6523',
+      orderNumber: 'SH-20260917-6523',
       createdAt: new Date(Date.now() - 3600000 * 24),
       orderStatus: 'DELIVERED',
       paymentStatus: 'PAID',
@@ -93,7 +93,7 @@ export default async function AdminOrdersPage() {
         {
           id: 'it-4',
           productName: 'Tactical Cyber Kimono',
-          variantSku: 'FUKU-KIM-BLK-L',
+          variantSku: 'SH-KIM-BLK-L',
           color: 'Onyx Black',
           size: 'L',
           quantity: 1,
@@ -146,7 +146,7 @@ export default async function AdminOrdersPage() {
         },
         items: o.items?.map((it: any) => ({
           id: it.id,
-          productName: it.productName || 'FUKU Product',
+          productName: it.productName || 'STITCH HOUSE Product',
           variantSku: it.variantSku,
           size: it.size || 'M',
           color: it.color || 'Standard',

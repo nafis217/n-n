@@ -201,7 +201,7 @@ export const POSRegisterManager: React.FC = () => {
         changeDue: paymentMethod === 'CASH' ? changeDue : undefined,
         transactionRef: transactionRef || undefined,
         cashierName: 'Senior Atelier Cashier',
-        storeLocation: 'FUKU Flagship Atelier, Gulshan 2, Dhaka',
+        storeLocation: 'STITCH HOUSE Flagship Atelier, Gulshan 2, Dhaka',
       };
 
       setReceiptData(completedReceipt);
@@ -613,7 +613,7 @@ export const POSRegisterManager: React.FC = () => {
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
           <div className="bg-white text-black max-w-md w-full p-6 border-4 border-black font-mono shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto">
             <div className="text-center pb-4 border-b-2 border-dashed border-black">
-              <h2 className="text-2xl font-bold uppercase tracking-widest">FUKU ARCHIVE</h2>
+              <h2 className="text-2xl font-bold uppercase tracking-widest">STITCH HOUSE</h2>
               <p className="text-[10px] text-neutral-600">FLAGSHIP ATELIER • GULSHAN 2, DHAKA</p>
               <p className="text-[10px] text-neutral-600">TEL: +880 1700-000000 • BIN: 00921408-0101</p>
             </div>
@@ -699,9 +699,9 @@ export const POSRegisterManager: React.FC = () => {
             </div>
 
             <div className="text-center pt-2 pb-1 text-[10px] text-neutral-500 space-y-1">
-              <p className="font-bold text-black uppercase">THANK YOU FOR VISITING FUKU ARCHIVE</p>
+              <p className="font-bold text-black uppercase">THANK YOU FOR VISITING STITCH HOUSE</p>
               <p>Items may be exchanged within 7 days with original tag attached.</p>
-              <p className="font-mono">www.fukuofficial.vercel.app</p>
+              <p className="font-mono">www.stitchhouseofficial.vercel.app</p>
             </div>
 
             <div className="flex gap-2 pt-2 border-t border-neutral-200">

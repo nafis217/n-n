@@ -8,7 +8,7 @@ export default async function AdminPaymentsPage() {
   let payments: PaymentTransactionRecord[] = [
     {
       id: 'pay-1',
-      orderNumber: 'FUKU-20260918-8472',
+      orderNumber: 'SH-20260918-8472',
       customerName: 'Ahsanul Islam',
       method: 'BKASH',
       amountBDT: 28500,
@@ -20,7 +20,7 @@ export default async function AdminPaymentsPage() {
     },
     {
       id: 'pay-2',
-      orderNumber: 'FUKU-20260918-7911',
+      orderNumber: 'SH-20260918-7911',
       customerName: 'Tasnim Rahman',
       method: 'CARD',
       amountBDT: 22800,
@@ -32,7 +32,7 @@ export default async function AdminPaymentsPage() {
     },
     {
       id: 'pay-3',
-      orderNumber: 'FUKU-20260917-6523',
+      orderNumber: 'SH-20260917-6523',
       customerName: 'Farhan Kabir',
       method: 'COD',
       amountBDT: 18650,
@@ -44,7 +44,7 @@ export default async function AdminPaymentsPage() {
     },
     {
       id: 'pay-4',
-      orderNumber: 'FUKU-20260917-3819',
+      orderNumber: 'SH-20260917-3819',
       customerName: 'Nabil Hasan',
       method: 'NAGAD',
       amountBDT: 7800,
@@ -68,7 +68,7 @@ export default async function AdminPaymentsPage() {
     if (dbPayments && dbPayments.length > 0) {
       payments = dbPayments.map((p: any) => ({
         id: p.id,
-        orderNumber: p.order?.orderNumber || 'FUKU-ORDER',
+        orderNumber: p.order?.orderNumber || 'SH-ORDER',
         customerName: p.order?.customer?.name || 'Customer',
         method: p.method as any,
         amountBDT: p.amountBDT,

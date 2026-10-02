@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'Men Collection | FUKU Archive',
+  title: 'Men Collection | STITCH HOUSE',
   description: 'Unstructured blazers, deep-pleat trousers, selvedge denim, and minimal ceremonial garments for men.',
 };
 

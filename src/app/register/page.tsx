@@ -47,15 +47,15 @@ export default function RegistrationPage() {
         <div className="text-center space-y-2">
           <Link
             href="/"
-            className="font-display text-3xl font-black uppercase tracking-tighter text-black inline-block mb-2"
+            className="font-display text-2xl sm:text-3xl font-black uppercase tracking-widest text-black inline-block mb-2"
           >
-            fuku
+            STITCH HOUSE
           </Link>
           <h1 className="font-display text-xl sm:text-2xl font-bold uppercase tracking-tight text-black">
             Create Client Profile
           </h1>
           <p className="text-xs font-mono text-neutral-500">
-            Join the FUKU Archive for private drop previews and loyalty rewards.
+            Join STITCH HOUSE for private drop previews and bespoke atelier rewards.
           </p>
         </div>
 

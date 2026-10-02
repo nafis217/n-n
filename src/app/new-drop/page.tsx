@@ -2,8 +2,8 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'New Drop 2026 | FUKU Archive',
-  description: 'Fresh release from FUKU atelier: Spring/Summer 2026 runway pieces.',
+  title: 'New Drop 2026 | STITCH HOUSE',
+  description: 'Fresh release from STITCH HOUSE atelier: Spring/Summer 2026 runway pieces.',
 };
 
 export default function NewDropPage() {

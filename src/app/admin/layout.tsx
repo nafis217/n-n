@@ -3,8 +3,8 @@ import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { AdminAuthGuard } from '@/components/admin/AdminAuthGuard';
 
 export const metadata = {
-  title: 'FUKU | Administration Dashboard',
-  description: 'FUKU Retail Management & Executive Portal',
+  title: 'STITCH HOUSE | Executive Control Center',
+  description: 'STITCH HOUSE Luxury Retail Management & Unified Atelier Operations',
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

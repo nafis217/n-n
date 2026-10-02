@@ -39,7 +39,7 @@ export default function TrackOrderPage() {
             </label>
             <input
               type="text"
-              placeholder="e.g. FUKU-20260912-8472"
+              placeholder="e.g. SH-20260912-8472"
               value={orderNumber}
               onChange={(e) => setOrderNumber(e.target.value)}
               required
@@ -75,7 +75,7 @@ export default function TrackOrderPage() {
               <div>
                 <span className="text-label text-[10px] text-[#9B9B9B] uppercase tracking-wider">Order ID</span>
                 <p className="text-body font-medium text-black uppercase tracking-wide">
-                  {orderNumber || 'FUKU-20260912-8472'}
+                  {orderNumber || 'SH-20260912-8472'}
                 </p>
               </div>
               <span className="px-3 py-1 bg-[#F7F7F5] border border-black text-black text-label text-[10px] uppercase font-medium w-fit">

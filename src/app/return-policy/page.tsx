@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { RefreshCw, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Return & Exchange Policy | FUKU Archive',
-  description: '7-day complimentary garment exchanges, store credit, and return procedures for FUKU pieces in Bangladesh.',
+  title: 'Return & Exchange Policy | STITCH HOUSE',
+  description: '7-day complimentary garment exchanges, store credit, and return procedures for STITCH HOUSE pieces in Bangladesh.',
 };
 
 export default function ReturnPolicyPage() {
@@ -49,7 +49,7 @@ export default function ReturnPolicyPage() {
               3. Refund &amp; Store Credit Procedures
             </h2>
             <p>
-              In the event that an alternate size is sold out or if you prefer store credit, we provide lifetime non-expiring FUKU Archive vouchers or full refund settlement to your original payment method (bKash/Nagad/Cards) within 3 business days.
+              In the event that an alternate size is sold out or if you prefer store credit, we provide lifetime non-expiring STITCH HOUSE vouchers or full refund settlement to your original payment method (bKash/Nagad/Cards) within 3 business days.
             </p>
           </div>
         </div>

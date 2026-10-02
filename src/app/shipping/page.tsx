@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Truck, ShieldCheck, Clock, MapPin, Sparkles, ArrowRight } from 'lucide-react';
 
 export const metadata = {
-  title: 'Shipping & Delivery Logistics | FUKU Archive',
+  title: 'Shipping & Delivery Logistics | STITCH HOUSE',
   description: 'Nationwide Bangladesh delivery timelines, express same-day courier dispatch, and international freight guidelines.',
 };
 
@@ -61,7 +61,7 @@ export default function ShippingPage() {
             Signature Garment Packaging
           </h2>
           <p>
-            Every piece from the FUKU Archive arrives in our custom matte black archival garment boxes, wrapped in acid-free tissue paper with our embossed seal of authenticity. Outerwear pieces include heavy-duty breathable dust bags and custom wooden hangers.
+            Every piece from STITCH HOUSE arrives in our custom matte black archival garment boxes, wrapped in acid-free tissue paper with our embossed seal of authenticity. Outerwear pieces include heavy-duty breathable dust bags and custom wooden hangers.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-neutral-200 text-xs font-mono text-black">
             <div className="flex items-center gap-2">

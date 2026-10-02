@@ -12,7 +12,7 @@ export default async function AdminInventoryPage() {
       damaged: 0,
       location: { name: 'Gulshan Flagship Store' },
       variant: {
-        sku: 'FUKU-CYB-KIM-M',
+        sku: 'SH-CYB-KIM-M',
         priceBDT: 18500,
         product: { titleEn: 'Tactical Cyber Kimono' },
         color: { nameEn: 'Onyx Black' },
@@ -26,7 +26,7 @@ export default async function AdminInventoryPage() {
       damaged: 1,
       location: { name: 'Tejgaon Central Warehouse' },
       variant: {
-        sku: 'FUKU-JMD-BLK-42',
+        sku: 'SH-JMD-BLK-42',
         priceBDT: 14500,
         product: { titleEn: 'Jamdani Geometric Panjabi' },
         color: { nameEn: 'Jet Black' },
@@ -40,7 +40,7 @@ export default async function AdminInventoryPage() {
       damaged: 2,
       location: { name: 'Tejgaon Central Warehouse' },
       variant: {
-        sku: 'FUKU-OVS-TEE-L',
+        sku: 'SH-OVS-TEE-L',
         priceBDT: 6500,
         product: { titleEn: 'Architectural Oversized Tee' },
         color: { nameEn: 'Bone White' },

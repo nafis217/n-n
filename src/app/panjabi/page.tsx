@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { ShopContent } from '@/components/product/ShopContent';
 
 export const metadata = {
-  title: 'The Panjabi Reinvention | FUKU Archive',
+  title: 'The Panjabi Reinvention | STITCH HOUSE',
   description: 'Handspun Khadi silk, blind plackets, and minimalist mandarin collars. Modern heritage Panjabis for the discerning gentleman.',
 };
 
