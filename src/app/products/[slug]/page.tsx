@@ -99,17 +99,60 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               </div>
             )}
 
-            {/* Main Stage Image (3:4 Aspect Ratio) */}
-            <div className="flex-1 aspect-[3/4] bg-[#EBE5DB] overflow-hidden relative shadow-sm">
+            {/* Main Stage Image (3:4 Aspect Ratio) with Mobile Prev/Next Controls */}
+            <div className="flex-1 aspect-[3/4] bg-[#EBE5DB] overflow-hidden relative shadow-sm group/gallery">
               <img
                 src={product.images[selectedImageIndex] || product.images[0]}
                 alt={product.nameEn}
                 className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
               />
 
+              {/* Mobile Prev/Next Arrow Overlays */}
+              {product.images.length > 1 && (
+                <>
+                  <button
+                    onClick={() =>
+                      setSelectedImageIndex((prev) =>
+                        prev === 0 ? product.images.length - 1 : prev - 1
+                      )
+                    }
+                    className="md:hidden absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-[#241E1A]/70 text-[#F2EDE4] flex items-center justify-center p-1"
+                    aria-label="Previous image"
+                  >
+                    ‹
+                  </button>
+                  <button
+                    onClick={() =>
+                      setSelectedImageIndex((prev) =>
+                        prev === product.images.length - 1 ? 0 : prev + 1
+                      )
+                    }
+                    className="md:hidden absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-[#241E1A]/70 text-[#F2EDE4] flex items-center justify-center p-1"
+                    aria-label="Next image"
+                  >
+                    ›
+                  </button>
+
+                  {/* Mobile Dots Indicator */}
+                  <div className="md:hidden absolute bottom-3 inset-x-0 flex justify-center gap-1.5 z-10">
+                    {product.images.map((_, dotIdx) => (
+                      <span
+                        key={dotIdx}
+                        onClick={() => setSelectedImageIndex(dotIdx)}
+                        className={`h-1.5 transition-all ${
+                          selectedImageIndex === dotIdx
+                            ? 'w-6 bg-[#241E1A]'
+                            : 'w-1.5 bg-[#241E1A]/40'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+
               {/* Atelier Badge Overlay */}
               {(product.atelierSelection || product.atelierNumber) && (
-                <div className="absolute top-4 left-4 bg-[#542B2E] text-[#F2EDE4] px-3 py-1 text-[9px] uppercase tracking-[0.25em] font-medium">
+                <div className="absolute top-3 left-3 bg-[#542B2E] text-[#F2EDE4] px-2.5 py-1 text-[9px] uppercase tracking-[0.22em] font-medium">
                   ATELIER SELECTION / {product.atelierNumber || '042'}
                 </div>
               )}
@@ -136,7 +179,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               </h1>
 
               <div className="mt-3 flex items-baseline gap-3">
-                <span className="text-lg sm:text-xl font-sans font-medium text-[#241E1A] tracking-wide">
+                <span className="text-lg sm:text-xl font-sans font-semibold text-[#241E1A] tracking-wide">
                   BDT {product.priceBDT.toLocaleString()}
                 </span>
                 {product.originalPriceBDT && product.originalPriceBDT > product.priceBDT && (
@@ -148,7 +191,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             </div>
 
             {/* Description */}
-            <p className="text-sm text-[#686B5E] font-sans leading-relaxed border-t border-[#B8B0A3]/25 pt-4">
+            <p className="text-xs sm:text-sm text-[#686B5E] font-sans leading-relaxed border-t border-[#B8B0A3]/25 pt-4">
               {product.description || product.shortDescription}
             </p>
 
@@ -159,12 +202,12 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                   <span className="text-[#686B5E]">Color</span>
                   <span className="text-[#241E1A] font-medium">{selectedColor}</span>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {product.colors.map((c) => (
                     <button
                       key={c.id}
                       onClick={() => setSelectedColor(c.name)}
-                      className={`text-xs px-3.5 py-1.5 border transition-all ${
+                      className={`text-xs px-3.5 py-2 border transition-all ${
                         selectedColor === c.name
                           ? 'border-[#241E1A] bg-[#241E1A] text-[#F2EDE4]'
                           : 'border-[#B8B0A3]/50 text-[#241E1A] hover:border-[#241E1A]'
@@ -209,7 +252,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             <div className="pt-2 flex gap-3">
               <button
                 onClick={handleAddToBag}
-                className="flex-1 sh-btn-primary flex items-center justify-center gap-2"
+                className="flex-1 sh-btn-primary flex items-center justify-center gap-2 py-3.5"
               >
                 {added ? (
                   <>
@@ -236,22 +279,22 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
             {/* ── Structured Product Specifications Table ── */}
             <div className="border-t border-[#B8B0A3]/25 pt-6">
-              <div className="flex gap-4 border-b border-[#B8B0A3]/30 pb-2 mb-4 text-[11px] uppercase tracking-[0.2em] font-medium">
+              <div className="flex gap-4 border-b border-[#B8B0A3]/30 pb-2 mb-4 text-[11px] uppercase tracking-[0.2em] font-medium overflow-x-auto">
                 <button
                   onClick={() => setActiveTab('details')}
-                  className={`pb-1 ${activeTab === 'details' ? 'text-[#241E1A] border-b border-[#241E1A]' : 'text-[#686B5E]'}`}
+                  className={`pb-1 whitespace-nowrap ${activeTab === 'details' ? 'text-[#241E1A] border-b-2 border-[#241E1A]' : 'text-[#686B5E]'}`}
                 >
                   Tailoring & Fit
                 </button>
                 <button
                   onClick={() => setActiveTab('specs')}
-                  className={`pb-1 ${activeTab === 'specs' ? 'text-[#241E1A] border-b border-[#241E1A]' : 'text-[#686B5E]'}`}
+                  className={`pb-1 whitespace-nowrap ${activeTab === 'specs' ? 'text-[#241E1A] border-b-2 border-[#241E1A]' : 'text-[#686B5E]'}`}
                 >
                   Composition
                 </button>
                 <button
                   onClick={() => setActiveTab('delivery')}
-                  className={`pb-1 ${activeTab === 'delivery' ? 'text-[#241E1A] border-b border-[#241E1A]' : 'text-[#686B5E]'}`}
+                  className={`pb-1 whitespace-nowrap ${activeTab === 'delivery' ? 'text-[#241E1A] border-b-2 border-[#241E1A]' : 'text-[#686B5E]'}`}
                 >
                   Delivery & Care
                 </button>
@@ -306,15 +349,31 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
         </div>
       </div>
 
-      {/* ── Related Atelier Pieces ── */}
+      {/* ── Mobile Sticky Bottom Buy Bar (Always available when scrolling on phones) ── */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#F2EDE4]/95 backdrop-blur-md border-t border-[#B8B0A3]/40 p-3 pb-safe flex items-center justify-between gap-3 shadow-2xl">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-serif text-[#241E1A] truncate">{product.nameEn}</p>
+          <p className="text-xs font-sans font-semibold text-[#241E1A]">
+            BDT {product.priceBDT.toLocaleString()}
+          </p>
+        </div>
+        <button
+          onClick={handleAddToBag}
+          className="sh-btn-primary py-2.5 px-5 text-[10px] tracking-[0.16em] shrink-0"
+        >
+          {added ? 'Added ✓' : 'Add to Bag'}
+        </button>
+      </div>
+
+      {/* ── Related Atelier Pieces (Responsive 2-col on mobile) ── */}
       {relatedProducts.length > 0 && (
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 mt-32 border-t border-[#B8B0A3]/30 pt-16">
-          <div className="flex items-center justify-between mb-8">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 mt-20 sm:mt-32 border-t border-[#B8B0A3]/30 pt-12 sm:pt-16">
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
             <div>
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#686B5E] block mb-1">
                 Complementary Proportions
               </span>
-              <h2 className="text-2xl sm:text-3xl font-serif text-[#241E1A]">
+              <h2 className="text-xl sm:text-3xl font-serif text-[#241E1A]">
                 You May Also Consider
               </h2>
             </div>
@@ -326,7 +385,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-8">
             {relatedProducts.map((p) => (
               <ProductCard key={p.id} product={p} editorial={true} />
             ))}

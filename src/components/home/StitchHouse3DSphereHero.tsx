@@ -551,17 +551,17 @@ export const StitchHouse3DSphereHero: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_88%_92%_at_50%_50%,transparent_40%,rgba(26,22,20,0.35)_75%,rgba(18,14,12,0.85)_100%)]" />
 
       {/* ── TOP EDITORIAL OVERLAY ── */}
-      <div className="absolute top-6 inset-x-0 px-6 sm:px-12 flex items-center justify-between pointer-events-none z-20">
-        <div className="flex items-center gap-3">
+      <div className="absolute top-4 sm:top-6 inset-x-0 px-3 sm:px-12 flex items-center justify-between pointer-events-none z-20">
+        <div className="flex items-center gap-2 sm:gap-3">
           <SHMonogram size={18} variant="brass" />
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#B8B0A3]">
+          <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#B8B0A3] truncate max-w-[140px] min-[380px]:max-w-none">
             Vol. 04 / 3D Tailoring Study
           </span>
         </div>
-        <div className="flex items-center gap-4 pointer-events-auto">
+        <div className="flex items-center gap-2 sm:gap-4 pointer-events-auto">
           <button
             onClick={() => setIsGridView(!isGridView)}
-            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] px-3.5 py-1.5 bg-[#1A1614] text-[#F2EDE4] border border-[#38312B] hover:border-[#A8946C] hover:bg-[#2D2622] transition-all shadow-sm"
+            className="flex items-center gap-1.5 sm:gap-2 text-[9px] sm:text-[10px] uppercase tracking-[0.16em] sm:tracking-[0.2em] px-2.5 sm:px-3.5 py-1.5 bg-[#1A1614] text-[#F2EDE4] border border-[#38312B] hover:border-[#A8946C] hover:bg-[#2D2622] transition-all shadow-sm"
           >
             <Grid size={12} className="text-[#A8946C]" />
             <span>{isGridView ? '3D Sphere' : 'Flat Archive'}</span>
@@ -577,9 +577,9 @@ export const StitchHouse3DSphereHero: React.FC = () => {
       </div>
 
       {/* ── BOTTOM CUE ── */}
-      <div className="absolute bottom-6 inset-x-0 px-6 sm:px-12 flex items-center justify-between pointer-events-none z-20 text-[10px] uppercase tracking-[0.25em] text-[#B8B0A3]">
+      <div className="absolute bottom-4 sm:bottom-6 inset-x-0 px-3 sm:px-12 flex items-center justify-between pointer-events-none z-20 text-[9px] sm:text-[10px] uppercase tracking-[0.18em] sm:tracking-[0.25em] text-[#B8B0A3]">
         <div className="flex items-center gap-2">
-          <span className="w-8 h-[1px] bg-[#A8946C]" />
+          <span className="w-6 sm:w-8 h-[1px] bg-[#A8946C]" />
           <span>Drag to rotate • Click piece to inspect</span>
         </div>
         <span className="hidden sm:inline">Gulshan • Banani • Atelier Dhaka</span>
@@ -587,23 +587,23 @@ export const StitchHouse3DSphereHero: React.FC = () => {
 
       {/* ── FLAT ARCHIVE GRID VIEW (TOGGLEABLE) ── */}
       {isGridView && (
-        <div className="absolute inset-0 z-30 overflow-y-auto bg-[#241E1A]/98 backdrop-blur-md p-8 sm:p-16 pt-24">
+        <div className="absolute inset-0 z-30 overflow-y-auto bg-[#241E1A]/98 backdrop-blur-md p-4 sm:p-16 pt-20 sm:pt-24">
           <div className="max-w-[1400px] mx-auto">
-            <div className="flex items-center justify-between mb-8 pb-4 border-b border-[#38312B]">
-              <div className="flex items-center gap-3">
-                <SHMonogram size={22} variant="light" />
-                <h3 className="text-xl font-serif text-[#F2EDE4]">
+            <div className="flex items-center justify-between mb-6 sm:mb-8 pb-3 sm:pb-4 border-b border-[#38312B]">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <SHMonogram size={20} variant="light" />
+                <h3 className="text-base sm:text-xl font-serif text-[#F2EDE4]">
                   STITCH HOUSE Complete Archive ({LOCAL_PLATES.length} Pieces)
                 </h3>
               </div>
               <button
                 onClick={() => setIsGridView(false)}
-                className="text-xs uppercase tracking-widest text-[#A8946C] hover:text-white transition-colors font-medium"
+                className="text-[10px] sm:text-xs uppercase tracking-widest text-[#A8946C] hover:text-white transition-colors font-medium"
               >
                 Return to 3D Sphere →
               </button>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-6">
               {LOCAL_PLATES.map((item) => (
                 <div
                   key={item.id}
@@ -617,10 +617,10 @@ export const StitchHouse3DSphereHero: React.FC = () => {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="p-3 bg-[#1A1614]">
-                    <h4 className="text-xs font-serif text-[#F2EDE4] truncate font-medium">{item.title}</h4>
-                    <p className="text-[10px] text-[#A8946C] truncate mt-0.5 font-medium">{item.category}</p>
-                    <p className="text-[10px] text-[#B8B0A3] truncate mt-0.5">{item.fabric}</p>
+                  <div className="p-2.5 sm:p-3 bg-[#1A1614]">
+                    <h4 className="text-[11px] sm:text-xs font-serif text-[#F2EDE4] truncate font-medium">{item.title}</h4>
+                    <p className="text-[9px] sm:text-[10px] text-[#A8946C] truncate mt-0.5 font-medium">{item.category}</p>
+                    <p className="text-[9px] sm:text-[10px] text-[#B8B0A3] truncate mt-0.5">{item.fabric}</p>
                   </div>
                 </div>
               ))}
@@ -631,21 +631,21 @@ export const StitchHouse3DSphereHero: React.FC = () => {
 
       {/* ── FLIP LIGHTBOX MODAL ── */}
       {activeItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/85 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-8 bg-black/85 backdrop-blur-sm animate-in fade-in duration-200">
           <div
             onClick={() => setActiveItem(null)}
             className="absolute inset-0"
           />
-          <div className="relative max-w-3xl w-full bg-[#241E1A] border border-[#38312B] p-6 sm:p-8 z-10 shadow-2xl">
+          <div className="relative max-w-3xl w-full max-h-[90vh] overflow-y-auto bg-[#241E1A] border border-[#38312B] p-5 sm:p-8 z-10 shadow-2xl">
             <button
               onClick={() => setActiveItem(null)}
-              className="absolute top-4 right-4 p-2 text-[#B8B0A3] hover:text-white bg-[#1A1614] border border-[#38312B] transition-colors"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 text-[#B8B0A3] hover:text-white bg-[#1A1614] border border-[#38312B] transition-colors z-20"
               aria-label="Close modal"
             >
               <X size={16} />
             </button>
 
-            <div className="aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden bg-[#1A1614] mb-6 border border-[#38312B]">
+            <div className="aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden bg-[#1A1614] mb-5 sm:mb-6 border border-[#38312B]">
               <img
                 src={activeItem.imgSrc}
                 alt={activeItem.title}
@@ -653,28 +653,28 @@ export const StitchHouse3DSphereHero: React.FC = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 sm:gap-6">
               <div className="sm:col-span-5">
                 <span className="text-[9px] uppercase tracking-[0.25em] text-[#A8946C] block mb-1 font-medium">
                   {activeItem.category}
                 </span>
-                <h3 className="text-2xl font-serif text-[#F2EDE4]">{activeItem.title}</h3>
+                <h3 className="text-xl sm:text-2xl font-serif text-[#F2EDE4]">{activeItem.title}</h3>
                 <p className="text-xs font-serif italic text-[#B8B0A3] mt-1">{activeItem.fabric}</p>
               </div>
-              <div className="sm:col-span-7">
+              <div className="sm:col-span-7 flex flex-col justify-between">
                 <p className="text-xs sm:text-sm text-[#F2EDE4]/80 leading-relaxed font-sans">
                   {activeItem.note}
                 </p>
-                <div className="mt-6 flex items-center gap-4">
+                <div className="mt-5 sm:mt-6 flex flex-col min-[380px]:flex-row items-stretch min-[380px]:items-center gap-3 sm:gap-4">
                   <Link
                     href="/collections/new-arrivals"
-                    className="px-5 py-2.5 bg-[#F2EDE4] text-[#241E1A] text-[10px] font-medium tracking-[0.2em] uppercase hover:bg-[#A8946C] hover:text-[#F2EDE4] transition-all"
+                    className="px-4 sm:px-5 py-2.5 bg-[#F2EDE4] text-[#241E1A] text-[10px] font-medium tracking-[0.2em] uppercase hover:bg-[#A8946C] hover:text-[#F2EDE4] transition-all text-center"
                   >
                     Inquire Bespoke Piece
                   </Link>
                   <Link
                     href="/atelier"
-                    className="text-[10px] uppercase tracking-[0.2em] text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors font-medium"
+                    className="text-[10px] uppercase tracking-[0.2em] text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors font-medium text-center py-2 min-[380px]:py-0"
                   >
                     View Atelier Craft →
                   </Link>

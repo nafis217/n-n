@@ -1,5 +1,4 @@
 import React from 'react';
-import { db } from '@/lib/db';
 
 export const revalidate = 0;
 
@@ -32,24 +31,6 @@ export default async function AdminUsersPage() {
   ];
 
   let auditLogs: any[] = [];
-
-  try {
-    const dbUsers = await db.user.findMany({
-      include: {
-        roles: { include: { role: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
-    if (dbUsers && dbUsers.length > 0) users = dbUsers;
-
-    const dbLogs = await db.auditLog.findMany({
-      take: 15,
-      orderBy: { createdAt: 'desc' },
-    });
-    if (dbLogs && dbLogs.length > 0) auditLogs = dbLogs;
-  } catch (err) {
-    console.warn('Using fallback users data:', err);
-  }
 
   return (
     <div className="w-full">

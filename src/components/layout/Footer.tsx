@@ -77,8 +77,8 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Minimal Banner Top Bar */}
-        <div className="absolute top-4 inset-x-0 px-6 sm:px-12 flex items-center justify-between z-10">
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#B8B0A3]">
+        <div className="absolute top-4 inset-x-0 px-4 sm:px-12 flex items-center justify-between z-10 gap-2">
+          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#B8B0A3] truncate">
             <SHMonogram size={14} variant="stone" />
             <span>Maison Dhaka</span>
           </div>
@@ -87,7 +87,7 @@ export const Footer: React.FC = () => {
           </p>
           <Link
             href="/collections/new-arrivals"
-            className="text-[10px] uppercase tracking-[0.2em] px-3.5 py-1.5 bg-[#F2EDE4] text-[#241E1A] font-medium hover:bg-[#A8946C] hover:text-[#F2EDE4] transition-all"
+            className="text-[10px] uppercase tracking-[0.2em] px-3.5 py-1.5 bg-[#F2EDE4] text-[#241E1A] font-medium hover:bg-[#A8946C] hover:text-[#F2EDE4] transition-all shrink-0"
           >
             Explore
           </Link>
@@ -97,8 +97,8 @@ export const Footer: React.FC = () => {
       {/* ─────────────────────────────────────────────────────────────
           2. MINIMALIST CLEAN FOOTER CONTENT
       ───────────────────────────────────────────────────────────── */}
-      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 py-12 sm:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 sm:gap-14 pb-12 border-b border-[#38312B]">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-10 py-10 sm:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-14 pb-10 sm:pb-12 border-b border-[#38312B]">
           {/* Brand & Newsletter (Left side) */}
           <div className="md:col-span-6 flex flex-col justify-between">
             <div>
@@ -129,11 +129,11 @@ export const Footer: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="ENTER YOUR EMAIL"
                     required
-                    className="flex-1 bg-transparent border-b border-[#38312B] text-xs text-[#F2EDE4] placeholder:text-[#686B5E] py-2 px-1 focus:outline-none focus:border-[#A8946C] transition-colors"
+                    className="flex-1 bg-transparent border-b border-[#38312B] text-xs text-[#F2EDE4] placeholder:text-[#686B5E] py-2.5 px-1 focus:outline-none focus:border-[#A8946C] transition-colors"
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-[#F2EDE4] text-[#241E1A] text-[10px] font-medium tracking-[0.2em] uppercase hover:bg-[#A8946C] hover:text-[#F2EDE4] transition-all"
+                    className="px-5 py-2.5 bg-[#F2EDE4] text-[#241E1A] text-[10px] font-medium tracking-[0.2em] uppercase hover:bg-[#A8946C] hover:text-[#F2EDE4] transition-all shrink-0 cursor-pointer"
                   >
                     Join
                   </button>
@@ -142,36 +142,36 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Clean 3 Navigation Columns (Right side) */}
-          <div className="md:col-span-6 grid grid-cols-3 gap-6 sm:gap-8">
+          {/* Clean Navigation Columns (Right side) */}
+          <div className="md:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8">
             {/* Col 1: Shop */}
             <div>
-              <h4 className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold mb-4">
+              <h4 className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold mb-3 sm:mb-4">
                 Shop
               </h4>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <Link href="/collections/new-arrivals" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/collections/new-arrivals" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     New In
                   </Link>
                 </li>
                 <li>
-                  <Link href="/collections/clothing" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/collections/clothing" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Clothing
                   </Link>
                 </li>
                 <li>
-                  <Link href="/collections/shirts" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/collections/shirts" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Shirting
                   </Link>
                 </li>
                 <li>
-                  <Link href="/collections/trousers" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/collections/trousers" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Trousers
                   </Link>
                 </li>
                 <li>
-                  <Link href="/collections/outerwear" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/collections/outerwear" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Outerwear
                   </Link>
                 </li>
@@ -180,27 +180,27 @@ export const Footer: React.FC = () => {
 
             {/* Col 2: Maison */}
             <div>
-              <h4 className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold mb-4">
+              <h4 className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold mb-3 sm:mb-4">
                 Maison
               </h4>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <Link href="/about" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/about" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link href="/atelier" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/atelier" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Atelier
                   </Link>
                 </li>
                 <li>
-                  <Link href="/journal" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/journal" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Journal
                   </Link>
                 </li>
                 <li>
-                  <Link href="/store-locator" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/store-locator" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Showrooms
                   </Link>
                 </li>
@@ -208,28 +208,28 @@ export const Footer: React.FC = () => {
             </div>
 
             {/* Col 3: Care & Legal */}
-            <div>
-              <h4 className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold mb-4">
+            <div className="col-span-2 sm:col-span-1 border-t sm:border-t-0 border-[#38312B] pt-4 sm:pt-0">
+              <h4 className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold mb-3 sm:mb-4">
                 Client Care
               </h4>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <Link href="/contact" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/contact" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Contact
                   </Link>
                 </li>
                 <li>
-                  <Link href="/shipping" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/shipping" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Shipping
                   </Link>
                 </li>
                 <li>
-                  <Link href="/returns" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/returns" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Returns
                   </Link>
                 </li>
                 <li>
-                  <Link href="/privacy-policy" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors">
+                  <Link href="/privacy-policy" className="text-[#B8B0A3] hover:text-[#F2EDE4] transition-colors py-0.5 inline-block">
                     Privacy
                   </Link>
                 </li>

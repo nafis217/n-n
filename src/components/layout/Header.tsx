@@ -118,15 +118,15 @@ export const Header: React.FC = () => {
             : 'bg-[#F2EDE4] h-[68px] border-b border-[#B8B0A3]/25'
         }`}
       >
-        <div className="max-w-[1680px] mx-auto h-full px-4 sm:px-8 lg:px-12 flex items-center justify-between">
+        <div className="max-w-[1680px] mx-auto h-full px-3 sm:px-8 lg:px-12 flex items-center justify-between">
           
           {/* ── LEFT: Zara Iconic Box Toggle Button + Brand Logo ── */}
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-2.5 sm:gap-6">
             {/* Zara Framed Toggle button */}
             <button
               onClick={toggleMenu}
               onMouseEnter={() => setIsMenuOpen(true)}
-              className="w-8 h-8 sm:w-9 sm:h-9 border border-[#241E1A] flex flex-col justify-center items-center gap-1 p-1.5 hover:bg-[#241E1A] group transition-colors cursor-pointer"
+              className="w-8 h-8 sm:w-9 sm:h-9 border border-[#241E1A] flex flex-col justify-center items-center gap-1 p-1.5 hover:bg-[#241E1A] group transition-colors cursor-pointer shrink-0"
               aria-label="Toggle Navigation Menu"
             >
               {isMenuOpen ? (
@@ -150,14 +150,14 @@ export const Header: React.FC = () => {
           </div>
 
           {/* ── RIGHT: Zara Style Search Bar & Utilities ── */}
-          <div className="flex items-center gap-6 sm:gap-10">
+          <div className="flex items-center gap-3 sm:gap-6 lg:gap-10">
             {/* Search Input Bar (Zara Style) */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-2 text-[#241E1A] hover:text-neutral-500 transition-colors cursor-pointer group"
+              className="flex items-center gap-1.5 sm:gap-2 text-[#241E1A] hover:text-neutral-500 transition-colors cursor-pointer group py-1.5 px-1"
               aria-label="Search Collection"
             >
-              <span className="text-[11px] font-mono uppercase tracking-[0.2em] font-medium border-b border-[#241E1A] pb-0.5 group-hover:border-neutral-400">
+              <span className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.16em] sm:tracking-[0.2em] font-medium border-b border-[#241E1A] pb-0.5 group-hover:border-neutral-400">
                 SEARCH
               </span>
               <Search size={14} strokeWidth={2} />
@@ -182,11 +182,11 @@ export const Header: React.FC = () => {
             {/* Bag Button */}
             <button
               onClick={openCart}
-              className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.18em] font-bold text-[#241E1A] border border-[#241E1A] px-3 py-1.5 hover:bg-[#241E1A] hover:text-[#F2EDE4] transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.18em] font-bold text-[#241E1A] border border-[#241E1A] px-2.5 sm:px-3 py-1.5 hover:bg-[#241E1A] hover:text-[#F2EDE4] transition-colors cursor-pointer shrink-0"
               aria-label={`Shopping Bag, ${itemCount} items`}
             >
               <ShoppingBag size={13} strokeWidth={2} />
-              <span>BAG [ {itemCount} ]</span>
+              <span>BAG [{itemCount}]</span>
             </button>
           </div>
 
@@ -214,17 +214,17 @@ export const Header: React.FC = () => {
           EDITORIAL SEARCH OVERLAY
       ───────────────────────────────────────────── */}
       {isSearchOpen && (
-        <div className="fixed inset-0 z-50 bg-[#241E1A]/60 backdrop-blur-sm flex flex-col justify-start items-center p-4 sm:p-8 animate-fadeIn">
-          <div className="w-full max-w-3xl bg-[#FFFFFF] border border-neutral-300 p-6 sm:p-10 shadow-2xl mt-12 relative">
+        <div className="fixed inset-0 z-50 bg-[#241E1A]/75 backdrop-blur-sm flex flex-col justify-start items-center p-3 sm:p-8 pt-16 sm:pt-20 overflow-y-auto animate-fadeIn">
+          <div className="w-full max-w-3xl bg-[#FFFFFF] border border-neutral-300 p-5 sm:p-10 shadow-2xl relative">
             <button
               onClick={() => setIsSearchOpen(false)}
-              className="absolute top-6 right-6 text-black hover:text-neutral-500 transition-colors p-2 cursor-pointer"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 text-black hover:text-neutral-500 transition-colors p-2 cursor-pointer"
               aria-label="Close search"
             >
-              <X size={20} strokeWidth={1.5} />
+              <X size={22} strokeWidth={1.5} />
             </button>
 
-            <div className="mb-6">
+            <div className="mb-6 pr-8">
               <span className="text-[10px] uppercase tracking-[0.3em] text-neutral-500 font-medium block mb-2 font-mono">
                 SEARCH STITCH HOUSE CATALOGUE
               </span>
@@ -235,11 +235,12 @@ export const Header: React.FC = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search suits, linen shirts, denim jackets..."
-                  className="w-full bg-transparent border-b-2 border-black pb-3 pt-1 text-lg sm:text-2xl font-sans font-bold text-black placeholder:text-neutral-400 focus:outline-none"
+                  className="w-full bg-transparent border-b-2 border-black pb-3 pt-1 text-base sm:text-2xl font-sans font-bold text-black placeholder:text-neutral-400 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  className="absolute right-0 bottom-3 text-black hover:text-neutral-500 cursor-pointer"
+                  className="absolute right-0 bottom-3 text-black hover:text-neutral-500 cursor-pointer p-1"
+                  aria-label="Execute search"
                 >
                   <ArrowRight size={20} strokeWidth={2} />
                 </button>
@@ -266,7 +267,7 @@ export const Header: React.FC = () => {
                       onClick={() => {
                         setSearchQuery(tag);
                       }}
-                      className="text-xs uppercase tracking-[0.14em] text-black border border-neutral-300 px-3 py-1.5 hover:bg-black hover:text-white transition-colors cursor-pointer font-mono"
+                      className="text-xs uppercase tracking-[0.14em] text-black border border-neutral-300 px-3 py-2 hover:bg-black hover:text-white active:bg-black active:text-white transition-colors cursor-pointer font-mono"
                     >
                       {tag}
                     </button>

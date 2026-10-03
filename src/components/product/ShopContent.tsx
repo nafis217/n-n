@@ -118,8 +118,28 @@ export function ShopContent({
           </div>
         </div>
 
-        {/* ── Category Tabs (Desktop) ── */}
-        <div className="flex items-center justify-between pt-6 border-b border-[#B8B0A3]/20 pb-4">
+        {/* ── Category Tabs (Desktop & Mobile Pills) ── */}
+        {/* Mobile Horizontal Category Scroller */}
+        <div className="flex lg:hidden overflow-x-auto pb-2 pt-4 mb-2 gap-2 scrollbar-none">
+          {CATEGORIES.map((cat) => {
+            const active = selectedCategory.toLowerCase() === cat.id.toLowerCase();
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`text-xs uppercase tracking-[0.16em] font-medium px-3.5 py-2 whitespace-nowrap transition-all border ${
+                  active
+                    ? 'bg-[#241E1A] text-[#F2EDE4] border-[#241E1A]'
+                    : 'bg-[#EBE5DB]/50 text-[#686B5E] border-[#B8B0A3]/40'
+                }`}
+              >
+                {cat.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="flex items-center justify-between pt-2 lg:pt-6 border-b border-[#B8B0A3]/20 pb-4">
           <div className="hidden lg:flex items-center gap-2 overflow-x-auto">
             {CATEGORIES.map((cat) => {
               const active = selectedCategory.toLowerCase() === cat.id.toLowerCase();
@@ -140,23 +160,23 @@ export function ShopContent({
           </div>
 
           {/* Sort & Mobile Filter Toggle */}
-          <div className="flex items-center justify-between lg:justify-end w-full lg:w-auto gap-4">
+          <div className="flex items-center justify-between lg:justify-end w-full lg:w-auto gap-3">
             <button
               onClick={() => setMobileFilterOpen(true)}
-              className="lg:hidden flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium border border-[#B8B0A3]/60 px-4 py-2 text-[#241E1A]"
+              className="lg:hidden flex-1 sm:flex-initial flex items-center justify-center gap-2 text-xs uppercase tracking-[0.16em] font-medium border border-[#B8B0A3]/60 px-4 py-2.5 text-[#241E1A] bg-[#F2EDE4] min-h-[44px]"
             >
               <SlidersHorizontal size={14} />
               <span>Filters</span>
             </button>
 
             {/* Sort Dropdown */}
-            <div className="relative">
+            <div className="relative flex-1 sm:flex-initial">
               <button
                 onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-medium border border-[#B8B0A3]/60 px-4 py-2 bg-transparent text-[#241E1A]"
+                className="w-full flex items-center justify-between sm:justify-center gap-2 text-xs uppercase tracking-[0.16em] sm:tracking-[0.18em] font-medium border border-[#B8B0A3]/60 px-3.5 sm:px-4 py-2.5 bg-[#F2EDE4] text-[#241E1A] min-h-[44px]"
               >
-                <span>Sort: {currentSortLabel}</span>
-                <ChevronDown size={13} />
+                <span className="truncate">Sort: {currentSortLabel}</span>
+                <ChevronDown size={13} className="shrink-0" />
               </button>
 
               {sortDropdownOpen && (
@@ -168,7 +188,7 @@ export function ShopContent({
                         setSelectedSort(opt.value);
                         setSortDropdownOpen(false);
                       }}
-                      className={`w-full text-left px-4 py-2 text-xs uppercase tracking-wider transition-colors ${
+                      className={`w-full text-left px-4 py-2.5 text-xs uppercase tracking-wider transition-colors ${
                         selectedSort === opt.value
                           ? 'bg-[#241E1A] text-[#F2EDE4]'
                           : 'text-[#241E1A] hover:bg-[#EBE5DB]'
@@ -184,13 +204,13 @@ export function ShopContent({
         </div>
       </div>
 
-      {/* ── Product Grid ── */}
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-8">
+      {/* ── Product Grid (2-Column Mobile, 3/4 Desktop) ── */}
+      <div className="max-w-[1600px] mx-auto px-3 sm:px-8">
         {filteredProducts.length === 0 ? (
-          <div className="py-24 text-center">
+          <div className="py-24 text-center px-4">
             <SHMonogram size={40} variant="stone" className="mb-4 opacity-50" />
             <h3 className="text-xl font-serif text-[#241E1A] mb-2">NO PIECES MATCH YOUR CRITERIA</h3>
-            <p className="text-xs text-[#686B5E] mb-6">
+            <p className="text-xs text-[#686B5E] mb-6 max-w-sm mx-auto">
               Try adjusting your filters or explore the full seasonal collection.
             </p>
             <button onClick={resetFilters} className="sh-btn-primary">
@@ -198,7 +218,7 @@ export function ShopContent({
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
             {filteredProducts.map((prod) => (
               <ProductCard key={prod.id} product={prod} />
             ))}
@@ -208,8 +228,12 @@ export function ShopContent({
 
       {/* ── Mobile Filter Drawer ── */}
       {mobileFilterOpen && (
-        <div className="fixed inset-0 z-50 bg-[#241E1A]/50 flex justify-end">
-          <div className="w-full max-w-sm bg-[#F2EDE4] h-full p-6 flex flex-col justify-between overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-[#241E1A]/60 backdrop-blur-xs flex justify-end">
+          <div
+            onClick={() => setMobileFilterOpen(false)}
+            className="flex-1"
+          />
+          <div className="w-full max-w-sm bg-[#F2EDE4] h-full p-6 flex flex-col justify-between overflow-y-auto pb-safe shadow-2xl">
             <div>
               <div className="flex items-center justify-between border-b border-[#B8B0A3]/30 pb-4 mb-6">
                 <span className="text-xs uppercase tracking-[0.2em] font-medium text-[#241E1A]">
@@ -217,7 +241,8 @@ export function ShopContent({
                 </span>
                 <button
                   onClick={() => setMobileFilterOpen(false)}
-                  className="p-1 text-[#241E1A]"
+                  className="p-1.5 text-[#241E1A]"
+                  aria-label="Close filters"
                 >
                   <X size={20} strokeWidth={1.5} />
                 </button>
@@ -236,10 +261,10 @@ export function ShopContent({
                         setSelectedCategory(cat.id);
                         setMobileFilterOpen(false);
                       }}
-                      className={`text-left text-sm py-2 px-3 border transition-colors ${
+                      className={`text-left text-xs uppercase tracking-wider py-3 px-3.5 border transition-colors ${
                         selectedCategory === cat.id
                           ? 'bg-[#241E1A] text-[#F2EDE4] border-[#241E1A]'
-                          : 'border-[#B8B0A3]/30 text-[#241E1A]'
+                          : 'border-[#B8B0A3]/40 text-[#241E1A] bg-white/40'
                       }`}
                     >
                       {cat.label}
@@ -257,7 +282,7 @@ export function ShopContent({
                   type="checkbox"
                   checked={inStockOnly}
                   onChange={(e) => setInStockOnly(e.target.checked)}
-                  className="w-4 h-4 accent-[#241E1A]"
+                  className="w-5 h-5 accent-[#241E1A]"
                 />
               </div>
             </div>
@@ -265,13 +290,13 @@ export function ShopContent({
             <div className="pt-6 border-t border-[#B8B0A3]/30 flex gap-3">
               <button
                 onClick={resetFilters}
-                className="flex-1 sh-btn-secondary text-center py-3"
+                className="flex-1 sh-btn-secondary text-center py-3.5 text-xs"
               >
                 Reset
               </button>
               <button
                 onClick={() => setMobileFilterOpen(false)}
-                className="flex-1 sh-btn-primary text-center py-3"
+                className="flex-1 sh-btn-primary text-center py-3.5 text-xs"
               >
                 Apply
               </button>

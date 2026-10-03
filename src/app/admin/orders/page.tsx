@@ -1,5 +1,4 @@
 import React from 'react';
-import { db } from '@/lib/db';
 import { OrdersClientManager } from '@/components/admin/OrdersClientManager';
 import { AdminOrderRecord } from '@/components/admin/OrderInspectionModal';
 
@@ -111,63 +110,6 @@ export default async function AdminOrdersPage() {
       fulfilmentStatus: 'DELIVERED',
     },
   ];
-
-  try {
-    const dbOrders = await db.order.findMany({
-      orderBy: { createdAt: 'desc' },
-      include: {
-        customer: true,
-        address: true,
-        items: true,
-        payments: true,
-      },
-    });
-    if (dbOrders && dbOrders.length > 0) {
-      orders = dbOrders.map((o: any) => ({
-        id: o.id,
-        orderNumber: o.orderNumber,
-        createdAt: o.createdAt,
-        orderStatus: o.orderStatus as any,
-        paymentStatus: o.paymentStatus as any,
-        paymentMethod: o.paymentMethod as any,
-        customer: {
-          name: o.customer?.name || o.address?.recipient || 'Customer',
-          email: o.customer?.email,
-          mobile: o.customer?.mobile || o.address?.phone || '',
-        },
-        address: {
-          recipient: o.address?.recipient || 'Customer',
-          phone: o.address?.phone || '',
-          street: o.address?.street || '',
-          city: o.address?.city || 'Dhaka',
-          thana: o.address?.thana,
-          district: o.address?.district,
-          postalCode: o.address?.postalCode,
-        },
-        items: o.items?.map((it: any) => ({
-          id: it.id,
-          productName: it.productName || 'STITCH HOUSE Product',
-          variantSku: it.variantSku,
-          size: it.size || 'M',
-          color: it.color || 'Standard',
-          quantity: it.quantity || 1,
-          unitPrice: it.unitPrice || it.totalPrice,
-          totalPrice: it.totalPrice || (it.unitPrice * (it.quantity || 1)),
-        })) || [],
-        subtotalBDT: o.subtotalBDT || o.totalBDT,
-        discountBDT: o.discountBDT || 0,
-        shippingFeeBDT: o.shippingFeeBDT || 0,
-        totalBDT: o.totalBDT,
-        courierName: o.courierName || 'Steadfast Courier',
-        trackingNumber: o.trackingNumber,
-        customerNotes: o.customerNotes,
-        staffNotes: o.staffNotes,
-        fulfilmentStatus: o.fulfilmentStatus || 'PROCESSING',
-      }));
-    }
-  } catch (err) {
-    console.warn('Using fallback orders data:', err);
-  }
 
   return (
     <div className="w-full">

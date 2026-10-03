@@ -65,8 +65,8 @@ export default function CartPage() {
           {/* Items List */}
           <div className="lg:col-span-8 divide-y divide-[#B8B0A3]/30 border-y border-[#B8B0A3]/30">
             {items.map((item) => (
-              <div key={`${item.productId || item.id}-${item.selectedSize}-${item.selectedColor}`} className="py-6 flex gap-6">
-                <div className="w-24 sm:w-32 aspect-[3/4] bg-[#EBE5DB] flex-shrink-0 overflow-hidden">
+              <div key={`${item.productId || item.id}-${item.selectedSize}-${item.selectedColor}`} className="py-5 sm:py-6 flex gap-4 sm:gap-6">
+                <div className="w-20 sm:w-32 aspect-[3/4] bg-[#EBE5DB] flex-shrink-0 overflow-hidden">
                   <img
                     src={item.image || '/images/products/architectural-black-suit-1.jpg'}
                     alt={item.title}
@@ -76,38 +76,38 @@ export default function CartPage() {
 
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="flex items-start justify-between gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4">
                       <div>
-                        <h2 className="font-serif text-base sm:text-lg text-[#241E1A] leading-snug">
+                        <h2 className="font-serif text-sm sm:text-lg text-[#241E1A] leading-snug">
                           {item.title}
                         </h2>
-                        <div className="flex items-center gap-3 text-xs text-[#686B5E] tracking-wider uppercase mt-1">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-xs text-[#686B5E] tracking-wider uppercase mt-1">
                           {item.selectedSize && <span>Size: {item.selectedSize}</span>}
                           {item.selectedColor && <span>• Shade: {item.selectedColor}</span>}
                         </div>
                       </div>
-                      <span className="font-sans font-medium text-sm sm:text-base text-[#241E1A] whitespace-nowrap">
+                      <span className="font-sans font-semibold text-sm sm:text-base text-[#241E1A] whitespace-nowrap">
                         BDT {(item.price * item.quantity).toLocaleString()}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between mt-6">
+                  <div className="flex items-center justify-between mt-4 sm:mt-6">
                     {/* Quantity controls */}
                     <div className="flex items-center border border-[#B8B0A3]/60 bg-transparent">
                       <button
                         onClick={() => updateQuantity(item.productId || item.id, item.quantity - 1, item.selectedSize, item.selectedColor)}
-                        className="px-3 py-1 text-[#241E1A] hover:bg-[#EBE5DB] transition-colors"
+                        className="w-8 h-8 flex items-center justify-center text-[#241E1A] hover:bg-[#EBE5DB] transition-colors"
                         aria-label="Decrease quantity"
                       >
                         <Minus size={12} strokeWidth={1.5} />
                       </button>
-                      <span className="px-3 text-xs text-[#241E1A] font-medium select-none">
+                      <span className="px-2 text-xs text-[#241E1A] font-medium select-none min-w-[24px] text-center">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() => updateQuantity(item.productId || item.id, item.quantity + 1, item.selectedSize, item.selectedColor)}
-                        className="px-3 py-1 text-[#241E1A] hover:bg-[#EBE5DB] transition-colors"
+                        className="w-8 h-8 flex items-center justify-center text-[#241E1A] hover:bg-[#EBE5DB] transition-colors"
                         aria-label="Increase quantity"
                       >
                         <Plus size={12} strokeWidth={1.5} />
@@ -116,7 +116,7 @@ export default function CartPage() {
 
                     <button
                       onClick={() => removeItem(item.productId || item.id, item.selectedSize, item.selectedColor)}
-                      className="text-xs uppercase tracking-wider text-[#686B5E] hover:text-[#542B2E] transition-colors flex items-center gap-1.5"
+                      className="text-[11px] sm:text-xs uppercase tracking-wider text-[#686B5E] hover:text-[#542B2E] transition-colors flex items-center gap-1.5 p-1"
                     >
                       <Trash2 size={13} strokeWidth={1.5} />
                       <span>Remove</span>
@@ -128,13 +128,13 @@ export default function CartPage() {
           </div>
 
           {/* Order Summary Sticky Panel */}
-          <div className="lg:col-span-4 bg-[#EBE5DB] p-8 border border-[#B8B0A3]/40 flex flex-col justify-between">
+          <div className="lg:col-span-4 bg-[#EBE5DB] p-5 sm:p-8 border border-[#B8B0A3]/40 flex flex-col justify-between">
             <div>
-              <h3 className="font-serif text-xl text-[#241E1A] mb-6">
+              <h3 className="font-serif text-lg sm:text-xl text-[#241E1A] mb-4 sm:mb-6">
                 Order Summary
               </h3>
 
-              <div className="space-y-3 text-xs tracking-wider uppercase border-b border-[#B8B0A3]/30 pb-6 mb-6">
+              <div className="space-y-2.5 sm:space-y-3 text-[11px] sm:text-xs tracking-wider uppercase border-b border-[#B8B0A3]/30 pb-5 sm:pb-6 mb-5 sm:mb-6">
                 <div className="flex justify-between text-[#686B5E]">
                   <span>Subtotal</span>
                   <span className="text-[#241E1A] font-medium">BDT {subtotal.toLocaleString()}</span>
@@ -149,23 +149,23 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <div className="flex justify-between items-baseline mb-6 text-sm tracking-wider uppercase">
-                <span className="font-serif text-base text-[#241E1A]">Total</span>
-                <span className="font-sans font-medium text-lg text-[#241E1A]">
+              <div className="flex justify-between items-baseline mb-5 sm:mb-6 text-xs sm:text-sm tracking-wider uppercase">
+                <span className="font-serif text-sm sm:text-base text-[#241E1A]">Total</span>
+                <span className="font-sans font-bold text-base sm:text-lg text-[#241E1A]">
                   BDT {total.toLocaleString()}
                 </span>
               </div>
 
               <Link
                 href="/checkout"
-                className="w-full sh-btn-primary flex items-center justify-between"
+                className="w-full sh-btn-primary flex items-center justify-between py-3.5"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight size={14} />
               </Link>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-[#B8B0A3]/30 space-y-2 text-[11px] text-[#686B5E]">
+            <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-[#B8B0A3]/30 space-y-1.5 text-[10px] sm:text-[11px] text-[#686B5E]">
               <p>• Signature rigid garment box included</p>
               <p>• 14-day return privilege across all garments</p>
             </div>

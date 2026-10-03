@@ -1,5 +1,4 @@
 import React from 'react';
-import { db } from '@/lib/db';
 import { ExecutiveDashboardClient } from '@/components/admin/ExecutiveDashboardClient';
 
 export const revalidate = 0; // Dynamic SSR
@@ -116,31 +115,6 @@ export default async function AdminDashboardPage() {
       },
     },
   ];
-
-  try {
-    const dbOrders = await db.order.findMany({
-      take: 10,
-      orderBy: { createdAt: 'desc' },
-      include: { customer: true, items: true },
-    });
-    if (dbOrders && dbOrders.length > 0) {
-      initialOrders = dbOrders;
-    }
-
-    const dbBalances = await db.inventoryBalance.findMany({
-      where: { physical: { lte: 10 } },
-      take: 5,
-      include: {
-        location: true,
-        variant: { include: { product: true } },
-      },
-    });
-    if (dbBalances && dbBalances.length > 0) {
-      initialLowStock = dbBalances;
-    }
-  } catch (err) {
-    console.warn('Using fallback data for Admin dashboard:', err);
-  }
 
   return (
     <div className="w-full">

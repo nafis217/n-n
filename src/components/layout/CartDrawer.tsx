@@ -39,9 +39,9 @@ export function CartDrawer() {
       />
 
       {/* Drawer Panel */}
-      <div className="absolute inset-y-0 right-0 w-full max-w-[420px] bg-[#F2EDE4] flex flex-col border-l border-[#B8B0A3]/40 shadow-2xl transition-transform duration-300">
+      <div className="absolute inset-y-0 right-0 w-full max-w-full sm:max-w-[420px] bg-[#F2EDE4] flex flex-col border-l border-[#B8B0A3]/40 shadow-2xl transition-transform duration-300">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-[#B8B0A3]/30">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5 border-b border-[#B8B0A3]/30">
           <div className="flex items-center gap-2.5">
             <SHMonogram size={20} variant="dark" />
             <span className="text-xs uppercase font-medium tracking-[0.2em] text-[#241E1A]">
@@ -50,17 +50,17 @@ export function CartDrawer() {
           </div>
           <button
             onClick={closeDrawer}
-            className="p-1.5 text-[#686B5E] hover:text-[#241E1A] transition-colors"
+            className="p-2 text-[#686B5E] hover:text-[#241E1A] transition-colors"
             aria-label="Close Bag"
           >
-            <X size={18} strokeWidth={1.5} />
+            <X size={20} strokeWidth={1.5} />
           </button>
         </div>
 
         {/* Item List */}
-        <div className="flex-1 overflow-y-auto px-6 py-4 divide-y divide-[#B8B0A3]/25">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 divide-y divide-[#B8B0A3]/25">
           {items.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center py-16">
+            <div className="h-full flex flex-col items-center justify-center text-center py-16 px-4">
               <SHMonogram size={36} variant="stone" className="mb-4 opacity-60" />
               <p className="font-serif text-lg text-[#241E1A] mb-1">YOUR BAG IS EMPTY</p>
               <p className="text-xs text-[#686B5E] max-w-[240px] mb-6">
@@ -69,7 +69,7 @@ export function CartDrawer() {
               <Link
                 href="/collections/new-arrivals"
                 onClick={closeDrawer}
-                className="sh-btn-primary text-[10px] tracking-[0.2em]"
+                className="sh-btn-primary text-[10px] tracking-[0.2em] w-full max-w-xs"
               >
                 Explore Collection
               </Link>
@@ -82,7 +82,7 @@ export function CartDrawer() {
               const itemColor = item.selectedColor || item.color || '';
 
               return (
-                <div key={`${itemId}-${itemSize}-${itemColor}`} className="py-4 flex gap-4 group">
+                <div key={`${itemId}-${itemSize}-${itemColor}`} className="py-4 flex gap-3 sm:gap-4 group">
                   {/* Product Image */}
                   <div className="w-20 h-26 bg-[#EBE5DB] flex-shrink-0 overflow-hidden">
                     <img
@@ -93,7 +93,7 @@ export function CartDrawer() {
                   </div>
 
                   {/* Details */}
-                  <div className="flex-1 flex flex-col justify-between">
+                  <div className="flex-1 flex flex-col justify-between min-w-0">
                     <div>
                       <div className="flex items-start justify-between gap-2">
                         <Link
@@ -105,43 +105,43 @@ export function CartDrawer() {
                         </Link>
                         <button
                           onClick={() => removeItem(itemId, itemSize, itemColor)}
-                          className="text-[#B8B0A3] hover:text-[#542B2E] transition-colors p-1"
+                          className="text-[#B8B0A3] hover:text-[#542B2E] transition-colors p-1.5"
                           aria-label="Remove item"
                         >
-                          <Trash2 size={13} strokeWidth={1.5} />
+                          <Trash2 size={14} strokeWidth={1.5} />
                         </button>
                       </div>
 
-                      <div className="flex items-center gap-3 text-[11px] text-[#686B5E] tracking-wider mt-1">
+                      <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#686B5E] tracking-wider mt-1">
                         {itemSize && <span>Size: {itemSize}</span>}
-                        {itemColor && <span>• Color: {itemColor}</span>}
+                        {itemColor && <span>• Shade: {itemColor}</span>}
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between mt-3 pt-2">
-                      {/* Quantity controls */}
+                      {/* Quantity controls with touch-friendly 36px buttons */}
                       <div className="flex items-center border border-[#B8B0A3]/50 bg-transparent">
                         <button
                           onClick={() => updateQuantity(itemId, item.quantity - 1, itemSize, itemColor)}
-                          className="px-2 py-1 text-[#241E1A] hover:bg-[#EBE5DB] transition-colors"
+                          className="w-8 h-8 flex items-center justify-center text-[#241E1A] hover:bg-[#EBE5DB] active:bg-[#D4CCC0] transition-colors"
                           aria-label="Decrease quantity"
                         >
-                          <Minus size={11} strokeWidth={1.5} />
+                          <Minus size={12} strokeWidth={1.5} />
                         </button>
-                        <span className="px-2.5 text-xs text-[#241E1A] font-medium select-none">
+                        <span className="w-8 text-center text-xs text-[#241E1A] font-medium select-none">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(itemId, item.quantity + 1, itemSize, itemColor)}
-                          className="px-2 py-1 text-[#241E1A] hover:bg-[#EBE5DB] transition-colors"
+                          className="w-8 h-8 flex items-center justify-center text-[#241E1A] hover:bg-[#EBE5DB] active:bg-[#D4CCC0] transition-colors"
                           aria-label="Increase quantity"
                         >
-                          <Plus size={11} strokeWidth={1.5} />
+                          <Plus size={12} strokeWidth={1.5} />
                         </button>
                       </div>
 
                       {/* Price */}
-                      <span className="text-xs font-sans font-medium text-[#241E1A] tracking-wider">
+                      <span className="text-xs font-sans font-semibold text-[#241E1A] tracking-wider">
                         BDT {(itemPrice * item.quantity).toLocaleString()}
                       </span>
                     </div>
@@ -154,26 +154,26 @@ export function CartDrawer() {
 
         {/* Footer & Checkout CTA */}
         {items.length > 0 && (
-          <div className="p-6 border-t border-[#B8B0A3]/30 bg-[#EBE5DB]/60">
+          <div className="p-4 sm:p-6 border-t border-[#B8B0A3]/30 bg-[#EBE5DB]/70 pb-safe">
             <div className="flex items-center justify-between text-xs tracking-wider uppercase mb-2">
               <span className="text-[#686B5E]">Subtotal</span>
               <span className="text-[#241E1A] font-medium">BDT {subtotal.toLocaleString()}</span>
             </div>
-            <div className="flex items-center justify-between text-xs tracking-wider uppercase text-[#686B5E] mb-4">
-              <span>Shipping & Taxes</span>
-              <span>Calculated at checkout</span>
+            <div className="flex items-center justify-between text-[11px] tracking-wider uppercase text-[#686B5E] mb-3">
+              <span>Shipping & Packaging</span>
+              <span className="text-[#A8946C]">Complimentary</span>
             </div>
 
             <Link
               href="/checkout"
               onClick={closeDrawer}
-              className="w-full sh-btn-primary flex items-center justify-between gap-2"
+              className="w-full sh-btn-primary flex items-center justify-between gap-2 py-3.5"
             >
               <span>Proceed to Checkout</span>
-              <span>BDT {total.toLocaleString()}</span>
+              <span className="font-semibold">BDT {total.toLocaleString()}</span>
             </Link>
 
-            <p className="text-[10px] text-center text-[#686B5E] tracking-widest uppercase mt-3">
+            <p className="text-[10px] text-center text-[#686B5E] tracking-widest uppercase mt-2.5">
               Complimentary signature packaging with every order
             </p>
           </div>

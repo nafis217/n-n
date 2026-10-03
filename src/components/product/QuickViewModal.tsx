@@ -69,19 +69,19 @@ export function QuickViewModal({ product, isOpen, onClose, onOpenSizeGuide }: Qu
       />
 
       {/* Modal Card */}
-      <div className="relative w-full max-w-4xl bg-white border border-neutral-300 text-neutral-900 overflow-hidden shadow-2xl z-10 grid grid-cols-1 md:grid-cols-2 animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-4xl max-h-[90vh] bg-white border border-neutral-300 text-neutral-900 overflow-y-auto md:overflow-hidden shadow-2xl z-10 grid grid-cols-1 md:grid-cols-2 animate-in zoom-in-95 duration-200">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 p-2 bg-neutral-100 text-neutral-700 hover:text-black hover:bg-neutral-200 transition-colors border border-neutral-300 shadow-xs"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 p-2 bg-neutral-100/90 backdrop-blur-xs text-neutral-700 hover:text-black hover:bg-neutral-200 transition-colors border border-neutral-300 shadow-xs"
           aria-label="Close modal"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Product Gallery (Left) */}
-        <div className="bg-neutral-50 p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r border-neutral-200">
-          <div className="relative aspect-[3/4] w-full bg-neutral-100 overflow-hidden border border-neutral-200">
+        <div className="bg-neutral-50 p-4 sm:p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r border-neutral-200">
+          <div className="relative aspect-[4/3] sm:aspect-[3/4] w-full max-h-[300px] sm:max-h-none bg-neutral-100 overflow-hidden border border-neutral-200">
             <Image
               src={product.images[selectedImageIndex] || product.images[0]}
               alt={product.nameEn}
@@ -89,7 +89,7 @@ export function QuickViewModal({ product, isOpen, onClose, onOpenSizeGuide }: Qu
               className="object-cover object-top transition-all duration-300"
             />
             {product.tag && (
-              <span className="absolute top-3 left-3 px-2.5 py-1 bg-black border border-black text-[10px] font-mono tracking-widest uppercase text-white font-bold shadow-xs">
+              <span className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 px-2 sm:px-2.5 py-0.5 sm:py-1 bg-black border border-black text-[9px] sm:text-[10px] font-mono tracking-widest uppercase text-white font-bold shadow-xs">
                 {product.tag}
               </span>
             )}
@@ -97,12 +97,12 @@ export function QuickViewModal({ product, isOpen, onClose, onOpenSizeGuide }: Qu
 
           {/* Thumbnails */}
           {product.images.length > 1 && (
-            <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
+            <div className="flex gap-2 mt-2.5 sm:mt-3 overflow-x-auto pb-1">
               {product.images.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedImageIndex(idx)}
-                  className={`relative w-14 h-18 aspect-[3/4] shrink-0 border transition-all ${
+                  className={`relative w-12 sm:w-14 aspect-[3/4] shrink-0 border transition-all ${
                     selectedImageIndex === idx ? 'border-black ring-1 ring-black' : 'border-neutral-200 opacity-60 hover:opacity-100'
                   }`}
                 >
@@ -114,12 +114,12 @@ export function QuickViewModal({ product, isOpen, onClose, onOpenSizeGuide }: Qu
         </div>
 
         {/* Product Config (Right) */}
-        <div className="p-6 md:p-8 flex flex-col justify-between overflow-y-auto max-h-[80vh] md:max-h-[600px] bg-white">
+        <div className="p-5 sm:p-6 md:p-8 flex flex-col justify-between overflow-y-auto max-h-none md:max-h-[600px] bg-white">
           <div>
             {/* Category & Rating */}
-            <div className="flex items-center justify-between text-xs font-mono text-neutral-500 uppercase tracking-wider mb-2">
-              <span>{product.category} • {product.gender}</span>
-              <div className="flex items-center gap-1 text-black">
+            <div className="flex items-center justify-between text-[11px] sm:text-xs font-mono text-neutral-500 uppercase tracking-wider mb-2">
+              <span className="truncate mr-2">{product.category} • {product.gender}</span>
+              <div className="flex items-center gap-1 text-black shrink-0">
                 <Star className="w-3.5 h-3.5 fill-current" />
                 <span className="font-bold text-black">{product.rating}</span>
                 <span className="text-neutral-400">({product.reviewCount})</span>

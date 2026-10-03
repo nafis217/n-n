@@ -122,9 +122,9 @@ export default function CheckoutPage() {
         ) : (
           <form onSubmit={handlePlaceOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
             {/* ── LEFT: Form Steps (7 Cols) ── */}
-            <div className="lg:col-span-7 space-y-10">
+            <div className="lg:col-span-7 space-y-8 sm:space-y-10">
               {/* Step 1: Contact Information */}
-              <div className="bg-[#EBE5DB]/50 p-6 sm:p-8 border border-[#B8B0A3]/30">
+              <div className="bg-[#EBE5DB]/50 p-4 sm:p-8 border border-[#B8B0A3]/30">
                 <span className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold block mb-1">
                   01 / Client Details
                 </span>
@@ -140,9 +140,10 @@ export default function CheckoutPage() {
                     <input
                       type="text"
                       required
+                      autoComplete="name"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3 py-2.5 text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
+                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3.5 py-3 text-base sm:text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
                     />
                   </div>
 
@@ -152,10 +153,12 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="tel"
+                      inputMode="tel"
                       required
+                      autoComplete="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3 py-2.5 text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
+                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3.5 py-3 text-base sm:text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A] font-mono"
                     />
                   </div>
 
@@ -165,17 +168,20 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="email"
+                      inputMode="email"
                       required
+                      autoComplete="email"
+                      autoCapitalize="none"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3 py-2.5 text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
+                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3.5 py-3 text-base sm:text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Step 2: Shipping Address */}
-              <div className="bg-[#EBE5DB]/50 p-6 sm:p-8 border border-[#B8B0A3]/30">
+              <div className="bg-[#EBE5DB]/50 p-4 sm:p-8 border border-[#B8B0A3]/30">
                 <span className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold block mb-1">
                   02 / Delivery Destination
                 </span>
@@ -191,9 +197,10 @@ export default function CheckoutPage() {
                     <input
                       type="text"
                       required
+                      autoComplete="street-address"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3 py-2.5 text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
+                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3.5 py-3 text-base sm:text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
                     />
                   </div>
 
@@ -203,9 +210,10 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       type="text"
+                      autoComplete="address-level3"
                       value={area}
                       onChange={(e) => setArea(e.target.value)}
-                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3 py-2.5 text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
+                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3.5 py-3 text-base sm:text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
                     />
                   </div>
 
@@ -216,9 +224,10 @@ export default function CheckoutPage() {
                     <input
                       type="text"
                       required
+                      autoComplete="address-level2"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3 py-2.5 text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
+                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3.5 py-3 text-base sm:text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
                     />
                   </div>
 
@@ -231,14 +240,14 @@ export default function CheckoutPage() {
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="e.g. Leave with concierge or specify preferred delivery window"
-                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3 py-2.5 text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
+                      className="w-full bg-[#F2EDE4] border border-[#B8B0A3]/60 px-3.5 py-3 text-base sm:text-sm text-[#241E1A] focus:outline-none focus:border-[#241E1A]"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Step 3: Payment Settlement */}
-              <div className="bg-[#EBE5DB]/50 p-6 sm:p-8 border border-[#B8B0A3]/30">
+              <div className="bg-[#EBE5DB]/50 p-4 sm:p-8 border border-[#B8B0A3]/30">
                 <span className="text-[10px] uppercase tracking-[0.25em] text-[#A8946C] font-semibold block mb-1">
                   03 / Settlement
                 </span>
@@ -249,14 +258,14 @@ export default function CheckoutPage() {
                 <div className="space-y-3">
                   <label
                     onClick={() => setPaymentMethod('COD')}
-                    className={`flex items-center justify-between p-4 border cursor-pointer transition-colors ${
+                    className={`flex items-center justify-between p-3.5 sm:p-4 border cursor-pointer transition-colors ${
                       paymentMethod === 'COD'
                         ? 'border-[#241E1A] bg-[#F2EDE4]'
                         : 'border-[#B8B0A3]/40 bg-transparent'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-3.5 h-3.5 border flex items-center justify-center ${paymentMethod === 'COD' ? 'border-[#241E1A] bg-[#241E1A]' : 'border-[#B8B0A3]'}`}>
+                      <div className={`w-4 h-4 border flex items-center justify-center shrink-0 ${paymentMethod === 'COD' ? 'border-[#241E1A] bg-[#241E1A]' : 'border-[#B8B0A3]'}`}>
                         {paymentMethod === 'COD' && <div className="w-1.5 h-1.5 bg-[#F2EDE4]" />}
                       </div>
                       <div>
@@ -272,14 +281,14 @@ export default function CheckoutPage() {
 
                   <label
                     onClick={() => setPaymentMethod('BKASH')}
-                    className={`flex items-center justify-between p-4 border cursor-pointer transition-colors ${
+                    className={`flex items-center justify-between p-3.5 sm:p-4 border cursor-pointer transition-colors ${
                       paymentMethod === 'BKASH'
                         ? 'border-[#241E1A] bg-[#F2EDE4]'
                         : 'border-[#B8B0A3]/40 bg-transparent'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-3.5 h-3.5 border flex items-center justify-center ${paymentMethod === 'BKASH' ? 'border-[#241E1A] bg-[#241E1A]' : 'border-[#B8B0A3]'}`}>
+                      <div className={`w-4 h-4 border flex items-center justify-center shrink-0 ${paymentMethod === 'BKASH' ? 'border-[#241E1A] bg-[#241E1A]' : 'border-[#B8B0A3]'}`}>
                         {paymentMethod === 'BKASH' && <div className="w-1.5 h-1.5 bg-[#F2EDE4]" />}
                       </div>
                       <div>
@@ -295,14 +304,14 @@ export default function CheckoutPage() {
 
                   <label
                     onClick={() => setPaymentMethod('CARD')}
-                    className={`flex items-center justify-between p-4 border cursor-pointer transition-colors ${
+                    className={`flex items-center justify-between p-3.5 sm:p-4 border cursor-pointer transition-colors ${
                       paymentMethod === 'CARD'
                         ? 'border-[#241E1A] bg-[#F2EDE4]'
                         : 'border-[#B8B0A3]/40 bg-transparent'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-3.5 h-3.5 border flex items-center justify-center ${paymentMethod === 'CARD' ? 'border-[#241E1A] bg-[#241E1A]' : 'border-[#B8B0A3]'}`}>
+                      <div className={`w-4 h-4 border flex items-center justify-center shrink-0 ${paymentMethod === 'CARD' ? 'border-[#241E1A] bg-[#241E1A]' : 'border-[#B8B0A3]'}`}>
                         {paymentMethod === 'CARD' && <div className="w-1.5 h-1.5 bg-[#F2EDE4]" />}
                       </div>
                       <div>
@@ -320,26 +329,26 @@ export default function CheckoutPage() {
             </div>
 
             {/* ── RIGHT: Order Summary (5 Cols) ── */}
-            <div className="lg:col-span-5 bg-[#EBE5DB] p-8 border border-[#B8B0A3]/40 lg:sticky lg:top-28">
-              <h3 className="font-serif text-xl text-[#241E1A] mb-6">
+            <div className="lg:col-span-5 bg-[#EBE5DB] p-5 sm:p-8 border border-[#B8B0A3]/40 lg:sticky lg:top-28">
+              <h3 className="font-serif text-xl text-[#241E1A] mb-4 sm:mb-6">
                 Consignment Summary
               </h3>
 
               {/* Items Snapshot */}
-              <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 divide-y divide-[#B8B0A3]/30 mb-6">
+              <div className="space-y-3 sm:space-y-4 max-h-[260px] sm:max-h-[300px] overflow-y-auto pr-2 divide-y divide-[#B8B0A3]/30 mb-6">
                 {items.map((item) => (
                   <div key={`${item.productId || item.id}-${item.selectedSize}`} className="pt-3 first:pt-0 flex gap-3">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-14 h-18 object-cover bg-[#F2EDE4]"
+                      className="w-14 h-18 object-cover bg-[#F2EDE4] shrink-0"
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-serif text-[#241E1A] truncate">{item.title}</p>
                       <p className="text-[10px] text-[#686B5E] tracking-wider uppercase">
                         Size: {item.selectedSize} • Qty: {item.quantity}
                       </p>
-                      <p className="text-xs font-sans text-[#241E1A] font-medium mt-1">
+                      <p className="text-xs font-sans text-[#241E1A] font-semibold mt-1">
                         BDT {(item.price * item.quantity).toLocaleString()}
                       </p>
                     </div>
@@ -365,7 +374,7 @@ export default function CheckoutPage() {
 
               <div className="flex justify-between items-baseline mb-6 border-t border-[#B8B0A3]/30 pt-4">
                 <span className="font-serif text-lg text-[#241E1A]">Total</span>
-                <span className="font-sans font-medium text-xl text-[#241E1A]">
+                <span className="font-sans font-bold text-xl text-[#241E1A]">
                   BDT {total.toLocaleString()}
                 </span>
               </div>
@@ -373,16 +382,16 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full sh-btn-primary flex items-center justify-center gap-2 py-4"
+                className="w-full sh-btn-primary flex items-center justify-center gap-2 py-4 text-xs font-medium cursor-pointer"
               >
                 {submitting ? (
                   <span>Securing Consignment...</span>
                 ) : (
-                  <span>Confirm Consignment</span>
+                  <span>Confirm Consignment — BDT {total.toLocaleString()}</span>
                 )}
               </button>
 
-              <div className="mt-6 text-[10px] text-center text-[#686B5E] tracking-widest uppercase">
+              <div className="mt-4 text-[10px] text-center text-[#686B5E] tracking-widest uppercase">
                 <p>Protected by 256-bit encryption • STITCH HOUSE Atelier</p>
               </div>
             </div>

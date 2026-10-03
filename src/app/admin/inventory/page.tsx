@@ -1,5 +1,4 @@
 import React from 'react';
-import { db } from '@/lib/db';
 
 export const revalidate = 0;
 
@@ -69,32 +68,6 @@ export default async function AdminInventoryPage() {
       toLocation: { name: 'Tejgaon Central Warehouse' },
     },
   ];
-
-  try {
-    const dbBalances = await db.inventoryBalance.findMany({
-      include: {
-        location: true,
-        variant: {
-          include: { product: true, color: true, size: true },
-        },
-      },
-      orderBy: { physical: 'asc' },
-    });
-    if (dbBalances && dbBalances.length > 0) balances = dbBalances;
-
-    const dbMovements = await db.inventoryMovement.findMany({
-      take: 10,
-      orderBy: { createdAt: 'desc' },
-      include: {
-        variant: { include: { product: true } },
-        fromLocation: true,
-        toLocation: true,
-      },
-    });
-    if (dbMovements && dbMovements.length > 0) movements = dbMovements;
-  } catch (err) {
-    console.warn('Using fallback inventory data:', err);
-  }
 
   return (
     <div className="w-full">

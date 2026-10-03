@@ -302,16 +302,42 @@ export const MegaMenuPanel: React.FC<MegaMenuPanelProps> = ({
     <div
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      className="absolute top-full left-0 w-full bg-[#FFFFFF] border-b border-neutral-200 shadow-2xl z-50 pointer-events-auto select-none"
+      className="absolute top-full left-0 w-full bg-[#FFFFFF] border-b border-neutral-200 shadow-2xl z-50 pointer-events-auto select-none max-h-[calc(100vh-68px)] overflow-y-auto overscroll-contain"
       style={{
         boxShadow: '0 30px 60px -15px rgba(0, 0, 0, 0.12)',
       }}
     >
-      <div className="max-w-[1600px] mx-auto px-6 sm:px-12 py-10">
-        <div className="grid grid-cols-12 gap-8 lg:gap-14 items-start">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-8 lg:px-12 py-6 sm:py-10">
+        {/* Mobile Category Horizontal Switcher (Visible on small screens) */}
+        <div className="flex sm:hidden overflow-x-auto pb-3 mb-6 border-b border-neutral-200 gap-2 scrollbar-none">
+          {[
+            { id: 'woman', label: 'WOMAN' },
+            { id: 'man', label: 'MAN' },
+            { id: 'atelier', label: 'ATELIER' },
+            { id: 'journal', label: 'JOURNAL' },
+            { id: 'travel', label: 'TRAVEL' },
+          ].map((cat) => {
+            const isCurrent = currentActiveTab === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedSubCategory(cat.id)}
+                className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider whitespace-nowrap transition-colors border ${
+                  isCurrent
+                    ? 'bg-[#241E1A] text-[#F2EDE4] border-[#241E1A]'
+                    : 'bg-neutral-50 text-neutral-600 border-neutral-200'
+                }`}
+              >
+                {cat.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-12 gap-6 sm:gap-8 lg:gap-14 items-start">
           
-          {/* ── COLUMN 1: LEFT ZARA CATEGORY LIST ── */}
-          <div className="col-span-12 sm:col-span-4 lg:col-span-3 space-y-3 font-serif">
+          {/* ── COLUMN 1: LEFT ZARA CATEGORY LIST (Hidden on mobile where horizontal pills exist) ── */}
+          <div className="hidden sm:block col-span-12 sm:col-span-4 lg:col-span-3 space-y-3 font-serif">
             {[
               { id: 'woman', label: 'WOMAN' },
               { id: 'man', label: 'MAN' },
@@ -341,9 +367,9 @@ export const MegaMenuPanel: React.FC<MegaMenuPanelProps> = ({
           </div>
 
           {/* ── COLUMN 2 & 3: NUMBERED SUBSECTIONS & DIRECTORY ITEMS ── */}
-          <div className="col-span-12 sm:col-span-8 lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="col-span-12 sm:col-span-8 lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             {currentData.subSections.map((sec, idx) => (
-              <div key={idx} className="space-y-4">
+              <div key={idx} className="space-y-3 sm:space-y-4">
                 {/* Numbered Tag Header */}
                 <div className="flex items-center gap-2">
                   {sec.indexTag && (
@@ -363,13 +389,13 @@ export const MegaMenuPanel: React.FC<MegaMenuPanelProps> = ({
                 </div>
 
                 {/* Sub items */}
-                <ul className="space-y-2.5 font-sans">
+                <ul className="space-y-2 sm:space-y-2.5 font-sans">
                   {sec.items.map((item, itemIdx) => (
                     <li key={itemIdx}>
                       <Link
                         href={item.href}
                         onClick={onLinkClick}
-                        className={`text-xs uppercase tracking-[0.14em] transition-colors block ${
+                        className={`text-xs uppercase tracking-[0.14em] py-1 transition-colors block ${
                           item.isAccent
                             ? 'text-[#E11D48] hover:text-[#BE123C] font-semibold'
                             : 'text-neutral-700 hover:text-[#241E1A] hover:font-medium'

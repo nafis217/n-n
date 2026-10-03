@@ -105,25 +105,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
 
-        {/* Wishlist Button (Minimal top-right) */}
+        {/* Wishlist Button (Minimal top-right, visible on mobile touch, hover on desktop) */}
         <button
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             toggleWishlist(product.id, product.nameEn);
           }}
-          className={`absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center transition-opacity duration-300 ${
+          className={`absolute top-2.5 right-2.5 z-10 w-8 h-8 flex items-center justify-center transition-all duration-300 ${
             wishlisted
               ? 'opacity-100 bg-[#241E1A] text-[#F2EDE4]'
-              : 'opacity-0 group-hover:opacity-100 bg-[#F2EDE4]/90 text-[#241E1A] hover:bg-[#241E1A] hover:text-[#F2EDE4]'
+              : 'opacity-90 sm:opacity-0 group-hover:opacity-100 bg-[#F2EDE4]/90 text-[#241E1A] hover:bg-[#241E1A] hover:text-[#F2EDE4]'
           }`}
           aria-label={wishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
         >
-          <Heart size={13} fill={wishlisted ? '#F2EDE4' : 'none'} strokeWidth={1.5} />
+          <Heart size={14} fill={wishlisted ? '#F2EDE4' : 'none'} strokeWidth={1.5} />
         </button>
 
-        {/* Subtle quick-look hover bar at bottom */}
-        <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#241E1A]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-between text-[#F2EDE4]">
+        {/* Subtle quick-look hover bar at bottom (desktop) */}
+        <div className="hidden sm:flex absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-[#241E1A]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-center justify-between text-[#F2EDE4]">
           <span className="text-[10px] uppercase tracking-[0.2em] font-medium">
             Explore Piece
           </span>
@@ -132,24 +132,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </Link>
 
       {/* ── PRODUCT INFORMATION (Unboxed, generous whitespace) ── */}
-      <div className="mt-3.5 flex flex-col">
-        <div className="flex items-baseline justify-between gap-2">
+      <div className="mt-2.5 sm:mt-3.5 flex flex-col">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-2">
           <Link
             href={`/products/${product.slug}`}
-            className="font-serif text-sm sm:text-base text-[#241E1A] hover:text-[#686B5E] transition-colors leading-snug line-clamp-1"
+            className="font-serif text-xs sm:text-base text-[#241E1A] hover:text-[#686B5E] transition-colors leading-snug line-clamp-1"
           >
             {product.nameEn}
           </Link>
-          <span className="text-xs sm:text-sm font-sans font-medium text-[#241E1A] whitespace-nowrap tracking-wide">
+          <span className="text-xs sm:text-sm font-sans font-semibold text-[#241E1A] whitespace-nowrap tracking-wide">
             BDT {product.priceBDT.toLocaleString()}
           </span>
         </div>
 
         {/* Material & Tailoring note */}
-        <div className="flex items-center justify-between text-[11px] text-[#686B5E] tracking-wider mt-1">
-          <span className="truncate max-w-[200px]">{product.material}</span>
+        <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-[#686B5E] tracking-wider mt-0.5 sm:mt-1">
+          <span className="truncate max-w-[140px] sm:max-w-[200px]">{product.material}</span>
           {product.colors && product.colors.length > 1 && (
-            <span className="text-[10px] text-[#B8B0A3] uppercase">
+            <span className="text-[9px] sm:text-[10px] text-[#B8B0A3] uppercase whitespace-nowrap">
               {product.colors.length} shades
             </span>
           )}

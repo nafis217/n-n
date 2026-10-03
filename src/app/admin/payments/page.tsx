@@ -1,5 +1,4 @@
 import React from 'react';
-import { db } from '@/lib/db';
 import { PaymentsClientManager, PaymentTransactionRecord } from '@/components/admin/PaymentsClientManager';
 
 export const revalidate = 0;
@@ -55,33 +54,6 @@ export default async function AdminPaymentsPage() {
       gatewayEvent: 'OTP_PENDING (Nagad)',
     },
   ];
-
-  try {
-    const dbPayments = await db.payment.findMany({
-      orderBy: { createdAt: 'desc' },
-      include: {
-        order: { include: { customer: true } },
-        events: { orderBy: { createdAt: 'desc' } },
-      },
-    });
-
-    if (dbPayments && dbPayments.length > 0) {
-      payments = dbPayments.map((p: any) => ({
-        id: p.id,
-        orderNumber: p.order?.orderNumber || 'SH-ORDER',
-        customerName: p.order?.customer?.name || 'Customer',
-        method: p.method as any,
-        amountBDT: p.amountBDT,
-        currency: p.currency || 'BDT',
-        transactionId: p.transactionId || 'Awaiting',
-        status: p.status as any,
-        createdAt: p.createdAt,
-        gatewayEvent: p.events?.[0]?.eventType ? `${p.events[0].eventType} (${p.events[0].gatewayName})` : undefined,
-      }));
-    }
-  } catch (err) {
-    console.warn('Using fallback payments data:', err);
-  }
 
   return (
     <div className="w-full">

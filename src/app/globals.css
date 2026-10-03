@@ -37,6 +37,9 @@
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     background-color: #F2EDE4;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
   }
 
   body {
@@ -49,6 +52,9 @@
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+    -webkit-tap-highlight-color: transparent;
   }
 
   /* Editorial Headings default serif */
@@ -60,6 +66,7 @@
   /* Strict rectangular discipline */
   *, ::before, ::after {
     border-radius: 0px;
+    box-sizing: border-box;
   }
 
   /* Accessible focus rings */
@@ -71,6 +78,14 @@
   button, input, textarea, select {
     font-family: inherit;
     border-radius: 0px;
+    touch-action: manipulation;
+  }
+
+  /* Prevent iOS automatic zoom on inputs */
+  @media (max-width: 768px) {
+    input, textarea, select {
+      font-size: 16px !important;
+    }
   }
 
   ::selection {
@@ -282,3 +297,14 @@
 .price-sale {
   color: #B42318;
 }
+
+/* ─────────────────────────────────────────────
+   MOBILE SAFE AREA INSET UTILITIES
+───────────────────────────────────────────── */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.pt-safe {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+

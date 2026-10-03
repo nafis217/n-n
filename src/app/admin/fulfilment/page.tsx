@@ -1,5 +1,4 @@
 import React from 'react';
-import { db } from '@/lib/db';
 import { FulfilmentManager, FulfilmentRecord } from '@/components/admin/FulfilmentManager';
 
 export const revalidate = 0;
@@ -88,55 +87,6 @@ export default async function AdminFulfilmentPage() {
       shippedAt: new Date(Date.now() - 43200000).toISOString(),
     },
   ];
-
-  try {
-    const orders = await db.order.findMany({
-      take: 20,
-      orderBy: { createdAt: 'desc' },
-      include: {
-        items: true,
-        address: true,
-        customer: true,
-      },
-    });
-
-    if (orders && orders.length > 0) {
-      initialFulfilments = orders.map((ord, idx) => {
-        let mappedStatus: FulfilmentRecord['status'] = 'AWAITING_PICK';
-        if (ord.orderStatus === 'PACKED') mappedStatus = 'PACKED';
-        else if (ord.orderStatus === 'DISPATCHED' || ord.orderStatus === 'SHIPPED') mappedStatus = 'SHIPPED';
-        else if (ord.orderStatus === 'DELIVERED') mappedStatus = 'DELIVERED';
-        else if (ord.orderStatus === 'CANCELLED') mappedStatus = 'CANCELLED';
-
-        return {
-          id: ord.id,
-          fulfilmentNumber: `FUL-${ord.orderNumber.replace(/[^0-9]/g, '').slice(-8) || `10${idx}`}`,
-          orderNumber: ord.orderNumber,
-          orderId: ord.id,
-          customerName: ord.address?.recipient || ord.customer?.name || 'Valued Client',
-          phone: ord.address?.phone || ord.customer?.mobile || '+880 1700-000000',
-          shippingAddress: ord.address?.street || 'Gulshan / Banani Area',
-          city: ord.address?.city || 'Dhaka',
-          warehouse: 'GULSHAN_ATELIER',
-          items: (ord.items || []).map((it) => ({
-            id: it.id,
-            productName: it.productName,
-            sku: it.variantSku || 'SH-SKU',
-            size: it.sizeName || 'Regular',
-            color: it.colorName || 'Monochrome',
-            quantity: it.quantity || 1,
-          })),
-          status: mappedStatus,
-          courier: ord.courierName || 'Steadfast Courier',
-          trackingNumber: ord.trackingNumber || '',
-          shippingMethod: 'STANDARD_EXPRESS',
-          createdAt: ord.createdAt.toISOString(),
-        };
-      });
-    }
-  } catch (err) {
-    console.warn('Fallback to static fulfilment dataset:', err);
-  }
 
   return (
     <div className="w-full">
