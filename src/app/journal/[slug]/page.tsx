@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ARTICLES } from '../page';
+import { ARTICLES } from '@/lib/journal-data';
 import { SHMonogram } from '@/components/brand/SHMonogram';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
