@@ -18,7 +18,19 @@ import {
   ArrowRight,
   RefreshCw,
   Ban,
-  Download
+  Download,
+  Phone,
+  MessageCircle,
+  Instagram,
+  Facebook,
+  Store,
+  Globe,
+  ExternalLink,
+  PackageCheck,
+  Undo2,
+  Sparkles,
+  Save,
+  CheckCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
@@ -28,7 +40,7 @@ export interface AdminOrderRecord {
   createdAt: string | Date;
   orderStatus: 'PENDING' | 'CONFIRMED' | 'PROCESSING' | 'PACKED' | 'SHIPPED' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'CANCELLED' | 'RETURNED' | 'REFUNDED';
   paymentStatus: 'PENDING' | 'PAID' | 'FAILED' | 'PARTIALLY_REFUNDED' | 'REFUNDED';
-  paymentMethod: 'BKASH' | 'NAGAD' | 'CARD' | 'COD' | 'SSLCOMMERZ' | 'STRIPE' | 'BANK_TRANSFER';
+  paymentMethod: 'BKASH' | 'NAGAD' | 'CARD' | 'COD' | 'SSLCOMMERZ' | 'STRIPE' | 'BANK_TRANSFER' | 'CASH';
   customer: {
     name: string;
     email?: string;
@@ -63,6 +75,13 @@ export interface AdminOrderRecord {
   customerNotes?: string;
   staffNotes?: string;
   fulfilmentStatus?: 'UNFULFILLED' | 'PROCESSING' | 'PACKED' | 'DISPATCHED' | 'DELIVERED';
+  orderSource?: 'WEBSITE' | 'PHONE' | 'WHATSAPP' | 'INSTAGRAM' | 'FACEBOOK' | 'WALK_IN' | 'OTHER';
+  cancellationReason?: string;
+  cancelledAt?: string;
+  isRestocked?: boolean;
+  dispatchedAt?: string;
+  deliveredAt?: string;
+  transactionId?: string;
 }
 
 interface OrderInspectionModalProps {
@@ -87,6 +106,13 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
   const [isSaving, setIsSaving] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
+  // Cancellation Sub-modal state
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [cancelReasonPreset, setCancelReasonPreset] = useState('Customer cancelled via phone/chat');
+  const [cancelCustomNotes, setCancelCustomNotes] = useState('');
+  const [restockInventory, setRestockInventory] = useState(true);
+  const [refundStatusChoice, setRefundStatusChoice] = useState<'PENDING' | 'REFUNDED' | 'NOT_APPLICABLE'>('NOT_APPLICABLE');
+
   if (!isOpen) return null;
 
   const handleCopyId = () => {
@@ -104,6 +130,12 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
   };
 
   const handleStatusChange = (newStatus: AdminOrderRecord['orderStatus']) => {
+    if (newStatus === 'CANCELLED') {
+      setIsCancelling(true);
+      return;
+    }
+
+    const nowIso = new Date().toISOString();
     const updated: AdminOrderRecord = {
       ...currentOrder,
       orderStatus: newStatus,
@@ -112,6 +144,8 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
         newStatus === 'SHIPPED' || newStatus === 'OUT_FOR_DELIVERY' ? 'DISPATCHED' :
         newStatus === 'PACKED' ? 'PACKED' :
         newStatus === 'PROCESSING' ? 'PROCESSING' : 'UNFULFILLED',
+      dispatchedAt: (newStatus === 'SHIPPED' || newStatus === 'OUT_FOR_DELIVERY') && !currentOrder.dispatchedAt ? nowIso : currentOrder.dispatchedAt,
+      deliveredAt: newStatus === 'DELIVERED' ? nowIso : currentOrder.deliveredAt,
     };
     setCurrentOrder(updated);
     onUpdateOrder(updated);
@@ -128,6 +162,31 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
     onUpdateOrder(updated);
     setToastMessage(`Payment status updated to ${newPaymentStatus}`);
     setTimeout(() => setToastMessage(''), 3000);
+  };
+
+  const handleConfirmCancellation = () => {
+    const fullReason = cancelCustomNotes ? `${cancelReasonPreset}: ${cancelCustomNotes}` : cancelReasonPreset;
+    const nowIso = new Date().toISOString();
+    
+    const updated: AdminOrderRecord = {
+      ...currentOrder,
+      orderStatus: 'CANCELLED',
+      cancellationReason: fullReason,
+      cancelledAt: nowIso,
+      isRestocked: restockInventory,
+      paymentStatus: refundStatusChoice === 'REFUNDED' ? 'REFUNDED' : refundStatusChoice === 'PENDING' ? 'PENDING' : currentOrder.paymentStatus,
+      staffNotes: [
+        currentOrder.staffNotes || '',
+        `[CANCELLED on ${new Date().toLocaleDateString()}: ${fullReason}]`,
+        restockInventory ? '[INVENTORY RESTOCKED: YES]' : '',
+      ].filter(Boolean).join(' '),
+    };
+
+    setCurrentOrder(updated);
+    onUpdateOrder(updated);
+    setIsCancelling(false);
+    setToastMessage('Order has been Cancelled and recorded.');
+    setTimeout(() => setToastMessage(''), 3500);
   };
 
   const handleSaveDetails = () => {
@@ -151,29 +210,51 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
     window.print();
   };
 
+  const getSourceIcon = (src?: string) => {
+    switch (src) {
+      case 'PHONE':
+        return <Phone className="w-3.5 h-3.5 text-sky-400" />;
+      case 'WHATSAPP':
+        return <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />;
+      case 'INSTAGRAM':
+        return <Instagram className="w-3.5 h-3.5 text-pink-400" />;
+      case 'FACEBOOK':
+        return <Facebook className="w-3.5 h-3.5 text-blue-400" />;
+      case 'WALK_IN':
+        return <Store className="w-3.5 h-3.5 text-amber-400" />;
+      default:
+        return <Globe className="w-3.5 h-3.5 text-purple-400" />;
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-2 sm:p-4 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white text-black max-w-4xl w-full border-2 border-black font-mono shadow-2xl my-6 max-h-[92vh] flex flex-col">
-        {/* Header */}
-        <div className="p-4 sm:p-6 border-b border-neutral-200 flex flex-wrap justify-between items-center gap-3 shrink-0 bg-neutral-50">
+    <div className="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-2 sm:p-4 backdrop-blur-md overflow-y-auto">
+      <div className="bg-slate-900 text-slate-100 max-w-4xl w-full border border-slate-700/80 rounded-2xl font-mono shadow-2xl my-6 max-h-[94vh] flex flex-col overflow-hidden">
+        {/* Modal Header */}
+        <div className="p-5 sm:p-6 border-b border-slate-800 flex flex-wrap justify-between items-center gap-3 shrink-0 bg-slate-950/80">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] text-neutral-500 uppercase tracking-widest font-bold">
-                ORDER INSPECTION &amp; FULFILMENT
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[10px] text-amber-400 uppercase tracking-widest font-bold flex items-center gap-1">
+                <Sparkles className="w-3 h-3" />
+                CONSIGNMENT INSPECTOR
+              </span>
+              <span className="flex items-center gap-1.5 bg-slate-800 border border-slate-700 px-2.5 py-0.5 text-[10px] font-bold uppercase rounded-md">
+                {getSourceIcon(currentOrder.orderSource)}
+                <span className="text-slate-200">Channel: {currentOrder.orderSource || 'WEBSITE'}</span>
               </span>
               <button
                 onClick={handleCopyId}
-                className="text-[11px] text-neutral-600 hover:text-black flex items-center gap-1 border border-neutral-300 px-2 py-0.5 bg-white"
+                className="text-[11px] text-slate-300 hover:text-white flex items-center gap-1 border border-slate-700 hover:border-amber-500 px-2 py-0.5 rounded-md bg-slate-800/80 cursor-pointer transition-colors"
                 title="Copy Order ID"
               >
-                {copiedId ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                {copiedId ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
                 <span>{currentOrder.orderNumber}</span>
               </button>
             </div>
-            <h2 className="text-xl sm:text-2xl uppercase font-bold text-black tracking-tight mt-1">
+            <h2 className="text-xl sm:text-2xl uppercase font-bold text-white tracking-tight mt-1 font-serif">
               Order {currentOrder.orderNumber}
             </h2>
-            <p className="text-xs text-neutral-500">
+            <p className="text-xs text-slate-400 font-sans">
               Placed on {new Date(currentOrder.createdAt).toLocaleString()}
             </p>
           </div>
@@ -182,15 +263,15 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrintInvoice}
-              className="p-2 border border-neutral-300 bg-white hover:bg-neutral-100 text-black flex items-center gap-1.5 text-xs font-bold uppercase transition-colors"
+              className="p-2.5 border border-slate-700 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center gap-2 text-xs font-bold uppercase transition-all shadow-md cursor-pointer"
               title="Print Order Invoice"
             >
-              <Printer className="w-4 h-4" />
+              <Printer className="w-4 h-4 text-cyan-400" />
               <span className="hidden sm:inline">Print Invoice</span>
             </button>
             <button
               onClick={onClose}
-              className="p-2 text-neutral-500 hover:text-black hover:bg-neutral-200 transition-colors"
+              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -199,31 +280,58 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
 
         {/* Toast Feedback */}
         {toastMessage && (
-          <div className="bg-black text-white px-6 py-2.5 text-xs flex items-center gap-2 border-b border-neutral-800">
+          <div className="bg-emerald-950/80 text-emerald-200 border-b border-emerald-500/40 px-6 py-2.5 text-xs flex items-center gap-2 shrink-0">
             <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>{toastMessage}</span>
+            <span className="font-semibold">{toastMessage}</span>
           </div>
         )}
 
-        {/* Body Content */}
-        <div className="p-4 sm:p-6 overflow-y-auto space-y-6 text-xs">
+        {/* Cancelled Warning Banner if Order is Cancelled */}
+        {currentOrder.orderStatus === 'CANCELLED' && (
+          <div className="bg-rose-950/40 border-b border-rose-500/40 p-4 shrink-0 flex items-start gap-3">
+            <Ban className="w-5 h-5 text-rose-400 shrink-0 mt-0.5 animate-pulse" />
+            <div className="space-y-1 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-rose-300 uppercase tracking-wide">
+                  THIS CONSIGNMENT IS CANCELLED
+                </span>
+                {currentOrder.isRestocked && (
+                  <span className="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 text-[10px] font-bold uppercase rounded-md border border-emerald-500/30">
+                    Stock Restored To Inventory
+                  </span>
+                )}
+              </div>
+              <p className="text-rose-200 font-sans">
+                Reason: <span className="font-bold text-white">{currentOrder.cancellationReason || 'Cancelled by staff.'}</span>
+              </p>
+              {currentOrder.cancelledAt && (
+                <p className="text-slate-400 text-[10px]">
+                  Cancelled on: {new Date(currentOrder.cancelledAt).toLocaleString()}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Modal Body */}
+        <div className="p-5 sm:p-6 overflow-y-auto space-y-6 text-xs flex-1">
           {/* Status Controls Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-neutral-50 border border-neutral-200">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-slate-950/60 border border-slate-800 rounded-xl">
             {/* Order Status Workflow Dropdown */}
             <div>
-              <label className="font-bold text-black uppercase block mb-1">
-                Order Workflow Status
+              <label className="font-bold text-amber-400 uppercase block mb-1">
+                Workflow Status
               </label>
               <select
                 value={currentOrder.orderStatus}
                 onChange={(e) => handleStatusChange(e.target.value as any)}
-                className="w-full bg-white border-2 border-black px-3 py-2 font-bold uppercase text-xs focus:outline-none"
+                className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white font-bold uppercase text-xs rounded-lg focus:outline-none focus:border-amber-400 cursor-pointer"
               >
                 <option value="PENDING">PENDING</option>
                 <option value="CONFIRMED">CONFIRMED</option>
-                <option value="PROCESSING">PROCESSING</option>
+                <option value="PROCESSING">IN ATELIER</option>
                 <option value="PACKED">PACKED</option>
-                <option value="SHIPPED">SHIPPED</option>
+                <option value="SHIPPED">DISPATCHED / SHIPPED</option>
                 <option value="OUT_FOR_DELIVERY">OUT FOR DELIVERY</option>
                 <option value="DELIVERED">DELIVERED</option>
                 <option value="CANCELLED">CANCELLED</option>
@@ -234,102 +342,141 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
 
             {/* Payment Status Dropdown */}
             <div>
-              <label className="font-bold text-black uppercase block mb-1">
-                Payment Status ({currentOrder.paymentMethod})
+              <label className="font-bold text-cyan-400 uppercase block mb-1">
+                Payment ({currentOrder.paymentMethod})
               </label>
               <select
                 value={currentOrder.paymentStatus}
                 onChange={(e) => handlePaymentStatusChange(e.target.value as any)}
-                className="w-full bg-white border border-neutral-300 px-3 py-2 font-bold uppercase text-xs focus:outline-none focus:border-black"
+                className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white font-bold uppercase text-xs rounded-lg focus:outline-none focus:border-cyan-400 cursor-pointer"
               >
-                <option value="PENDING">PENDING</option>
-                <option value="PAID">PAID</option>
+                <option value="PENDING">PENDING (Unpaid)</option>
+                <option value="PAID">PAID (Verified)</option>
                 <option value="FAILED">FAILED</option>
                 <option value="PARTIALLY_REFUNDED">PARTIALLY REFUNDED</option>
                 <option value="REFUNDED">REFUNDED</option>
               </select>
             </div>
 
-            {/* Fulfilment Status Badge */}
+            {/* Fulfilment Status */}
             <div>
-              <label className="font-bold text-black uppercase block mb-1">
-                Fulfilment Status
+              <label className="font-bold text-slate-400 uppercase block mb-1">
+                Warehouse State
               </label>
-              <div className="p-2 bg-white border border-neutral-300 font-bold uppercase text-center flex items-center justify-center gap-1.5">
-                <Truck className="w-3.5 h-3.5 text-neutral-600" />
+              <div className="p-2 bg-slate-900 border border-slate-700 text-slate-200 font-bold uppercase text-center rounded-lg flex items-center justify-center gap-1.5">
+                <Truck className="w-3.5 h-3.5 text-cyan-400" />
                 <span>{currentOrder.fulfilmentStatus || 'UNFULFILLED'}</span>
+              </div>
+            </div>
+
+            {/* Quick Lifecycle Action */}
+            <div>
+              <label className="font-bold text-slate-400 uppercase block mb-1">
+                Quick Shift
+              </label>
+              <div className="flex gap-1.5">
+                {currentOrder.orderStatus !== 'SHIPPED' && currentOrder.orderStatus !== 'DELIVERED' && (
+                  <button
+                    type="button"
+                    onClick={() => handleStatusChange('SHIPPED')}
+                    className="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-1 text-[10px] uppercase text-center rounded-lg transition-colors cursor-pointer"
+                  >
+                    Dispatch
+                  </button>
+                )}
+                {currentOrder.orderStatus !== 'DELIVERED' && currentOrder.orderStatus !== 'CANCELLED' && (
+                  <button
+                    type="button"
+                    onClick={() => handleStatusChange('DELIVERED')}
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-1 text-[10px] uppercase text-center rounded-lg transition-colors cursor-pointer"
+                  >
+                    Deliver
+                  </button>
+                )}
+                {currentOrder.orderStatus !== 'CANCELLED' && (
+                  <button
+                    type="button"
+                    onClick={() => setIsCancelling(true)}
+                    className="bg-rose-900/60 hover:bg-rose-800 text-rose-200 border border-rose-700/60 font-bold py-2 px-2 text-[10px] uppercase text-center rounded-lg transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Customer & Shipping Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Customer & Shipping Information Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Customer Details */}
-            <div className="border border-neutral-200 p-4 bg-white">
-              <h3 className="font-bold uppercase text-black flex items-center gap-2 pb-2 border-b border-neutral-100 mb-3">
-                <User className="w-4 h-4" />
-                <span>Customer Profile</span>
+            <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl">
+              <h3 className="font-bold uppercase text-amber-300 flex items-center gap-2 pb-2 border-b border-slate-800 mb-3">
+                <User className="w-4 h-4 text-amber-400" />
+                <span>Client Profile</span>
               </h3>
-              <div className="space-y-1.5">
-                <p className="font-bold text-black text-sm">{currentOrder.customer?.name || currentOrder.address?.recipient}</p>
-                <p className="text-neutral-600">Mobile: <span className="text-black font-semibold">{currentOrder.customer?.mobile || currentOrder.address?.phone}</span></p>
-                <p className="text-neutral-600">Email: <span className="text-black">{currentOrder.customer?.email || 'N/A'}</span></p>
+              <div className="space-y-1.5 font-sans">
+                <p className="font-bold text-white text-sm">{currentOrder.customer?.name || currentOrder.address?.recipient}</p>
+                <p className="text-slate-400">Mobile: <span className="text-white font-mono font-semibold">{currentOrder.customer?.mobile || currentOrder.address?.phone}</span></p>
+                <p className="text-slate-400">Email: <span className="text-white">{currentOrder.customer?.email || 'N/A'}</span></p>
                 {currentOrder.customerNotes && (
-                  <div className="mt-3 p-2 bg-neutral-50 border border-neutral-200">
-                    <span className="font-bold text-neutral-500 uppercase text-[10px] block">Customer Note:</span>
-                    <p className="text-black italic">{currentOrder.customerNotes}</p>
+                  <div className="mt-3 p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
+                    <span className="font-bold text-amber-400 uppercase text-[10px] block font-mono">Customer Special Note:</span>
+                    <p className="text-slate-300 italic text-xs">{currentOrder.customerNotes}</p>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Shipping & Delivery Address */}
-            <div className="border border-neutral-200 p-4 bg-white">
-              <h3 className="font-bold uppercase text-black flex items-center gap-2 pb-2 border-b border-neutral-100 mb-3">
-                <MapPin className="w-4 h-4" />
-                <span>Shipping Address</span>
+            <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl">
+              <h3 className="font-bold uppercase text-cyan-300 flex items-center gap-2 pb-2 border-b border-slate-800 mb-3">
+                <MapPin className="w-4 h-4 text-cyan-400" />
+                <span>Delivery Destination</span>
               </h3>
-              <div className="space-y-1">
-                <p className="font-bold text-black">{currentOrder.address?.recipient}</p>
-                <p className="text-neutral-700">{currentOrder.address?.street}</p>
-                <p className="text-neutral-700">
+              <div className="space-y-1 font-sans">
+                <p className="font-bold text-white">{currentOrder.address?.recipient}</p>
+                <p className="text-slate-300">{currentOrder.address?.street}</p>
+                <p className="text-slate-300">
                   {currentOrder.address?.thana ? `${currentOrder.address.thana}, ` : ''}
                   {currentOrder.address?.city} {currentOrder.address?.postalCode ? `- ${currentOrder.address.postalCode}` : ''}
                 </p>
-                <p className="text-neutral-500 text-[11px]">District: {currentOrder.address?.district || 'Dhaka'}</p>
-                <p className="text-neutral-600 font-semibold pt-1">Phone: {currentOrder.address?.phone}</p>
+                <p className="text-amber-400 text-[11px] font-mono font-semibold pt-1">District: {currentOrder.address?.district || 'Dhaka'}</p>
+                <p className="text-slate-400 font-mono text-[11px]">Contact: {currentOrder.address?.phone}</p>
               </div>
             </div>
           </div>
 
           {/* Ordered Line Items Table */}
-          <div className="border border-neutral-200 bg-white">
-            <div className="p-3 bg-neutral-50 border-b border-neutral-200 font-bold uppercase text-black flex justify-between">
-              <span>Ordered Line Items ({currentOrder.items?.length || 0})</span>
-              <span>Total: ৳ {currentOrder.totalBDT.toLocaleString()}</span>
+          <div className="bg-slate-950/70 border border-slate-800 rounded-xl overflow-hidden">
+            <div className="p-3.5 bg-slate-900 border-b border-slate-800 font-bold uppercase text-white flex justify-between">
+              <span className="flex items-center gap-2 text-violet-300">
+                <ShoppingBag className="w-4 h-4 text-violet-400" />
+                <span>Consignment Items ({currentOrder.items?.length || 0})</span>
+              </span>
+              <span className="text-emerald-400 font-mono">Total: ৳ {currentOrder.totalBDT.toLocaleString()}</span>
             </div>
-            <div className="divide-y divide-neutral-100">
+            <div className="divide-y divide-slate-800/60">
               {currentOrder.items?.map((item, idx) => (
                 <div key={item.id || idx} className="p-3.5 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-14 bg-neutral-100 border border-neutral-200 overflow-hidden shrink-0 flex items-center justify-center">
+                    <div className="w-12 h-14 bg-slate-900 border border-slate-700 rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
                       {item.imageUrl ? (
                         <img src={item.imageUrl} alt={item.productName} className="w-full h-full object-cover" />
                       ) : (
-                        <ShoppingBag className="w-4 h-4 text-neutral-400" />
+                        <ShoppingBag className="w-4 h-4 text-slate-500" />
                       )}
                     </div>
                     <div>
-                      <p className="font-bold text-black uppercase text-xs">{item.productName}</p>
-                      <p className="text-neutral-500 text-[11px] font-mono">
-                        {item.color || 'Standard'} • Size: <span className="font-bold text-black">{item.size || 'M'}</span> {item.variantSku ? `• SKU: ${item.variantSku}` : ''}
+                      <p className="font-bold text-white uppercase text-xs font-sans">{item.productName}</p>
+                      <p className="text-slate-400 text-[11px] font-mono">
+                        {item.color || 'Standard'} • Size: <span className="font-bold text-amber-400">{item.size || 'M'}</span> {item.variantSku ? `• SKU: ${item.variantSku}` : ''}
                       </p>
-                      <p className="text-neutral-600 font-mono text-[11px]">
+                      <p className="text-slate-400 font-mono text-[11px]">
                         ৳ {(item.unitPrice || item.totalPrice).toLocaleString()} x {item.quantity}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right font-mono font-bold text-black">
+                  <div className="text-right font-mono font-bold text-emerald-400">
                     ৳ {(item.totalPrice || (item.unitPrice * item.quantity)).toLocaleString()}
                   </div>
                 </div>
@@ -338,48 +485,62 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
           </div>
 
           {/* Financial Calculation Summary */}
-          <div className="p-4 bg-neutral-50 border border-neutral-200 flex flex-col items-end">
-            <div className="w-full sm:w-72 space-y-1.5 font-mono text-xs">
-              <div className="flex justify-between text-neutral-600">
+          <div className="p-4 bg-slate-950/90 border border-slate-800 rounded-xl flex flex-col items-end">
+            <div className="w-full sm:w-72 space-y-2 font-mono text-xs">
+              <div className="flex justify-between text-slate-400">
                 <span>Subtotal:</span>
-                <span className="font-bold text-black">৳ {(currentOrder.subtotalBDT || currentOrder.totalBDT).toLocaleString()}</span>
+                <span className="font-bold text-white">৳ {(currentOrder.subtotalBDT || currentOrder.totalBDT).toLocaleString()}</span>
               </div>
               {currentOrder.discountBDT > 0 && (
-                <div className="flex justify-between text-emerald-700 font-semibold">
+                <div className="flex justify-between text-rose-400 font-semibold">
                   <span>Discount Applied:</span>
                   <span>- ৳ {currentOrder.discountBDT.toLocaleString()}</span>
                 </div>
               )}
-              <div className="flex justify-between text-neutral-600">
+              <div className="flex justify-between text-slate-400">
                 <span>Shipping Fee:</span>
-                <span className="font-bold text-black">{currentOrder.shippingFeeBDT ? `৳ ${currentOrder.shippingFeeBDT.toLocaleString()}` : 'FREE'}</span>
+                <span className="font-bold text-white">{currentOrder.shippingFeeBDT ? `৳ ${currentOrder.shippingFeeBDT.toLocaleString()}` : 'FREE'}</span>
               </div>
-              <div className="flex justify-between text-sm font-bold text-black pt-2 border-t border-neutral-300">
-                <span>Grand Total:</span>
-                <span>৳ {currentOrder.totalBDT.toLocaleString()}</span>
+              <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-slate-800">
+                <span className="text-amber-400 uppercase">Grand Total:</span>
+                <span className="text-emerald-400 text-base font-mono">৳ {currentOrder.totalBDT.toLocaleString()}</span>
               </div>
             </div>
           </div>
 
           {/* Courier Dispatch & Tracking Info */}
-          <div className="border border-neutral-200 p-4 bg-white">
-            <h3 className="font-bold uppercase text-black flex items-center gap-2 pb-2 border-b border-neutral-100 mb-3">
-              <Truck className="w-4 h-4" />
-              <span>Courier Partner &amp; Real-Time Tracking</span>
-            </h3>
+          <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
+              <h3 className="font-bold uppercase text-cyan-300 flex items-center gap-2">
+                <Truck className="w-4 h-4 text-cyan-400" />
+                <span>Courier Partner &amp; Real-Time Tracking</span>
+              </h3>
+              {currentOrder.dispatchedAt && (
+                <span className="text-[10px] text-cyan-400 font-mono">
+                  Dispatched: {new Date(currentOrder.dispatchedAt).toLocaleDateString()}
+                </span>
+              )}
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="font-bold text-black uppercase block mb-1">Courier Service</label>
-                <input
-                  type="text"
+                <label className="font-bold text-slate-300 uppercase block mb-1">Courier Service</label>
+                <select
                   value={courierInput}
                   onChange={(e) => setCourierInput(e.target.value)}
-                  placeholder="e.g. Steadfast Courier, Pathao, RedX, DHL"
-                  className="w-full bg-white border border-neutral-300 px-3 py-2 text-black focus:outline-none focus:border-black uppercase font-bold"
-                />
+                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white rounded-lg focus:outline-none focus:border-cyan-400 uppercase font-bold"
+                >
+                  <option value="Steadfast Courier">Steadfast Courier</option>
+                  <option value="Pathao Courier">Pathao Courier</option>
+                  <option value="RedX Logistics">RedX Logistics</option>
+                  <option value="Paperfly Express">Paperfly Express</option>
+                  <option value="In-House Atelier Rider">In-House Rider</option>
+                  <option value="Store Pickup">Store Pickup</option>
+                </select>
               </div>
+
               <div>
-                <label className="font-bold text-black uppercase block mb-1">
+                <label className="font-bold text-slate-300 uppercase block mb-1">
                   Tracking Number / Consignment ID
                 </label>
                 <div className="flex gap-2">
@@ -388,16 +549,16 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
                     value={trackingInput}
                     onChange={(e) => setTrackingInput(e.target.value)}
                     placeholder="e.g. STDF-84920194"
-                    className="w-full bg-white border border-neutral-300 px-3 py-2 text-black focus:outline-none focus:border-black uppercase font-bold"
+                    className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-cyan-400 rounded-lg focus:outline-none focus:border-cyan-400 uppercase font-bold font-mono"
                   />
                   {trackingInput && (
                     <button
                       type="button"
                       onClick={handleCopyTracking}
-                      className="px-3 border border-neutral-300 bg-neutral-100 hover:bg-neutral-200 text-black flex items-center justify-center shrink-0"
+                      className="px-3 border border-slate-700 bg-slate-800 hover:bg-slate-700 text-white rounded-lg flex items-center justify-center shrink-0 cursor-pointer"
                       title="Copy Tracking Number"
                     >
-                      {copiedTracking ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                      {copiedTracking ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
                     </button>
                   )}
                 </div>
@@ -406,54 +567,172 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
 
             {/* Internal Staff Notes */}
             <div>
-              <label className="font-bold text-black uppercase block mb-1">Internal Staff / Warehouse Notes</label>
+              <label className="font-bold text-slate-300 uppercase block mb-1">Internal Staff / Warehouse Notes</label>
               <textarea
                 rows={2}
                 value={staffNoteInput}
                 onChange={(e) => setStaffNoteInput(e.target.value)}
                 placeholder="Add internal notes on garment condition, customer requests, or special handling..."
-                className="w-full bg-white border border-neutral-300 px-3 py-2 text-black focus:outline-none focus:border-black"
+                className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-slate-200 rounded-lg focus:outline-none focus:border-amber-400 font-sans"
               />
             </div>
 
             <div className="pt-3 flex justify-end">
-              <Button
-                variant="primary"
-                size="sm"
+              <button
+                type="button"
                 onClick={handleSaveDetails}
                 disabled={isSaving}
-                className="font-bold uppercase"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-bold uppercase text-xs flex items-center gap-1.5 shadow-md cursor-pointer transition-all"
               >
-                {isSaving ? 'Saving...' : 'Save Courier & Staff Notes'}
-              </Button>
+                <Save className="w-3.5 h-3.5" />
+                <span>{isSaving ? 'Saving...' : 'Save Courier & Staff Notes'}</span>
+              </button>
             </div>
           </div>
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 sm:p-6 border-t border-neutral-200 flex flex-wrap justify-between items-center gap-3 shrink-0 bg-neutral-50">
+        <div className="p-4 sm:p-6 border-t border-slate-800 flex flex-wrap justify-between items-center gap-3 shrink-0 bg-slate-950">
           <div className="flex gap-2">
+            {currentOrder.orderStatus !== 'CANCELLED' ? (
+              <button
+                type="button"
+                onClick={() => setIsCancelling(true)}
+                className="px-3.5 py-2 border border-rose-500/40 text-rose-300 hover:bg-rose-950/60 rounded-xl uppercase font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+              >
+                <Ban className="w-3.5 h-3.5 text-rose-400" />
+                <span>Cancel Order</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => handleStatusChange('CONFIRMED')}
+                className="px-3.5 py-2 border border-slate-600 text-slate-200 hover:bg-slate-800 rounded-xl uppercase font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+              >
+                <Undo2 className="w-3.5 h-3.5 text-amber-400" />
+                <span>Re-Open / Restore Order</span>
+              </button>
+            )}
+
             <button
-              onClick={() => handleStatusChange('CANCELLED')}
-              className="px-3 py-1.5 border border-red-300 text-red-600 hover:bg-red-50 uppercase font-bold text-xs flex items-center gap-1"
-            >
-              <Ban className="w-3.5 h-3.5" />
-              <span>Cancel Order</span>
-            </button>
-            <button
+              type="button"
               onClick={() => handlePaymentStatusChange('REFUNDED')}
-              className="px-3 py-1.5 border border-amber-300 text-amber-700 hover:bg-amber-50 uppercase font-bold text-xs flex items-center gap-1"
+              className="px-3.5 py-2 border border-amber-500/40 text-amber-300 hover:bg-amber-950/60 rounded-xl uppercase font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
+              <RefreshCw className="w-3.5 h-3.5 text-amber-400" />
               <span>Issue Refund</span>
             </button>
           </div>
 
-          <Button variant="secondary" size="md" onClick={onClose} className="uppercase font-bold">
+          <button
+            onClick={onClose}
+            className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white uppercase font-bold text-xs cursor-pointer border border-slate-700 transition-colors"
+          >
             Close Inspector
-          </Button>
+          </button>
         </div>
       </div>
+
+      {/* Cancellation Reasoning Sub-Modal */}
+      {isCancelling && (
+        <div className="fixed inset-0 bg-black/90 z-60 flex items-center justify-center p-4 backdrop-blur-md">
+          <div className="bg-slate-900 border border-rose-500/40 rounded-2xl max-w-md w-full p-5 font-mono shadow-2xl space-y-4 text-slate-100">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <h3 className="font-bold text-base text-rose-400 uppercase flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5 text-rose-500 animate-pulse" />
+                <span>Confirm Order Cancellation</span>
+              </h3>
+              <button
+                onClick={() => setIsCancelling(false)}
+                className="text-slate-400 hover:text-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <p className="text-xs text-slate-300 font-sans">
+              Please specify the cancellation reason for <span className="font-bold text-white font-mono">{currentOrder.orderNumber}</span>:
+            </p>
+
+            <div>
+              <label className="font-bold text-xs uppercase block mb-1 text-slate-300">Cancellation Category</label>
+              <select
+                value={cancelReasonPreset}
+                onChange={(e) => setCancelReasonPreset(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-lg text-xs font-bold uppercase text-white focus:outline-none focus:border-rose-500 cursor-pointer"
+              >
+                <option value="Customer cancelled via phone/chat">Customer Cancelled (Phone / WhatsApp)</option>
+                <option value="Customer unreachable / Phone switched off">Customer Unreachable / Fake Phone</option>
+                <option value="Customer changed mind / Ordered elsewhere">Customer Changed Mind</option>
+                <option value="Invalid delivery address / Delivery area unserviceable">Invalid / Unserviceable Address</option>
+                <option value="Item out of stock / Atelier fabric shortage">Item Out Of Stock</option>
+                <option value="Customer rejected parcel upon delivery (Courier Return)">Rejected at Doorstep (Courier RTO)</option>
+                <option value="Payment verification failed / Fraud alert">Payment Verification Failed</option>
+                <option value="Duplicate order placed by customer">Duplicate Order</option>
+                <option value="Custom cancellation reason">Other / Custom Reason</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="font-bold text-xs uppercase block mb-1 text-slate-300">Additional Staff Notes (Optional)</label>
+              <textarea
+                rows={2}
+                value={cancelCustomNotes}
+                onChange={(e) => setCancelCustomNotes(e.target.value)}
+                placeholder="Details of call/message with customer..."
+                className="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-lg text-xs text-white focus:outline-none focus:border-rose-500 font-sans"
+              />
+            </div>
+
+            <div className="space-y-2 pt-1 border-t border-slate-800 text-xs">
+              <label className="flex items-center gap-2 cursor-pointer font-bold text-emerald-300">
+                <input
+                  type="checkbox"
+                  checked={restockInventory}
+                  onChange={(e) => setRestockInventory(e.target.checked)}
+                  className="w-4 h-4 cursor-pointer accent-emerald-500"
+                />
+                <span>Restock items back into active inventory ledger</span>
+              </label>
+
+              {currentOrder.paymentStatus === 'PAID' && (
+                <div>
+                  <label className="font-bold block mb-1 text-[11px] text-amber-300">
+                    Payment Refund Action (Order was marked PAID)
+                  </label>
+                  <select
+                    value={refundStatusChoice}
+                    onChange={(e) => setRefundStatusChoice(e.target.value as any)}
+                    className="w-full bg-slate-950 border border-amber-500/40 p-2 rounded-lg text-xs font-bold uppercase text-amber-300 cursor-pointer"
+                  >
+                    <option value="REFUNDED">Mark Refunded (Money returned to customer)</option>
+                    <option value="PENDING">Mark Refund Pending (Accounts to process)</option>
+                    <option value="NOT_APPLICABLE">Keep As Is</option>
+                  </select>
+                </div>
+              )}
+            </div>
+
+            <div className="pt-3 flex justify-end gap-2 border-t border-slate-800">
+              <button
+                type="button"
+                onClick={() => setIsCancelling(false)}
+                className="px-4 py-2 border border-slate-700 text-xs uppercase font-bold hover:bg-slate-800 rounded-lg text-slate-300 cursor-pointer"
+              >
+                Go Back
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmCancellation}
+                className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-xs uppercase font-bold shadow-md flex items-center gap-1.5 rounded-lg cursor-pointer"
+              >
+                <Ban className="w-3.5 h-3.5" />
+                <span>Confirm &amp; Cancel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

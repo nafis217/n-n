@@ -33,8 +33,8 @@ export interface Order {
   total: number;
   currency: string;
   status: OrderStatus;
-  paymentMethod: 'COD' | 'BKASH' | 'NAGAD' | 'ROCKET' | 'SSLCOMMERZ' | 'CARD';
-  paymentStatus: 'PAID' | 'UNPAID' | 'REFUNDED';
+  paymentMethod: 'COD' | 'BKASH' | 'NAGAD' | 'ROCKET' | 'SSLCOMMERZ' | 'CARD' | 'BANK_TRANSFER' | 'CASH';
+  paymentStatus: 'PAID' | 'UNPAID' | 'REFUNDED' | 'PENDING' | 'PARTIALLY_REFUNDED';
   shippingAddress: {
     name: string;
     phone: string;
@@ -48,6 +48,15 @@ export interface Order {
   deliveryMethod: 'STANDARD' | 'EXPRESS';
   estimatedDelivery: string;
   trackingNumber?: string;
+  courierName?: string;
+  orderSource?: 'WEBSITE' | 'PHONE' | 'WHATSAPP' | 'INSTAGRAM' | 'FACEBOOK' | 'WALK_IN' | 'OTHER';
+  cancellationReason?: string;
+  cancelledAt?: string;
+  isRestocked?: boolean;
+  dispatchedAt?: string;
+  deliveredAt?: string;
+  staffNotes?: string;
+  transactionId?: string;
   timeline: OrderTimelineEvent[];
 }
 
