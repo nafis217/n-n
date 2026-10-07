@@ -213,48 +213,48 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
   const getSourceIcon = (src?: string) => {
     switch (src) {
       case 'PHONE':
-        return <Phone className="w-3.5 h-3.5 text-sky-400" />;
+        return <Phone className="w-3.5 h-3.5 text-[#594236]" />;
       case 'WHATSAPP':
-        return <MessageCircle className="w-3.5 h-3.5 text-emerald-400" />;
+        return <MessageCircle className="w-3.5 h-3.5 text-[#236338]" />;
       case 'INSTAGRAM':
-        return <Instagram className="w-3.5 h-3.5 text-pink-400" />;
+        return <Instagram className="w-3.5 h-3.5 text-[#D97793]" />;
       case 'FACEBOOK':
-        return <Facebook className="w-3.5 h-3.5 text-blue-400" />;
+        return <Facebook className="w-3.5 h-3.5 text-[#2B4C7E]" />;
       case 'WALK_IN':
-        return <Store className="w-3.5 h-3.5 text-amber-400" />;
+        return <Store className="w-3.5 h-3.5 text-[#8C6D58]" />;
       default:
-        return <Globe className="w-3.5 h-3.5 text-purple-400" />;
+        return <Globe className="w-3.5 h-3.5 text-[#8C3B53]" />;
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-2 sm:p-4 backdrop-blur-md overflow-y-auto">
-      <div className="bg-slate-900 text-slate-100 max-w-4xl w-full border border-slate-700/80 rounded-2xl font-mono shadow-2xl my-6 max-h-[94vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 bg-[#2E231D]/60 z-50 flex items-center justify-center p-2 sm:p-4 backdrop-blur-xs overflow-y-auto">
+      <div className="bg-white text-[#2E231D] max-w-4xl w-full border border-[#EAE2D5] rounded-2xl font-mono shadow-2xl my-6 max-h-[94vh] flex flex-col overflow-hidden">
         {/* Modal Header */}
-        <div className="p-5 sm:p-6 border-b border-slate-800 flex flex-wrap justify-between items-center gap-3 shrink-0 bg-slate-950/80">
+        <div className="p-5 sm:p-6 border-b border-[#EAE2D5] flex flex-wrap justify-between items-center gap-3 shrink-0 bg-[#FAF7F2]">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[10px] text-amber-400 uppercase tracking-widest font-bold flex items-center gap-1">
-                <Sparkles className="w-3 h-3" />
+              <span className="text-[10px] text-[#8C6D58] uppercase tracking-widest font-bold flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-[#D97793]" />
                 CONSIGNMENT INSPECTOR
               </span>
-              <span className="flex items-center gap-1.5 bg-slate-800 border border-slate-700 px-2.5 py-0.5 text-[10px] font-bold uppercase rounded-md">
+              <span className="flex items-center gap-1.5 bg-white border border-[#EAE2D5] px-2.5 py-0.5 text-[10px] font-bold uppercase rounded-md">
                 {getSourceIcon(currentOrder.orderSource)}
-                <span className="text-slate-200">Channel: {currentOrder.orderSource || 'WEBSITE'}</span>
+                <span className="text-[#594236]">Channel: {currentOrder.orderSource || 'WEBSITE'}</span>
               </span>
               <button
                 onClick={handleCopyId}
-                className="text-[11px] text-slate-300 hover:text-white flex items-center gap-1 border border-slate-700 hover:border-amber-500 px-2 py-0.5 rounded-md bg-slate-800/80 cursor-pointer transition-colors"
+                className="text-[11px] text-[#735D50] hover:text-[#2E231D] flex items-center gap-1 border border-[#DECFC0] hover:border-[#594236] px-2 py-0.5 rounded-md bg-white cursor-pointer transition-colors"
                 title="Copy Order ID"
               >
-                {copiedId ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                {copiedId ? <Check className="w-3 h-3 text-[#236338]" /> : <Copy className="w-3 h-3" />}
                 <span>{currentOrder.orderNumber}</span>
               </button>
             </div>
-            <h2 className="text-xl sm:text-2xl uppercase font-bold text-white tracking-tight mt-1 font-serif">
+            <h2 className="text-xl sm:text-2xl uppercase font-bold text-[#2E231D] tracking-tight mt-1 font-serif">
               Order {currentOrder.orderNumber}
             </h2>
-            <p className="text-xs text-slate-400 font-sans">
+            <p className="text-xs text-[#735D50] font-sans">
               Placed on {new Date(currentOrder.createdAt).toLocaleString()}
             </p>
           </div>
@@ -263,15 +263,15 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrintInvoice}
-              className="p-2.5 border border-slate-700 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center gap-2 text-xs font-bold uppercase transition-all shadow-md cursor-pointer"
+              className="p-2.5 border border-[#DECFC0] bg-white hover:bg-[#FAF7F2] text-[#2E231D] rounded-xl flex items-center gap-2 text-xs font-bold uppercase transition-all shadow-xs cursor-pointer"
               title="Print Order Invoice"
             >
-              <Printer className="w-4 h-4 text-cyan-400" />
+              <Printer className="w-4 h-4 text-[#8C6D58]" />
               <span className="hidden sm:inline">Print Invoice</span>
             </button>
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
+              className="p-2 text-[#8C7567] hover:text-[#2E231D] hover:bg-[#F0E8DD] rounded-xl transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -280,32 +280,32 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
 
         {/* Toast Feedback */}
         {toastMessage && (
-          <div className="bg-emerald-950/80 text-emerald-200 border-b border-emerald-500/40 px-6 py-2.5 text-xs flex items-center gap-2 shrink-0">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="bg-[#EBF5EE] text-[#236338] border-b border-[#CCE7D3] px-6 py-2.5 text-xs flex items-center gap-2 shrink-0">
+            <CheckCircle2 className="w-4 h-4 text-[#236338] shrink-0" />
             <span className="font-semibold">{toastMessage}</span>
           </div>
         )}
 
-        {/* Cancelled Warning Banner if Order is Cancelled */}
+        {/* Cancelled Warning Banner */}
         {currentOrder.orderStatus === 'CANCELLED' && (
-          <div className="bg-rose-950/40 border-b border-rose-500/40 p-4 shrink-0 flex items-start gap-3">
-            <Ban className="w-5 h-5 text-rose-400 shrink-0 mt-0.5 animate-pulse" />
+          <div className="bg-[#FDF2F4] border-b border-[#F7CCD7] p-4 shrink-0 flex items-start gap-3">
+            <Ban className="w-5 h-5 text-[#D97793] shrink-0 mt-0.5" />
             <div className="space-y-1 text-xs">
               <div className="flex items-center gap-2">
-                <span className="font-bold text-rose-300 uppercase tracking-wide">
+                <span className="font-bold text-[#8C3B53] uppercase tracking-wide">
                   THIS CONSIGNMENT IS CANCELLED
                 </span>
                 {currentOrder.isRestocked && (
-                  <span className="bg-emerald-500/20 text-emerald-300 px-2 py-0.5 text-[10px] font-bold uppercase rounded-md border border-emerald-500/30">
+                  <span className="bg-[#EBF5EE] text-[#236338] px-2 py-0.5 text-[10px] font-bold uppercase rounded-md border border-[#CCE7D3]">
                     Stock Restored To Inventory
                   </span>
                 )}
               </div>
-              <p className="text-rose-200 font-sans">
-                Reason: <span className="font-bold text-white">{currentOrder.cancellationReason || 'Cancelled by staff.'}</span>
+              <p className="text-[#594236] font-sans">
+                Reason: <span className="font-bold text-[#2E231D]">{currentOrder.cancellationReason || 'Cancelled by staff.'}</span>
               </p>
               {currentOrder.cancelledAt && (
-                <p className="text-slate-400 text-[10px]">
+                <p className="text-[#8C7567] text-[10px]">
                   Cancelled on: {new Date(currentOrder.cancelledAt).toLocaleString()}
                 </p>
               )}
@@ -316,16 +316,16 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
         {/* Modal Body */}
         <div className="p-5 sm:p-6 overflow-y-auto space-y-6 text-xs flex-1">
           {/* Status Controls Bar */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-slate-950/60 border border-slate-800 rounded-xl">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-[#FAF7F2] border border-[#EAE2D5] rounded-xl">
             {/* Order Status Workflow Dropdown */}
             <div>
-              <label className="font-bold text-amber-400 uppercase block mb-1">
+              <label className="font-bold text-[#8C6D58] uppercase block mb-1">
                 Workflow Status
               </label>
               <select
                 value={currentOrder.orderStatus}
                 onChange={(e) => handleStatusChange(e.target.value as any)}
-                className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white font-bold uppercase text-xs rounded-lg focus:outline-none focus:border-amber-400 cursor-pointer"
+                className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] font-bold uppercase text-xs rounded-lg focus:outline-none focus:border-[#594236] cursor-pointer"
               >
                 <option value="PENDING">PENDING</option>
                 <option value="CONFIRMED">CONFIRMED</option>
@@ -342,13 +342,13 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
 
             {/* Payment Status Dropdown */}
             <div>
-              <label className="font-bold text-cyan-400 uppercase block mb-1">
+              <label className="font-bold text-[#594236] uppercase block mb-1">
                 Payment ({currentOrder.paymentMethod})
               </label>
               <select
                 value={currentOrder.paymentStatus}
                 onChange={(e) => handlePaymentStatusChange(e.target.value as any)}
-                className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white font-bold uppercase text-xs rounded-lg focus:outline-none focus:border-cyan-400 cursor-pointer"
+                className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] font-bold uppercase text-xs rounded-lg focus:outline-none focus:border-[#594236] cursor-pointer"
               >
                 <option value="PENDING">PENDING (Unpaid)</option>
                 <option value="PAID">PAID (Verified)</option>
@@ -360,18 +360,18 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
 
             {/* Fulfilment Status */}
             <div>
-              <label className="font-bold text-slate-400 uppercase block mb-1">
+              <label className="font-bold text-[#735D50] uppercase block mb-1">
                 Warehouse State
               </label>
-              <div className="p-2 bg-slate-900 border border-slate-700 text-slate-200 font-bold uppercase text-center rounded-lg flex items-center justify-center gap-1.5">
-                <Truck className="w-3.5 h-3.5 text-cyan-400" />
+              <div className="p-2 bg-white border border-[#DECFC0] text-[#594236] font-bold uppercase text-center rounded-lg flex items-center justify-center gap-1.5">
+                <Truck className="w-3.5 h-3.5 text-[#8C6D58]" />
                 <span>{currentOrder.fulfilmentStatus || 'UNFULFILLED'}</span>
               </div>
             </div>
 
-            {/* Quick Lifecycle Action */}
+            {/* Quick Shift */}
             <div>
-              <label className="font-bold text-slate-400 uppercase block mb-1">
+              <label className="font-bold text-[#735D50] uppercase block mb-1">
                 Quick Shift
               </label>
               <div className="flex gap-1.5">
@@ -379,7 +379,7 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleStatusChange('SHIPPED')}
-                    className="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-1 text-[10px] uppercase text-center rounded-lg transition-colors cursor-pointer"
+                    className="flex-1 bg-[#594236] hover:bg-[#3D2E26] text-white font-bold py-2 px-1 text-[10px] uppercase text-center rounded-lg transition-colors cursor-pointer"
                   >
                     Dispatch
                   </button>
@@ -388,7 +388,7 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleStatusChange('DELIVERED')}
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-1 text-[10px] uppercase text-center rounded-lg transition-colors cursor-pointer"
+                    className="flex-1 bg-[#236338] hover:bg-[#1A4B2A] text-white font-bold py-2 px-1 text-[10px] uppercase text-center rounded-lg transition-colors cursor-pointer"
                   >
                     Deliver
                   </button>
@@ -397,7 +397,7 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsCancelling(true)}
-                    className="bg-rose-900/60 hover:bg-rose-800 text-rose-200 border border-rose-700/60 font-bold py-2 px-2 text-[10px] uppercase text-center rounded-lg transition-colors cursor-pointer"
+                    className="bg-[#FDF2F4] hover:bg-[#FCE7EC] text-[#8C3B53] border border-[#F7CCD7] font-bold py-2 px-2 text-[10px] uppercase text-center rounded-lg transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -406,77 +406,77 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
             </div>
           </div>
 
-          {/* Customer & Shipping Information Cards */}
+          {/* Client & Destination Information Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Customer Details */}
-            <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl">
-              <h3 className="font-bold uppercase text-amber-300 flex items-center gap-2 pb-2 border-b border-slate-800 mb-3">
-                <User className="w-4 h-4 text-amber-400" />
+            <div className="bg-[#FAF7F2] border border-[#EAE2D5] p-4 rounded-xl">
+              <h3 className="font-bold uppercase text-[#8C3B53] flex items-center gap-2 pb-2 border-b border-[#EAE2D5] mb-3">
+                <User className="w-4 h-4 text-[#D97793]" />
                 <span>Client Profile</span>
               </h3>
               <div className="space-y-1.5 font-sans">
-                <p className="font-bold text-white text-sm">{currentOrder.customer?.name || currentOrder.address?.recipient}</p>
-                <p className="text-slate-400">Mobile: <span className="text-white font-mono font-semibold">{currentOrder.customer?.mobile || currentOrder.address?.phone}</span></p>
-                <p className="text-slate-400">Email: <span className="text-white">{currentOrder.customer?.email || 'N/A'}</span></p>
+                <p className="font-bold text-[#2E231D] text-sm">{currentOrder.customer?.name || currentOrder.address?.recipient}</p>
+                <p className="text-[#735D50]">Mobile: <span className="text-[#2E231D] font-mono font-semibold">{currentOrder.customer?.mobile || currentOrder.address?.phone}</span></p>
+                <p className="text-[#735D50]">Email: <span className="text-[#2E231D]">{currentOrder.customer?.email || 'N/A'}</span></p>
                 {currentOrder.customerNotes && (
-                  <div className="mt-3 p-2.5 bg-slate-900 border border-slate-800 rounded-lg">
-                    <span className="font-bold text-amber-400 uppercase text-[10px] block font-mono">Customer Special Note:</span>
-                    <p className="text-slate-300 italic text-xs">{currentOrder.customerNotes}</p>
+                  <div className="mt-3 p-2.5 bg-white border border-[#EAE2D5] rounded-lg">
+                    <span className="font-bold text-[#8C6D58] uppercase text-[10px] block font-mono">Special Note:</span>
+                    <p className="text-[#594236] italic text-xs">{currentOrder.customerNotes}</p>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Shipping & Delivery Address */}
-            <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl">
-              <h3 className="font-bold uppercase text-cyan-300 flex items-center gap-2 pb-2 border-b border-slate-800 mb-3">
-                <MapPin className="w-4 h-4 text-cyan-400" />
+            <div className="bg-[#FAF7F2] border border-[#EAE2D5] p-4 rounded-xl">
+              <h3 className="font-bold uppercase text-[#594236] flex items-center gap-2 pb-2 border-b border-[#EAE2D5] mb-3">
+                <MapPin className="w-4 h-4 text-[#8C6D58]" />
                 <span>Delivery Destination</span>
               </h3>
               <div className="space-y-1 font-sans">
-                <p className="font-bold text-white">{currentOrder.address?.recipient}</p>
-                <p className="text-slate-300">{currentOrder.address?.street}</p>
-                <p className="text-slate-300">
+                <p className="font-bold text-[#2E231D]">{currentOrder.address?.recipient}</p>
+                <p className="text-[#594236]">{currentOrder.address?.street}</p>
+                <p className="text-[#594236]">
                   {currentOrder.address?.thana ? `${currentOrder.address.thana}, ` : ''}
                   {currentOrder.address?.city} {currentOrder.address?.postalCode ? `- ${currentOrder.address.postalCode}` : ''}
                 </p>
-                <p className="text-amber-400 text-[11px] font-mono font-semibold pt-1">District: {currentOrder.address?.district || 'Dhaka'}</p>
-                <p className="text-slate-400 font-mono text-[11px]">Contact: {currentOrder.address?.phone}</p>
+                <p className="text-[#8C6D58] text-[11px] font-mono font-semibold pt-1">District: {currentOrder.address?.district || 'Dhaka'}</p>
+                <p className="text-[#735D50] font-mono text-[11px]">Contact: {currentOrder.address?.phone}</p>
               </div>
             </div>
           </div>
 
           {/* Ordered Line Items Table */}
-          <div className="bg-slate-950/70 border border-slate-800 rounded-xl overflow-hidden">
-            <div className="p-3.5 bg-slate-900 border-b border-slate-800 font-bold uppercase text-white flex justify-between">
-              <span className="flex items-center gap-2 text-violet-300">
-                <ShoppingBag className="w-4 h-4 text-violet-400" />
+          <div className="bg-white border border-[#EAE2D5] rounded-xl overflow-hidden">
+            <div className="p-3.5 bg-[#FAF7F2] border-b border-[#EAE2D5] font-bold uppercase text-[#2E231D] flex justify-between">
+              <span className="flex items-center gap-2 text-[#594236]">
+                <ShoppingBag className="w-4 h-4 text-[#8C6D58]" />
                 <span>Consignment Items ({currentOrder.items?.length || 0})</span>
               </span>
-              <span className="text-emerald-400 font-mono">Total: ৳ {currentOrder.totalBDT.toLocaleString()}</span>
+              <span className="text-[#2E231D] font-mono">Total: ৳ {currentOrder.totalBDT.toLocaleString()}</span>
             </div>
-            <div className="divide-y divide-slate-800/60">
+            <div className="divide-y divide-[#F0E8DD]">
               {currentOrder.items?.map((item, idx) => (
                 <div key={item.id || idx} className="p-3.5 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-14 bg-slate-900 border border-slate-700 rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
+                    <div className="w-12 h-14 bg-[#FAF7F2] border border-[#DECFC0] rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
                       {item.imageUrl ? (
                         <img src={item.imageUrl} alt={item.productName} className="w-full h-full object-cover" />
                       ) : (
-                        <ShoppingBag className="w-4 h-4 text-slate-500" />
+                        <ShoppingBag className="w-4 h-4 text-[#8C7567]" />
                       )}
                     </div>
                     <div>
-                      <p className="font-bold text-white uppercase text-xs font-sans">{item.productName}</p>
-                      <p className="text-slate-400 text-[11px] font-mono">
-                        {item.color || 'Standard'} • Size: <span className="font-bold text-amber-400">{item.size || 'M'}</span> {item.variantSku ? `• SKU: ${item.variantSku}` : ''}
+                      <p className="font-bold text-[#2E231D] uppercase text-xs font-sans">{item.productName}</p>
+                      <p className="text-[#735D50] text-[11px] font-mono">
+                        {item.color || 'Standard'} • Size: <span className="font-bold text-[#8C3B53]">{item.size || 'M'}</span> {item.variantSku ? `• SKU: ${item.variantSku}` : ''}
                       </p>
-                      <p className="text-slate-400 font-mono text-[11px]">
+                      <p className="text-[#735D50] font-mono text-[11px]">
                         ৳ {(item.unitPrice || item.totalPrice).toLocaleString()} x {item.quantity}
                       </p>
                     </div>
                   </div>
-                  <div className="text-right font-mono font-bold text-emerald-400">
+                  <div className="text-right font-mono font-bold text-[#2E231D]">
                     ৳ {(item.totalPrice || (item.unitPrice * item.quantity)).toLocaleString()}
                   </div>
                 </div>
@@ -485,38 +485,38 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
           </div>
 
           {/* Financial Calculation Summary */}
-          <div className="p-4 bg-slate-950/90 border border-slate-800 rounded-xl flex flex-col items-end">
+          <div className="p-4 bg-[#FAF7F2] border border-[#EAE2D5] rounded-xl flex flex-col items-end">
             <div className="w-full sm:w-72 space-y-2 font-mono text-xs">
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-[#735D50]">
                 <span>Subtotal:</span>
-                <span className="font-bold text-white">৳ {(currentOrder.subtotalBDT || currentOrder.totalBDT).toLocaleString()}</span>
+                <span className="font-bold text-[#2E231D]">৳ {(currentOrder.subtotalBDT || currentOrder.totalBDT).toLocaleString()}</span>
               </div>
               {currentOrder.discountBDT > 0 && (
-                <div className="flex justify-between text-rose-400 font-semibold">
+                <div className="flex justify-between text-[#8C3B53] font-semibold">
                   <span>Discount Applied:</span>
                   <span>- ৳ {currentOrder.discountBDT.toLocaleString()}</span>
                 </div>
               )}
-              <div className="flex justify-between text-slate-400">
+              <div className="flex justify-between text-[#735D50]">
                 <span>Shipping Fee:</span>
-                <span className="font-bold text-white">{currentOrder.shippingFeeBDT ? `৳ ${currentOrder.shippingFeeBDT.toLocaleString()}` : 'FREE'}</span>
+                <span className="font-bold text-[#2E231D]">{currentOrder.shippingFeeBDT ? `৳ ${currentOrder.shippingFeeBDT.toLocaleString()}` : 'FREE'}</span>
               </div>
-              <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-slate-800">
-                <span className="text-amber-400 uppercase">Grand Total:</span>
-                <span className="text-emerald-400 text-base font-mono">৳ {currentOrder.totalBDT.toLocaleString()}</span>
+              <div className="flex justify-between text-sm font-bold text-[#2E231D] pt-2 border-t border-[#DECFC0]">
+                <span className="text-[#594236] uppercase">Grand Total:</span>
+                <span className="text-base font-mono">৳ {currentOrder.totalBDT.toLocaleString()}</span>
               </div>
             </div>
           </div>
 
           {/* Courier Dispatch & Tracking Info */}
-          <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800 mb-3">
-              <h3 className="font-bold uppercase text-cyan-300 flex items-center gap-2">
-                <Truck className="w-4 h-4 text-cyan-400" />
+          <div className="bg-[#FAF7F2] border border-[#EAE2D5] p-4 rounded-xl">
+            <div className="flex items-center justify-between pb-2 border-b border-[#EAE2D5] mb-3">
+              <h3 className="font-bold uppercase text-[#594236] flex items-center gap-2">
+                <Truck className="w-4 h-4 text-[#8C6D58]" />
                 <span>Courier Partner &amp; Real-Time Tracking</span>
               </h3>
               {currentOrder.dispatchedAt && (
-                <span className="text-[10px] text-cyan-400 font-mono">
+                <span className="text-[10px] text-[#8C6D58] font-mono">
                   Dispatched: {new Date(currentOrder.dispatchedAt).toLocaleDateString()}
                 </span>
               )}
@@ -524,11 +524,11 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">Courier Service</label>
+                <label className="font-bold text-[#594236] uppercase block mb-1">Courier Service</label>
                 <select
                   value={courierInput}
                   onChange={(e) => setCourierInput(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white rounded-lg focus:outline-none focus:border-cyan-400 uppercase font-bold"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] uppercase font-bold"
                 >
                   <option value="Steadfast Courier">Steadfast Courier</option>
                   <option value="Pathao Courier">Pathao Courier</option>
@@ -540,7 +540,7 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
+                <label className="font-bold text-[#594236] uppercase block mb-1">
                   Tracking Number / Consignment ID
                 </label>
                 <div className="flex gap-2">
@@ -549,16 +549,16 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
                     value={trackingInput}
                     onChange={(e) => setTrackingInput(e.target.value)}
                     placeholder="e.g. STDF-84920194"
-                    className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-cyan-400 rounded-lg focus:outline-none focus:border-cyan-400 uppercase font-bold font-mono"
+                    className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] uppercase font-bold font-mono"
                   />
                   {trackingInput && (
                     <button
                       type="button"
                       onClick={handleCopyTracking}
-                      className="px-3 border border-slate-700 bg-slate-800 hover:bg-slate-700 text-white rounded-lg flex items-center justify-center shrink-0 cursor-pointer"
+                      className="px-3 border border-[#DECFC0] bg-white hover:bg-[#FAF7F2] text-[#2E231D] rounded-lg flex items-center justify-center shrink-0 cursor-pointer"
                       title="Copy Tracking Number"
                     >
-                      {copiedTracking ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                      {copiedTracking ? <Check className="w-4 h-4 text-[#236338]" /> : <Copy className="w-4 h-4" />}
                     </button>
                   )}
                 </div>
@@ -567,13 +567,13 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
 
             {/* Internal Staff Notes */}
             <div>
-              <label className="font-bold text-slate-300 uppercase block mb-1">Internal Staff / Warehouse Notes</label>
+              <label className="font-bold text-[#594236] uppercase block mb-1">Internal Staff / Warehouse Notes</label>
               <textarea
                 rows={2}
                 value={staffNoteInput}
                 onChange={(e) => setStaffNoteInput(e.target.value)}
                 placeholder="Add internal notes on garment condition, customer requests, or special handling..."
-                className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-slate-200 rounded-lg focus:outline-none focus:border-amber-400 font-sans"
+                className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] font-sans"
               />
             </div>
 
@@ -582,9 +582,9 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
                 type="button"
                 onClick={handleSaveDetails}
                 disabled={isSaving}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-bold uppercase text-xs flex items-center gap-1.5 shadow-md cursor-pointer transition-all"
+                className="px-4 py-2 rounded-xl bg-[#3D2E26] hover:bg-[#241B16] text-[#FAF7F2] font-bold uppercase text-xs flex items-center gap-1.5 shadow-xs cursor-pointer transition-all"
               >
-                <Save className="w-3.5 h-3.5" />
+                <Save className="w-3.5 h-3.5 text-[#E8C2CA]" />
                 <span>{isSaving ? 'Saving...' : 'Save Courier & Staff Notes'}</span>
               </button>
             </div>
@@ -592,41 +592,41 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 sm:p-6 border-t border-slate-800 flex flex-wrap justify-between items-center gap-3 shrink-0 bg-slate-950">
+        <div className="p-4 sm:p-6 border-t border-[#EAE2D5] flex flex-wrap justify-between items-center gap-3 shrink-0 bg-[#FAF7F2]">
           <div className="flex gap-2">
             {currentOrder.orderStatus !== 'CANCELLED' ? (
               <button
                 type="button"
                 onClick={() => setIsCancelling(true)}
-                className="px-3.5 py-2 border border-rose-500/40 text-rose-300 hover:bg-rose-950/60 rounded-xl uppercase font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+                className="px-3.5 py-2 border border-[#F7CCD7] text-[#8C3B53] hover:bg-[#FDF2F4] rounded-xl uppercase font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
               >
-                <Ban className="w-3.5 h-3.5 text-rose-400" />
+                <Ban className="w-3.5 h-3.5 text-[#D97793]" />
                 <span>Cancel Order</span>
               </button>
             ) : (
               <button
                 type="button"
                 onClick={() => handleStatusChange('CONFIRMED')}
-                className="px-3.5 py-2 border border-slate-600 text-slate-200 hover:bg-slate-800 rounded-xl uppercase font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+                className="px-3.5 py-2 border border-[#DECFC0] text-[#594236] hover:bg-white rounded-xl uppercase font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
               >
-                <Undo2 className="w-3.5 h-3.5 text-amber-400" />
-                <span>Re-Open / Restore Order</span>
+                <Undo2 className="w-3.5 h-3.5 text-[#8C6D58]" />
+                <span>Re-Open Order</span>
               </button>
             )}
 
             <button
               type="button"
               onClick={() => handlePaymentStatusChange('REFUNDED')}
-              className="px-3.5 py-2 border border-amber-500/40 text-amber-300 hover:bg-amber-950/60 rounded-xl uppercase font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
+              className="px-3.5 py-2 border border-[#DECFC0] text-[#594236] hover:bg-white rounded-xl uppercase font-bold text-xs flex items-center gap-1.5 cursor-pointer transition-colors"
             >
-              <RefreshCw className="w-3.5 h-3.5 text-amber-400" />
+              <RefreshCw className="w-3.5 h-3.5 text-[#8C6D58]" />
               <span>Issue Refund</span>
             </button>
           </div>
 
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white uppercase font-bold text-xs cursor-pointer border border-slate-700 transition-colors"
+            className="px-5 py-2 rounded-xl bg-white hover:bg-[#F3EBE1] text-[#2E231D] uppercase font-bold text-xs cursor-pointer border border-[#DECFC0] transition-colors"
           >
             Close Inspector
           </button>
@@ -635,31 +635,31 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
 
       {/* Cancellation Reasoning Sub-Modal */}
       {isCancelling && (
-        <div className="fixed inset-0 bg-black/90 z-60 flex items-center justify-center p-4 backdrop-blur-md">
-          <div className="bg-slate-900 border border-rose-500/40 rounded-2xl max-w-md w-full p-5 font-mono shadow-2xl space-y-4 text-slate-100">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-              <h3 className="font-bold text-base text-rose-400 uppercase flex items-center gap-2">
-                <AlertTriangle className="w-5 h-5 text-rose-500 animate-pulse" />
+        <div className="fixed inset-0 bg-[#2E231D]/70 z-60 flex items-center justify-center p-4 backdrop-blur-xs">
+          <div className="bg-white border border-[#EAE2D5] rounded-2xl max-w-md w-full p-5 font-mono shadow-2xl space-y-4 text-[#2E231D]">
+            <div className="flex items-center justify-between pb-3 border-b border-[#EAE2D5]">
+              <h3 className="font-bold text-base text-[#8C3B53] uppercase flex items-center gap-2">
+                <AlertTriangle className="w-5 h-5 text-[#D97793]" />
                 <span>Confirm Order Cancellation</span>
               </h3>
               <button
                 onClick={() => setIsCancelling(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-[#8C7567] hover:text-[#2E231D]"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-xs text-slate-300 font-sans">
-              Please specify the cancellation reason for <span className="font-bold text-white font-mono">{currentOrder.orderNumber}</span>:
+            <p className="text-xs text-[#594236] font-sans">
+              Please specify the cancellation reason for <span className="font-bold text-[#2E231D] font-mono">{currentOrder.orderNumber}</span>:
             </p>
 
             <div>
-              <label className="font-bold text-xs uppercase block mb-1 text-slate-300">Cancellation Category</label>
+              <label className="font-bold text-xs uppercase block mb-1 text-[#594236]">Cancellation Category</label>
               <select
                 value={cancelReasonPreset}
                 onChange={(e) => setCancelReasonPreset(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-lg text-xs font-bold uppercase text-white focus:outline-none focus:border-rose-500 cursor-pointer"
+                className="w-full bg-[#FAF7F2] border border-[#DECFC0] p-2.5 rounded-lg text-xs font-bold uppercase text-[#2E231D] focus:outline-none focus:border-[#594236] cursor-pointer"
               >
                 <option value="Customer cancelled via phone/chat">Customer Cancelled (Phone / WhatsApp)</option>
                 <option value="Customer unreachable / Phone switched off">Customer Unreachable / Fake Phone</option>
@@ -674,36 +674,36 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
             </div>
 
             <div>
-              <label className="font-bold text-xs uppercase block mb-1 text-slate-300">Additional Staff Notes (Optional)</label>
+              <label className="font-bold text-xs uppercase block mb-1 text-[#594236]">Additional Staff Notes (Optional)</label>
               <textarea
                 rows={2}
                 value={cancelCustomNotes}
                 onChange={(e) => setCancelCustomNotes(e.target.value)}
                 placeholder="Details of call/message with customer..."
-                className="w-full bg-slate-950 border border-slate-700 p-2.5 rounded-lg text-xs text-white focus:outline-none focus:border-rose-500 font-sans"
+                className="w-full bg-[#FAF7F2] border border-[#DECFC0] p-2.5 rounded-lg text-xs text-[#2E231D] focus:outline-none focus:border-[#594236] font-sans"
               />
             </div>
 
-            <div className="space-y-2 pt-1 border-t border-slate-800 text-xs">
-              <label className="flex items-center gap-2 cursor-pointer font-bold text-emerald-300">
+            <div className="space-y-2 pt-1 border-t border-[#EAE2D5] text-xs">
+              <label className="flex items-center gap-2 cursor-pointer font-bold text-[#236338]">
                 <input
                   type="checkbox"
                   checked={restockInventory}
                   onChange={(e) => setRestockInventory(e.target.checked)}
-                  className="w-4 h-4 cursor-pointer accent-emerald-500"
+                  className="w-4 h-4 cursor-pointer accent-[#236338]"
                 />
                 <span>Restock items back into active inventory ledger</span>
               </label>
 
               {currentOrder.paymentStatus === 'PAID' && (
                 <div>
-                  <label className="font-bold block mb-1 text-[11px] text-amber-300">
+                  <label className="font-bold block mb-1 text-[11px] text-[#8C5815]">
                     Payment Refund Action (Order was marked PAID)
                   </label>
                   <select
                     value={refundStatusChoice}
                     onChange={(e) => setRefundStatusChoice(e.target.value as any)}
-                    className="w-full bg-slate-950 border border-amber-500/40 p-2 rounded-lg text-xs font-bold uppercase text-amber-300 cursor-pointer"
+                    className="w-full bg-[#FAF7F2] border border-[#DECFC0] p-2 rounded-lg text-xs font-bold uppercase text-[#594236] cursor-pointer"
                   >
                     <option value="REFUNDED">Mark Refunded (Money returned to customer)</option>
                     <option value="PENDING">Mark Refund Pending (Accounts to process)</option>
@@ -713,18 +713,18 @@ export const OrderInspectionModal: React.FC<OrderInspectionModalProps> = ({
               )}
             </div>
 
-            <div className="pt-3 flex justify-end gap-2 border-t border-slate-800">
+            <div className="pt-3 flex justify-end gap-2 border-t border-[#EAE2D5]">
               <button
                 type="button"
                 onClick={() => setIsCancelling(false)}
-                className="px-4 py-2 border border-slate-700 text-xs uppercase font-bold hover:bg-slate-800 rounded-lg text-slate-300 cursor-pointer"
+                className="px-4 py-2 border border-[#DECFC0] text-xs uppercase font-bold hover:bg-[#FAF7F2] rounded-lg text-[#594236] cursor-pointer"
               >
                 Go Back
               </button>
               <button
                 type="button"
                 onClick={handleConfirmCancellation}
-                className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-xs uppercase font-bold shadow-md flex items-center gap-1.5 rounded-lg cursor-pointer"
+                className="px-4 py-2 bg-[#8C3B53] hover:bg-[#702E42] text-white text-xs uppercase font-bold shadow-xs flex items-center gap-1.5 rounded-lg cursor-pointer"
               >
                 <Ban className="w-3.5 h-3.5" />
                 <span>Confirm &amp; Cancel</span>

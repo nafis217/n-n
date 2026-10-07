@@ -79,7 +79,7 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
   const [discountBDT, setDiscountBDT] = useState<number>(0);
   const [shippingFeeBDT, setShippingFeeBDT] = useState<number>(80);
 
-  // Payment Setup
+  // Payment Setup (Default COD)
   const [paymentMethod, setPaymentMethod] = useState<
     'COD' | 'BKASH' | 'NAGAD' | 'CARD' | 'BANK_TRANSFER'
   >('COD');
@@ -256,26 +256,26 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-2 sm:p-4 backdrop-blur-md overflow-y-auto">
-      <div className="bg-slate-900 text-slate-100 max-w-4xl w-full border border-slate-700/80 rounded-2xl font-mono shadow-2xl my-6 max-h-[94vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 bg-[#2E231D]/60 z-50 flex items-center justify-center p-2 sm:p-4 backdrop-blur-xs overflow-y-auto">
+      <div className="bg-white text-[#2E231D] max-w-4xl w-full border border-[#EAE2D5] rounded-2xl font-mono shadow-2xl my-6 max-h-[94vh] flex flex-col overflow-hidden">
         {/* Modal Header */}
-        <div className="p-5 sm:p-6 border-b border-slate-800 flex justify-between items-center bg-slate-950/80 shrink-0">
+        <div className="p-5 sm:p-6 border-b border-[#EAE2D5] flex justify-between items-center bg-[#FAF7F2] shrink-0">
           <div>
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-              <span className="text-[10px] text-amber-400 uppercase tracking-widest font-bold flex items-center gap-1">
-                <Sparkles className="w-3 h-3" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#D97793] animate-pulse" />
+              <span className="text-[10px] text-[#8C6D58] uppercase tracking-widest font-bold flex items-center gap-1">
+                <Sparkles className="w-3 h-3 text-[#D97793]" />
                 ADMINISTRATION DISPATCH
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl uppercase font-bold text-white tracking-tight mt-1 flex items-center gap-2 font-serif">
-              <ShoppingBag className="w-6 h-6 text-amber-400" />
-              <span>Create Manual / Social / Phone Order</span>
+            <h2 className="text-xl sm:text-2xl uppercase font-bold text-[#2E231D] tracking-tight mt-1 flex items-center gap-2 font-serif">
+              <ShoppingBag className="w-6 h-6 text-[#594236]" />
+              <span>Create Manual / Phone / Social Order</span>
             </h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
+            className="p-2 text-[#8C7567] hover:text-[#2E231D] hover:bg-[#F0E8DD] rounded-xl transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -283,27 +283,27 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
 
         {/* Error Feedback */}
         {errorMessage && (
-          <div className="bg-rose-950/60 border-b border-rose-500/40 px-6 py-3 text-xs text-rose-300 font-bold flex items-center gap-2 shrink-0">
-            <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+          <div className="bg-[#FDF2F4] border-b border-[#F7CCD7] px-6 py-3 text-xs text-[#8C3B53] font-bold flex items-center gap-2 shrink-0">
+            <AlertCircle className="w-4 h-4 shrink-0 text-[#D97793]" />
             <span>{errorMessage}</span>
           </div>
         )}
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="p-5 sm:p-6 overflow-y-auto space-y-6 text-xs flex-1">
+        <form onSubmit={handleSubmit} className="p-5 sm:p-6 overflow-y-auto space-y-6 text-xs flex-1 font-sans">
           {/* Section 1: Order Source Channel */}
           <div>
-            <label className="font-bold text-amber-400 uppercase block mb-2 tracking-wider">
+            <label className="font-bold text-[#8C6D58] uppercase block mb-2 tracking-wider font-mono text-xs">
               1. Order Placement Channel / Origin *
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
               {[
-                { id: 'PHONE', label: 'Phone Call', icon: Phone, color: 'text-sky-400', selectedBg: 'from-sky-600 to-blue-600' },
-                { id: 'WHATSAPP', label: 'WhatsApp', icon: MessageCircle, color: 'text-emerald-400', selectedBg: 'from-emerald-600 to-teal-600' },
-                { id: 'INSTAGRAM', label: 'Instagram DM', icon: Instagram, color: 'text-pink-400', selectedBg: 'from-pink-600 to-rose-600' },
-                { id: 'FACEBOOK', label: 'Facebook Page', icon: Facebook, color: 'text-blue-400', selectedBg: 'from-blue-600 to-indigo-600' },
-                { id: 'WALK_IN', label: 'Walk-In / POS', icon: Store, color: 'text-amber-400', selectedBg: 'from-amber-600 to-orange-600' },
-                { id: 'WEBSITE', label: 'Direct / Web', icon: Globe, color: 'text-purple-400', selectedBg: 'from-purple-600 to-indigo-600' },
+                { id: 'PHONE', label: 'Phone Call', icon: Phone, color: 'text-[#594236]' },
+                { id: 'WHATSAPP', label: 'WhatsApp', icon: MessageCircle, color: 'text-[#236338]' },
+                { id: 'INSTAGRAM', label: 'Instagram DM', icon: Instagram, color: 'text-[#D97793]' },
+                { id: 'FACEBOOK', label: 'Facebook Page', icon: Facebook, color: 'text-[#2B4C7E]' },
+                { id: 'WALK_IN', label: 'Walk-In / POS', icon: Store, color: 'text-[#8C6D58]' },
+                { id: 'WEBSITE', label: 'Direct / Web', icon: Globe, color: 'text-[#8C3B53]' },
               ].map((src) => {
                 const Icon = src.icon;
                 const isSelected = orderSource === src.id;
@@ -312,14 +312,14 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                     key={src.id}
                     type="button"
                     onClick={() => setOrderSource(src.id as any)}
-                    className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-2 transition-all text-center cursor-pointer shadow-md ${
+                    className={`p-3 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all text-center cursor-pointer shadow-xs ${
                       isSelected
-                        ? `bg-gradient-to-r ${src.selectedBg} text-white font-bold border-white/40 scale-[1.03]`
-                        : 'border-slate-800 bg-slate-950/60 hover:bg-slate-800 text-slate-300'
+                        ? 'bg-[#3D2E26] text-[#FAF7F2] font-bold border-[#241B16]'
+                        : 'border-[#EAE2D5] bg-[#FAF7F2] hover:bg-[#F3EBE1] text-[#594236]'
                     }`}
                   >
-                    <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : src.color}`} />
-                    <span className="text-[10px] uppercase font-bold">{src.label}</span>
+                    <Icon className={`w-4 h-4 ${isSelected ? 'text-[#FAF7F2]' : src.color}`} />
+                    <span className="text-[10px] uppercase font-bold font-mono">{src.label}</span>
                   </button>
                 );
               })}
@@ -327,15 +327,15 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
           </div>
 
           {/* Section 2: Customer Profile & Delivery Address */}
-          <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl space-y-4">
-            <h3 className="font-bold uppercase text-cyan-300 flex items-center gap-2 pb-2 border-b border-slate-800">
-              <User className="w-4 h-4 text-cyan-400" />
-              <span>2. Client Details &amp; Destination Address</span>
+          <div className="bg-[#FAF7F2] border border-[#EAE2D5] p-4 rounded-xl space-y-4">
+            <h3 className="font-bold uppercase text-[#594236] flex items-center gap-2 pb-2 border-b border-[#EAE2D5] font-mono">
+              <User className="w-4 h-4 text-[#8C6D58]" />
+              <span>2. Client Information &amp; Delivery Destination</span>
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                   Client Full Name *
                 </label>
                 <input
@@ -344,13 +344,13 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                   placeholder="e.g. Shakib Al Hasan"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white rounded-lg focus:outline-none focus:border-cyan-400 font-semibold"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] font-semibold font-sans"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
-                  Mobile Number *
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
+                  Contact Mobile Number *
                 </label>
                 <input
                   type="tel"
@@ -358,12 +358,12 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                   placeholder="e.g. 01712345678"
                   value={customerMobile}
                   onChange={(e) => setCustomerMobile(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white rounded-lg focus:outline-none focus:border-cyan-400 font-semibold font-mono"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] font-mono font-semibold"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                   Email Address (Optional)
                 </label>
                 <input
@@ -371,14 +371,14 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                   placeholder="client@gmail.com"
                   value={customerEmail}
                   onChange={(e) => setCustomerEmail(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white rounded-lg focus:outline-none focus:border-cyan-400 font-sans"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] font-sans"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="sm:col-span-2">
-                <label className="font-bold text-slate-300 uppercase block mb-1">
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                   Street Address &amp; House / Apt Details *
                 </label>
                 <input
@@ -387,12 +387,12 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                   placeholder="House #, Road #, Flat #, Block / Sector..."
                   value={streetAddress}
                   onChange={(e) => setStreetAddress(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white rounded-lg focus:outline-none focus:border-cyan-400 font-sans"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] font-sans"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                   City / District *
                 </label>
                 <select
@@ -405,7 +405,7 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                       setShippingFeeBDT(80);
                     }
                   }}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-amber-300 font-bold rounded-lg focus:outline-none focus:border-amber-400 uppercase cursor-pointer"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] font-bold rounded-lg focus:outline-none focus:border-[#594236] uppercase cursor-pointer font-sans"
                 >
                   <option value="Dhaka">Dhaka (Inside ৳80)</option>
                   <option value="Chittagong">Chittagong (Outside ৳150)</option>
@@ -424,7 +424,7 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                   Thana / Area (e.g. Banani, Gulshan, Dhanmondi)
                 </label>
                 <input
@@ -432,60 +432,60 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                   placeholder="Area / Neighborhood"
                   value={area}
                   onChange={(e) => setArea(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white rounded-lg focus:outline-none focus:border-cyan-400 font-sans"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] font-sans"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
-                  Customer Special Instruction
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
+                  Customer Special Request
                 </label>
                 <input
                   type="text"
                   placeholder="e.g. Deliver after 5 PM, Call before delivery"
                   value={customerNotes}
                   onChange={(e) => setCustomerNotes(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-amber-200 rounded-lg focus:outline-none focus:border-amber-400 font-sans italic"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#594236] rounded-lg focus:outline-none focus:border-[#594236] font-sans italic"
                 />
               </div>
             </div>
           </div>
 
           {/* Section 3: Product Items Selector & Cart */}
-          <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl space-y-4">
-            <h3 className="font-bold uppercase text-purple-300 flex items-center gap-2 pb-2 border-b border-slate-800">
-              <ShoppingBag className="w-4 h-4 text-purple-400" />
-              <span>3. Choose Catalog Garments &amp; Sizing</span>
+          <div className="bg-[#FAF7F2] border border-[#EAE2D5] p-4 rounded-xl space-y-4">
+            <h3 className="font-bold uppercase text-[#594236] flex items-center gap-2 pb-2 border-b border-[#EAE2D5] font-mono">
+              <ShoppingBag className="w-4 h-4 text-[#8C6D58]" />
+              <span>3. Select Atelier Garments &amp; Inventory</span>
             </h3>
 
             {/* Product Selector Bar */}
-            <div className="bg-slate-900 border border-slate-700 p-3.5 rounded-xl space-y-3">
+            <div className="bg-white border border-[#DECFC0] p-3.5 rounded-xl space-y-3">
               <div>
                 <select
                   value={selectedProductSlug}
                   onChange={(e) => handleProductSelect(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 px-3 py-2.5 rounded-lg font-bold uppercase text-amber-300 focus:outline-none focus:border-amber-400 cursor-pointer"
+                  className="w-full bg-[#FAF7F2] border border-[#DECFC0] px-3 py-2.5 rounded-lg font-bold uppercase text-[#2E231D] focus:outline-none focus:border-[#594236] cursor-pointer font-sans"
                 >
                   <option value="">-- Choose Garment From Collection --</option>
                   {filteredProducts.map((p) => (
                     <option key={p.id} value={p.slug}>
-                      {p.nameEn} — ৳{p.priceBDT.toLocaleString()} ({p.inStock ? `Stock: ${p.stockCount}` : 'Low Stock'})
+                      {p.nameEn} — ৳{p.priceBDT.toLocaleString()} ({p.inStock ? `In Stock: ${p.stockCount}` : 'Low Stock'})
                     </option>
                   ))}
                 </select>
               </div>
 
               {selectedProductSlug && (
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-slate-800">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-[#EAE2D5]">
                   {/* Size */}
                   <div>
-                    <label className="font-bold text-slate-400 uppercase block mb-1 text-[10px]">
+                    <label className="font-bold text-[#735D50] uppercase block mb-1 text-[10px] font-mono">
                       Select Size
                     </label>
                     <select
                       value={selectedSize}
                       onChange={(e) => setSelectedSize(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-700 px-2.5 py-1.5 font-bold uppercase text-xs text-white rounded-lg focus:outline-none focus:border-amber-400"
+                      className="w-full bg-[#FAF7F2] border border-[#DECFC0] px-2.5 py-1.5 font-bold uppercase text-xs text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236]"
                     >
                       {CATALOG_PRODUCTS.find((p) => p.slug === selectedProductSlug)?.sizes.map(
                         (sz) => (
@@ -499,13 +499,13 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
 
                   {/* Color */}
                   <div>
-                    <label className="font-bold text-slate-400 uppercase block mb-1 text-[10px]">
+                    <label className="font-bold text-[#735D50] uppercase block mb-1 text-[10px] font-mono">
                       Select Color
                     </label>
                     <select
                       value={selectedColor}
                       onChange={(e) => setSelectedColor(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-700 px-2.5 py-1.5 font-bold uppercase text-xs text-white rounded-lg focus:outline-none focus:border-amber-400"
+                      className="w-full bg-[#FAF7F2] border border-[#DECFC0] px-2.5 py-1.5 font-bold uppercase text-xs text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236]"
                     >
                       {CATALOG_PRODUCTS.find((p) => p.slug === selectedProductSlug)?.colors.map(
                         (c) => (
@@ -519,7 +519,7 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
 
                   {/* Quantity */}
                   <div>
-                    <label className="font-bold text-slate-400 uppercase block mb-1 text-[10px]">
+                    <label className="font-bold text-[#735D50] uppercase block mb-1 text-[10px] font-mono">
                       Quantity
                     </label>
                     <input
@@ -528,20 +528,20 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                       max={99}
                       value={itemQuantity}
                       onChange={(e) => setItemQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="w-full bg-slate-950 border border-slate-700 px-2.5 py-1.5 font-bold text-xs text-white rounded-lg focus:outline-none focus:border-amber-400 font-mono"
+                      className="w-full bg-[#FAF7F2] border border-[#DECFC0] px-2.5 py-1.5 font-bold text-xs text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] font-mono"
                     />
                   </div>
 
-                  {/* Unit Price Override */}
+                  {/* Unit Price */}
                   <div>
-                    <label className="font-bold text-slate-400 uppercase block mb-1 text-[10px]">
+                    <label className="font-bold text-[#735D50] uppercase block mb-1 text-[10px] font-mono">
                       Unit Price (BDT)
                     </label>
                     <input
                       type="number"
                       value={itemUnitPrice}
                       onChange={(e) => setItemUnitPrice(Math.max(0, parseInt(e.target.value) || 0))}
-                      className="w-full bg-slate-950 border border-slate-700 px-2.5 py-1.5 font-bold text-xs text-emerald-400 rounded-lg focus:outline-none focus:border-emerald-400 font-mono"
+                      className="w-full bg-[#FAF7F2] border border-[#DECFC0] px-2.5 py-1.5 font-bold text-xs text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] font-mono"
                     />
                   </div>
                 </div>
@@ -552,51 +552,51 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                   <button
                     type="button"
                     onClick={handleAddItem}
-                    className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white px-4 py-2 rounded-lg uppercase font-bold flex items-center gap-1.5 transition-all text-xs cursor-pointer shadow-md"
+                    className="bg-[#3D2E26] hover:bg-[#241B16] text-[#FAF7F2] px-4 py-2 rounded-lg uppercase font-bold flex items-center gap-1.5 transition-all text-xs cursor-pointer shadow-xs"
                   >
-                    <Plus className="w-3.5 h-3.5" />
+                    <Plus className="w-3.5 h-3.5 text-[#E8C2CA]" />
                     <span>Add Item To Consignment</span>
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Added Items List Table */}
+            {/* Added Items List */}
             {items.length === 0 ? (
-              <div className="p-6 text-center border border-dashed border-slate-800 rounded-xl text-slate-500 uppercase font-mono text-xs">
+              <div className="p-6 text-center border border-dashed border-[#DECFC0] rounded-xl text-[#8C7567] uppercase font-mono text-xs">
                 No items added yet. Choose a product above to add to this order.
               </div>
             ) : (
-              <div className="border border-slate-800 rounded-xl divide-y divide-slate-800 overflow-hidden">
+              <div className="border border-[#DECFC0] rounded-xl divide-y divide-[#EAE2D5] overflow-hidden bg-white">
                 {items.map((it, idx) => (
-                  <div key={idx} className="p-3 flex items-center justify-between gap-3 bg-slate-900/60">
+                  <div key={idx} className="p-3 flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
                       {it.imageUrl ? (
                         <img
                           src={it.imageUrl}
                           alt={it.productName}
-                          className="w-10 h-12 object-cover rounded-lg border border-slate-700"
+                          className="w-10 h-12 object-cover rounded-lg border border-[#DECFC0]"
                         />
                       ) : (
-                        <div className="w-10 h-12 bg-slate-950 border border-slate-800 rounded-lg flex items-center justify-center">
-                          <ShoppingBag className="w-4 h-4 text-slate-500" />
+                        <div className="w-10 h-12 bg-[#FAF7F2] border border-[#DECFC0] rounded-lg flex items-center justify-center">
+                          <ShoppingBag className="w-4 h-4 text-[#8C7567]" />
                         </div>
                       )}
                       <div>
-                        <p className="font-bold text-white uppercase text-xs font-sans">{it.productName}</p>
-                        <p className="text-slate-400 text-[11px] font-mono">
-                          {it.color} • Size: <span className="font-bold text-amber-400">{it.size}</span> • Qty: <span className="font-bold text-white">{it.quantity}</span>
+                        <p className="font-bold text-[#2E231D] uppercase text-xs font-sans">{it.productName}</p>
+                        <p className="text-[#735D50] text-[11px] font-mono">
+                          {it.color} • Size: <span className="font-bold text-[#8C3B53]">{it.size}</span> • Qty: <span className="font-bold text-[#2E231D]">{it.quantity}</span>
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="font-mono font-bold text-emerald-400 text-xs">
+                      <span className="font-mono font-bold text-[#2E231D] text-xs">
                         ৳ {it.totalPrice.toLocaleString()}
                       </span>
                       <button
                         type="button"
                         onClick={() => handleRemoveItem(idx)}
-                        className="p-1.5 text-slate-400 hover:text-rose-400 transition-colors cursor-pointer"
+                        className="p-1.5 text-[#8C7567] hover:text-[#8C3B53] transition-colors cursor-pointer"
                         title="Remove item"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -608,27 +608,27 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
             )}
           </div>
 
-          {/* Section 4: Pricing, Discounts & Logistics */}
+          {/* Section 4: Settlement & Logistics */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Payment Setup */}
-            <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl space-y-3">
-              <h3 className="font-bold uppercase text-emerald-300 flex items-center gap-2 pb-2 border-b border-slate-800">
-                <CreditCard className="w-4 h-4 text-emerald-400" />
+            <div className="bg-[#FAF7F2] border border-[#EAE2D5] p-4 rounded-xl space-y-3">
+              <h3 className="font-bold uppercase text-[#594236] flex items-center gap-2 pb-2 border-b border-[#EAE2D5] font-mono">
+                <CreditCard className="w-4 h-4 text-[#8C6D58]" />
                 <span>4. Payment Configuration</span>
               </h3>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="font-bold text-slate-300 uppercase block mb-1">
+                  <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                     Payment Method
                   </label>
                   <select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value as any)}
-                    className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white font-bold uppercase rounded-lg focus:outline-none focus:border-emerald-400 cursor-pointer"
+                    className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] font-bold uppercase rounded-lg focus:outline-none focus:border-[#594236] cursor-pointer"
                   >
                     <option value="COD">Cash On Delivery (COD)</option>
-                    <option value="BKASH">bKash Merchant / Personal</option>
+                    <option value="BKASH">bKash Settlement</option>
                     <option value="NAGAD">Nagad Direct Transfer</option>
                     <option value="CARD">Card / POS Terminal</option>
                     <option value="BANK_TRANSFER">Bank Direct Wire</option>
@@ -636,13 +636,13 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="font-bold text-slate-300 uppercase block mb-1">
+                  <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                     Payment Status
                   </label>
                   <select
                     value={paymentStatus}
                     onChange={(e) => setPaymentStatus(e.target.value as any)}
-                    className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white font-bold uppercase rounded-lg focus:outline-none focus:border-emerald-400 cursor-pointer"
+                    className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] font-bold uppercase rounded-lg focus:outline-none focus:border-[#594236] cursor-pointer"
                   >
                     <option value="PENDING">PENDING (Unpaid / COD)</option>
                     <option value="PAID">PAID (Verified)</option>
@@ -652,47 +652,47 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
-                  Transaction Reference / TrxID (For bKash/Nagad)
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
+                  Transaction Reference / TrxID (Optional)
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. BK78942918 or Bank Ref #..."
+                  placeholder="e.g. BK78942918 or Cash Receipt #"
                   value={transactionId}
                   onChange={(e) => setTransactionId(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-cyan-400 uppercase rounded-lg focus:outline-none focus:border-cyan-400 font-mono font-bold"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] uppercase rounded-lg focus:outline-none focus:border-[#594236] font-mono font-bold"
                 />
               </div>
 
               <div className="pt-1">
-                <label className="flex items-center gap-2 cursor-pointer font-bold text-emerald-300">
+                <label className="flex items-center gap-2 cursor-pointer font-bold text-[#236338] text-xs">
                   <input
                     type="checkbox"
                     checked={deductInventory}
                     onChange={(e) => setDeductInventory(e.target.checked)}
-                    className="w-4 h-4 cursor-pointer accent-emerald-500"
+                    className="w-4 h-4 cursor-pointer accent-[#236338]"
                   />
-                  <span>Automatically reserve &amp; deduct inventory stock</span>
+                  <span>Automatically deduct inventory stock</span>
                 </label>
               </div>
             </div>
 
             {/* Courier & Dispatch Setup */}
-            <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl space-y-3">
-              <h3 className="font-bold uppercase text-cyan-300 flex items-center gap-2 pb-2 border-b border-slate-800">
-                <Truck className="w-4 h-4 text-cyan-400" />
+            <div className="bg-[#FAF7F2] border border-[#EAE2D5] p-4 rounded-xl space-y-3">
+              <h3 className="font-bold uppercase text-[#594236] flex items-center gap-2 pb-2 border-b border-[#EAE2D5] font-mono">
+                <Truck className="w-4 h-4 text-[#8C6D58]" />
                 <span>5. Courier &amp; Fulfillment Dispatch</span>
               </h3>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="font-bold text-slate-300 uppercase block mb-1">
+                  <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                     Initial Status
                   </label>
                   <select
                     value={orderStatus}
                     onChange={(e) => setOrderStatus(e.target.value as any)}
-                    className="w-full bg-slate-900 border border-slate-700 px-3 py-2 font-bold uppercase text-amber-300 rounded-lg focus:outline-none focus:border-amber-400 cursor-pointer"
+                    className="w-full bg-white border border-[#DECFC0] px-3 py-2 font-bold uppercase text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] cursor-pointer"
                   >
                     <option value="CONFIRMED">CONFIRMED (Ready to Pack)</option>
                     <option value="PROCESSING">PROCESSING (In Atelier)</option>
@@ -701,13 +701,13 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="font-bold text-slate-300 uppercase block mb-1">
+                  <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                     Courier Partner
                   </label>
                   <select
                     value={courierName}
                     onChange={(e) => setCourierName(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 px-3 py-2 font-bold uppercase text-white rounded-lg focus:outline-none focus:border-cyan-400 cursor-pointer"
+                    className="w-full bg-white border border-[#DECFC0] px-3 py-2 font-bold uppercase text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] cursor-pointer"
                   >
                     <option value="Steadfast Courier">Steadfast Courier</option>
                     <option value="Pathao Courier">Pathao Courier</option>
@@ -720,20 +720,20 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
-                  Courier Consignment / Tracking ID
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
+                  Courier Tracking ID
                 </label>
                 <input
                   type="text"
                   placeholder="e.g. STDF-84920194 or PTH-84921"
                   value={trackingNumber}
                   onChange={(e) => setTrackingNumber(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-cyan-400 uppercase rounded-lg focus:outline-none focus:border-cyan-400 font-mono font-bold"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] uppercase rounded-lg focus:outline-none focus:border-[#594236] font-mono font-bold"
                 />
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 uppercase block mb-1">
+                <label className="font-bold text-[#594236] uppercase block mb-1 font-mono text-[11px]">
                   Internal Staff Note
                 </label>
                 <input
@@ -741,64 +741,64 @@ export const CreateManualOrderModal: React.FC<CreateManualOrderModalProps> = ({
                   placeholder="e.g. Placed over WhatsApp call, client VIP"
                   value={staffNotes}
                   onChange={(e) => setStaffNotes(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-700 px-3 py-2 text-white rounded-lg focus:outline-none focus:border-slate-500 font-sans"
+                  className="w-full bg-white border border-[#DECFC0] px-3 py-2 text-[#2E231D] rounded-lg focus:outline-none focus:border-[#594236] font-sans"
                 />
               </div>
             </div>
           </div>
 
           {/* Section 5: Financial Calculation Bar */}
-          <div className="p-4 bg-slate-950/90 border border-slate-800 rounded-xl flex flex-col items-end">
+          <div className="p-4 bg-[#FAF7F2] border border-[#EAE2D5] rounded-xl flex flex-col items-end">
             <div className="w-full sm:w-80 space-y-2 font-mono text-xs">
-              <div className="flex justify-between items-center text-slate-400">
+              <div className="flex justify-between items-center text-[#735D50]">
                 <span>Items Subtotal:</span>
-                <span className="font-bold text-white">৳ {subtotal.toLocaleString()}</span>
+                <span className="font-bold text-[#2E231D]">৳ {subtotal.toLocaleString()}</span>
               </div>
 
-              <div className="flex justify-between items-center text-slate-400">
+              <div className="flex justify-between items-center text-[#735D50]">
                 <span>Discount (BDT):</span>
                 <input
                   type="number"
                   min={0}
                   value={discountBDT}
                   onChange={(e) => setDiscountBDT(Math.max(0, parseInt(e.target.value) || 0))}
-                  className="w-24 bg-slate-900 border border-slate-700 px-2 py-1 rounded-lg text-right font-bold text-rose-400 focus:outline-none focus:border-rose-400"
+                  className="w-24 bg-white border border-[#DECFC0] px-2 py-1 rounded-lg text-right font-bold text-[#8C3B53] focus:outline-none focus:border-[#8C3B53]"
                 />
               </div>
 
-              <div className="flex justify-between items-center text-slate-400">
+              <div className="flex justify-between items-center text-[#735D50]">
                 <span>Delivery Charge:</span>
                 <input
                   type="number"
                   min={0}
                   value={shippingFeeBDT}
                   onChange={(e) => setShippingFeeBDT(Math.max(0, parseInt(e.target.value) || 0))}
-                  className="w-24 bg-slate-900 border border-slate-700 px-2 py-1 rounded-lg text-right font-bold text-white focus:outline-none focus:border-cyan-400"
+                  className="w-24 bg-white border border-[#DECFC0] px-2 py-1 rounded-lg text-right font-bold text-[#2E231D] focus:outline-none focus:border-[#594236]"
                 />
               </div>
 
-              <div className="flex justify-between items-baseline text-sm font-bold text-white pt-2 border-t border-slate-800">
-                <span className="uppercase text-amber-400">Grand Total:</span>
-                <span className="text-emerald-400 text-lg font-mono">৳ {total.toLocaleString()}</span>
+              <div className="flex justify-between items-baseline text-sm font-bold text-[#2E231D] pt-2 border-t border-[#DECFC0]">
+                <span className="uppercase text-[#594236]">Grand Total:</span>
+                <span className="text-[#2E231D] text-lg font-mono">৳ {total.toLocaleString()}</span>
               </div>
             </div>
           </div>
 
           {/* Modal Actions Footer */}
-          <div className="pt-2 flex flex-wrap justify-between items-center gap-3 border-t border-slate-800">
+          <div className="pt-2 flex flex-wrap justify-between items-center gap-3 border-t border-[#EAE2D5]">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl uppercase font-bold transition-colors cursor-pointer"
+              className="px-5 py-2.5 border border-[#DECFC0] bg-white hover:bg-[#FAF7F2] text-[#594236] rounded-xl uppercase font-bold transition-colors cursor-pointer font-mono text-xs"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="px-6 py-2.5 bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 hover:from-amber-400 hover:to-rose-400 text-white rounded-xl uppercase font-bold flex items-center gap-2 shadow-lg shadow-amber-500/25 transition-all cursor-pointer"
+              className="px-6 py-2.5 bg-[#3D2E26] hover:bg-[#241B16] text-[#FAF7F2] rounded-xl uppercase font-bold flex items-center gap-2 shadow-xs transition-all cursor-pointer font-mono text-xs"
             >
-              <CheckCircle2 className="w-4 h-4 text-white" />
+              <CheckCircle2 className="w-4 h-4 text-[#E8C2CA]" />
               <span>Confirm &amp; Record Order (৳ {total.toLocaleString()})</span>
             </button>
           </div>
