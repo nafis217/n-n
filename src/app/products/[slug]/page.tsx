@@ -2,19 +2,20 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { useRouter, notFound } from 'next/navigation';
 import { getProductBySlug, CATALOG_PRODUCTS, getRelatedProducts } from '@/lib/queries/products';
 import { useCartStore } from '@/lib/store/cart';
 import { useWishlistStore } from '@/lib/store/wishlist';
 import { ProductCard } from '@/components/product/ProductCard';
 import { SHMonogram } from '@/components/brand/SHMonogram';
-import { Heart, ShieldCheck, Truck, RotateCcw, ChevronDown, Check, ArrowLeft } from 'lucide-react';
+import { Heart, ShieldCheck, Truck, RotateCcw, ChevronDown, Check, ArrowLeft, Zap, Banknote } from 'lucide-react';
 
 interface ProductDetailPageProps {
   params: { slug: string };
 }
 
 export default function ProductDetailPage({ params }: ProductDetailPageProps) {
+  const router = useRouter();
   const { slug } = params;
   const product = getProductBySlug(slug) || CATALOG_PRODUCTS.find((p) => p.id === slug);
 
@@ -36,9 +37,12 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
 
   const handleAddToBag = () => {
     addItem({
-      id: product.id,
+      id: `${product.id}-${selectedSize}`,
+      productId: product.id,
       title: product.nameEn,
       price: product.priceBDT,
+      priceBDT: product.priceBDT,
+      currency: 'BDT',
       image: product.images[selectedImageIndex] || product.images[0],
       selectedSize,
       selectedColor,
@@ -49,6 +53,22 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       setAdded(false);
       openCart();
     }, 400);
+  };
+
+  const handleInstantBuy = () => {
+    addItem({
+      id: `${product.id}-${selectedSize}`,
+      productId: product.id,
+      title: product.nameEn,
+      price: product.priceBDT,
+      priceBDT: product.priceBDT,
+      currency: 'BDT',
+      image: product.images[selectedImageIndex] || product.images[0],
+      selectedSize,
+      selectedColor,
+      quantity: 1,
+    });
+    router.push('/checkout');
   };
 
   return (
@@ -248,32 +268,43 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               </div>
             </div>
 
-            {/* Add to Bag CTA & Wishlist Button */}
-            <div className="pt-2 flex gap-3">
-              <button
-                onClick={handleAddToBag}
-                className="flex-1 sh-btn-primary flex items-center justify-center gap-2 py-3.5"
-              >
-                {added ? (
-                  <>
-                    <Check size={16} />
-                    <span>Added to Bag</span>
-                  </>
-                ) : (
-                  <span>Add to Bag</span>
-                )}
-              </button>
+            {/* Add to Bag CTA & Instant COD Checkout */}
+            <div className="pt-2 flex flex-col gap-2.5">
+              <div className="flex gap-2.5">
+                <button
+                  onClick={handleAddToBag}
+                  className="flex-1 sh-btn-secondary flex items-center justify-center gap-2 py-3.5 text-xs uppercase tracking-wider font-bold"
+                >
+                  {added ? (
+                    <>
+                      <Check size={16} className="text-emerald-600" />
+                      <span>Added to Bag</span>
+                    </>
+                  ) : (
+                    <span>Add to Bag</span>
+                  )}
+                </button>
 
+                <button
+                  onClick={() => toggleWishlist(product.id, product.nameEn)}
+                  className={`w-12 h-12 flex items-center justify-center border transition-colors shrink-0 ${
+                    wishlisted
+                      ? 'bg-[#241E1A] text-[#F2EDE4] border-[#241E1A]'
+                      : 'bg-transparent text-[#241E1A] border-[#B8B0A3]/60 hover:border-[#241E1A]'
+                  }`}
+                  aria-label="Toggle wishlist"
+                >
+                  <Heart size={16} fill={wishlisted ? '#F2EDE4' : 'none'} strokeWidth={1.5} />
+                </button>
+              </div>
+
+              {/* Instant 1-Click COD Buy Now */}
               <button
-                onClick={() => toggleWishlist(product.id, product.nameEn)}
-                className={`w-12 h-12 flex items-center justify-center border transition-colors ${
-                  wishlisted
-                    ? 'bg-[#241E1A] text-[#F2EDE4] border-[#241E1A]'
-                    : 'bg-transparent text-[#241E1A] border-[#B8B0A3]/60 hover:border-[#241E1A]'
-                }`}
-                aria-label="Toggle wishlist"
+                onClick={handleInstantBuy}
+                className="w-full bg-[#241E1A] hover:bg-black text-[#F2EDE4] py-3.5 px-4 flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-widest transition-all shadow-md active:scale-[0.99] cursor-pointer"
               >
-                <Heart size={16} fill={wishlisted ? '#F2EDE4' : 'none'} strokeWidth={1.5} />
+                <Banknote size={15} className="text-emerald-400" />
+                <span>Instant Cash On Delivery Order</span>
               </button>
             </div>
 
@@ -350,18 +381,19 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
       </div>
 
       {/* ── Mobile Sticky Bottom Buy Bar (Always available when scrolling on phones) ── */}
-      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#F2EDE4]/95 backdrop-blur-md border-t border-[#B8B0A3]/40 p-3 pb-safe flex items-center justify-between gap-3 shadow-2xl">
-        <div className="min-w-0 flex-1">
-          <p className="text-xs font-serif text-[#241E1A] truncate">{product.nameEn}</p>
-          <p className="text-xs font-sans font-semibold text-[#241E1A]">
-            BDT {product.priceBDT.toLocaleString()}
-          </p>
-        </div>
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#F2EDE4]/95 backdrop-blur-md border-t border-[#B8B0A3]/40 p-2.5 pb-safe flex items-center gap-2 shadow-2xl">
         <button
           onClick={handleAddToBag}
-          className="sh-btn-primary py-2.5 px-5 text-[10px] tracking-[0.16em] shrink-0"
+          className="flex-1 bg-transparent border border-[#241E1A] text-[#241E1A] active:bg-[#241E1A] active:text-[#F2EDE4] py-2.5 px-2 text-[10px] font-mono font-bold uppercase tracking-wider text-center transition-colors"
         >
           {added ? 'Added ✓' : 'Add to Bag'}
+        </button>
+        <button
+          onClick={handleInstantBuy}
+          className="flex-[1.3] bg-[#241E1A] active:bg-black text-[#F2EDE4] py-2.5 px-2 text-[10px] font-mono font-bold uppercase tracking-wider flex items-center justify-center gap-1 shadow-md"
+        >
+          <Banknote size={13} className="text-emerald-400" />
+          <span>Order COD</span>
         </button>
       </div>
 

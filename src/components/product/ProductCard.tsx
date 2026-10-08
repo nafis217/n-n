@@ -244,9 +244,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </div>
       </div>
 
-      {/* ── PRODUCT INFORMATION ── */}
-      <div className="mt-2.5 sm:mt-3.5 flex flex-col">
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-2">
+      {/* ── PRODUCT INFORMATION & MOBILE QUICK ADD ── */}
+      <div className="mt-2 sm:mt-3.5 flex flex-col">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-0.5 sm:gap-2">
           <Link
             href={`/products/${product.slug}`}
             className="font-serif text-xs sm:text-base text-[#241E1A] hover:text-[#686B5E] transition-colors leading-snug line-clamp-1 font-bold"
@@ -260,11 +260,72 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Material & Tailoring note */}
         <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-[#686B5E] tracking-wider mt-0.5 sm:mt-1">
-          <span className="truncate max-w-[140px] sm:max-w-[200px]">{product.material}</span>
+          <span className="truncate max-w-[130px] sm:max-w-[200px]">{product.material}</span>
           {product.colors && product.colors.length > 1 && (
             <span className="text-[9px] sm:text-[10px] text-[#B8B0A3] uppercase whitespace-nowrap">
               {product.colors.length} shades
             </span>
+          )}
+        </div>
+
+        {/* Dedicated Mobile Quick Add Button (Visible on Touch Screens / Mobile) */}
+        <div className="sm:hidden mt-2 pt-1.5 border-t border-[#B8B0A3]/25">
+          {!showSizePicker ? (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (product.sizes && product.sizes.length > 1) {
+                  setShowSizePicker(true);
+                } else {
+                  handleQuickAdd(e, product.sizes[0]);
+                }
+              }}
+              disabled={isAdding}
+              className="w-full bg-[#241E1A] active:bg-black text-[#F2EDE4] py-2 px-2.5 font-mono text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 rounded-sm shadow-xs active:scale-[0.98] transition-all"
+            >
+              {isAdding ? (
+                <>
+                  <Check size={12} className="text-emerald-400 stroke-[3]" />
+                  <span>Added to Bag</span>
+                </>
+              ) : (
+                <>
+                  <Plus size={12} className="stroke-[2.5]" />
+                  <span>Add to Bag {product.sizes && product.sizes.length > 1 ? `(${product.sizes[0]})` : ''}</span>
+                </>
+              )}
+            </button>
+          ) : (
+            <div className="bg-[#241E1A] p-2 rounded-sm text-white animate-in fade-in duration-150">
+              <div className="flex items-center justify-between pb-1 mb-1 border-b border-white/15 text-[9px] font-mono">
+                <span className="text-amber-300 font-bold uppercase">Select Size</span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowSizePicker(false);
+                  }}
+                  className="text-neutral-400 hover:text-white"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="grid grid-cols-4 gap-1">
+                {product.sizes.map((sz) => (
+                  <button
+                    key={sz}
+                    type="button"
+                    onClick={(e) => handleQuickAdd(e, sz)}
+                    className="py-1 text-center font-mono text-[10px] font-bold bg-white/10 active:bg-white active:text-[#241E1A] rounded-xs"
+                  >
+                    {sz}
+                  </button>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>

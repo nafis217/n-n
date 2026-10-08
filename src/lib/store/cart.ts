@@ -255,7 +255,16 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: 'stitchhouse-cart-storage',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          return window.localStorage;
+        }
+        return {
+          getItem: () => null,
+          setItem: () => {},
+          removeItem: () => {},
+        };
+      }),
       partialize: (state) => ({
         items: state.items,
         couponCode: state.couponCode,

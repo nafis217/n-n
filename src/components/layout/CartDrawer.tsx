@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/lib/store/cart';
-import { X, Plus, Minus, Trash2, ArrowRight } from 'lucide-react';
+import { X, Plus, Minus, Trash2, ArrowRight, Banknote } from 'lucide-react';
 import { SHMonogram } from '../brand/SHMonogram';
 
 export function CartDrawer() {
+  const router = useRouter();
   const {
     items,
     isDrawerOpen,
@@ -164,17 +166,23 @@ export function CartDrawer() {
               <span className="text-[#A8946C]">Complimentary</span>
             </div>
 
-            <Link
-              href="/checkout"
-              onClick={closeDrawer}
-              className="w-full sh-btn-primary flex items-center justify-between gap-2 py-3.5"
+            <button
+              type="button"
+              onClick={() => {
+                closeDrawer();
+                router.push('/checkout');
+              }}
+              className="w-full bg-[#241E1A] hover:bg-black text-[#F2EDE4] flex items-center justify-between gap-2 py-4 px-5 text-xs font-bold uppercase tracking-widest shadow-xl active:scale-[0.99] transition-all cursor-pointer"
             >
-              <span>Proceed to Checkout</span>
-              <span className="font-semibold">BDT {total.toLocaleString()}</span>
-            </Link>
+              <div className="flex items-center gap-2">
+                <Banknote size={15} className="text-emerald-400" />
+                <span>Checkout (COD)</span>
+              </div>
+              <span className="font-mono text-sm">BDT {total.toLocaleString()}</span>
+            </button>
 
-            <p className="text-[10px] text-center text-[#686B5E] tracking-widest uppercase mt-2.5">
-              Complimentary signature packaging with every order
+            <p className="text-[10px] text-center text-[#686B5E] tracking-widest uppercase mt-2.5 font-mono">
+              Cash on Delivery • Free Doorstep Inspection
             </p>
           </div>
         )}
